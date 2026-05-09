@@ -160,30 +160,64 @@
 <blockquote>
 <p><strong>知识编译</strong>视角的概念图谱。按层级、依赖、学习路径组织，而非文件树。</p>
 </blockquote>
-<h2 id="如何使用"><a class="header" href="#如何使用">如何使用</a></h2>
-<p><strong>场景1：从零学习</strong>&gt; 选一个分支，从"前置知识"开始，沿层级逐层深入。</p>
-<p><strong>场景2：查具体概念</strong>&gt; 找到该概念，看它的前置（先懂什么）和后续（学完深入什么）。</p>
-<p><strong>场景3：快速全貌</strong>&gt; 看根概念的一句话定义，不深入子概念。</p>
 <hr />
-<h2 id="知识总图"><a class="header" href="#知识总图">知识总图</a></h2>
-<pre><code>                    ┌─────────────────────────────────────┐
-                    │     🤖 AI 技术情报 知识总图            │
-                    └──────────────┬────────────────────────┘
-                                   │
-        ┌──────────────────────────┼──────────────────────────┐
-        │                          │                          │
-   ┌────▼────┐              ┌──────▼──────┐           ┌──────▼──────┐
-   │ 分支1   │              │   分支2     │           │   分支3     │
-   │ AI Agent│              │ AI 硬件     │           │ 大模型      │
-   │ 工程    │              │ 基础设施    │           │ 技术        │
-   └────┬────┘              └──────┬──────┘           └──────┬──────┘
-        │                          │                       │
-   ┌────▼────┐              ┌──────▼──────┐           ┌──────▼──────┐
-   │ 分支4   │              │   分支5     │           │   分支6     │
-   │ 开源    │              │ 学习资源    │           │ 每日情报    │
-   │ 生态    │              │ 与方法      │           │ 速递        │
-   └─────────┘              └─────────────┘           └─────────────┘
-</code></pre>
+<h2 id="快速跳转"><a class="header" href="#快速跳转">快速跳转</a></h2>
+<h3 id="-今日速递"><a class="header" href="#-今日速递">📅 今日速递</a></h3>
+<ul>
+<li><a href="digest/2026-05-09.html">2026年5月9日：Harness成为核心范式、NVIDIA双架构、存算一体产品前夜</a></li>
+</ul>
+<h3 id="-分支一ai-agent-工程"><a class="header" href="#-分支一ai-agent-工程">🤖 分支一：AI Agent 工程</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>层级</th><th>概念</th><th>一句话</th><th>⭐</th><th>⏱️</th></tr></thead><tbody>
+<tr><td>前置</td><td><a href="agent-engineering/prereq/rlhf.html">RLHF</a></td><td>让模型对齐人类偏好</td><td>⭐⭐</td><td>10min</td></tr>
+<tr><td>前置</td><td><a href="agent-engineering/prereq/test-time-compute.html">测试时计算</a></td><td>推理时"多想一会"</td><td>⭐⭐</td><td>10min</td></tr>
+<tr><td>根</td><td><a href="agent-engineering/harness/README.html">Harness 方法论</a></td><td>Agent = Model + Harness</td><td>⭐⭐⭐</td><td>20min</td></tr>
+<tr><td>子</td><td><a href="agent-engineering/harness/pev-cycle.html">PEV 循环</a></td><td>写计划→执行→验证→重试</td><td>—</td><td>—</td></tr>
+<tr><td>子</td><td><a href="agent-engineering/harness/three-agent.html">三Agent架构</a></td><td>Planner + Generator + Evaluator</td><td>—</td><td>—</td></tr>
+<tr><td>子</td><td><a href="agent-engineering/harness/five-layers.html">五层架构</a></td><td>验证层是最高影响层</td><td>—</td><td>—</td></tr>
+<tr><td>子</td><td><a href="agent-engineering/harness/context-engineering.html">Context Engineering</a></td><td>动态组装上下文</td><td>—</td><td>—</td></tr>
+<tr><td>子</td><td><a href="agent-engineering/harness/cognitive-memory.html">Cognitive Memory</a></td><td>存储"为什么"</td><td>—</td><td>—</td></tr>
+<tr><td>实践</td><td><a href="agent-engineering/practices/anthropic.html">Anthropic</a></td><td>三Agent + Managed Agents</td><td>⭐⭐⭐⭐</td><td>—</td></tr>
+<tr><td>实践</td><td><a href="agent-engineering/practices/openai.html">OpenAI</a></td><td>100万行零手写代码</td><td>⭐⭐⭐</td><td>—</td></tr>
+<tr><td>实践</td><td><a href="agent-engineering/practices/stripe.html">Stripe Minions</a></td><td>确定性×智能体混合</td><td>⭐⭐⭐⭐</td><td>—</td></tr>
+<tr><td>实践</td><td><a href="agent-engineering/practices/langchain.html">LangChain</a></td><td>仅优化Harness，52.8%→66.5%</td><td>⭐⭐⭐</td><td>—</td></tr>
+<tr><td>实践</td><td><a href="agent-engineering/practices/moonshot.html">月之暗面</a></td><td>100子Agent并行</td><td>⭐⭐⭐⭐</td><td>—</td></tr>
+<tr><td>工具</td><td><a href="agent-engineering/tools/mcp.html">MCP</a></td><td>模型控制协议</td><td>—</td><td>—</td></tr>
+<tr><td>工具</td><td><a href="agent-engineering/tools/langgraph.html">LangGraph</a></td><td>状态管理图</td><td>—</td><td>—</td></tr>
+<tr><td>延伸</td><td><a href="agent-engineering/extended/agent-skills.html">Agent Skills</a></td><td>AI编程Agent技能库</td><td>⭐⭐⭐</td><td>—</td></tr>
+</tbody></table>
+</div>
+<h3 id="-分支二ai-硬件与芯片"><a class="header" href="#-分支二ai-硬件与芯片">⚡ 分支二：AI 硬件与芯片</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>层级</th><th>概念</th><th>一句话</th><th>⭐</th><th>⏱️</th></tr></thead><tbody>
+<tr><td>前置</td><td><a href="hardware/prereq/memory-wall.html">冯·诺依曼瓶颈</a></td><td>60%+能耗花在数据搬运</td><td>⭐</td><td>5min</td></tr>
+<tr><td>根</td><td><a href="hardware/pim/README.html">存算一体</a></td><td>在内存里做计算</td><td>⭐⭐⭐</td><td>20min</td></tr>
+<tr><td>子</td><td><a href="hardware/pim/near-memory.html">近存运算</a></td><td>最接近产品化</td><td>—</td><td>—</td></tr>
+<tr><td>子</td><td><a href="hardware/pim/compute-in-memory.html">存内计算</a></td><td>实验室→原型</td><td>—</td><td>—</td></tr>
+<tr><td>子</td><td><a href="hardware/pim/logic-in-memory.html">存内逻辑</a></td><td>早期研究</td><td>—</td><td>—</td></tr>
+<tr><td>根</td><td><a href="hardware/hbm/README.html">HBM</a></td><td>高带宽内存，AI瓶颈</td><td>⭐⭐</td><td>15min</td></tr>
+<tr><td>子</td><td><a href="hardware/hbm/hbm3e.html">HBM3E</a></td><td>当前主流</td><td>—</td><td>—</td></tr>
+<tr><td>子</td><td><a href="hardware/hbm/hbm4.html">HBM4</a></td><td>2026H2主力</td><td>—</td><td>—</td></tr>
+<tr><td>子</td><td><a href="hardware/hbm/chbm.html">cHBM</a></td><td>定制化HBM</td><td>—</td><td>—</td></tr>
+<tr><td>根</td><td><a href="hardware/chiplet/README.html">Chiplet</a></td><td>芯粒模块化设计</td><td>⭐⭐</td><td>15min</td></tr>
+<tr><td>竞争</td><td><a href="hardware/competition/nvidia.html">NVIDIA</a></td><td>Rubin + Feynman双架构</td><td>⭐⭐⭐</td><td>—</td></tr>
+<tr><td>竞争</td><td><a href="hardware/competition/amd.html">AMD MI450</a></td><td>2nm工艺首次反超</td><td>⭐⭐⭐</td><td>—</td></tr>
+<tr><td>竞争</td><td><a href="hardware/competition/memory-vendors.html">内存厂商</a></td><td>SK海力士 + 三星</td><td>—</td><td>—</td></tr>
+</tbody></table>
+</div>
+<h3 id="-分支三大模型厂商"><a class="header" href="#-分支三大模型厂商">🧠 分支三：大模型厂商</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>阵营</th><th>厂商</th><th>定位</th></tr></thead><tbody>
+<tr><td>闭源</td><td><a href="vendors/closed/anthropic.html">Anthropic</a></td><td>Harness领导者</td></tr>
+<tr><td>闭源</td><td><a href="vendors/closed/openai.html">OpenAI</a></td><td>规模+开源并重</td></tr>
+<tr><td>闭源</td><td><a href="vendors/closed/google.html">Google DeepMind</a></td><td>多语言+长上下文</td></tr>
+<tr><td>开源</td><td><a href="vendors/open-source/moonshot.html">月之暗面</a></td><td>Agent Swarm</td></tr>
+<tr><td>开源</td><td><a href="vendors/open-source/deepseek.html">DeepSeek</a></td><td>推理效率极致</td></tr>
+<tr><td>开源</td><td><a href="vendors/open-source/meta.html">Meta</a></td><td>Llama+基础设施</td></tr>
+</tbody></table>
+</div>
+<h3 id="-分支四开源与人物"><a class="header" href="#-分支四开源与人物">🔧 分支四：开源与人物</a></h3>
+<ul>
+<li><a href="open-source/ds4.html">ds4 本地推理引擎</a></li>
+<li><a href="people/README.html">值得关注的人物</a></li>
+</ul>
 <hr />
 <p><em>由 <a href="https://openclaw.ai">OpenClaw</a> 自动维护</em><br />
 <em>GitHub：<a href="https://github.com/large-cat/ai-tech-intel">large-cat/ai-tech-intel</a></em></p>
