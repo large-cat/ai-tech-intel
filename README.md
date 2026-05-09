@@ -59,7 +59,7 @@ Andrej Karpathy · Addy Osmani · swyx · Simon Willison · Andrew Ng
 
 ## 📜 方法论
 
-基于 [Andrej Karpathy的LLM Wiki模式](https://gist.github.com/karpathy/llm-wiki.md)：
+基于 [Andrej Karpathy的LLM Wiki模式](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)：
 - **增量式维护** — 知识随时间增长，每次查询不从零推导
 - **结构化页面** — 实体(厂商) + 概念(技术) + 源文件(单篇摘要)
 - **AI可读导出** — 支持MCP server、JSON-LD图谱查询
