@@ -85,10 +85,10 @@
 
 ## 相关页面
 
-- [entities/antirez.md](../entities/antirez.md) — 作者详情（待创建）
-- [entities/deepseek.md](../entities/deepseek.md) — DeepSeek厂商页（待创建）
+- [entities/antirez.md](../entities/antirez.md) — 作者详情
+- [entities/deepseek.md](../entities/deepseek.md) — DeepSeek厂商页
 - [concepts/processing-in-memory.md](processing-in-memory.md) — 存算一体（量化技术相关）
-- [sources/ds4-github.md](../sources/ds4-github.md) — 仓库分析（待创建）
+- [sources/ds4-github.md](../sources/ds4-github.md) — 仓库分析
 
 ## 外部链接
 

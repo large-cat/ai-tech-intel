@@ -113,8 +113,8 @@ Karpathy原始设计（llm-wiki.md gist）:
 
 ## 相关页面
 
-- [entities/andrej-karpathy.md](../entities/andrej-karpathy.md) — 模式提出者（待创建）
-- [entities/pratiyush.md](../entities/pratiyush.md) — 主要实现者（待创建）
+- [entities/andrej-karpathy.md](../entities/andrej-karpathy.md) — 模式提出者
+- [entities/pratiyush.md](../entities/pratiyush.md) — 主要实现者
 - [concepts/harness-methodology.md](harness-methodology.md) — 与Harness的关系（知识库是Harness的一部分）
 - [index.md](../index.md) — 本知识库总览
 
