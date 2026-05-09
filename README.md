@@ -1,6 +1,6 @@
 # 🤖 AI Tech Intel
 
-每日AI前沿技术情报知识库。自动监控主流AI厂商、GitHub热门项目、行业大佬博客，增量式更新。
+每日AI前沿技术情报知识库。自动追踪主流AI厂商、GitHub热门项目、行业大佬博客，增量式更新。
 
 ## 📅 每日摘要
 
@@ -34,7 +34,7 @@ wiki/
     └── _template.md
 ```
 
-## 🔭 监控范围
+## 🔭 信息源
 
 ### 厂商
 Anthropic · OpenAI · Google DeepMind · 月之暗面 · DeepSeek · Meta · NVIDIA · 三星 · SK海力士
