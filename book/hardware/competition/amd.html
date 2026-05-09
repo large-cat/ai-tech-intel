@@ -1,0 +1,315 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>AMD MI450：2nm工艺首次反超 - AI Tech Intel 知识手册</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="每日AI前沿技术情报知识库 — 人类易读的翻阅版">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">AI Tech Intel 知识手册</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/large-cat/ai-tech-intel" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/large-cat/ai-tech-intel/edit/master/src/hardware/competition/amd.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="amd-mi4502nm工艺首次反超"><a class="header" href="#amd-mi4502nm工艺首次反超">AMD MI450：2nm工艺首次反超</a></h1>
+<blockquote>
+<p>⭐⭐⭐ 难度 | AMD采用TSMC 2nm，首次在工艺节点上领先NVIDIA。</p>
+</blockquote>
+<h1 id="amd"><a class="header" href="#amd">AMD</a></h1>
+<p><strong>类型</strong>：硬件厂商（GPU/CPU/FPGA）<br />
+<strong>总部</strong>：美国加州Santa Clara<br />
+<strong>关键人物</strong>：Lisa Su（CEO，2014年上任后股价涨50倍+）, Mark Papermaster（CTO）</p>
+<hr />
+<h2 id="-时间线"><a class="header" href="#-时间线">🏛️ 时间线</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>时间</th><th>事件</th><th>来源</th></tr></thead><tbody>
+<tr><td>1969</td><td>AMD成立，早期为Intel第二供应商</td><td>amd.com</td></tr>
+<tr><td>2006</td><td>收购ATI，进入GPU市场</td><td>AMD官方</td></tr>
+<tr><td>2017</td><td><strong>Ryzen处理器发布</strong>，Zen架构翻身，Intel垄断被打破</td><td>amd.com</td></tr>
+<tr><td>2021</td><td><strong>EPYC服务器CPU份额突破20%</strong>，数据中心市场站稳</td><td>市场报告</td></tr>
+<tr><td>2022</td><td><strong>MI200系列发布</strong>，首款CDNA 2架构数据中心GPU</td><td>amd.com</td></tr>
+<tr><td>2023</td><td><strong>MI300X发布</strong>，192GB HBM3，对标NVIDIA H100</td><td>amd.com</td></tr>
+<tr><td>2024</td><td><strong>MI325X发布</strong>，256GB HBM3E，AI推理专用</td><td>amd.com</td></tr>
+<tr><td>2025</td><td><strong>Zen 6 / Zen 7架构确认</strong>，2026-2027年发布</td><td>Financial Analyst Day</td></tr>
+<tr><td>2025</td><td><strong>MI350系列发布</strong>，CDNA 4架构，对标Blackwell</td><td>amd.com</td></tr>
+<tr><td>2026（预计）</td><td><strong>MI400系列发布</strong>，CDNA 5架构，HBM4</td><td>Financial Analyst Day</td></tr>
+<tr><td>2027（预计）</td><td><strong>MI500系列发布</strong>，继续年度更新节奏</td><td>Financial Analyst Day</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-关键产品矩阵"><a class="header" href="#-关键产品矩阵">🔑 关键产品矩阵</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>系列</th><th>定位</th><th>架构</th><th>内存</th><th>对标NVIDIA</th></tr></thead><tbody>
+<tr><td>EPYC</td><td>服务器CPU</td><td>Zen 5/6/7</td><td>DDR5</td><td>Intel Xeon</td></tr>
+<tr><td>Instinct MI300X</td><td>AI训练</td><td>CDNA 3</td><td>192GB HBM3</td><td>H100</td></tr>
+<tr><td>Instinct MI325X</td><td>AI推理</td><td>CDNA 3</td><td>256GB HBM3E</td><td>H100/H200</td></tr>
+<tr><td>Instinct MI350</td><td>新一代AI</td><td>CDNA 4</td><td>HBM3E</td><td>Blackwell</td></tr>
+<tr><td>Instinct MI400（2026）</td><td>下一代</td><td>CDNA 5</td><td><strong>HBM4</strong></td><td>Rubin</td></tr>
+<tr><td>Instinct MI500（2027）</td><td>再下一代</td><td>CDNA 6（预计）</td><td>HBM4E/HBM5</td><td>Feynman</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-核心技术路线"><a class="header" href="#-核心技术路线">🚀 核心技术路线</a></h2>
+<h3 id="1-cdna架构演进"><a class="header" href="#1-cdna架构演进">1. CDNA架构演进</a></h3>
+<ul>
+<li><strong>CDNA 3（MI300系列）</strong>：首次统一CPU+GPU（APC架构），但市场反馈"样样通样样松"</li>
+<li><strong>CDNA 4（MI350）</strong>：专注GPU，放弃APC思路，算力对标Blackwell</li>
+<li><strong>CDNA 5（MI400，2026）</strong>：HBM4加持，年度更新节奏，正面竞争Rubin</li>
+</ul>
+<h3 id="2-年度更新战略"><a class="header" href="#2-年度更新战略">2. 年度更新战略</a></h3>
+<ul>
+<li><strong>2025 Financial Analyst Day宣布</strong>：数据中心GPU将<strong>每年更新</strong></li>
+<li><strong>目的</strong>：打破NVIDIA两年一代的节奏，用快速迭代抢占市场</li>
+<li><strong>风险</strong>：研发压力大，软件生态（ROCm）仍需追赶CUDA</li>
+</ul>
+<h3 id="3-rocm-vs-cuda"><a class="header" href="#3-rocm-vs-cuda">3. ROCm vs CUDA</a></h3>
+<ul>
+<li><strong>现状</strong>：ROCm支持PyTorch/TensorFlow，但生态成熟度远不及CUDA</li>
+<li><strong>差距</strong>：大多数AI框架优先优化CUDA，ROCm为"第二优先级"</li>
+<li><strong>机会</strong>：开源策略+社区贡献，部分云厂商（AWS/Azure）支持ROCm</li>
+</ul>
+<h3 id="4-mi450-vs-rubin-竞争态势2026"><a class="header" href="#4-mi450-vs-rubin-竞争态势2026">4. MI450 vs Rubin 竞争态势（2026）</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>AMD MI450</th><th>NVIDIA Rubin (Ultra)</th><th>优势方</th></tr></thead><tbody>
+<tr><td><strong>工艺</strong></td><td>TSMC 2nm</td><td>TSMC 3nm</td><td><strong>AMD</strong>（更先进制程）</td></tr>
+<tr><td><strong>架构</strong></td><td>CDNA 5</td><td>未知（新架构）</td><td>—</td></tr>
+<tr><td><strong>HBM容量</strong></td><td>432GB</td><td>576GB (Ultra) / 288GB (R100)</td><td><strong>NVIDIA</strong></td></tr>
+<tr><td><strong>带宽</strong></td><td>19.6 TB/s</td><td>~22 TB/s</td><td>接近</td></tr>
+<tr><td><strong>FP4算力</strong></td><td>40 PFLOPS</td><td>50 PFLOPS</td><td><strong>NVIDIA</strong></td></tr>
+<tr><td><strong>FP8算力</strong></td><td>20 PFLOPS</td><td>35 PFLOPS</td><td><strong>NVIDIA</strong></td></tr>
+<tr><td><strong>功耗</strong></td><td>~1500W</td><td>~1800W (R100) / ~2300W (Ultra)</td><td><strong>AMD</strong></td></tr>
+<tr><td><strong>散热</strong></td><td>液冷</td><td>液冷（NVL72/NVL8标准）</td><td>相同</td></tr>
+<tr><td><strong>送样/上市</strong></td><td>2026H2</td><td>2026H2</td><td>相同</td></tr>
+<tr><td><strong>关键客户</strong></td><td>Meta ($100B deal)、OpenAI、Anthropic</td><td>几乎所有云厂商+OpenAI</td><td><strong>NVIDIA</strong>（更广）</td></tr>
+</tbody></table>
+</div>
+<p><strong>关键竞争变量</strong>：</p>
+<ul>
+<li><strong>工艺优势</strong>：AMD MI450采用TSMC 2nm，比Rubin的3nm更先进，晶体管密度和能效比更优。这是AMD首次在工艺节点上领先NVIDIA。</li>
+<li><strong>内存差距</strong>：Rubin Ultra 576GB vs MI450 432GB，144GB差距在大模型训练中可能是决定性优势。</li>
+<li><strong>软件生态</strong>：NVIDIA CUDA vs AMD ROCm，差距仍在，但ROCm通过PyTorch/TensorFlow支持已大幅改善。</li>
+<li><strong>机架级设计</strong>：AMD Helios是首个机架级AI设计（含EPYC CPU + Pensando DPU + 开放网络标准），NVIDIA Rubin依赖NVLink机架方案。</li>
+<li><strong>市场份额</strong>：NVIDIA仍占~80%，但AMD+Meta $100B deal和Anthropic采用MI400系列正在改变格局。</li>
+</ul>
+<hr />
+<h2 id="-关键数据"><a class="header" href="#-关键数据">📊 关键数据</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
+<tr><td>数据中心收入（2025Q4）</td><td>38亿美元</td><td>AMD财报</td></tr>
+<tr><td>EPYC服务器份额</td><td>25%+</td><td>Mercury Research</td></tr>
+<tr><td>Instinct GPU收入（2025）</td><td>约50亿美元</td><td>行业估计</td></tr>
+<tr><td>Lisa Su任内股价涨幅</td><td>50倍+（2014-2026）</td><td>股市数据</td></tr>
+<tr><td>MI400预计发布时间</td><td>2026年H2</td><td>Financial Analyst Day</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-相关页面"><a class="header" href="#-相关页面">🔗 相关页面</a></h2>
+<ul>
+<li><a href="../entities/nvidia.html">entities/nvidia.md</a> — NVIDIA竞争对比</li>
+<li><a href="../concepts/hbm.html">concepts/hbm.md</a> — HBM技术演进</li>
+<li><a href="../concepts/chiplet.html">concepts/chiplet.md</a> — AMD chiplet技术</li>
+<li><a href="../weekly-digest/2026-05-09.html">weekly-digest/2026-05-09.md</a> — 首日记录</li>
+</ul>
+<hr />
+<p><em>最后更新：2026-05-09</em><br />
+<em>信息来源：amd.com、Financial Analyst Day、财报、行业报告</em></p>
+<hr />
+<p><strong>延伸阅读</strong>：</p>
+<ul>
+<li><a href="../../sources/amd-mi450-vs-rubin.html">AMD MI450 vs NVIDIA Rubin 详细对比</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../hardware/competition/nvidia-rubin.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../hardware/competition/memory-vendors.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../hardware/competition/nvidia-rubin.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../hardware/competition/memory-vendors.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

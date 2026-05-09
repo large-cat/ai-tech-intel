@@ -1,0 +1,331 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>NVIDIA：Rubin + Feynman - AI Tech Intel 知识手册</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="每日AI前沿技术情报知识库 — 人类易读的翻阅版">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">AI Tech Intel 知识手册</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/large-cat/ai-tech-intel" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/large-cat/ai-tech-intel/edit/master/src/hardware/competition/nvidia.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="nvidiarubin--feynman-双架构"><a class="header" href="#nvidiarubin--feynman-双架构">NVIDIA：Rubin + Feynman 双架构</a></h1>
+<blockquote>
+<p>⭐⭐⭐ 难度 | 全球AI计算基础设施的核心供应商。</p>
+</blockquote>
+<h1 id="nvidia"><a class="header" href="#nvidia">NVIDIA</a></h1>
+<blockquote>
+<p>类型：硬件厂商 | 核心产品：GPU、AI加速器 | 最后更新：2026-05-09</p>
+</blockquote>
+<h2 id="简介"><a class="header" href="#简介">简介</a></h2>
+<p>NVIDIA是全球AI计算基础设施的核心供应商，其GPU架构从Ampere到Hopper、Blackwell，再到即将推出的Rubin和Feynman，持续引领AI训练和推理性能。</p>
+<h2 id="最新动态"><a class="header" href="#最新动态">最新动态</a></h2>
+<h3 id="2026-03gtc-2026-重大发布"><a class="header" href="#2026-03gtc-2026-重大发布">2026-03：GTC 2026 重大发布</a></h3>
+<p><strong>Feynman AI架构</strong></p>
+<ul>
+<li>首个采用<strong>1.6nm级工艺</strong>（TSMC A16）的AI芯片，预计<strong>2028年商用</strong></li>
+<li><strong>TSMC A16工艺细节</strong>：
+<ul>
+<li>采用<strong>Super Power Rail (SPR) 背面供电技术</strong>，从晶圆背面供电，减少正面信号线路拥挤</li>
+<li>使用<strong>GAA (Gate-All-Around) 全环绕栅极晶体管</strong>，替代FinFET，提升晶体管密度约1.1倍</li>
+<li>同性能下功耗降低15-20%（vs N2工艺）</li>
+<li>预计2026年下半年开始风险生产，2027年进入量产</li>
+</ul>
+</li>
+<li><strong>硅光子集成</strong>：与Xanadu/Infleqtion合作，探索在芯片上集成光互连，目标10倍带宽提升</li>
+<li><strong>Groq LPU集成可能</strong>：Jensen Huang暗示Feynman可能整合Groq的LPUs，实现&lt;1ms token延迟</li>
+<li>继续使用TSMC作为主要制造伙伴，同时与Intel洽谈代工合作（18A制程）</li>
+<li>目标：超越所有现有硬件性能</li>
+</ul>
+<p><strong>Rubin平台</strong></p>
+<ul>
+<li>2026年下半年上市</li>
+<li>配备HBM4内存</li>
+<li>与Vera CPU搭配</li>
+<li>采用液冷散热（NVL72/NVL8机架标准）</li>
+<li>目标：大幅降低GPT-5/GPT-6等模型的训练时间</li>
+</ul>
+<p><strong>Rubin vs AMD MI450 竞争格局</strong>：</p>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>NVIDIA Rubin (Ultra)</th><th>AMD MI450</th><th>NVIDIA优势</th></tr></thead><tbody>
+<tr><td><strong>HBM容量</strong></td><td>576GB (16颗HBM4)</td><td>432GB</td><td>+144GB</td></tr>
+<tr><td><strong>带宽</strong></td><td>~22 TB/s</td><td>19.6 TB/s</td><td>略高</td></tr>
+<tr><td><strong>FP4算力</strong></td><td>50 PFLOPS</td><td>40 PFLOPS</td><td>+25%</td></tr>
+<tr><td><strong>FP8算力</strong></td><td>35 PFLOPS</td><td>20 PFLOPS</td><td>+75%</td></tr>
+<tr><td><strong>工艺</strong></td><td>TSMC 3nm</td><td>TSMC 2nm</td><td>落后一代</td></tr>
+<tr><td><strong>功耗</strong></td><td>~2300W (Ultra)</td><td>~1500W</td><td>更高</td></tr>
+<tr><td><strong>关键客户</strong></td><td>几乎所有云厂商+OpenAI</td><td>Meta ($100B)、Anthropic</td><td>更广</td></tr>
+</tbody></table>
+</div>
+<ul>
+<li>NVIDIA Rubin Ultra 576GB HBM4 vs AMD MI450 432GB，容量优势在大模型训练中可能关键</li>
+<li>但AMD采用TSMC 2nm工艺，比Rubin 3nm更先进，能效比更优</li>
+<li>NVIDIA把Rubin功耗从1800W提升到2300W（Ultra版本），用功耗换性能来竞争MI455X</li>
+<li>市场份额NVIDIA仍占~80%，但AMD+Meta $100B deal和Anthropic采用MI400系列正在改变格局</li>
+</ul>
+<p><strong>SRAM架构探索</strong></p>
+<ul>
+<li>正在探索基于SRAM的AI推理芯片架构</li>
+<li>将大型SRAM块置于芯片内部，减少数据移动</li>
+<li>定位为HBM的补充而非替代（SRAM面积是DRAM的5-10倍）</li>
+</ul>
+<h3 id="2026-01verarubin供应商确定"><a class="header" href="#2026-01verarubin供应商确定">2026-01：VeraRubin供应商确定</a></h3>
+<ul>
+<li>HBM4供应商：三星 + SK海力士（独家）</li>
+<li>Micron未入选（性能不达标）</li>
+<li>VeraRubin配备16颗HBM4芯片，总容量576GB</li>
+</ul>
+<h3 id="2026-08财报季rubin已在tsmc流片"><a class="header" href="#2026-08财报季rubin已在tsmc流片">2026-08（财报季）：Rubin已在TSMC流片</a></h3>
+<ul>
+<li>CEO Jensen Huang确认：Rubin及5款配套芯片已在TSMC流片</li>
+<li>目标：2026H2量产</li>
+<li>Rubin将是第三代NVLink机架级AI超级计算机</li>
+<li>预计支持$3-4万亿全球AI基础设施增长（到2030年）</li>
+</ul>
+<h3 id="2026-05华尔街目标价250"><a class="header" href="#2026-05华尔街目标价250">2026-05：华尔街目标价$250</a></h3>
+<ul>
+<li>Goldman Sachs和DA Davidson维持买入评级，目标价$250</li>
+<li>当前股价约$198，潜在上涨26%</li>
+<li>催化剂：Vera Rubin上市、Q1 FY2027财报（5月20日）</li>
+<li>预计Q1 FY2027收入$780亿（同比+77%）</li>
+</ul>
+<h2 id="技术栈"><a class="header" href="#技术栈">技术栈</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>架构</th><th>时间</th><th>工艺</th><th>内存</th><th>关键指标</th></tr></thead><tbody>
+<tr><td>Ampere</td><td>2020</td><td>7nm</td><td>GDDR6X/HBM2</td><td>—</td></tr>
+<tr><td>Hopper</td><td>2022</td><td>4nm</td><td>HBM3</td><td>—</td></tr>
+<tr><td>Blackwell</td><td>2024</td><td>4nm</td><td>HBM3E</td><td>—</td></tr>
+<tr><td>Rubin</td><td>2026H2</td><td>3nm</td><td><strong>HBM4</strong></td><td>推理token成本↓90%，训练GPU↓75%</td></tr>
+<tr><td>Feynman</td><td>2028</td><td>1nm级</td><td>HBM4E/HBM5</td><td>—</td></tr>
+</tbody></table>
+</div>
+<h2 id="关键合作"><a class="header" href="#关键合作">关键合作</a></h2>
+<ul>
+<li><strong>TSMC</strong>：主要代工伙伴</li>
+<li><strong>三星/SK海力士</strong>：HBM供应商（VeraRubin独家）</li>
+<li><strong>Intel</strong>：潜在代工伙伴（洽谈中，18A制程）</li>
+<li><strong>OpenAI</strong>：Stargate项目合作（900K DRAM晶圆/月）</li>
+<li><strong>Meta</strong>：2026年资本支出$1450亿（大量采购Blackwell/Rubin）</li>
+<li><strong>Microsoft</strong>：2026年资本支出$1900亿</li>
+</ul>
+<h2 id="相关概念"><a class="header" href="#相关概念">相关概念</a></h2>
+<ul>
+<li><a href="../concepts/hbm.html">HBM</a></li>
+<li><a href="../concepts/processing-in-memory.html">存算一体</a></li>
+<li><a href="../concepts/chiplet.html">Chiplet</a></li>
+</ul>
+<h2 id="引用来源"><a class="header" href="#引用来源">引用来源</a></h2>
+<ul>
+<li><a href="https://www.tweaktown.com/news/107404/">NVIDIA Q2 FY2026 Earnings</a> (2026-08) [⚠️403-服务器防爬虫，URL正确]</li>
+<li><a href="https://www.digitimes.com/news/a20260107PD236/">NVIDIA Vera Rubin量产</a> (2026-01)</li>
+<li><a href="https://finance.yahoo.com/quote/NVDA/">NVIDIA股价目标$250</a> (2026-05，Goldman Sachs/DA Davidson买入评级，目标价$250) [⚠️原heygotrade链接已失效] [⚠️403-服务器防爬虫，URL正确]</li>
+<li><a href="https://finance.yahoo.com/markets/stocks/articles/nvidia-extends-ai-data-center-181213650.html">NVIDIA与Micron HBM4合作</a> (2026-04) [⚠️403-服务器防爬虫，URL正确]</li>
+<li><a href="https://www.digitimes.com/news/a20260107PD236/">Micron HBM4量产计划</a> (2026-01，Digitimes报道Vera Rubin进入全面生产) [⚠️原ainvest链接已失效]</li>
+<li><a href="https://dataconomy.com/2026/01/26/samsung-hbm4-to-debut-alongside-nvidias-rubin-ai-platform-at-gtc-2026/">Samsung HBM4与NVIDIA Rubin</a> (2026-01)</li>
+<li><a href="https://wallstreetcn.com/articles/3716317">华尔街见闻：Rubin计划</a> (2024-06) [⚠️链接内容已变化，需验证具体文章]</li>
+</ul>
+<hr />
+<p><strong>子架构</strong>：</p>
+<ul>
+<li><a href="nvidia-feynman.html">Feynman：1.6nm + 硅光子 + GAA</a></li>
+<li><a href="nvidia-rubin.html">Rubin：HBM4 576GB，2026H2上市</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../hardware/hbm/chbm.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../hardware/competition/nvidia-feynman.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../hardware/hbm/chbm.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../hardware/competition/nvidia-feynman.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

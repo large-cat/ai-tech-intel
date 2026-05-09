@@ -1,64 +1,118 @@
-# AI Tech Intel 知识手册
+# Summary
 
-[封面与导言](README.md)
+[知识总图](README.md)
 
 ---
 
 # 卷一：今日速递
 
-- [2026年5月9日：Harness成为核心范式、NVIDIA双架构、存算一体走向产品](part1/2026-05-09.md)
+- [2026年5月9日](digest/2026-05-09.md)
 
 ---
 
 # 卷二：AI Agent 工程
 
-- [Harness 方法论：Agent = Model + Harness](part2/01-harness.md)
-  - [Anthropic：三Agent架构与Managed Agents](part2/02-anthropic-harness.md)
-  - [OpenAI：100万行零手写代码](part2/03-openai-harness.md)
-  - [Stripe Minions：确定性×智能体混合](part2/04-stripe.md)
-  - [LangChain：模型不变，Harness变，结果剧变](part2/05-langchain.md)
-  - [月之暗面：Agent Swarm 100子Agent](part2/06-moonshot.md)
-- [Agent Skills](part2/07-agent-skills.md)
-- [RLHF：人类反馈强化学习](part2/08-rlhf.md)
-- [测试时计算扩展](part2/09-test-time-compute.md)
+## 第0层 · 前置知识
+
+- [RLHF：让模型对齐人类偏好](agent-engineering/prereq/rlhf.md)
+- [测试时计算：推理时多想一会](agent-engineering/prereq/test-time-compute.md)
+
+## 第1层 · 根概念
+
+- [Harness 方法论](agent-engineering/harness/README.md)
+
+## 第2层 · 子概念
+
+- [PEV 循环（Plan-Execute-Verify）](agent-engineering/harness/pev-cycle.md)
+- [三Agent架构（Anthropic）](agent-engineering/harness/three-agent.md)
+- [五层架构（行业共识）](agent-engineering/harness/five-layers.md)
+- [Context Engineering](agent-engineering/harness/context-engineering.md)
+- [Cognitive Memory > RAG](agent-engineering/harness/cognitive-memory.md)
+
+## 第3层 · 实践案例
+
+- [Anthropic：三Agent + Managed Agents](agent-engineering/practices/anthropic.md)
+- [OpenAI：100万行零手写代码](agent-engineering/practices/openai.md)
+- [Stripe Minions：确定性×智能体混合](agent-engineering/practices/stripe.md)
+- [LangChain：模型不变Harness变](agent-engineering/practices/langchain.md)
+- [月之暗面：Agent Swarm 100子Agent](agent-engineering/practices/moonshot.md)
+
+## 第4层 · 工具与协议
+
+- [MCP：模型控制协议](agent-engineering/tools/mcp.md)
+- [LangGraph：状态管理图](agent-engineering/tools/langgraph.md)
+- [E2B：安全Agent沙箱](agent-engineering/tools/e2b.md)
+- [ADK：Google Agent套件](agent-engineering/tools/adk.md)
+
+## 第5层 · 延伸概念
+
+- [Agent Skills](agent-engineering/extended/agent-skills.md)
 
 ---
 
 # 卷三：AI 硬件与芯片
 
-- [NVIDIA：Rubin + Feynman 双架构](part3/01-nvidia.md)
-  - [Feynman：1.6nm + 硅光子 + Groq LPU](part3/01a-feynman.md)
-  - [Rubin：HBM4 576GB，2026H2上市](part3/01b-rubin.md)
-- [AMD MI450：2nm工艺首次反超](part3/02-amd.md)
-- [内存技术：HBM与存算一体](part3/03-memory.md)
-  - [HBM：高带宽内存演进](part3/03a-hbm.md)
-  - [存算一体：突破冯·诺依曼瓶颈](part3/03b-pim.md)
-  - [近存运算：最接近产品化](part3/03c-nmc.md)
-- [Chiplet：芯粒架构](part3/04-chiplet.md)
+## 第0层 · 前置知识
+
+- [冯·诺依曼瓶颈](hardware/prereq/memory-wall.md)
+
+## 第1层 · 根概念
+
+- [存算一体](hardware/pim/README.md)
+- [HBM：高带宽内存](hardware/hbm/README.md)
+- [Chiplet：芯粒架构](hardware/chiplet/README.md)
+
+## 第2层 · 子概念
+
+### 存算一体的三个方向
+
+- [近存运算（最接近产品化）](hardware/pim/near-memory.md)
+- [存内计算（实验室→原型）](hardware/pim/compute-in-memory.md)
+- [存内逻辑（早期研究）](hardware/pim/logic-in-memory.md)
+
+### HBM 演进路线
+
+- [HBM3E（当前主流）](hardware/hbm/hbm3e.md)
+- [HBM4（2026H2）](hardware/hbm/hbm4.md)
+- [HBM4E / HBM5（未来）](hardware/hbm/hbm4e.md)
+- [cHBM：定制化HBM](hardware/hbm/chbm.md)
+
+## 第3层 · 竞争格局
+
+- [NVIDIA：Rubin + Feynman](hardware/competition/nvidia.md)
+  - [Feynman：1.6nm + 硅光子](hardware/competition/nvidia-feynman.md)
+  - [Rubin：HBM4 576GB](hardware/competition/nvidia-rubin.md)
+- [AMD MI450：2nm工艺首次反超](hardware/competition/amd.md)
+- [内存厂商：SK海力士 + 三星](hardware/competition/memory-vendors.md)
 
 ---
 
 # 卷四：大模型厂商
 
-- [Anthropic：Claude与Harness领导者](part4/01-anthropic.md)
-- [OpenAI：GPT、o系列与开源](part4/02-openai.md)
-- [Google DeepMind：Gemini与TPU](part4/03-google.md)
-- [月之暗面：Kimi与Agent Swarm](part4/04-moonshot.md)
-- [DeepSeek：推理效率与低价策略](part4/05-deepseek.md)
-- [Meta：Llama与基础设施](part4/06-meta.md)
+## 闭源阵营
+
+- [Anthropic](vendors/closed/anthropic.md)
+- [OpenAI](vendors/closed/openai.md)
+- [Google DeepMind](vendors/closed/google.md)
+
+## 开源/中国阵营
+
+- [月之暗面](vendors/open-source/moonshot.md)
+- [DeepSeek](vendors/open-source/deepseek.md)
+- [Meta](vendors/open-source/meta.md)
 
 ---
 
 # 卷五：开源与人物
 
-- [ds4：DeepSeek V4 Flash本地推理引擎](part5/01-ds4.md)
-- [值得关注的人物](part5/02-people.md)
+- [ds4：DeepSeek V4 Flash本地推理引擎](open-source/ds4.md)
+- [值得关注的人物](people/README.md)
 
 ---
 
 # 附录
 
-- [LLM Wiki 知识库模式](appendix/01-llm-wiki-pattern.md)
-- [本项目信息源与方法论](appendix/02-methodology.md)
-- [完整实体索引](appendix/03-entities-index.md)
-- [完整概念索引](appendix/04-concepts-index.md)
+- [LLM Wiki 知识库模式](appendix/pattern.md)
+- [信息源与方法论](appendix/methodology.md)
+- [完整实体索引](appendix/entities-index.md)
+- [完整概念索引](appendix/concepts-index.md)

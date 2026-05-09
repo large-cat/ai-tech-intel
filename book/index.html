@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>封面与导言 - AI Tech Intel 知识手册</title>
+        <title>知识总图 - AI Tech Intel 知识手册</title>
 
 
         <!-- Custom HTML head -->
@@ -160,54 +160,42 @@
                     <main>
                         <h1 id="ai-tech-intel-知识手册"><a class="header" href="#ai-tech-intel-知识手册">AI Tech Intel 知识手册</a></h1>
 <blockquote>
-<p>每日AI前沿技术情报知识库 — <strong>人类易读的翻阅版</strong></p>
+<p><strong>知识编译</strong>视角的概念图谱。按层级、依赖、学习路径组织，而非文件树。</p>
 </blockquote>
+<h2 id="如何使用"><a class="header" href="#如何使用">如何使用</a></h2>
+<p><strong>场景1：从零学习</strong>&gt; 选一个分支，从"前置知识"开始，沿层级逐层深入。</p>
+<p><strong>场景2：查具体概念</strong>&gt; 找到该概念，看它的前置（先懂什么）和后续（学完深入什么）。</p>
+<p><strong>场景3：快速全貌</strong>&gt; 看根概念的一句话定义，不深入子概念。</p>
 <hr />
-<h2 id="这是什么"><a class="header" href="#这是什么">这是什么</a></h2>
-<p>这是一本可以<strong>像书一样翻阅</strong>的AI技术情报手册。左侧有目录导航，可以逐章阅读，也可以点击任意章节跳转到感兴趣的内容。</p>
-<p><strong>与wiki的关系</strong>：</p>
-<ul>
-<li><strong>本书（mdBook）</strong>：为人类阅读优化 — 章节组织、侧边栏导航、全文搜索</li>
-<li><strong>wiki（GitHub）</strong>：为AI和结构化查询优化 — 实体卡片、概念分析、源文件摘要</li>
-</ul>
-<p>两者内容同步，但组织方式不同。</p>
+<h2 id="知识总图"><a class="header" href="#知识总图">知识总图</a></h2>
+<pre><code>                    ┌─────────────────────────────────────┐
+                    │     🤖 AI 技术情报 知识总图            │
+                    └──────────────┬────────────────────────┘
+                                   │
+        ┌──────────────────────────┼──────────────────────────┐
+        │                          │                          │
+   ┌────▼────┐              ┌──────▼──────┐           ┌──────▼──────┐
+   │ 分支1   │              │   分支2     │           │   分支3     │
+   │ AI Agent│              │ AI 硬件     │           │ 大模型      │
+   │ 工程    │              │ 基础设施    │           │ 技术        │
+   └────┬────┘              └──────┬──────┘           └──────┬──────┘
+        │                          │                       │
+   ┌────▼────┐              ┌──────▼──────┐           ┌──────▼──────┐
+   │ 分支4   │              │   分支5     │           │   分支6     │
+   │ 开源    │              │ 学习资源    │           │ 每日情报    │
+   │ 生态    │              │ 与方法      │           │ 速递        │
+   └─────────┘              └─────────────┘           └─────────────┘
+</code></pre>
 <hr />
-<h2 id="快速导航"><a class="header" href="#快速导航">快速导航</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>你想了解</th><th>跳转</th></tr></thead><tbody>
-<tr><td><strong>今天发生了什么</strong></td><td><a href="part1/2026-05-09.html">卷一：今日速递</a></td></tr>
-<tr><td><strong>AI Agent怎么工程化</strong></td><td><a href="part2/01-harness.html">卷二：AI Agent 工程</a></td></tr>
-<tr><td><strong>硬件芯片竞争格局</strong></td><td><a href="part3/01-nvidia.html">卷三：AI 硬件与芯片</a></td></tr>
-<tr><td><strong>各模型厂商动态</strong></td><td><a href="part4/01-anthropic.html">卷四：大模型厂商</a></td></tr>
-<tr><td><strong>开源项目和人物</strong></td><td><a href="part5/01-ds4.html">卷五：开源与人物</a></td></tr>
-<tr><td><strong>全部实体/概念索引</strong></td><td><a href="appendix/03-entities-index.html">附录</a></td></tr>
-</tbody></table>
-</div>
-<hr />
-<h2 id="使用说明"><a class="header" href="#使用说明">使用说明</a></h2>
-<ul>
-<li>📖 <strong>翻阅</strong>：用左侧目录逐章阅读</li>
-<li>🔍 <strong>搜索</strong>：右上角搜索框，全文检索</li>
-<li>🔗 <strong>引用</strong>：任意标题都有锚点链接，可复制分享</li>
-<li>📱 <strong>适配</strong>：手机、平板、桌面自动适配</li>
-</ul>
-<hr />
-<h2 id="更新节奏"><a class="header" href="#更新节奏">更新节奏</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>时间（北京时间）</th><th>动作</th></tr></thead><tbody>
-<tr><td>08:00</td><td>调研亚洲/欧洲时段更新</td></tr>
-<tr><td>20:00</td><td>调研美国时段更新</td></tr>
-<tr><td>09:30</td><td>微信推送当日简报</td></tr>
-</tbody></table>
-</div>
-<hr />
-<p><em>本手册由 <a href="https://openclaw.ai">OpenClaw</a> 自动维护</em><br />
-<em>GitHub 仓库：<a href="https://github.com/large-cat/ai-tech-intel">large-cat/ai-tech-intel</a></em></p>
+<p><em>由 <a href="https://openclaw.ai">OpenClaw</a> 自动维护</em><br />
+<em>GitHub：<a href="https://github.com/large-cat/ai-tech-intel">large-cat/ai-tech-intel</a></em></p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
 
-                            <a rel="next prefetch" href="part1/2026-05-09.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="digest/2026-05-09.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -218,7 +206,7 @@
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
 
-                    <a rel="next prefetch" href="part1/2026-05-09.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="digest/2026-05-09.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
