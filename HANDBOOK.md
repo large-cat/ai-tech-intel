@@ -2,6 +2,8 @@
 
 > **知识编译**视角的知识库导航。不是按文件或日期组织，而是按概念的层级、依赖和递进关系组织。
 >
+> 📖 **人类可翻阅版** → [https://large-cat.github.io/ai-tech-intel/](https://large-cat.github.io/ai-tech-intel/)
+>
 > 每条学习路径标注：⭐难度（1-5）、⏱️预计阅读时间、📋前置概念。
 
 ---
