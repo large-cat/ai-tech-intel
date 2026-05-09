@@ -1,0 +1,33 @@
+[book]
+title = "AI Tech Intel 知识手册"
+authors = ["AI Tech Intel Team"]
+description = "每日AI前沿技术情报知识库 — 人类易读的翻阅版"
+src = "src"
+language = "zh"
+
+[build]
+build-dir = "book"
+
+[output.html]
+google-analytics = ""
+git-repository-url = "https://github.com/large-cat/ai-tech-intel"
+edit-url-template = "https://github.com/large-cat/ai-tech-intel/edit/master/{path}"
+
+[output.html.fold]
+enable = true
+level = 1
+
+[output.html.search]
+enable = true
+limit-results = 30
+teaser-word-count = 30
+
+[output.html.print]
+enable = true
+
+[output.html.playground]
+runnable = false
+
+[preprocessor.index]
+
+[preprocessor.links]

@@ -1,0 +1,3684 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>AI Tech Intel 知识手册</title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="每日AI前沿技术情报知识库 — 人类易读的翻阅版">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">AI Tech Intel 知识手册</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/large-cat/ai-tech-intel" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="ai-tech-intel-知识手册"><a class="header" href="#ai-tech-intel-知识手册">AI Tech Intel 知识手册</a></h1>
+<blockquote>
+<p>每日AI前沿技术情报知识库 — <strong>人类易读的翻阅版</strong></p>
+</blockquote>
+<hr />
+<h2 id="这是什么"><a class="header" href="#这是什么">这是什么</a></h2>
+<p>这是一本可以<strong>像书一样翻阅</strong>的AI技术情报手册。左侧有目录导航，可以逐章阅读，也可以点击任意章节跳转到感兴趣的内容。</p>
+<p><strong>与wiki的关系</strong>：</p>
+<ul>
+<li><strong>本书（mdBook）</strong>：为人类阅读优化 — 章节组织、侧边栏导航、全文搜索</li>
+<li><strong>wiki（GitHub）</strong>：为AI和结构化查询优化 — 实体卡片、概念分析、源文件摘要</li>
+</ul>
+<p>两者内容同步，但组织方式不同。</p>
+<hr />
+<h2 id="快速导航"><a class="header" href="#快速导航">快速导航</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>你想了解</th><th>跳转</th></tr></thead><tbody>
+<tr><td><strong>今天发生了什么</strong></td><td><a href="part1/2026-05-09.html">卷一：今日速递</a></td></tr>
+<tr><td><strong>AI Agent怎么工程化</strong></td><td><a href="part2/01-harness.html">卷二：AI Agent 工程</a></td></tr>
+<tr><td><strong>硬件芯片竞争格局</strong></td><td><a href="part3/01-nvidia.html">卷三：AI 硬件与芯片</a></td></tr>
+<tr><td><strong>各模型厂商动态</strong></td><td><a href="part4/01-anthropic.html">卷四：大模型厂商</a></td></tr>
+<tr><td><strong>开源项目和人物</strong></td><td><a href="part5/01-ds4.html">卷五：开源与人物</a></td></tr>
+<tr><td><strong>全部实体/概念索引</strong></td><td><a href="appendix/03-entities-index.html">附录</a></td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="使用说明"><a class="header" href="#使用说明">使用说明</a></h2>
+<ul>
+<li>📖 <strong>翻阅</strong>：用左侧目录逐章阅读</li>
+<li>🔍 <strong>搜索</strong>：右上角搜索框，全文检索</li>
+<li>🔗 <strong>引用</strong>：任意标题都有锚点链接，可复制分享</li>
+<li>📱 <strong>适配</strong>：手机、平板、桌面自动适配</li>
+</ul>
+<hr />
+<h2 id="更新节奏"><a class="header" href="#更新节奏">更新节奏</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>时间（北京时间）</th><th>动作</th></tr></thead><tbody>
+<tr><td>08:00</td><td>调研亚洲/欧洲时段更新</td></tr>
+<tr><td>20:00</td><td>调研美国时段更新</td></tr>
+<tr><td>09:30</td><td>微信推送当日简报</td></tr>
+</tbody></table>
+</div>
+<hr />
+<p><em>本手册由 <a href="https://openclaw.ai">OpenClaw</a> 自动维护</em><br />
+<em>GitHub 仓库：<a href="https://github.com/large-cat/ai-tech-intel">large-cat/ai-tech-intel</a></em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="2026年5月9日每日摘要"><a class="header" href="#2026年5月9日每日摘要">2026年5月9日每日摘要</a></h1>
+<blockquote>
+<p>这是知识库的首日记录。</p>
+</blockquote>
+<h1 id="ai-tech-intel---每日摘要-2026-05-09"><a class="header" href="#ai-tech-intel---每日摘要-2026-05-09">AI Tech Intel - 每日摘要 2026-05-09</a></h1>
+<blockquote>
+<p>采集时间：2026-05-09 10:00 CST | 数据源：网络公开信息、论文、工程博客、发布会
+📁 完整知识库：<code>~/wiki/</code> | 今日收录：12篇源文件摘要、4个实体更新、2个概念更新</p>
+</blockquote>
+<hr />
+<h2 id="-执行摘要"><a class="header" href="#-执行摘要">📋 执行摘要</a></h2>
+<p><strong>一句话总结</strong>：2026年AI行业的核心矛盾已经从"谁的模型更强"转向"谁的Harness（Agent编排系统）更稳"——Anthropic、OpenAI、Stripe、LangChain同时验证了"环境比模型更重要"的范式转移。硬件端，NVIDIA GTC 2026发布Feynman(1nm)和Rubin(HBM4)双架构，存算一体技术从论文走向产品演示，但128Kb阵列瓶颈和软件链缺口仍是产业化障碍。</p>
+<h3 id="-今日top-3信号"><a class="header" href="#-今日top-3信号">🔥 今日Top 3信号</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>#</th><th>信号</th><th>置信度</th><th>关联实体/概念</th></tr></thead><tbody>
+<tr><td>1</td><td><strong>Harness Engineering成为2026年AI工程核心范式</strong>，多家头部公司独立验证"环境&gt;模型"</td><td>🔴 高</td><td><a href="part1/../entities/anthropic.html">Anthropic</a>、<a href="part1/../concepts/harness-methodology.html">Harness方法论</a></td></tr>
+<tr><td>2</td><td><strong>NVIDIA发布Feynman(1nm)+Rubin(HBM4)双架构</strong>，与Intel谈代工分散TSMC风险</td><td>🔴 高</td><td><a href="part1/../entities/nvidia.html">NVIDIA</a>、<a href="part1/../concepts/hbm.html">HBM</a></td></tr>
+<tr><td>3</td><td><strong>存算一体从论文走向产品演示</strong>，SK海力士/三星展示cHBM/AiMX/CuD，但128Kb瓶颈待解</td><td>🟡 中</td><td><a href="part1/../entities/sk-hynix.html">SK海力士</a>、<a href="part1/../concepts/processing-in-memory.html">存算一体</a></td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-厂商动态详情"><a class="header" href="#-厂商动态详情">🏢 厂商动态详情</a></h2>
+<h3 id="anthropic--harness-engineering的领导者"><a class="header" href="#anthropic--harness-engineering的领导者">Anthropic — Harness Engineering的领导者</a></h3>
+<p><strong>📌 关键事件</strong></p>
+<ol>
+<li>
+<p><strong>三Agent Harness架构发布</strong>（来源：anthropic.com/engineering/managed-agents, 2026-04）</p>
+<ul>
+<li>Planner-Generator-Evaluator分离，解决长任务"上下文失忆"问题</li>
+<li>Evaluator使用Playwright MCP导航实时页面，提供客观评分</li>
+<li>迭代5-15轮，最长4小时，输出质量从"模板化"跃升到"生产级"</li>
+<li>📁 详见：<a href="part1/../sources/anthropic-three-agent-harness.html">sources/anthropic-three-agent-harness.md</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Managed Agents产品化</strong>（来源：Anthropic工程博客, 2026-04）</p>
+<ul>
+<li>将Agent拆解为Session（记忆）/ Harness（大脑）/ Sandbox（双手）三层</li>
+<li>Harness与Sandbox解耦，性能提升：p50 TTFT↓60%，p95 TTFT↓90%+</li>
+<li>安全设计：凭证Token永不进入Sandbox可访问范围</li>
+<li>📁 详见：<a href="part1/../sources/anthropic-managed-agents.html">sources/anthropic-managed-agents.md</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Opus 4.7模型迭代</strong>（来源：Hugging Face Philipp Schmid评论, 2026-04）</p>
+<ul>
+<li>不到一年内第三代模型</li>
+<li>关键洞察：模型升级后，旧Harness的workaround会变成"死重"，需要定期Lint清理</li>
+</ul>
+</li>
+</ol>
+<p><strong>🔬 技术细节：Harness vs System Prompt</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>维度</th><th>System Prompt</th><th>Harness</th></tr></thead><tbody>
+<tr><td>本质</td><td>发给模型的一段指令文本</td><td>围绕模型运行的整个控制程序</td></tr>
+<tr><td>功能</td><td>告诉模型"做什么"</td><td>构建Prompt、调用API、解析输出、路由工具、管理状态</td></tr>
+<tr><td>类比</td><td>一封信</td><td>整个邮递系统</td></tr>
+</tbody></table>
+</div>
+<p><strong>关键公式</strong>：<code>Agent = Model + Harness</code></p>
+<ul>
+<li>传统SDD关注"代码如何运行"</li>
+<li>Harness Engineering关注"AI如何在环境中生存和决策"</li>
+</ul>
+<p><strong>📊 数据点</strong></p>
+<ul>
+<li>Anthropic内部：Claude Code被定位为"an excellent harness"</li>
+<li>LangChain验证：仅优化Harness（模型不变），Terminal Bench 2.0从52.8%→66.5%，排名#30→#5</li>
+<li>Hugging Face Philipp Schmid："2026年最重要的学科"</li>
+</ul>
+<p><strong>🔗 相关页面</strong></p>
+<ul>
+<li><a href="part1/../entities/anthropic.html">entities/anthropic.md</a> — 完整时间线</li>
+<li><a href="part1/../concepts/harness-methodology.html">concepts/harness-methodology.md</a> — Harness方法论深度分析</li>
+</ul>
+<hr />
+<h3 id="openai--harness-engineering的发起者"><a class="header" href="#openai--harness-engineering的发起者">OpenAI — Harness Engineering的发起者</a></h3>
+<p><strong>📌 关键事件</strong></p>
+<ol>
+<li>
+<p><strong>2026年2月提出Harness Engineering</strong>（来源：OpenAI工程博客, 2026-02）</p>
+<ul>
+<li>团队交付100万行生产代码，零手写</li>
+<li>人类设计约束、反馈循环、文档结构、依赖规则</li>
+<li>Agent写代码，人类设计让Agent可靠的系统</li>
+</ul>
+</li>
+<li>
+<p><strong>GPT-OSS-120B开源模型</strong>（来源：arxiv.org, 2026-03）</p>
+<ul>
+<li>MoE架构：117B总量 / 5.1B激活参数</li>
+<li>RL训练方法</li>
+<li>作为推理模型benchmark的Tier 2旗舰</li>
+</ul>
+</li>
+</ol>
+<p><strong>🔬 技术细节：OpenAI vs Anthropic Harness策略对比</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>维度</th><th>OpenAI</th><th>Anthropic</th></tr></thead><tbody>
+<tr><td>策略</td><td>"Raw Power" — 人类作为转向器</td><td>"Planner-Generator-Evaluator"三Agent</td></tr>
+<tr><td>代码量</td><td>100万行AI编写</td><td>前端设计+全栈工程</td></tr>
+<tr><td>可靠性</td><td>技术债务高</td><td>成本更高但可靠性达生产级</td></tr>
+<tr><td>核心洞察</td><td>证明了Harness必要性</td><td>证明了"Harnessing &gt; 原始参数"</td></tr>
+</tbody></table>
+</div>
+<p><strong>📊 数据点</strong></p>
+<ul>
+<li>GPT-OSS-120B：OpenAI首个开源模型，采用MoE架构</li>
+<li>测试时计算扩展（Test-Time Compute）：OpenAI o系列核心方法论</li>
+</ul>
+<p><strong>🔗 相关页面</strong></p>
+<ul>
+<li><a href="part1/../entities/openai.html">entities/openai.md</a> — 完整时间线</li>
+<li><a href="part1/../concepts/harness-methodology.html">concepts/harness-methodology.md</a> — OpenAI案例研究</li>
+</ul>
+<hr />
+<h3 id="nvidia--双架构并行推进"><a class="header" href="#nvidia--双架构并行推进">NVIDIA — 双架构并行推进</a></h3>
+<p><strong>📌 关键事件</strong></p>
+<ol>
+<li>
+<p><strong>Feynman架构GTC 2026发布</strong>（来源：technetbooks.com, 2026-02）</p>
+<ul>
+<li>首个1nm级工艺AI芯片</li>
+<li>TSMC继续主供，同时与Intel洽谈代工合作（分散风险）</li>
+<li>预计2028年商用</li>
+<li>📁 详见：<a href="part1/../sources/nvidia-feynman-gtc2026.html">sources/nvidia-feynman-gtc2026.md</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Rubin平台2026H2上市</strong>（来源：hyperpc.ae, 2026-01）</p>
+<ul>
+<li>配备Vera CPU + HBM4</li>
+<li>16颗HBM4芯片，总容量576GB</li>
+<li>碾压AMD MI450（432GB）</li>
+<li>标准液冷散热（NVL72/NVL8机架）</li>
+<li>📁 详见：<a href="part1/../sources/nvidia-rubin-platform.html">sources/nvidia-rubin-platform.md</a></li>
+</ul>
+</li>
+<li>
+<p><strong>SRAM架构探索</strong>（来源：koreaherald.com, 2026-03）</p>
+<ul>
+<li>探索基于SRAM的AI推理芯片架构</li>
+<li>将大型SRAM块置于芯片内部，减少数据移动</li>
+<li><strong>关键限制</strong>：SRAM面积是DRAM的5-10倍，定位为HBM补充而非替代</li>
+</ul>
+</li>
+</ol>
+<p><strong>🔬 技术细节：NVIDIA内存策略演变</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>架构</th><th>时间</th><th>工艺</th><th>内存</th><th>散热</th></tr></thead><tbody>
+<tr><td>Ampere</td><td>2020</td><td>7nm</td><td>GDDR6X/HBM2</td><td>风冷</td></tr>
+<tr><td>Hopper</td><td>2022</td><td>4nm</td><td>HBM3</td><td>风冷</td></tr>
+<tr><td>Blackwell</td><td>2024</td><td>4nm</td><td>HBM3E</td><td>风冷</td></tr>
+<tr><td>Rubin</td><td>2026H2</td><td>3nm</td><td><strong>HBM4</strong></td><td><strong>液冷</strong></td></tr>
+<tr><td>Feynman</td><td>2028</td><td>1nm级</td><td>HBM4E/HBM5</td><td>液冷</td></tr>
+</tbody></table>
+</div>
+<p><strong>核心矛盾</strong>：AI推理是内存带宽受限，而非算力受限。Rubin通过HBM4+液冷解决，Feynman通过1nm工艺+SRAM探索进一步突破。</p>
+<p><strong>📊 数据点</strong></p>
+<ul>
+<li>HBM4总容量：576GB（VeraRubin）vs 432GB（AMD MI450）</li>
+<li>SRAM vs DRAM面积比：5-10倍</li>
+<li>Samsung/SK海力士获得VeraRubin HBM4独家供应，Micron未入选</li>
+</ul>
+<p><strong>🔗 相关页面</strong></p>
+<ul>
+<li><a href="part1/../entities/nvidia.html">entities/nvidia.md</a> — 完整时间线与合作关系</li>
+<li><a href="part1/../concepts/hbm.html">concepts/hbm.md</a> — HBM技术演进</li>
+</ul>
+<hr />
+<h3 id="sk海力士--hbm霸主存算一体探索"><a class="header" href="#sk海力士--hbm霸主存算一体探索">SK海力士 — HBM霸主+存算一体探索</a></h3>
+<p><strong>📌 关键事件</strong></p>
+<ol>
+<li>
+<p><strong>CES 2026 AI System Demo Zone</strong>（来源：prnewswire.com, 2026-01）</p>
+<ul>
+<li><strong>cHBM (Custom HBM)</strong>：将GPU/ASIC部分功能集成到HBM基板</li>
+<li><strong>AiMX</strong>：基于GDDR6-AiM芯片的LLM专用加速器卡</li>
+<li><strong>CuD (Compute-using-DRAM)</strong>：在DRAM单元内执行简单计算</li>
+<li><strong>CMM-Ax</strong>：CXL内存模块+计算能力集成</li>
+<li>📁 详见：<a href="part1/../sources/sk-hynix-ces2026.html">sources/sk-hynix-ces2026.md</a></li>
+</ul>
+</li>
+<li>
+<p><strong>GTC 2026参展</strong>（来源：techpowerup.com, 2026-03）</p>
+<ul>
+<li>"Spotlight on AI Memory"主题展台</li>
+<li>展示与NVIDIA联合产品：液冷eSSD、DGX Spark（LPDDR5X）</li>
+<li>HBM16层堆叠互动体验</li>
+</ul>
+</li>
+<li>
+<p><strong>产能扩张</strong>（来源：datacenterdynamics.com, 2026-05）</p>
+<ul>
+<li>2026年投资基础设施：<strong>比之前宣布的增加4倍以上</strong></li>
+<li>M15X工厂预计2027年中期投入使用</li>
+<li>与OpenAI签署意向书：供应90万片DRAM晶圆/月（支持Stargate项目）</li>
+</ul>
+</li>
+</ol>
+<p><strong>🔬 技术细节：SK海力士存算一体路线</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>技术</th><th>定位</th><th>原理</th><th>成熟度</th></tr></thead><tbody>
+<tr><td>cHBM</td><td>定制化HBM</td><td>将计算/控制功能集成到HBM基板</td><td>产品化中</td></tr>
+<tr><td>AiMX</td><td>LLM加速器</td><td>GDDR6-AiM芯片专用加速</td><td>原型</td></tr>
+<tr><td>CuD</td><td>轻量计算</td><td>在DRAM单元内执行简单运算</td><td>早期</td></tr>
+<tr><td>CMM-Ax</td><td>服务器内存</td><td>CXL接口+计算功能</td><td>原型</td></tr>
+</tbody></table>
+</div>
+<p><strong>📊 数据点</strong></p>
+<ul>
+<li>HBM市场份额：62%（2025Q2出货量）/ 57%（2025Q3收入）</li>
+<li>DRAM收入市场份额：38%（2025Q2，超越三星成为第一）</li>
+<li>Goldman Sachs预测：SK海力士将维持HBM3E/HBM4领域主导地位至2026年</li>
+</ul>
+<p><strong>🔗 相关页面</strong></p>
+<ul>
+<li><a href="part1/../entities/sk-hynix.html">entities/sk-hynix.md</a> — 完整产品线与市场数据</li>
+<li><a href="part1/../concepts/processing-in-memory.html">concepts/processing-in-memory.md</a> — 存算一体技术分析</li>
+</ul>
+<hr />
+<h3 id="三星--samsung-is-back"><a class="header" href="#三星--samsung-is-back">三星 — "Samsung is back"</a></h3>
+<p><strong>📌 关键事件</strong></p>
+<ol>
+<li>
+<p><strong>HBM4E GTC 2026展示</strong>（来源：sammyguru.com, 2026-03）</p>
+<ul>
+<li>16Gbps/pin（对比HBM4的11.7Gbps）</li>
+<li>总带宽4TB/s</li>
+<li>使用第六代10nm DRAM工艺</li>
+<li>黄仁勋参观并签名"Amazing HBM4"</li>
+</ul>
+</li>
+<li>
+<p><strong>混合铜键合(HCB)技术</strong></p>
+<ul>
+<li>支持16层以上堆叠</li>
+<li>散热降低20%+</li>
+<li>对比传统热压缩键合</li>
+</ul>
+</li>
+<li>
+<p><strong>产能扩张</strong>（来源：datacenterdynamics.com, 2026-05）</p>
+<ul>
+<li>2026年HBM产能扩张约50%</li>
+<li>Pyeongtaek P5工厂预计2028年运营</li>
+<li>与OpenAI签署90万片DRAM晶圆/月供应意向书</li>
+</ul>
+</li>
+<li>
+<p><strong>未来路线图</strong></p>
+<ul>
+<li>HBM5（约2年后）：1c DRAM + 2nm foundry</li>
+<li>HBM5E：1d DRAM + 2nm foundry</li>
+</ul>
+</li>
+</ol>
+<p><strong>📊 数据点</strong></p>
+<ul>
+<li>HBM市场份额：35%（2025Q3，Counterpoint）</li>
+<li>落后SK海力士（53%），但追赶势头明显</li>
+<li>共同CEO Jun Young-hyun："客户说'Samsung is back'"</li>
+</ul>
+<p><strong>🔗 相关页面</strong></p>
+<ul>
+<li><a href="part1/../entities/samsung.html">entities/samsung.md</a> — 完整产品线</li>
+<li><a href="part1/../concepts/hbm.html">concepts/hbm.md</a> — HBM技术演进</li>
+</ul>
+<hr />
+<h2 id="-重点技术深度分析"><a class="header" href="#-重点技术深度分析">🧬 重点技术深度分析</a></h2>
+<h3 id="1-harness-engineering从prompt到system"><a class="header" href="#1-harness-engineering从prompt到system">1. Harness Engineering：从Prompt到System</a></h3>
+<p><strong>背景</strong>
+2025年下半年，Context Engineering（上下文工程）成为热点——焦点从"写好一条指令"扩展到"设计动态系统来组装上下文"。但2026年一线实践者发现：光有好的上下文，Agent依然会失控。</p>
+<p><strong>核心进展</strong></p>
+<ol>
+<li>
+<p><strong>PEV循环（Plan-Execute-Verify）</strong></p>
+<ul>
+<li>标准SDLC对Agent太慢</li>
+<li>Agent写计划→在Sandbox执行→Verifier检查→失败重试</li>
+<li>无需人工干预的闭环</li>
+</ul>
+</li>
+<li>
+<p><strong>Cognitive Memory &gt; RAG</strong></p>
+<ul>
+<li>RAG存储"是什么"</li>
+<li>Cognitive Memory存储"为什么"——决策背后的理由</li>
+<li>防止多天长任务中重复犯错</li>
+</ul>
+</li>
+<li>
+<p><strong>Failure Taxonomy</strong></p>
+<ul>
+<li>命名失败模式（缺失产物、错误路径、验证失败等）</li>
+<li>驱动自动化恢复</li>
+</ul>
+</li>
+</ol>
+<p><strong>关键分歧</strong></p>
+<ul>
+<li><strong>Anthropic</strong>：Harness与模型协同进化，组件随模型升级而被淘汰，需定期Lint</li>
+<li><strong>Stripe</strong>：确定性节点与Agent节点混合——可预测步骤交给代码，仅判断/创造环节调用LLM</li>
+<li><strong>LangChain</strong>：最干净的验证——模型不变，Harness变，结果剧变</li>
+</ul>
+<p><strong>产业链影响</strong></p>
+<ul>
+<li>工具层：MCP协议月下载9700万+，成为Agent工具访问标准</li>
+<li>评估层：89%团队实施了可观测性，仅52%实施了评估（Evals）——评估体系规模化是下一年的关键</li>
+<li>人才层：AI工程师从"调Prompt"转向"设计Harness"</li>
+</ul>
+<p><strong>📁 完整分析见</strong>：<a href="part1/../concepts/harness-methodology.html">concepts/harness-methodology.md</a></p>
+<hr />
+<h3 id="2-存算一体近存运算从论文到产品前夜"><a class="header" href="#2-存算一体近存运算从论文到产品前夜">2. 存算一体/近存运算：从论文到产品前夜</a></h3>
+<p><strong>背景</strong>
+冯·诺依曼瓶颈：数据在CPU和DRAM之间搬运消耗60%+系统能耗。AI推理是内存带宽受限，而非算力受限。</p>
+<p><strong>三大子方向成熟度</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>方向</th><th>原理</th><th>当前状态</th><th>主要玩家</th></tr></thead><tbody>
+<tr><td>Near-Memory Processing</td><td>逻辑层紧邻DRAM/HBM</td><td><strong>最接近产品化</strong></td><td>NVIDIA(HBM4)、SK海力士(cHBM)、Google(3D-DRAM)</td></tr>
+<tr><td>Compute-in-Memory</td><td>在内存位单元内执行运算</td><td>实验室→原型</td><td>清华(RRAM-CIM)、Stanford、Purdue</td></tr>
+<tr><td>Logic-in-Memory</td><td>存储单元内嵌入布尔逻辑</td><td>早期研究</td><td>高校为主</td></tr>
+</tbody></table>
+</div>
+<p><strong>2026年产业信号</strong></p>
+<ol>
+<li>
+<p><strong>SK海力士 CES 2026</strong></p>
+<ul>
+<li>cHBM：将GPU/ASIC功能集成到HBM基板</li>
+<li>信号：客户从"纯性能"转向"推理效率+成本优化"</li>
+</ul>
+</li>
+<li>
+<p><strong>NVIDIA SRAM探索</strong></p>
+<ul>
+<li>片上SRAM减少数据移动</li>
+<li>但SRAM面积是DRAM的5-10倍，只能做小容量缓存</li>
+</ul>
+</li>
+<li>
+<p><strong>Google 3D-DRAM chiplet</strong></p>
+<ul>
+<li>2024年专利，针对LLM serving优化</li>
+<li>低功耗、带宽优化的计算-内存chiplet</li>
+</ul>
+</li>
+</ol>
+<p><strong>关键瓶颈</strong></p>
+<ol>
+<li><strong>128Kb阵列限制</strong>：大多数CIM演示仍卡在此规模，模拟非理想性随规模扩大恶化</li>
+<li><strong>软件链缺口</strong>：缺乏CIM编译器、模拟器、映射算法——"软件-硬件协同设计缺口"</li>
+<li><strong>精度vs能效</strong>：模拟计算精度有限，需要数字校准电路</li>
+</ol>
+<p><strong>产业链影响</strong></p>
+<ul>
+<li>内存厂商从"供应商"转向"AI平台核心层"</li>
+<li>SK海力士"Full Stack AI Memory Creator"战略</li>
+<li>软件链缺口催生新创业机会（CIM编译器、模拟器）</li>
+</ul>
+<p><strong>📁 完整分析见</strong>：<a href="part1/../concepts/processing-in-memory.html">concepts/processing-in-memory.md</a></p>
+<hr />
+<h2 id="-今日收录源文件"><a class="header" href="#-今日收录源文件">📚 今日收录源文件</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>#</th><th>标题</th><th>来源</th><th>日期</th><th>关联实体</th><th>关键发现</th></tr></thead><tbody>
+<tr><td>1</td><td>Harness Engineering vs SDD for AI Agents</td><td>gonetech.net</td><td>2026-04-21</td><td>Anthropic/OpenAI</td><td>PEV循环、Agent=Model+Harness</td></tr>
+<tr><td>2</td><td>2026 AI Agent Harness技术趋势：多模态融合</td><td>CSDN</td><td>2026-04-17</td><td>全行业</td><td>LangChain 4.0 Harness Edition</td></tr>
+<tr><td>3</td><td>Harness Engineering：2026年AI编码核心竞争力</td><td>小宇宙FM</td><td>2026-04-01</td><td>Anthropic</td><td>Claude Code作为Harness</td></tr>
+<tr><td>4</td><td>Harness Engineering: What Every AI Engineer Needs</td><td>gopubby.com</td><td>2026-04-27</td><td>Anthropic</td><td>Opus 4.7简化Harness</td></tr>
+<tr><td>5</td><td>Anthropic Designs Three-Agent Harness</td><td>infoq.com</td><td>2026-04-04</td><td>Anthropic</td><td>Planner-Generator-Evaluator</td></tr>
+<tr><td>6</td><td>Harness Engineering成为2026年新范式</td><td>虎嗅</td><td>2026-03-13</td><td>全行业</td><td>Stripe Minions、LangChain实验</td></tr>
+<tr><td>7</td><td>Natural-Language Agent Harnesses</td><td>arxiv.org</td><td>2026-03-26</td><td>Anthropic</td><td>文件持久化状态模块</td></tr>
+<tr><td>8</td><td>New Nvidia AI chip design raises HBM questions</td><td>koreaherald.com</td><td>2026-03-15</td><td>NVIDIA</td><td>SRAM-based架构探索</td></tr>
+<tr><td>9</td><td>Near Memory Computing Architecture 2026</td><td>patsnap.com</td><td>2026-04-23</td><td>全行业</td><td>PIM/CIM/LIM全景分析</td></tr>
+<tr><td>10</td><td>SK hynix AI Memory at CES 2026</td><td>getflashmemory.info</td><td>2026-01-06</td><td>SK海力士</td><td>cHBM/AiMX/CuD/CMM-Ax</td></tr>
+<tr><td>11</td><td>Samsung HBM4E at GTC 2026</td><td>sammyguru.com</td><td>2026-03-17</td><td>三星</td><td>HBM4E 16Gbps/pin, HCB技术</td></tr>
+<tr><td>12</td><td>NVIDIA VeraRubin HBM4供应商确定</td><td>technetbooks.com</td><td>2026-03-08</td><td>NVIDIA/三星/SK海力士</td><td>独家供应，Micron出局</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-知识库导航"><a class="header" href="#-知识库导航">🗺️ 知识库导航</a></h2>
+<p><strong>今日更新/创建的页面：</strong></p>
+<ul>
+<li>🔧 实体：<a href="part1/../entities/nvidia.html">entities/nvidia.md</a> — Feynman+Rubin+SRAM动态</li>
+<li>🔧 实体：<a href="part1/../entities/anthropic.html">entities/anthropic.md</a> — Harness Engineering领导者</li>
+<li>🔧 实体：<a href="part1/../entities/sk-hynix.html">entities/sk-hynix.md</a> — cHBM/AiMX/CuD</li>
+<li>🔧 实体：<a href="part1/../entities/samsung.html">entities/samsung.md</a> — HBM4E+HCB</li>
+<li>🔬 概念：<a href="part1/../concepts/harness-methodology.html">concepts/harness-methodology.md</a> — 深度分析+行业验证</li>
+<li>🔬 概念：<a href="part1/../concepts/processing-in-memory.html">concepts/processing-in-memory.md</a> — 三大子方向+瓶颈分析</li>
+<li>📄 索引：<a href="part1/../index.html">index.md</a> — 总览更新</li>
+<li>📄 日志：<a href="part1/../log.html">log.md</a> — 操作记录</li>
+</ul>
+<p><strong>历史关联：</strong></p>
+<ul>
+<li>这是知识库首日，暂无历史摘要</li>
+<li>相关概念：<a href="part1/../concepts/hbm.html">concepts/hbm.md</a></li>
+<li>相关实体：<a href="part1/../entities/openai.html">entities/openai.md</a></li>
+</ul>
+<p><strong>明日监控重点：</strong></p>
+<ol>
+<li>OpenAI新模型发布动态（GPT-5.4系列进展）</li>
+<li>Google DeepMind Gemini更新</li>
+<li>月之暗面/DeepSeek模型迭代</li>
+<li>AMD MI450 vs NVIDIA Rubin竞争数据</li>
+<li>存算一体新论文/产品化信号</li>
+</ol>
+<hr />
+<p><em>如需了解任何技术点的完整背景，点击上面对应的wiki页面链接。所有源文件摘要、实体详情、概念分析均可追溯到具体来源和数据点。</em></p>
+<hr />
+<p><em>下一期：2026-05-10（定时更新）</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="harness-方法论"><a class="header" href="#harness-方法论">Harness 方法论</a></h1>
+<blockquote>
+<p>2026年AI工程的核心范式。核心公式：<strong>Agent = Model + Harness</strong></p>
+</blockquote>
+<h1 id="harness-engineering--harness方法论"><a class="header" href="#harness-engineering--harness方法论">Harness Engineering / Harness方法论</a></h1>
+<blockquote>
+<p>类型：AI工程方法论 | 热度：🔥 2026年最核心范式 | 最后更新：2026-05-09</p>
+</blockquote>
+<h2 id="定义"><a class="header" href="#定义">定义</a></h2>
+<p>Harness Engineering（Harness工程）是2026年出现的AI工程新范式，核心是构建一个确定性的"执行环境"来约束和验证概率性的AI输出。</p>
+<p><strong>核心公式</strong>：Agent = Model + Harness</p>
+<ul>
+<li><strong>模型（Model）</strong>：大脑——推理能力</li>
+<li><strong>Harness（马具/线束）</strong>：身体+神经系统+规则框架——让模型在真实环境中持续行动、调用工具、完成长任务</li>
+</ul>
+<h2 id="为什么需要harness"><a class="header" href="#为什么需要harness">为什么需要Harness</a></h2>
+<p>传统软件开发（SDD）把AI当API调用，但Agent时代面临三大失败：</p>
+<ol>
+<li><strong>幻觉逃避测试</strong> —— 传统测试无法覆盖AI的创造性输出</li>
+<li><strong>长窗口上下文退化</strong> —— 长时间任务中上下文丢失</li>
+<li><strong>会话状态漂移</strong> —— 多轮交互中目标偏离</li>
+</ol>
+<h2 id="核心框架"><a class="header" href="#核心框架">核心框架</a></h2>
+<h3 id="pev循环plan-execute-verify"><a class="header" href="#pev循环plan-execute-verify">PEV循环（Plan-Execute-Verify）</a></h3>
+<ul>
+<li>标准SDLC对Agent太慢</li>
+<li>Harness强制Agent：写计划 → 在Sandbox执行 → Verifier模型检查 → 失败则重试</li>
+<li>无需人工干预</li>
+</ul>
+<h3 id="三agent架构anthropic"><a class="header" href="#三agent架构anthropic">三Agent架构（Anthropic）</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Agent</th><th>职责</th></tr></thead><tbody>
+<tr><td>Planner</td><td>规划任务、分解步骤</td></tr>
+<tr><td>Generator</td><td>执行生成（代码/设计/内容）</td></tr>
+<tr><td>Evaluator</td><td>评估输出质量，提供反馈</td></tr>
+</tbody></table>
+</div>
+<h3 id="五层架构行业共识"><a class="header" href="#五层架构行业共识">五层架构（行业共识）</a></h3>
+<p>根据OpenAI、Anthropic、LangChain、Stripe的实践提炼：</p>
+<div class="table-wrapper"><table><thead><tr><th>层级</th><th>名称</th><th>职责</th><th>变化频率</th></tr></thead><tbody>
+<tr><td>L1</td><td><strong>约束层</strong></td><td>定义Agent能做什么、不能做什么</td><td>慢</td></tr>
+<tr><td>L2</td><td><strong>上下文层</strong></td><td>控制模型每一步看到什么（CLAUDE.md等）</td><td>中</td></tr>
+<tr><td>L3</td><td><strong>执行层</strong></td><td>工具编排、MCP配置、Sandbox管理</td><td>中</td></tr>
+<tr><td>L4</td><td><strong>验证层</strong></td><td>检查输出正确性（测试、类型检查、规则）</td><td><strong>快</strong></td></tr>
+<tr><td>L5</td><td><strong>生命周期层</strong></td><td>健康监控、崩溃恢复、成本控制、人机协同</td><td>慢</td></tr>
+</tbody></table>
+</div>
+<p><strong>关键设计原则</strong>：</p>
+<ul>
+<li><strong>验证层（L4）是最高影响层</strong>：结构化验证带来最大可靠性提升（LangChain实验：仅优化Harness，Terminal Bench 2.0从52.8%→66.5%，排名#30→#5）[来源：LangChain Blog, 2026-02; 中文综合报道]</li>
+<li><strong>成功静默，失败 loud</strong>：通过测试不进入上下文，仅错误信息反馈给Agent</li>
+<li><strong>动态工具范围</strong>：规划阶段不需要文件写入权限，减少Token消耗和错误（Vercel实验：移除80%工具后任务成功率反而提升）[来源：行业报道, 2026-03]</li>
+</ul>
+<h3 id="关键组件"><a class="header" href="#关键组件">关键组件</a></h3>
+<ul>
+<li><strong>Contracts</strong>：输入输出约束、验证门、权限边界</li>
+<li><strong>Cognitive Memory</strong>：超越RAG，存储决策的"为什么"</li>
+<li><strong>File-backed State</strong>：外部化持久状态，路径可寻址</li>
+<li><strong>Failure Taxonomy</strong>：命名失败模式驱动恢复</li>
+</ul>
+<h2 id="行业验证"><a class="header" href="#行业验证">行业验证</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>公司/组织</th><th>实践</th><th>关键数据</th></tr></thead><tbody>
+<tr><td><strong>Anthropic</strong></td><td>三Agent Harness、Managed Agents、Claude Code</td><td>p50 TTFT↓60%，p95 TTFT↓90%+</td></tr>
+<tr><td><strong>OpenAI</strong></td><td>团队用Harness Engineering交付100万行生产代码</td><td>零手写代码</td></tr>
+<tr><td><strong>Stripe</strong></td><td>Minions体系每周合并1300+ AI编写的PR</td><td>持续运行</td></tr>
+<tr><td><strong>LangChain</strong></td><td>仅优化Harness，Terminal Bench 2.0得分从52.8%→66.5%</td><td>排名#30→#5</td></tr>
+</tbody></table>
+</div>
+<h3 id="stripe-minions-blueprint确定性智能体混合架构"><a class="header" href="#stripe-minions-blueprint确定性智能体混合架构">Stripe Minions Blueprint：确定性×智能体混合架构</a></h3>
+<p>Stripe内部自研的Agent编排框架，源于对Goose（Block/Square开源coding agent）的深度fork，解决"AI写代码不稳定"的核心问题。</p>
+<p><strong>核心创新：Blueprints = 确定性节点 + 智能体节点</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>节点类型</th><th>示例</th><th>特点</th></tr></thead><tbody>
+<tr><td><strong>确定性节点（Deterministic）</strong></td><td>git commit、lint、测试、创建分支、推送PR</td><td>硬编码步骤，100%可预测</td></tr>
+<tr><td><strong>智能体节点（Agentic）</strong></td><td>"实现任务描述"、"修复CI失败"</td><td>AI自主决策，输出不确定</td></tr>
+</tbody></table>
+</div>
+<p><strong>状态机设计</strong>：交替运行确定性代码节点和自由流动的Agent节点。例如：创建分支（确定）→ 写代码（Agent）→ 运行测试（确定）→ 修复失败（Agent）→ 推送PR（确定）。</p>
+<p><strong>关键子系统：</strong></p>
+<ul>
+<li><strong>上下文工程（Context Engineering）</strong>：规则按子目录条件应用，不是全局System Prompt。例如"只在infra/目录启用lint规则"，节省Token并减少误判。</li>
+<li><strong>Devbox</strong>：10秒启动的隔离开发环境，Agent在此沙箱中运行，与生产隔离。</li>
+<li><strong>MCP工具网络</strong>：内部"Toolshed"服务器连接400+ MCP工具，Agent按需调用。</li>
+<li><strong>并行化</strong>：同一Blueprint可在200+服务上同时运行。</li>
+<li><strong>多Agent协调</strong>：不同Agent专精不同任务类别（前端、后端、安全审计），中央编排器分配任务。</li>
+<li><strong>人类审查红线</strong>：AI只有提交权，没有合并权。所有PR需人类审查后才合并。</li>
+</ul>
+<h3 id="langchain-terminal-bench-20harness优化的对照实验"><a class="header" href="#langchain-terminal-bench-20harness优化的对照实验">LangChain Terminal Bench 2.0：Harness优化的"对照实验"</a></h3>
+<p>LangChain为验证"Harness&gt;模型"所做的对照实验，被Hugging Face Philipp Schmid称为"2026年最重要的验证"。</p>
+<p><strong>实验设计</strong>：固定模型（Claude 3.5 Sonnet），仅优化Harness，在SWE-Bench Terminal 2.0上测试。</p>
+<p><strong>优化维度与结果</strong>：</p>
+<div class="table-wrapper"><table><thead><tr><th>优化维度</th><th>具体措施</th><th>效果</th></tr></thead><tbody>
+<tr><td><strong>System Prompts</strong></td><td>结构化规划指令、Reasoning Sandwich（xhigh规划→high实现→xhigh验证）</td><td>基线提升</td></tr>
+<tr><td><strong>工具设计</strong></td><td>LocalContextMiddleware（自动映射工作目录和工具位置）、LoopDetectionMiddleware（追踪每文件编辑次数，N次后注入"重新考虑你的方法"）</td><td>减少死循环</td></tr>
+<tr><td><strong>Middleware层</strong></td><td>Trace Analyzer Skill：自动从LangSmith traces分析错误模式，类似boosting——失败案例自动反馈到Harness</td><td>持续提升</td></tr>
+<tr><td><strong>自验证循环</strong></td><td>时间预算警告、测试要求提示、输出验证</td><td>减少幻觉</td></tr>
+</tbody></table>
+</div>
+<p><strong>关键发现</strong>：</p>
+<ul>
+<li><strong>模型-specific Harness tuning</strong>：不同模型需要不同的Harness优化。Claude的Harness不能直接套到GPT上。</li>
+<li><strong>Reasoning Sandwich</strong>：规划用最高推理深度，实现用中等，验证再用最高——避免"想太多做太少"或"做太快想太少"。</li>
+<li><strong>开源承诺</strong>：公开了traces数据集和Deep Agents代码。</li>
+</ul>
+<p><strong>基础设施</strong>：Harbor + Daytona 编排Sandbox运行，支持大规模并行评估。</p>
+<h2 id="工具生态"><a class="header" href="#工具生态">工具生态</a></h2>
+<ul>
+<li><strong>LangGraph</strong>：状态管理图</li>
+<li><strong>E2B</strong>：安全Agent沙箱</li>
+<li><strong>ADK</strong>：Google Agent开发套件</li>
+<li><strong>MCP</strong>：模型控制协议（月下载9700万+）[来源：Anthropic官方及arxiv 2604.05969等多篇论文引用，2026年初数据]</li>
+</ul>
+<h2 id="关键洞察"><a class="header" href="#关键洞察">关键洞察</a></h2>
+<blockquote>
+<p>"在AI Agent时代，模型本身不再是瓶颈，围绕模型的外部系统设计才是决定性能的关键杠杆。"</p>
+</blockquote>
+<ul>
+<li>模型不变，Harness变，结果剧变</li>
+<li>环境比模型更重要</li>
+<li>需要定期Lint：清理随模型升级而过时的workaround</li>
+<li><strong>Context Anxiety</strong>：模型接近上下文上限时倾向于提前结束任务，Harness需处理</li>
+</ul>
+<h2 id="相关实体"><a class="header" href="#相关实体">相关实体</a></h2>
+<ul>
+<li><a href="part2/../entities/anthropic.html">Anthropic</a></li>
+<li><a href="part2/../entities/openai.html">OpenAI</a></li>
+</ul>
+<h2 id="引用来源"><a class="header" href="#引用来源">引用来源</a></h2>
+<ul>
+<li><a href="https://openai.com/index/harness-engineering/">OpenAI: Harness Engineering</a> (2026-02)</li>
+<li><a href="https://www.anthropic.com/engineering/managed-agents">Anthropic Engineering: Managed Agents</a> (2026-04)</li>
+<li><a href="https://www.anthropic.com/research/trustworthy-agents">Anthropic Research: Trustworthy Agents</a> (2026-04)</li>
+<li><a href="https://ai.gopubby.com/harness-engineering-what-every-ai-engineer-needs-to-know-in-2026-0ab649e5686a">Harness Engineering: What Every AI Engineer Needs</a> (2026-04)</li>
+<li><a href="https://cozypet.github.io/five-layers-harness/v2.html">Harness五层架构详解</a> (2026-04)</li>
+<li><del><a href="https://juejin.cn/post/7629339148294209551">从Harness Engineering到本地智能</a></del> (2026-04) [⚠️内容不符：实际为端脑科技硬件产品软文，非Harness技术详解]</li>
+<li><a href="https://mitchellh.com/writing">Mitchell Hashimoto: My AI Adoption Journey</a> (2026-02)</li>
+<li><a href="https://martinfowler.com/">ThoughtWorks: Harness Engineering框架</a> (2026)</li>
+</ul>
+<hr />
+<p><strong>延伸阅读</strong>：</p>
+<ul>
+<li><a href="part2/../sources/anthropic-three-agent-harness.html">Anthropic 三Agent架构</a></li>
+<li><a href="part2/../sources/anthropic-managed-agents.html">Anthropic Managed Agents</a></li>
+<li><a href="part2/../sources/stripe-minions-blueprint.html">Stripe Minions Blueprint</a></li>
+<li><a href="part2/../sources/langchain-terminal-bench-20.html">LangChain Terminal Bench 2.0</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="anthropic三agent架构与managed-agents"><a class="header" href="#anthropic三agent架构与managed-agents">Anthropic：三Agent架构与Managed Agents</a></h1>
+<blockquote>
+<p>Anthropic是Harness Engineering的领导者，"Planner-Generator-Evaluator"三Agent分离是其核心创新。</p>
+</blockquote>
+<h1 id="anthropic"><a class="header" href="#anthropic">Anthropic</a></h1>
+<blockquote>
+<p>类型：模型厂商 | 核心产品：Claude系列 | 最后更新：2026-05-09</p>
+</blockquote>
+<h2 id="简介"><a class="header" href="#简介">简介</a></h2>
+<p>Anthropic是AI安全和对齐研究的前沿公司，Claude系列模型以长上下文和可靠性著称。2026年，Anthropic在Harness Engineering方法论上处于行业领先地位。</p>
+<h2 id="最新动态"><a class="header" href="#最新动态">最新动态</a></h2>
+<h3 id="2026-04harness-engineering-领导者"><a class="header" href="#2026-04harness-engineering-领导者">2026-04：Harness Engineering 领导者</a></h3>
+<p><strong>核心贡献</strong></p>
+<ul>
+<li>2026年2月发布工程博客《Harness design for long-running application development》</li>
+<li>提出三Agent Harness架构：Planner-Generator-Evaluator</li>
+<li>发布三篇 Harness 相关论文</li>
+<li>被Hugging Face的Philipp Schmid称为"2026年最重要的学科"</li>
+</ul>
+<p><strong>三Agent Harness设计</strong></p>
+<ul>
+<li><strong>Planner</strong>：负责规划</li>
+<li><strong>Generator</strong>：负责生成</li>
+<li><strong>Evaluator</strong>：负责评估（使用Playwright MCP导航实时页面）</li>
+<li>迭代5-15轮，有时长达4小时</li>
+<li>关键原则：AI只能通过验证来证明任务完成，不能自我声明</li>
+</ul>
+<p><strong>Managed Agents</strong></p>
+<ul>
+<li>将Agent拆解为Session / Harness / Sandbox三层</li>
+<li>Harness（大脑）与Sandbox（双手）完全解耦</li>
+<li>性能提升：p50 TTFT下降60%，p95 TTFT下降90%以上</li>
+</ul>
+<h3 id="2026-04opus-47-发布"><a class="header" href="#2026-04opus-47-发布">2026-04：Opus 4.7 发布</a></h3>
+<ul>
+<li>第三代模型（不到一年内）</li>
+<li>每次升级不仅改进模型，还简化Harness</li>
+<li>3月负载的组件到4月变成死重（需要定期清理workaround）</li>
+</ul>
+<h2 id="技术理念"><a class="header" href="#技术理念">技术理念</a></h2>
+<p><strong>公式</strong>：Agent = Model + Harness</p>
+<ul>
+<li>传统SDD关注"代码如何运行"</li>
+<li>Harness Engineering关注"AI如何在环境中生存和决策"</li>
+</ul>
+<h2 id="相关概念"><a class="header" href="#相关概念">相关概念</a></h2>
+<ul>
+<li><a href="part2/../concepts/harness-methodology.html">Harness方法论</a></li>
+<li><a href="part2/../concepts/rlhf.html">RLHF</a></li>
+</ul>
+<h2 id="引用来源-1"><a class="header" href="#引用来源-1">引用来源</a></h2>
+<ul>
+<li><a href="https://www.anthropic.com/engineering/managed-agents">Anthropic工程博客：Managed Agents</a> (2026-04)</li>
+<li><a href="https://www.anthropic.com/research/trustworthy-agents">Anthropic研究：Building trustworthy AI agents</a> (2026-04)</li>
+<li><a href="https://www.cnblogs.com/qiniushanghai/p/19857911">Harness Engineering详解（中文）</a> (2026-04)</li>
+<li><a href="https://openai.com/index/harness-engineering/">OpenAI Harness Engineering案例</a> (2026-02)</li>
+<li><a href="https://blog.langchain.dev/">LangChain Harness实验</a> (2026)</li>
+<li><a href="https://huggingface.co/">Hugging Face Philipp Schmid评论</a> (2026)</li>
+</ul>
+<hr />
+<p><strong>源文件摘要</strong>：</p>
+<ul>
+<li><a href="part2/../sources/anthropic-three-agent-harness.html">三Agent Harness架构</a></li>
+<li><a href="part2/../sources/anthropic-managed-agents.html">Managed Agents产品化</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="openai100万行零手写代码"><a class="header" href="#openai100万行零手写代码">OpenAI：100万行零手写代码</a></h1>
+<blockquote>
+<p>OpenAI是Harness Engineering的发起者，团队用Agent交付100万行生产代码，零手写。</p>
+</blockquote>
+<h1 id="openai"><a class="header" href="#openai">OpenAI</a></h1>
+<p><strong>类型</strong>：模型厂商 / 平台型公司<br />
+<strong>总部</strong>：美国旧金山<br />
+<strong>关键人物</strong>：Sam Altman (CEO), Greg Brockman, Ilya Sutskever (前首席科学家), Mark Chen (VP Research), Noam Brown (推理研究)</p>
+<hr />
+<h2 id="-时间线"><a class="header" href="#-时间线">🏛️ 时间线</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>时间</th><th>事件</th><th>来源</th></tr></thead><tbody>
+<tr><td>2015-12</td><td>OpenAI成立，非营利AI研究机构</td><td>openai.com</td></tr>
+<tr><td>2018-06</td><td>GPT-1发布（1.17亿参数），无监督预训练+微调范式确立</td><td>arxiv.org</td></tr>
+<tr><td>2019-02</td><td>GPT-2发布（15亿参数），因"太危险"暂缓完整开源</td><td>openai.com</td></tr>
+<tr><td>2019-07</td><td>从非营利转为"利润上限"模式，获微软10亿美元投资</td><td>openai.com</td></tr>
+<tr><td>2020-06</td><td>GPT-3发布（1750亿参数），API商业化启动</td><td>arxiv.org</td></tr>
+<tr><td>2022-11</td><td>ChatGPT发布（基于GPT-3.5），5天用户破百万</td><td>openai.com</td></tr>
+<tr><td>2023-03</td><td>GPT-4发布，多模态能力、更可靠但闭源</td><td>openai.com</td></tr>
+<tr><td>2023-11</td><td>GPT-4 Turbo + GPTs（自定义Agent）+ Assistants API</td><td>openai.com/devday</td></tr>
+<tr><td>2024-05</td><td>GPT-4o（"omni"）发布，原生多模态，延迟大幅降低</td><td>openai.com</td></tr>
+<tr><td>2024-09</td><td>o1-preview / o1-mini 发布，测试时计算扩展（Test-Time Compute）</td><td>openai.com</td></tr>
+<tr><td>2024-12</td><td>o3 / o3-mini 发布，推理能力大幅跃升，ARC-AGI突破</td><td>openai.com</td></tr>
+<tr><td>2025-01</td><td>ChatGPT Operator发布，AI Agent可自主浏览网页执行任务</td><td>openai.com</td></tr>
+<tr><td>2025-03</td><td>GPT-4.5发布，"情商最高"的模型，规模巨大但推理成本极高</td><td>openai.com</td></tr>
+<tr><td>2025-05</td><td>Codex CLI / Codex Agent 发布，终端AI编码助手</td><td>openai.com</td></tr>
+<tr><td>2026-02</td><td><strong>Harness Engineering方法论公开</strong>：100万行AI编写生产代码，零手写</td><td>OpenAI工程博客</td></tr>
+<tr><td>2026-03</td><td><strong>GPT-OSS-120B开源</strong>：MoE架构（117B总量/5.1B激活），RL训练</td><td>arxiv.org</td></tr>
+<tr><td>2026-04</td><td>o4-mini 发布，低成本推理模型，API定价$1.10/$4.40 per 1M tokens</td><td>openai.com</td></tr>
+<tr><td>2026-05</td><td>Stargate项目推进，与SK海力士/三星签署90万片DRAM晶圆/月供应意向</td><td>供应链消息</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-关键模型矩阵"><a class="header" href="#-关键模型矩阵">🔑 关键模型矩阵</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>系列</th><th>定位</th><th>架构特点</th><th>最新版本</th><th>开源状态</th></tr></thead><tbody>
+<tr><td>GPT系列</td><td>通用对话</td><td>Dense Transformer</td><td>GPT-4.5</td><td>闭源</td></tr>
+<tr><td>o系列</td><td>深度推理</td><td>Test-Time Compute Scaling</td><td>o4-mini</td><td>闭源</td></tr>
+<tr><td>Codex</td><td>代码Agent</td><td>Agentic Coding</td><td>Codex CLI</td><td>闭源（产品）</td></tr>
+<tr><td>GPT-OSS</td><td>开源旗舰</td><td>MoE（117B/5.1B激活）</td><td>GPT-OSS-120B</td><td><strong>开源</strong></td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-核心技术路线"><a class="header" href="#-核心技术路线">🚀 核心技术路线</a></h2>
+<h3 id="1-test-time-compute-scaling测试时计算扩展"><a class="header" href="#1-test-time-compute-scaling测试时计算扩展">1. Test-Time Compute Scaling（测试时计算扩展）</a></h3>
+<ul>
+<li><strong>核心思想</strong>：在推理阶段投入更多计算资源（更多思考步骤、更多验证），而非仅扩大模型规模</li>
+<li><strong>o系列模型</strong>：o1→o3→o4，每次迭代都在推理时"多想一会"</li>
+<li><strong>关键论文</strong>："Scaling LLM Test-Time Compute Optimally"（2024）</li>
+<li><strong>影响</strong>：改变了"更大模型=更好性能"的单一范式</li>
+</ul>
+<h3 id="2-harness-engineering"><a class="header" href="#2-harness-engineering">2. Harness Engineering</a></h3>
+<ul>
+<li><strong>2026年2月公开</strong>：团队交付100万行生产代码，零手写</li>
+<li><strong>人类角色</strong>：设计约束、反馈循环、文档结构、依赖规则</li>
+<li><strong>Agent角色</strong>：写代码、生成测试、部署</li>
+<li><strong>核心公式</strong>：<code>Agent = Model + Harness</code></li>
+<li><strong>与Anthropic差异</strong>：OpenAI走"Raw Power"路线，Anthropic走"结构化可靠性"路线</li>
+</ul>
+<h3 id="3-moe架构探索gpt-oss-120b"><a class="header" href="#3-moe架构探索gpt-oss-120b">3. MoE架构探索（GPT-OSS-120B）</a></h3>
+<ul>
+<li><strong>参数规模</strong>：117B总量 / 5.1B激活</li>
+<li><strong>架构细节</strong>：
+<ul>
+<li>36层Transformer</li>
+<li>128个专家 (experts)，top-4 routing</li>
+<li>Hidden dimension 2880</li>
+<li>64个attention heads</li>
+<li>Grouped Query Attention (group size 8)</li>
+<li>128K context window</li>
+</ul>
+</li>
+<li><strong>量化</strong>：原生MXFP4量化（仅MoE权重），BF16用于其他tensor</li>
+<li><strong>训练方法</strong>：RL（强化学习）而非SFT+DPO</li>
+<li><strong>开源许可</strong>：Apache 2.0 license（可商用、可修改、可分发）</li>
+<li><strong>可配置推理</strong>：reasoning effort可调（low/medium/high）</li>
+<li><strong>意义</strong>：OpenAI首次开源Tier 2旗舰模型，验证MoE+RL的可行性</li>
+</ul>
+<hr />
+<h2 id="-关键数据"><a class="header" href="#-关键数据">📊 关键数据</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
+<tr><td>ChatGPT周活用户</td><td>5亿+（2026年初）</td><td>OpenAI官方</td></tr>
+<tr><td>API开发者</td><td>300万+</td><td>OpenAI官方</td></tr>
+<tr><td>o4-mini定价</td><td>$1.10/$4.40 per 1M tokens</td><td>openai.com</td></tr>
+<tr><td>GPT-4.5定价</td><td>$75/$150 per 1M tokens</td><td>openai.com</td></tr>
+<tr><td>Stargate项目预算</td><td>$5000亿（10年计划）</td><td>公开报道</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-相关页面"><a class="header" href="#-相关页面">🔗 相关页面</a></h2>
+<ul>
+<li><a href="part2/../concepts/harness-methodology.html">concepts/harness-methodology.md</a> — Harness方法论深度分析</li>
+<li><a href="part2/../concepts/test-time-compute.html">concepts/test-time-compute.md</a> — 测试时计算扩展详解</li>
+<li><a href="part2/../concepts/rlhf.html">concepts/rlhf.md</a> — RLHF训练方法</li>
+<li><a href="part2/../weekly-digest/2026-05-09.html">weekly-digest/2026-05-09.md</a> — 首日Harness Engineering记录</li>
+</ul>
+<hr />
+<p><em>最后更新：2026-05-09</em><br />
+<em>信息来源：OpenAI官方博客、arxiv.org、infoq.com、工程博客</em></p>
+<hr />
+<p><strong>关键模型</strong>：</p>
+<ul>
+<li>GPT-OSS-120B：OpenAI首个开源模型（<a href="part2/../sources/openai-gpt-oss-120b.html">技术规格</a>）</li>
+<li>o4-mini：低成本推理模型</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="stripe-minions确定性智能体混合架构"><a class="header" href="#stripe-minions确定性智能体混合架构">Stripe Minions：确定性×智能体混合架构</a></h1>
+<blockquote>
+<p>Stripe内部自研的Agent编排框架，核心洞察：70%的步骤不需要AI的不确定性。</p>
+</blockquote>
+<h1 id="stripe-minions-blueprint-架构详解"><a class="header" href="#stripe-minions-blueprint-架构详解">Stripe Minions Blueprint 架构详解</a></h1>
+<blockquote>
+<p>来源：Mitchell Hashimoto博客（Stripe工程师，HashiCorp创始人），Stripe工程博客<br />
+日期：2025-2026<br />
+关联：<a href="part2/../concepts/harness-methodology.html">concepts/harness-methodology.md</a> | <a href="part2/../entities/stripe.html">entities/stripe.md</a></p>
+</blockquote>
+<hr />
+<h2 id="背景"><a class="header" href="#背景">背景</a></h2>
+<p>Stripe内部自研的AI Agent编排框架，源于对<strong>Goose</strong>（Block/Square开源coding agent）的深度fork。核心目标是解决"AI写代码不稳定"的问题——让Agent既能自主发挥创造力，又在关键步骤上完全可控。</p>
+<p>Stripe称这套系统为<strong>Minions</strong>，核心编排单元叫<strong>Blueprint</strong>。</p>
+<hr />
+<h2 id="核心创新blueprints--确定性节点--智能体节点"><a class="header" href="#核心创新blueprints--确定性节点--智能体节点">核心创新：Blueprints = 确定性节点 + 智能体节点</a></h2>
+<p>Stripe的关键洞察：不是所有步骤都需要AI的不确定性。有些步骤应该100%可预测。</p>
+<div class="table-wrapper"><table><thead><tr><th>节点类型</th><th>示例</th><th>执行方式</th><th>占比</th></tr></thead><tbody>
+<tr><td><strong>确定性节点（Deterministic）</strong></td><td>git commit、lint、测试、创建分支、推送PR、代码格式化</td><td>硬编码步骤，100%可预测</td><td>~70%</td></tr>
+<tr><td><strong>智能体节点（Agentic）</strong></td><td>"实现任务描述"、"修复CI失败"、"重构模块"</td><td>AI自主决策，输出不确定</td><td>~30%</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="状态机设计"><a class="header" href="#状态机设计">状态机设计</a></h2>
+<p>Blueprints的运行方式是<strong>交替执行</strong>：</p>
+<pre><code>创建分支（确定）→ 写代码（Agent）→ 运行测试（确定）→ 修复失败（Agent）→ 代码格式化（确定）→ 推送PR（确定）→ 请求审查（确定）
+</code></pre>
+<p><strong>关键规则</strong>：</p>
+<ul>
+<li>Agent节点之前/之后必须有确定性节点作为"锚点"</li>
+<li>如果Agent节点失败（测试未通过），自动重试或路由到修复分支</li>
+<li>确定性节点失败（如lint错误）直接终止，不浪费Agent调用</li>
+</ul>
+<hr />
+<h2 id="关键子系统"><a class="header" href="#关键子系统">关键子系统</a></h2>
+<h3 id="1-上下文工程context-engineering"><a class="header" href="#1-上下文工程context-engineering">1. 上下文工程（Context Engineering）</a></h3>
+<p><strong>不是全局System Prompt，而是条件化规则</strong>：</p>
+<pre><code class="language-yaml">rules:
+  - path: "infra/"
+    apply: [terraform-lint, aws-policy-check]
+  - path: "web/"
+    apply: [react-best-practices, accessibility-check]
+  - path: "api/"
+    apply: [openapi-validate, rate-limit-check]
+</code></pre>
+<p><strong>效果</strong>：</p>
+<ul>
+<li>每个文件只加载相关的规则，不加载全部规则</li>
+<li>节省Token（上下文窗口更高效利用）</li>
+<li>减少误判（不会因为全局规则而错误地约束局部代码）</li>
+</ul>
+<h3 id="2-devbox隔离开发环境"><a class="header" href="#2-devbox隔离开发环境">2. Devbox（隔离开发环境）</a></h3>
+<ul>
+<li><strong>10秒启动</strong>：预配置的Docker容器，包含所有依赖</li>
+<li><strong>与生产隔离</strong>：Agent在此沙箱中运行，无法触及生产环境</li>
+<li><strong>状态持久化</strong>：每个Blueprint实例有自己的文件系统状态</li>
+<li><strong>并行化基础</strong>：因为隔离，同一Blueprint可在200+服务上同时运行</li>
+</ul>
+<h3 id="3-mcp工具网络toolshed"><a class="header" href="#3-mcp工具网络toolshed">3. MCP工具网络（Toolshed）</a></h3>
+<ul>
+<li>内部"Toolshed"服务器连接<strong>400+ MCP工具</strong></li>
+<li>Agent按需调用，不是一次性加载全部工具</li>
+<li>工具分为：代码工具（lint、test、format）、基础设施工具（deploy、rollback）、通信工具（slack、email）</li>
+</ul>
+<h3 id="4-多agent协调"><a class="header" href="#4-多agent协调">4. 多Agent协调</a></h3>
+<ul>
+<li><strong>不同Agent专精不同领域</strong>：前端Agent、后端Agent、安全审计Agent、文档Agent</li>
+<li><strong>中央编排器</strong>：根据Blueprint步骤和当前上下文，分配给最适合的Agent</li>
+<li><strong>Agent间通信</strong>：通过共享状态（File-backed State）传递上下文</li>
+</ul>
+<h3 id="5-人类审查红线"><a class="header" href="#5-人类审查红线">5. 人类审查红线</a></h3>
+<p><strong>AI只有提交权，没有合并权</strong>：</p>
+<ul>
+<li>Agent可以创建PR、推送代码、请求审查</li>
+<li>但所有PR必须经过人类审查才能合并</li>
+<li>审查者可以看到Agent的完整思考过程（Trace）</li>
+<li>如果Agent频繁犯同类错误，审查者可以反馈到Blueprint规则中</li>
+</ul>
+<hr />
+<h2 id="关键数据"><a class="header" href="#关键数据">关键数据</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
+<tr><td>每周合并PR数</td><td>1300+（AI编写）</td><td>Stripe内部统计</td></tr>
+<tr><td>Blueprint覆盖率</td><td>200+服务</td><td>Stripe内部</td></tr>
+<tr><td>MCP工具数</td><td>400+</td><td>Toolshed服务器</td></tr>
+<tr><td>确定性节点占比</td><td>~70%</td><td>架构设计</td></tr>
+<tr><td>平均PR审查时间</td><td>&lt;2小时</td><td>Stripe工程博客</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="与anthropicopenai-harness策略对比"><a class="header" href="#与anthropicopenai-harness策略对比">与Anthropic/OpenAI Harness策略对比</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>维度</th><th>Stripe</th><th>Anthropic</th><th>OpenAI</th></tr></thead><tbody>
+<tr><td>核心策略</td><td>确定性×智能体混合</td><td>三Agent分离</td><td>Raw Power</td></tr>
+<tr><td>Harness层级</td><td>Blueprint状态机</td><td>Planner-Generator-Evaluator</td><td>约束+反馈循环</td></tr>
+<tr><td>人类角色</td><td>审查者（合并前必审）</td><td>设计者（定期Lint）</td><td>架构师（设计约束）</td></tr>
+<tr><td>并行化</td><td>200+服务同时</td><td>Session级</td><td>项目级</td></tr>
+<tr><td>工具数量</td><td>400+ MCP</td><td>Playwright MCP等</td><td>内部工具</td></tr>
+<tr><td>关键洞察</td><td>"70%步骤不需要AI"</td><td>"Harness随模型进化"</td><td>"环境比模型重要"</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="引用来源-2"><a class="header" href="#引用来源-2">引用来源</a></h2>
+<ul>
+<li>Mitchell Hashimoto个人博客：mitchellh.com/writing（2026-02，关于AI采用历程）</li>
+<li>Stripe工程博客：stripe.com/blog（2025-2026，Minions系统介绍）</li>
+<li>Goose项目：block.github.io/goose（开源coding agent，Stripe fork的基础）</li>
+<li>行业报道：mindstudio.ai/blog/what-is-ai-agent-harness-stripe-minions/（2026-03，Stripe Minions概述）</li>
+</ul>
+<hr />
+<p><strong>关键数据</strong>：</p>
+<ul>
+<li>每周合并1300+ AI编写的PR</li>
+<li>200+服务并行运行</li>
+<li>400+ MCP工具</li>
+<li>确定性节点占比~70%</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="langchain模型不变harness变结果剧变"><a class="header" href="#langchain模型不变harness变结果剧变">LangChain：模型不变，Harness变，结果剧变</a></h1>
+<blockquote>
+<p>LangChain的对照实验证明了"Harness &gt; 模型"：固定Claude 3.5 Sonnet，仅优化Harness，SWE-Bench从52.8%→66.5%。</p>
+</blockquote>
+<h1 id="langchain-terminal-bench-20-harness优化详解"><a class="header" href="#langchain-terminal-bench-20-harness优化详解">LangChain Terminal Bench 2.0 Harness优化详解</a></h1>
+<blockquote>
+<p>来源：LangChain工程博客，LangChain官方文档，Hugging Face Philipp Schmid评论<br />
+日期：2026-02<br />
+关联：<a href="part2/../concepts/harness-methodology.html">concepts/harness-methodology.md</a> | <a href="part2/../entities/langchain.html">entities/langchain.md</a></p>
+</blockquote>
+<hr />
+<h2 id="实验背景"><a class="header" href="#实验背景">实验背景</a></h2>
+<p>LangChain为验证"Harness &gt; 模型"所做的对照实验。固定模型（Claude 3.5 Sonnet），仅优化Harness，在SWE-Bench Terminal 2.0上测试。</p>
+<p><strong>结果</strong>：</p>
+<ul>
+<li>基线：52.8% → 优化后：66.5%</li>
+<li>排名：#30 → #5</li>
+<li>模型不变，Harness变，结果剧变</li>
+</ul>
+<p>Hugging Face Philipp Schmid称此实验为"<strong>2026年最重要的验证</strong>"。</p>
+<hr />
+<h2 id="优化维度"><a class="header" href="#优化维度">优化维度</a></h2>
+<h3 id="1-system-prompts-层"><a class="header" href="#1-system-prompts-层">1. System Prompts 层</a></h3>
+<p><strong>Reasoning Sandwich（推理三明治）</strong>：</p>
+<pre><code>xhigh reasoning  ← 规划阶段：最高推理深度，拆解任务
+    ↓
+  high reasoning  ← 实现阶段：中等深度，专注执行
+    ↓
+xhigh reasoning  ← 验证阶段：最高深度，检查输出
+</code></pre>
+<p><strong>原理</strong>：</p>
+<ul>
+<li>规划时"想太多"：防止方向错误</li>
+<li>实现时"做实事"：避免过度分析导致行动 paralysis</li>
+<li>验证时"再想想"：确保质量</li>
+</ul>
+<p><strong>效果</strong>：减少"分析瘫痪"和"行动草率"两类失败。</p>
+<hr />
+<h3 id="2-工具设计层"><a class="header" href="#2-工具设计层">2. 工具设计层</a></h3>
+<h4 id="localcontextmiddleware"><a class="header" href="#localcontextmiddleware">LocalContextMiddleware</a></h4>
+<p><strong>功能</strong>：Agent启动时自动映射当前工作目录和工具位置。</p>
+<p><strong>问题</strong>：传统方式Agent每次调用工具都要推断"我在哪"、"工具在哪"，浪费Token且易错。</p>
+<p><strong>解决</strong>：Middleware在Agent启动时注入当前目录结构、可用工具列表、文件路径映射。</p>
+<h4 id="loopdetectionmiddleware"><a class="header" href="#loopdetectionmiddleware">LoopDetectionMiddleware</a></h4>
+<p><strong>功能</strong>：追踪每个文件的编辑次数。</p>
+<p><strong>问题</strong>：Agent容易陷入"反复修改同一文件"的死循环。</p>
+<p><strong>解决</strong>：</p>
+<ul>
+<li>当某文件被编辑N次（阈值可配置，通常3-5次），自动注入系统消息：
+<blockquote>
+<p>"你已对此文件编辑多次仍未成功。请重新考虑你的方法，尝试不同的策略。"</p>
+</blockquote>
+</li>
+<li>如果继续循环，升级到更高级别的干预（如切换到另一个Agent或请求人类介入）。</li>
+</ul>
+<p><strong>效果</strong>：显著减少死循环导致的超时和失败。</p>
+<hr />
+<h3 id="3-middleware层"><a class="header" href="#3-middleware层">3. Middleware层</a></h3>
+<h4 id="trace-analyzer-skill"><a class="header" href="#trace-analyzer-skill">Trace Analyzer Skill</a></h4>
+<p><strong>功能</strong>：自动从LangSmith traces分析错误模式。</p>
+<p><strong>原理</strong>：</p>
+<ol>
+<li>收集所有失败的traces</li>
+<li>自动分类失败模式（如"文件未找到"、"测试未通过"、"权限错误"）</li>
+<li>生成Harness优化建议（如"在步骤X前添加目录检查"、"为工具Y添加重试逻辑"）</li>
+<li>类似<strong>boosting</strong>：每轮分析后Harness自动增强</li>
+</ol>
+<p><strong>效果</strong>：形成"失败→分析→优化→再测试"的自提升循环。</p>
+<hr />
+<h3 id="4-自验证循环"><a class="header" href="#4-自验证循环">4. 自验证循环</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>验证机制</th><th>触发条件</th><th>作用</th></tr></thead><tbody>
+<tr><td><strong>时间预算警告</strong></td><td>任务耗时超过预算的50%</td><td>提醒Agent加快或调整策略</td></tr>
+<tr><td><strong>测试要求提示</strong></td><td>Agent声称"完成"时</td><td>强制要求运行测试验证</td></tr>
+<tr><td><strong>输出验证</strong></td><td>生成代码后</td><td>自动lint、类型检查、格式检查</td></tr>
+<tr><td><strong>中间检查点</strong></td><td>每完成一个子任务</td><td>验证中间产物是否符合预期</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="关键发现"><a class="header" href="#关键发现">关键发现</a></h2>
+<h3 id="发现1模型-specific-harness-tuning"><a class="header" href="#发现1模型-specific-harness-tuning">发现1：模型-specific Harness tuning</a></h3>
+<p><strong>Claude的Harness不能直接套到GPT上</strong>。</p>
+<div class="table-wrapper"><table><thead><tr><th>模型</th><th>最优Harness差异</th></tr></thead><tbody>
+<tr><td>Claude 3.5 Sonnet</td><td>需要更多结构化指令，Reasoning Sandwich效果好</td></tr>
+<tr><td>GPT-4o</td><td>对工具描述更敏感，需要更详细的tool schema</td></tr>
+<tr><td>Gemini 1.5 Pro</td><td>长上下文能力强，可以加载更多文件到context</td></tr>
+</tbody></table>
+</div>
+<p><strong>结论</strong>：Harness必须针对具体模型定制，不存在"万能Harness"。</p>
+<h3 id="发现2开源承诺"><a class="header" href="#发现2开源承诺">发现2：开源承诺</a></h3>
+<p>LangChain公开了：</p>
+<ul>
+<li><strong>Traces数据集</strong>：失败的traces（脱敏后）供社区分析</li>
+<li><strong>Deep Agents代码</strong>：Harness框架开源</li>
+<li><strong>评估方法</strong>：如何复现52.8%→66.5%的完整步骤</li>
+</ul>
+<hr />
+<h2 id="基础设施"><a class="header" href="#基础设施">基础设施</a></h2>
+<ul>
+<li><strong>Harbor</strong>：任务编排器，管理Agent生命周期</li>
+<li><strong>Daytona</strong>：Sandbox运行环境，隔离Agent执行</li>
+<li><strong>LangSmith</strong>： observability平台，收集traces和metrics</li>
+<li><strong>评估规模</strong>：数百个SWE-Bench任务，并行运行</li>
+</ul>
+<hr />
+<h2 id="引用来源-3"><a class="header" href="#引用来源-3">引用来源</a></h2>
+<ul>
+<li>LangChain工程博客：blog.langchain.dev（2026-02，Harness优化系列文章）</li>
+<li>LangChain官方文档：python.langchain.com/docs（Terminal Bench 2.0指南）</li>
+<li>Hugging Face Philipp Schmid：huggingface.co/blog（2026-03，"2026年最重要的学科"评论）</li>
+<li>行业报道：gonetech.net（2026-04-21，Harness Engineering vs SDD对比）</li>
+<li>CSDN报道：2026-04-17（LangChain 4.0 Harness Edition）</li>
+</ul>
+<hr />
+<p><strong>核心洞察</strong>：</p>
+<ul>
+<li>Reasoning Sandwich：规划用最高深度，实现用中等，验证再用最高</li>
+<li>LoopDetectionMiddleware：N次编辑后自动提示"重新考虑方法"</li>
+<li>Trace Analyzer Skill：从失败traces自动学习，类似boosting</li>
+<li><strong>模型-specific Harness tuning</strong>：Claude的Harness不能直接套到GPT上</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="月之暗面agent-swarm-100子agent并行"><a class="header" href="#月之暗面agent-swarm-100子agent并行">月之暗面：Agent Swarm 100子Agent并行</a></h1>
+<blockquote>
+<p>Kimi K2.5的核心差异化：不是"模型+Agent wrapper"，而是模型本身为Agent Swarm优化。</p>
+</blockquote>
+<h1 id="月之暗面-kimi-k25-深度分析"><a class="header" href="#月之暗面-kimi-k25-深度分析">月之暗面 Kimi K2.5 深度分析</a></h1>
+<blockquote>
+<p>来源：月之暗面官方博客，开源中国，行业分析报告<br />
+日期：2026-04<br />
+关联：<a href="part2/../entities/moonshot.html">entities/moonshot.md</a> | <a href="part2/../concepts/harness-methodology.html">concepts/harness-methodology.md</a></p>
+</blockquote>
+<hr />
+<h2 id="发布背景"><a class="header" href="#发布背景">发布背景</a></h2>
+<p>2026年4月，月之暗面发布Kimi K2.5，定位为中国版"开源+Agent原生"的旗舰模型。核心差异化：</p>
+<ul>
+<li><strong>原生多模态</strong>：1.5T混合token预训练（视觉+文本）</li>
+<li><strong>Agent Swarm</strong>：模型本身为Agent编排优化</li>
+<li><strong>激进定价</strong>：API价格比OpenAI/Anthropic低一个数量级</li>
+</ul>
+<hr />
+<h2 id="技术架构"><a class="header" href="#技术架构">技术架构</a></h2>
+<h3 id="1-15t混合token预训练"><a class="header" href="#1-15t混合token预训练">1. 1.5T混合Token预训练</a></h3>
+<ul>
+<li><strong>视觉token + 文本token联合预训练</strong>：不是先训练文本模型再对齐视觉，而是一起训练。</li>
+<li><strong>效果</strong>：视觉理解能力更原生，不是"后天生硬的嫁接"。</li>
+</ul>
+<h3 id="2-零视觉监督微调zero-shot-vision-sft"><a class="header" href="#2-零视觉监督微调zero-shot-vision-sft">2. 零视觉监督微调（Zero-shot Vision SFT）</a></h3>
+<p><strong>核心发现</strong>：仅用<strong>文本数据</strong>微调模型，就能激活其视觉推理能力。</p>
+<ul>
+<li>不需要成对的图像-文本标注数据。</li>
+<li>大幅降低多模态模型的微调成本。</li>
+<li><strong>意义</strong>：可能改变多模态模型的训练范式。</li>
+</ul>
+<h3 id="3-agent-swarm智能体集群"><a class="header" href="#3-agent-swarm智能体集群">3. Agent Swarm（智能体集群）</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>特性</th><th>数据</th></tr></thead><tbody>
+<tr><td>最大子Agent数</td><td>100个并行</td></tr>
+<tr><td>并行工具调用</td><td>1500次/任务</td></tr>
+<tr><td>协调方式</td><td>中央编排器 + 共享状态</td></tr>
+<tr><td>应用场景</td><td>复杂任务分解、多步骤工作流</td></tr>
+</tbody></table>
+</div>
+<p><strong>对比</strong>：</p>
+<ul>
+<li>OpenAI：单Agent + 工具调用</li>
+<li>Anthropic：三Agent分离</li>
+<li>月之暗面：Swarm并行（更像"蜂群思维"）</li>
+</ul>
+<h3 id="4-parl训练parallel-agent-reinforcement-learning"><a class="header" href="#4-parl训练parallel-agent-reinforcement-learning">4. PARL训练（Parallel-Agent Reinforcement Learning）</a></h3>
+<ul>
+<li><strong>并行Agent强化学习</strong>：多个Agent同时训练，互相提供反馈。</li>
+<li><strong>效果</strong>：端到端时间减少80%，效率提升4.5倍。</li>
+<li><strong>原理</strong>：传统RL是串行试错，PARL是并行探索+共享经验。</li>
+</ul>
+<h3 id="5-kimi-code"><a class="header" href="#5-kimi-code">5. Kimi Code</a></h3>
+<ul>
+<li><strong>终端运行</strong>：命令行直接调用。</li>
+<li><strong>IDE集成</strong>：VSCode、Cursor、Zed插件。</li>
+<li><strong>SWE-Bench Verified</strong>：76.8%（接近Claude 3.7 Sonnet的80%+）。</li>
+</ul>
+<hr />
+<h2 id="关键数据-1"><a class="header" href="#关键数据-1">关键数据</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>对比</th></tr></thead><tbody>
+<tr><td>总参数量</td><td>1T（激活32B，MoE）</td><td>DeepSeek V3: 671B/37B</td></tr>
+<tr><td>上下文长度</td><td>32K</td><td>GPT-4o: 128K</td></tr>
+<tr><td>SWE-Bench Verified</td><td>76.8%</td><td>Claude 3.7: 80%+</td></tr>
+<tr><td>Agent Swarm并行</td><td>100子Agent</td><td>Anthropic: 3 Agent</td></tr>
+<tr><td>并行工具调用</td><td>1500次/任务</td><td>OpenAI: 数百次</td></tr>
+<tr><td>API输入价格</td><td>$0.6/M tokens</td><td>GPT-4o: $2.5/M</td></tr>
+<tr><td>API输出价格</td><td>$3/M tokens</td><td>GPT-4o: $10/M</td></tr>
+<tr><td>降价幅度</td><td>输入-48%，输出-60%+</td><td>—</td></tr>
+<tr><td>License</td><td>Modified MIT</td><td>Apache 2.0 / 闭源</td></tr>
+<tr><td>公司估值</td><td>$50亿</td><td>2026年报道</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="license策略分析"><a class="header" href="#license策略分析">License策略分析</a></h2>
+<p><strong>Modified MIT License</strong>（非标准MIT）：</p>
+<pre><code>允许：
+✓ 自托管
+✓ 修改
+✓ 商业使用（小型/中型企业）
+
+限制：
+✗ AWS/Azure/GCP等大型云平台直接转售
+✗ 月活&gt;1亿的产品直接集成
+✗ 用于训练竞争模型
+</code></pre>
+<p><strong>策略意图</strong>：</p>
+<ul>
+<li>吸引开发者和小型创业公司（免费/低价使用）。</li>
+<li>防止大型云平台"白嫖"（直接包装成API服务与月之暗面竞争）。</li>
+<li>保护模型不被用于训练竞争对手。</li>
+</ul>
+<p><strong>对比</strong>：</p>
+<ul>
+<li>Meta Llama：也有限制性license（不适用于大型云）。</li>
+<li>OpenAI GPT-OSS：Apache 2.0（完全开放）。</li>
+<li>DeepSeek：MIT（完全开放）。</li>
+</ul>
+<hr />
+<h2 id="战略意义"><a class="header" href="#战略意义">战略意义</a></h2>
+<h3 id="1-价格屠夫"><a class="header" href="#1-价格屠夫">1. 价格屠夫</a></h3>
+<ul>
+<li>API定价比OpenAI/Anthropic低<strong>一个数量级</strong>。</li>
+<li>直接冲击"按token收费"的商业模式。</li>
+<li>可能迫使OpenAI/Anthropic进一步降价。</li>
+</ul>
+<h3 id="2-agent原生设计"><a class="header" href="#2-agent原生设计">2. Agent原生设计</a></h3>
+<ul>
+<li>不是"模型 + Agent wrapper"，而是模型本身为Agent Swarm优化。</li>
+<li>PARL训练让模型天生擅长多Agent协调。</li>
+<li>挑战：OpenAI的single-Agent策略、Anthropic的三Agent策略。</li>
+</ul>
+<h3 id="3-中国市场优势"><a class="header" href="#3-中国市场优势">3. 中国市场优势</a></h3>
+<ul>
+<li>国内合规：数据不出境，符合中国法规。</li>
+<li>中文优化：训练语料中文占比高，中文任务表现更优。</li>
+<li>本土支持：团队在北京，响应速度快。</li>
+</ul>
+<hr />
+<h2 id="引用来源-4"><a class="header" href="#引用来源-4">引用来源</a></h2>
+<ul>
+<li>月之暗面官方博客：moonshot.cn/blog（2026-04，Kimi K2.5发布）</li>
+<li>开源中国：oschina.net（2026-04，Kimi K2.5技术解析）</li>
+<li>行业分析：公开报道（2026-04，月之暗面估值$50亿）</li>
+<li>API定价：platform.moonshot.cn/pricing（2026-04）</li>
+<li>License文件：github.com/moonshot-ai/Kimi-K2.5（LICENSE文件）</li>
+</ul>
+<hr />
+<p><strong>关键数据</strong>：</p>
+<ul>
+<li>Agent Swarm：最多100个子Agent并行</li>
+<li>并行工具调用：1500次/任务</li>
+<li>SWE-Bench Verified：76.8%</li>
+<li>API价格：输入$0.6/M，输出$3/M（比OpenAI低一个数量级）</li>
+<li>License：Modified MIT（限制大型云平台直接转售）</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="agent-skills"><a class="header" href="#agent-skills">Agent Skills</a></h1>
+<blockquote>
+<p>AI编程Agent的工程技能库，Addy Osmani主导。</p>
+</blockquote>
+<h1 id="agent-skills-1"><a class="header" href="#agent-skills-1">Agent Skills</a></h1>
+<ul>
+<li><strong>类型</strong>: 概念 / 开源项目 / Agent工程规范</li>
+<li><strong>提出者</strong>: Addy Osmani (Google Chrome DevTools总监, AngularJS联创)</li>
+<li><strong>创建时间</strong>: 2026-02-16</li>
+<li><strong>最后更新</strong>: 2026-05-09</li>
+</ul>
+<h2 id="一句话定义"><a class="header" href="#一句话定义">一句话定义</a></h2>
+<p><strong>Agent Skills</strong> 是一套将Google二十年工程实践封装成AI可执行技能模块的开源规范，解决AI编程工具"走最短路径、跳过工程纪律"的痛点。</p>
+<hr />
+<h2 id="背景问题"><a class="header" href="#背景问题">背景问题</a></h2>
+<p>AI编程助手（Claude Code, Cursor, Codex等）能写出功能正确的代码，但在工程层面是"野路子"出身：</p>
+<ul>
+<li>❌ 不写测试</li>
+<li>❌ 不做代码审查</li>
+<li>❌ 不考虑向后兼容</li>
+<li>❌ 不遵循提交规范</li>
+<li>❌ 不做安全审计</li>
+</ul>
+<p><strong>根本原因</strong>: AI的目标是"让用户满意"，不是"让代码能上生产"。</p>
+<hr />
+<h2 id="核心设计"><a class="header" href="#核心设计">核心设计</a></h2>
+<h3 id="skillmd-文件规范"><a class="header" href="#skillmd-文件规范">SKILL.md 文件规范</a></h3>
+<p>每个技能是一个结构化的Markdown文件，定义AI在特定工程场景下应遵循的工作流：</p>
+<pre><code>skills/
+├── code-review/
+│   └── SKILL.md          ← 代码审查技能
+├── testing/
+│   └── SKILL.md          ← 测试策略技能
+├── refactoring/
+│   └── SKILL.md          ← 重构技能
+├── documentation/
+│   └── SKILL.md          ← 文档编写技能
+├── security/
+│   └── SKILL.md          ← 安全审计技能
+└── deprecation/
+    └── SKILL.md          ← 弃用迁移技能
+</code></pre>
+<h3 id="关键原则"><a class="header" href="#关键原则">关键原则</a></h3>
+<ol>
+<li><strong>先写规格再写代码</strong> — PRD/规格文档是强制前置步骤</li>
+<li><strong>测试即证明</strong> — 每个功能必须有对应测试</li>
+<li><strong>安全审查内嵌</strong> — 安全不是可选项</li>
+<li><strong>向后兼容保证</strong> — API变更需有迁移路径</li>
+</ol>
+<hr />
+<h2 id="生态系统"><a class="header" href="#生态系统">生态系统</a></h2>
+<h3 id="支持的工具"><a class="header" href="#支持的工具">支持的工具</a></h3>
+<ul>
+<li>Claude Code</li>
+<li>Cursor</li>
+<li>Windsurf</li>
+<li>Codex CLI</li>
+<li>GitHub Copilot Chat</li>
+</ul>
+<h3 id="衍生项目"><a class="header" href="#衍生项目">衍生项目</a></h3>
+<ul>
+<li><strong>skillsjars.com</strong> — Maven Central上的技能包分发</li>
+<li><strong>community skills</strong> — 社区贡献的技能库扩展</li>
+</ul>
+<hr />
+<h2 id="关键数据-2"><a class="header" href="#关键数据-2">关键数据</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
+<tr><td>GitHub Stars</td><td>29K+ (2026-05-09)</td><td>GitHub仓库实时数据</td></tr>
+<tr><td>日增Stars</td><td>~629/天</td><td>GitHub统计估算 [来源：github.com/addyosmani/agent-skills]</td></tr>
+<tr><td>开源时间</td><td>2026-02-16</td><td>GitHub仓库创建日期</td></tr>
+<tr><td>当前版本</td><td>v0.6.0</td><td>GitHub Releases</td></tr>
+<tr><td>许可</td><td>MIT</td><td>GitHub仓库LICENSE</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="技术洞察"><a class="header" href="#技术洞察">技术洞察</a></h2>
+<h3 id="为什么这是一个信号"><a class="header" href="#为什么这是一个信号">为什么这是一个信号？</a></h3>
+<ol>
+<li><strong>工程化拐点</strong> — AI编程从"demo级"走向"生产级"的标志</li>
+<li><strong>标准化尝试</strong> — 类似当年ESLint/Prettier对JS生态的规范化作用</li>
+<li><strong>人机协作新范式</strong> — 人类定纪律，AI执行纪律，而非人类逐行审查</li>
+</ol>
+<h3 id="与harness方法论的关系"><a class="header" href="#与harness方法论的关系">与Harness方法论的关系</a></h3>
+<p>Agent Skills是<strong>Harness的具象化实现</strong>之一：</p>
+<ul>
+<li>Harness = 抽象架构概念（Planner-Generator-Evaluator）</li>
+<li>Agent Skills = 可落地的工程实践规范（SKILL.md文件集）</li>
+</ul>
+<h3 id="潜在挑战"><a class="header" href="#潜在挑战">潜在挑战</a></h3>
+<ul>
+<li><strong>过度约束风险</strong> — 严格规范可能降低AI的创造性解决问题的能力</li>
+<li><strong>维护负担</strong> — 技能文件本身需要随技术演进更新</li>
+<li><strong>工具碎片化</strong> — 不同AI IDE的技能格式不完全兼容</li>
+</ul>
+<hr />
+<h2 id="相关页面"><a class="header" href="#相关页面">相关页面</a></h2>
+<ul>
+<li><a href="part2/../entities/addy-osmani.html">entities/addy-osmani.md</a> — 项目作者</li>
+<li><a href="part2/harness-methodology.html">concepts/harness-methodology.md</a> — Harness方法论</li>
+<li><a href="part2/../sources/agent-skills-github.html">sources/agent-skills-github.md</a> — 仓库分析</li>
+</ul>
+<h2 id="外部链接"><a class="header" href="#外部链接">外部链接</a></h2>
+<ul>
+<li>GitHub: https://github.com/addyosmani/agent-skills</li>
+<li>Maven Central: https://skillsjars.com</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="rlhf人类反馈强化学习"><a class="header" href="#rlhf人类反馈强化学习">RLHF：人类反馈强化学习</a></h1>
+<blockquote>
+<p>让模型对齐人类偏好的核心训练方法。</p>
+</blockquote>
+<h1 id="rlhf人类反馈强化学习-1"><a class="header" href="#rlhf人类反馈强化学习-1">RLHF（人类反馈强化学习）</a></h1>
+<p><strong>类型</strong>：训练方法 / 对齐技术<br />
+<strong>全称</strong>：Reinforcement Learning from Human Feedback<br />
+<strong>核心作用</strong>：让LLM"学会"人类的偏好和价值观</p>
+<hr />
+<h2 id="-技术原理"><a class="header" href="#-技术原理">🧬 技术原理</a></h2>
+<h3 id="三步流程"><a class="header" href="#三步流程">三步流程</a></h3>
+<ol>
+<li><strong>预训练（Pre-training）</strong>：海量文本自监督学习，模型学会语言规律</li>
+<li><strong>SFT（Supervised Fine-Tuning）</strong>：人类编写的"理想回答"训练，模型学会格式</li>
+<li><strong>RLHF</strong>：人类比较两个回答哪个更好 → 训练Reward Model → 用PPO算法优化策略</li>
+</ol>
+<h3 id="为什么需要rlhf"><a class="header" href="#为什么需要rlhf">为什么需要RLHF？</a></h3>
+<ul>
+<li><strong>SFT的局限</strong>：人类标注成本高，模型只是"模仿"而非"理解"偏好</li>
+<li><strong>RLHF的突破</strong>：让模型主动学习"什么回答人类更喜欢"</li>
+<li><strong>应用</strong>：减少有害输出、提升 helpfulness、对齐人类价值观</li>
+</ul>
+<hr />
+<h2 id="-发展时间线"><a class="header" href="#-发展时间线">🏛️ 发展时间线</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>时间</th><th>事件</th><th>来源</th></tr></thead><tbody>
+<tr><td>2017</td><td>OpenAI首次提出RLHF概念，用于游戏和机器人</td><td>OpenAI博客</td></tr>
+<tr><td>2020</td><td>"Learning to Summarize from Human Feedback"论文</td><td>arxiv.org</td></tr>
+<tr><td>2022-03</td><td>InstructGPT发布，RLHF首次用于LLM对齐</td><td>OpenAI论文</td></tr>
+<tr><td>2022-11</td><td>ChatGPT发布，RLHF成为行业标配</td><td>OpenAI</td></tr>
+<tr><td>2023</td><td>Claude、Llama 2等全面采用RLHF</td><td>各厂商</td></tr>
+<tr><td>2024</td><td>**DPO（Direct Preference Optimization）**兴起，简化RLHF流程</td><td>arxiv.org</td></tr>
+<tr><td>2025</td><td><strong>RLAIF（AI Feedback）</strong>：用AI替代人类标注，降低成本</td><td>Google/Anthropic</td></tr>
+<tr><td>2026</td><td><strong>DeepSeek-R1纯RL路线</strong>：无需SFT，直接用RL训练推理能力</td><td>DeepSeek</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-关键变体方法"><a class="header" href="#-关键变体方法">🔑 关键变体方法</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>方法</th><th>原理</th><th>优势</th><th>代表模型</th></tr></thead><tbody>
+<tr><td><strong>PPO-RLHF</strong></td><td>传统RL，训练Reward Model+PPO优化</td><td>效果稳定，广泛验证</td><td>GPT-4、Claude 3</td></tr>
+<tr><td><strong>DPO</strong></td><td>直接用偏好数据优化，无需Reward Model</td><td>简单高效，训练快</td><td>Llama 2、Mistral</td></tr>
+<tr><td><strong>RLAIF</strong></td><td>用AI（而非人类）生成反馈</td><td>成本低，可扩展</td><td>Gemini、Claude</td></tr>
+<tr><td><strong>纯RL（R1）</strong></td><td>完全跳过SFT，RL从头训练</td><td>推理能力涌现</td><td>DeepSeek-R1</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-前沿进展"><a class="header" href="#-前沿进展">🚀 前沿进展</a></h2>
+<h3 id="1-deepseek-r1的纯rl突破"><a class="header" href="#1-deepseek-r1的纯rl突破">1. DeepSeek-R1的纯RL突破</a></h3>
+<ul>
+<li><strong>传统</strong>：Pre-train → SFT → RLHF</li>
+<li><strong>R1</strong>：Pre-train → <strong>纯RL</strong>（无SFT！）</li>
+<li><strong>结果</strong>：推理能力（数学/代码）直接涌现</li>
+<li><strong>意义</strong>：证明"推理可以通过自我强化获得，不需要昂贵的人类标注"</li>
+<li><strong>代价</strong>：通用对话能力需后续SFT补充（R1-Zero → R1）</li>
+</ul>
+<h3 id="2-rlaifai-feedback替代人类"><a class="header" href="#2-rlaifai-feedback替代人类">2. RLAIF（AI Feedback替代人类）</a></h3>
+<ul>
+<li><strong>Google</strong>：Constitutional AI（Claude的前身思路），用规则指导AI自我批评</li>
+<li><strong>优势</strong>：人类标注 bottleneck 消除，可扩展</li>
+<li><strong>局限</strong>：AI反馈质量取决于基础模型能力</li>
+</ul>
+<h3 id="3-多模态rlhf"><a class="header" href="#3-多模态rlhf">3. 多模态RLHF</a></h3>
+<ul>
+<li><strong>Gemini 2.5</strong>：图像+文本+视频的联合偏好学习</li>
+<li><strong>挑战</strong>：多模态偏好标注更复杂，成本更高</li>
+</ul>
+<hr />
+<h2 id="-关键数据-1"><a class="header" href="#-关键数据-1">📊 关键数据</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
+<tr><td>InstructGPT人类标注成本</td><td>数百万美元</td><td>OpenAI论文</td></tr>
+<tr><td>DPO训练时间</td><td>比PPO快2-3倍</td><td>论文</td></tr>
+<tr><td>R1纯RL训练成本</td><td>远低于传统RLHF</td><td>DeepSeek</td></tr>
+<tr><td>RLAIF降低标注成本</td><td>70%+</td><td>Google论文</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-相关页面-1"><a class="header" href="#-相关页面-1">🔗 相关页面</a></h2>
+<ul>
+<li><a href="part2/../entities/openai.html">entities/openai.md</a> — InstructGPT/ChatGPT</li>
+<li><a href="part2/../entities/deepseek.html">entities/deepseek.md</a> — R1纯RL路线</li>
+<li><a href="part2/../entities/anthropic.html">entities/anthropic.md</a> — Constitutional AI</li>
+<li><a href="part2/harness-methodology.html">concepts/harness-methodology.md</a> — Agent对齐</li>
+</ul>
+<hr />
+<p><em>最后更新：2026-05-09</em><br />
+<em>信息来源：OpenAI/DeepSeek/Google论文、arxiv.org</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="测试时计算扩展"><a class="header" href="#测试时计算扩展">测试时计算扩展</a></h1>
+<blockquote>
+<p>推理时"多想一会"，而非只扩大模型规模。</p>
+</blockquote>
+<h1 id="test-time-compute测试时计算扩展"><a class="header" href="#test-time-compute测试时计算扩展">Test-Time Compute（测试时计算扩展）</a></h1>
+<p><strong>类型</strong>：推理范式 / 模型性能优化策略<br />
+<strong>别名</strong>：Inference-Time Compute / 推理时计算<br />
+<strong>核心思想</strong>：<strong>推理时多"想"一会，比训练更大模型更划算</strong></p>
+<hr />
+<h2 id="-技术原理-1"><a class="header" href="#-技术原理-1">🧬 技术原理</a></h2>
+<h3 id="核心洞察"><a class="header" href="#核心洞察">核心洞察</a></h3>
+<p>传统 Scaling Law：</p>
+<ul>
+<li><strong>训练时扩展</strong>：更大模型 + 更多数据 → 更好性能（但成本指数增长）</li>
+<li><strong>测试时扩展</strong>：相同模型，推理时投入更多计算（多步思考、验证、搜索）→ 更好性能</li>
+</ul>
+<h3 id="openai的验证"><a class="header" href="#openai的验证">OpenAI的验证</a></h3>
+<ul>
+<li><strong>o1模型</strong>：推理时生成"思维链"（Chain-of-Thought），多步验证</li>
+<li><strong>o3/o4</strong>：进一步增加推理步骤，性能持续提升</li>
+<li><strong>关键发现</strong>：测试时计算扩展的"性价比"高于训练时扩展</li>
+</ul>
+<hr />
+<h2 id="-发展时间线-1"><a class="header" href="#-发展时间线-1">🏛️ 发展时间线</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>时间</th><th>事件</th><th>来源</th></tr></thead><tbody>
+<tr><td>2022</td><td>Chain-of-Thought Prompting论文：让模型"一步步想"</td><td>arxiv.org</td></tr>
+<tr><td>2023</td><td>"Let's Verify Step by Step"：逐步验证提升数学推理</td><td>OpenAI</td></tr>
+<tr><td>2024-09</td><td><strong>OpenAI o1-preview发布</strong>，测试时计算扩展首次产品化</td><td>OpenAI</td></tr>
+<tr><td>2024-12</td><td><strong>o3发布</strong>，ARC-AGI基准突破，证明扩展极限远未到达</td><td>OpenAI</td></tr>
+<tr><td>2025-01</td><td><strong>o3-mini发布</strong>，低成本推理模型，普及测试时计算</td><td>OpenAI</td></tr>
+<tr><td>2025-04</td><td><strong>Google Gemini 2.5 Flash Thinking</strong>发布，跟进测试时计算</td><td>Google</td></tr>
+<tr><td>2025-06</td><td><strong>DeepSeek-R1</strong>证明纯RL也能获得推理能力（无需人类思维链）</td><td>DeepSeek</td></tr>
+<tr><td>2026-04</td><td><strong>o4-mini发布</strong>，测试时计算进一步成本优化</td><td>OpenAI</td></tr>
+<tr><td>2026-04</td><td><strong>月之暗面K2.5</strong>跟进推理增强，测试时计算成为行业标配</td><td>Moonshot</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-技术方法"><a class="header" href="#-技术方法">🔑 技术方法</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>方法</th><th>原理</th><th>成本</th><th>效果</th></tr></thead><tbody>
+<tr><td><strong>Chain-of-Thought</strong></td><td>模型生成中间推理步骤</td><td>低（仅需Prompt）</td><td>中等提升</td></tr>
+<tr><td><strong>Self-Consistency</strong></td><td>多次采样，选多数答案</td><td>中（3-10次推理）</td><td>稳定提升</td></tr>
+<tr><td><strong>Tree-of-Thought</strong></td><td>多路径探索，评估后选择</td><td>高（分支搜索）</td><td>大幅提示</td></tr>
+<tr><td><strong>Verifier/ORM</strong></td><td>训练验证模型，筛选正确路径</td><td>高（需额外模型）</td><td>精准提升</td></tr>
+<tr><td><strong>Process Reward Model</strong></td><td>奖励每一步的正确性</td><td>高（细粒度标注）</td><td>最佳效果</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-核心争议"><a class="header" href="#-核心争议">🚀 核心争议</a></h2>
+<h3 id="1-思考vs背诵"><a class="header" href="#1-思考vs背诵">1. "思考"vs"背诵"</a></h3>
+<ul>
+<li><strong>支持方</strong>：测试时计算让模型真正"推理"，而非 memorization</li>
+<li><strong>质疑方</strong>：可能只是更长的 pattern matching，没有真正的抽象推理</li>
+</ul>
+<h3 id="2-成本与延迟"><a class="header" href="#2-成本与延迟">2. 成本与延迟</a></h3>
+<ul>
+<li><strong>o1/o3</strong>：推理时间从几秒延长到几分钟</li>
+<li><strong>API定价</strong>：o4-mini $1.10/$4.40 per 1M tokens vs GPT-4.5 $75/$150</li>
+<li><strong>权衡</strong>：用户愿意为更好答案等更久吗？</li>
+</ul>
+<h3 id="3-可解释性"><a class="header" href="#3-可解释性">3. 可解释性</a></h3>
+<ul>
+<li><strong>优势</strong>：思维链让模型"展示工作过程"，可审计</li>
+<li><strong>局限</strong>：模型可能"编造"思维链（看起来合理但实际错误）</li>
+</ul>
+<hr />
+<h2 id="-关键数据-2"><a class="header" href="#-关键数据-2">📊 关键数据</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
+<tr><td>o1 vs GPT-4o数学提升</td><td>AIME 2024: 12% → 83%</td><td>OpenAI</td></tr>
+<tr><td>o3 ARC-AGI</td><td>87.5%（接近人类水平）</td><td>OpenAI</td></tr>
+<tr><td>测试时计算成本</td><td>比训练同性能大模型低10-100倍</td><td>论文估计</td></tr>
+<tr><td>o4-mini定价</td><td>$1.10/$4.40 per 1M tokens</td><td>OpenAI</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-相关页面-2"><a class="header" href="#-相关页面-2">🔗 相关页面</a></h2>
+<ul>
+<li><a href="part2/../entities/openai.html">entities/openai.md</a> — o系列模型</li>
+<li><a href="part2/../entities/deepseek.html">entities/deepseek.md</a> — R1推理模型</li>
+<li><a href="part2/../entities/moonshot.html">entities/moonshot.md</a> — K2.5推理</li>
+<li><a href="part2/../entities/google-deepmind.html">entities/google-deepmind.md</a> — Gemini Thinking</li>
+</ul>
+<hr />
+<p><em>最后更新：2026-05-09</em><br />
+<em>信息来源：OpenAI/Google/DeepSeek论文、arxiv.org</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="nvidiarubin--feynman-双架构"><a class="header" href="#nvidiarubin--feynman-双架构">NVIDIA：Rubin + Feynman 双架构</a></h1>
+<blockquote>
+<p>NVIDIA是全球AI计算基础设施的核心供应商，GTC 2026发布双架构并行推进。</p>
+</blockquote>
+<h1 id="nvidia"><a class="header" href="#nvidia">NVIDIA</a></h1>
+<blockquote>
+<p>类型：硬件厂商 | 核心产品：GPU、AI加速器 | 最后更新：2026-05-09</p>
+</blockquote>
+<h2 id="简介-1"><a class="header" href="#简介-1">简介</a></h2>
+<p>NVIDIA是全球AI计算基础设施的核心供应商，其GPU架构从Ampere到Hopper、Blackwell，再到即将推出的Rubin和Feynman，持续引领AI训练和推理性能。</p>
+<h2 id="最新动态-1"><a class="header" href="#最新动态-1">最新动态</a></h2>
+<h3 id="2026-03gtc-2026-重大发布"><a class="header" href="#2026-03gtc-2026-重大发布">2026-03：GTC 2026 重大发布</a></h3>
+<p><strong>Feynman AI架构</strong></p>
+<ul>
+<li>首个采用<strong>1.6nm级工艺</strong>（TSMC A16）的AI芯片，预计<strong>2028年商用</strong></li>
+<li><strong>TSMC A16工艺细节</strong>：
+<ul>
+<li>采用<strong>Super Power Rail (SPR) 背面供电技术</strong>，从晶圆背面供电，减少正面信号线路拥挤</li>
+<li>使用<strong>GAA (Gate-All-Around) 全环绕栅极晶体管</strong>，替代FinFET，提升晶体管密度约1.1倍</li>
+<li>同性能下功耗降低15-20%（vs N2工艺）</li>
+<li>预计2026年下半年开始风险生产，2027年进入量产</li>
+</ul>
+</li>
+<li><strong>硅光子集成</strong>：与Xanadu/Infleqtion合作，探索在芯片上集成光互连，目标10倍带宽提升</li>
+<li><strong>Groq LPU集成可能</strong>：Jensen Huang暗示Feynman可能整合Groq的LPUs，实现&lt;1ms token延迟</li>
+<li>继续使用TSMC作为主要制造伙伴，同时与Intel洽谈代工合作（18A制程）</li>
+<li>目标：超越所有现有硬件性能</li>
+</ul>
+<p><strong>Rubin平台</strong></p>
+<ul>
+<li>2026年下半年上市</li>
+<li>配备HBM4内存</li>
+<li>与Vera CPU搭配</li>
+<li>采用液冷散热（NVL72/NVL8机架标准）</li>
+<li>目标：大幅降低GPT-5/GPT-6等模型的训练时间</li>
+</ul>
+<p><strong>Rubin vs AMD MI450 竞争格局</strong>：</p>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>NVIDIA Rubin (Ultra)</th><th>AMD MI450</th><th>NVIDIA优势</th></tr></thead><tbody>
+<tr><td><strong>HBM容量</strong></td><td>576GB (16颗HBM4)</td><td>432GB</td><td>+144GB</td></tr>
+<tr><td><strong>带宽</strong></td><td>~22 TB/s</td><td>19.6 TB/s</td><td>略高</td></tr>
+<tr><td><strong>FP4算力</strong></td><td>50 PFLOPS</td><td>40 PFLOPS</td><td>+25%</td></tr>
+<tr><td><strong>FP8算力</strong></td><td>35 PFLOPS</td><td>20 PFLOPS</td><td>+75%</td></tr>
+<tr><td><strong>工艺</strong></td><td>TSMC 3nm</td><td>TSMC 2nm</td><td>落后一代</td></tr>
+<tr><td><strong>功耗</strong></td><td>~2300W (Ultra)</td><td>~1500W</td><td>更高</td></tr>
+<tr><td><strong>关键客户</strong></td><td>几乎所有云厂商+OpenAI</td><td>Meta ($100B)、Anthropic</td><td>更广</td></tr>
+</tbody></table>
+</div>
+<ul>
+<li>NVIDIA Rubin Ultra 576GB HBM4 vs AMD MI450 432GB，容量优势在大模型训练中可能关键</li>
+<li>但AMD采用TSMC 2nm工艺，比Rubin 3nm更先进，能效比更优</li>
+<li>NVIDIA把Rubin功耗从1800W提升到2300W（Ultra版本），用功耗换性能来竞争MI455X</li>
+<li>市场份额NVIDIA仍占~80%，但AMD+Meta $100B deal和Anthropic采用MI400系列正在改变格局</li>
+</ul>
+<p><strong>SRAM架构探索</strong></p>
+<ul>
+<li>正在探索基于SRAM的AI推理芯片架构</li>
+<li>将大型SRAM块置于芯片内部，减少数据移动</li>
+<li>定位为HBM的补充而非替代（SRAM面积是DRAM的5-10倍）</li>
+</ul>
+<h3 id="2026-01verarubin供应商确定"><a class="header" href="#2026-01verarubin供应商确定">2026-01：VeraRubin供应商确定</a></h3>
+<ul>
+<li>HBM4供应商：三星 + SK海力士（独家）</li>
+<li>Micron未入选（性能不达标）</li>
+<li>VeraRubin配备16颗HBM4芯片，总容量576GB</li>
+</ul>
+<h3 id="2026-08财报季rubin已在tsmc流片"><a class="header" href="#2026-08财报季rubin已在tsmc流片">2026-08（财报季）：Rubin已在TSMC流片</a></h3>
+<ul>
+<li>CEO Jensen Huang确认：Rubin及5款配套芯片已在TSMC流片</li>
+<li>目标：2026H2量产</li>
+<li>Rubin将是第三代NVLink机架级AI超级计算机</li>
+<li>预计支持$3-4万亿全球AI基础设施增长（到2030年）</li>
+</ul>
+<h3 id="2026-05华尔街目标价250"><a class="header" href="#2026-05华尔街目标价250">2026-05：华尔街目标价$250</a></h3>
+<ul>
+<li>Goldman Sachs和DA Davidson维持买入评级，目标价$250</li>
+<li>当前股价约$198，潜在上涨26%</li>
+<li>催化剂：Vera Rubin上市、Q1 FY2027财报（5月20日）</li>
+<li>预计Q1 FY2027收入$780亿（同比+77%）</li>
+</ul>
+<h2 id="技术栈"><a class="header" href="#技术栈">技术栈</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>架构</th><th>时间</th><th>工艺</th><th>内存</th><th>关键指标</th></tr></thead><tbody>
+<tr><td>Ampere</td><td>2020</td><td>7nm</td><td>GDDR6X/HBM2</td><td>—</td></tr>
+<tr><td>Hopper</td><td>2022</td><td>4nm</td><td>HBM3</td><td>—</td></tr>
+<tr><td>Blackwell</td><td>2024</td><td>4nm</td><td>HBM3E</td><td>—</td></tr>
+<tr><td>Rubin</td><td>2026H2</td><td>3nm</td><td><strong>HBM4</strong></td><td>推理token成本↓90%，训练GPU↓75%</td></tr>
+<tr><td>Feynman</td><td>2028</td><td>1nm级</td><td>HBM4E/HBM5</td><td>—</td></tr>
+</tbody></table>
+</div>
+<h2 id="关键合作"><a class="header" href="#关键合作">关键合作</a></h2>
+<ul>
+<li><strong>TSMC</strong>：主要代工伙伴</li>
+<li><strong>三星/SK海力士</strong>：HBM供应商（VeraRubin独家）</li>
+<li><strong>Intel</strong>：潜在代工伙伴（洽谈中，18A制程）</li>
+<li><strong>OpenAI</strong>：Stargate项目合作（900K DRAM晶圆/月）</li>
+<li><strong>Meta</strong>：2026年资本支出$1450亿（大量采购Blackwell/Rubin）</li>
+<li><strong>Microsoft</strong>：2026年资本支出$1900亿</li>
+</ul>
+<h2 id="相关概念-1"><a class="header" href="#相关概念-1">相关概念</a></h2>
+<ul>
+<li><a href="part3/../concepts/hbm.html">HBM</a></li>
+<li><a href="part3/../concepts/processing-in-memory.html">存算一体</a></li>
+<li><a href="part3/../concepts/chiplet.html">Chiplet</a></li>
+</ul>
+<h2 id="引用来源-5"><a class="header" href="#引用来源-5">引用来源</a></h2>
+<ul>
+<li><a href="https://www.tweaktown.com/news/107404/">NVIDIA Q2 FY2026 Earnings</a> (2026-08) [⚠️403-服务器防爬虫，URL正确]</li>
+<li><a href="https://www.digitimes.com/news/a20260107PD236/">NVIDIA Vera Rubin量产</a> (2026-01)</li>
+<li><a href="https://finance.yahoo.com/quote/NVDA/">NVIDIA股价目标$250</a> (2026-05，Goldman Sachs/DA Davidson买入评级，目标价$250) [⚠️原heygotrade链接已失效] [⚠️403-服务器防爬虫，URL正确]</li>
+<li><a href="https://finance.yahoo.com/markets/stocks/articles/nvidia-extends-ai-data-center-181213650.html">NVIDIA与Micron HBM4合作</a> (2026-04) [⚠️403-服务器防爬虫，URL正确]</li>
+<li><a href="https://www.digitimes.com/news/a20260107PD236/">Micron HBM4量产计划</a> (2026-01，Digitimes报道Vera Rubin进入全面生产) [⚠️原ainvest链接已失效]</li>
+<li><a href="https://dataconomy.com/2026/01/26/samsung-hbm4-to-debut-alongside-nvidias-rubin-ai-platform-at-gtc-2026/">Samsung HBM4与NVIDIA Rubin</a> (2026-01)</li>
+<li><a href="https://wallstreetcn.com/articles/3716317">华尔街见闻：Rubin计划</a> (2024-06) [⚠️链接内容已变化，需验证具体文章]</li>
+</ul>
+<hr />
+<p><strong>源文件摘要</strong>：</p>
+<ul>
+<li><a href="part3/../sources/nvidia-feynman-gtc2026.html">Feynman架构GTC 2026</a></li>
+<li><a href="part3/../sources/nvidia-rubin-platform.html">Rubin平台</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="feynman16nm--硅光子--groq-lpu"><a class="header" href="#feynman16nm--硅光子--groq-lpu">Feynman：1.6nm + 硅光子 + Groq LPU</a></h1>
+<blockquote>
+<p>首个1.6nm级工艺AI芯片，2028年商用。</p>
+</blockquote>
+<hr />
+<h2>title: "NVIDIA GTC 2026: Feynman Architecture Reveal"
+source: "technetbooks.com"
+url: "https://technetbooks.com/nvidia-gtc-2026-feynman-architecture-reveal"
+date: "2026-02"
+entities: [NVIDIA]
+concepts: [HBM, Chiplet]</h2>
+<h2 id="关键发现-1"><a class="header" href="#关键发现-1">关键发现</a></h2>
+<h3 id="feynman架构"><a class="header" href="#feynman架构">Feynman架构</a></h3>
+<ul>
+<li><strong>首个1nm级工艺AI芯片</strong></li>
+<li>预计2028年商用</li>
+<li>TSMC继续作为主要制造伙伴</li>
+<li>同时与Intel洽谈代工合作（分散风险）</li>
+</ul>
+<h3 id="架构定位"><a class="header" href="#架构定位">架构定位</a></h3>
+<ul>
+<li>超越所有现有硬件性能</li>
+<li>目标：下一代AI模型（GPT-5/GPT-6级别）的训练加速</li>
+</ul>
+<h3 id="供应链策略"><a class="header" href="#供应链策略">供应链策略</a></h3>
+<ul>
+<li>TSMC主供 + Intel潜在代工（18A制程）</li>
+<li>多源代工策略降低地缘政治和产能风险</li>
+</ul>
+<h2 id="关键数据-3"><a class="header" href="#关键数据-3">关键数据</a></h2>
+<ul>
+<li>工艺节点：1nm级（预计TSMC A10或Intel 18A）</li>
+<li>商用时间：2028年</li>
+<li>散热方案：液冷（延续Rubin的NVL72/NVL8标准）</li>
+</ul>
+<h2 id="关联页面"><a class="header" href="#关联页面">关联页面</a></h2>
+<ul>
+<li><a href="part3/../entities/nvidia.html">entities/nvidia.md</a></li>
+<li><a href="part3/../concepts/hbm.html">concepts/hbm.md</a></li>
+<li><a href="part3/../concepts/chiplet.html">concepts/chiplet.md</a></li>
+</ul>
+<hr />
+<p><strong>关键规格</strong>：</p>
+<ul>
+<li>工艺：TSMC A16 (1.6nm)，第二代GAA</li>
+<li>SPR背面供电：从晶圆背面引入电源，正面留给信号线</li>
+<li>硅光子集成：与Xanadu/Infleqtion合作，目标10倍带宽</li>
+<li>Groq LPU整合传闻：Jensen Huang暗示可能整合LPUs，&lt;1ms token延迟</li>
+<li>时间线：2026H2风险生产 → 2027量产 → 2028商用</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="rubinhbm4-576gb2026h2上市"><a class="header" href="#rubinhbm4-576gb2026h2上市">Rubin：HBM4 576GB，2026H2上市</a></h1>
+<blockquote>
+<p>配备Vera CPU + HBM4，2026年下半年上市。</p>
+</blockquote>
+<hr />
+<h2>title: "NVIDIA Rubin Platform: HBM4 Vera CPU Details"
+source: "hyperpc.ae"
+url: "https://hyperpc.ae/nvidia-rubin-platform-hbm4-vera-cpu"
+date: "2026-01"
+entities: [NVIDIA]
+concepts: [HBM]</h2>
+<h2 id="关键发现-2"><a class="header" href="#关键发现-2">关键发现</a></h2>
+<h3 id="rubin平台规格"><a class="header" href="#rubin平台规格">Rubin平台规格</a></h3>
+<ul>
+<li><strong>2026年下半年上市</strong></li>
+<li>配备Vera CPU + HBM4内存</li>
+<li><strong>16颗HBM4芯片，总容量576GB</strong></li>
+<li>碾压AMD MI450（432GB）</li>
+<li>标准液冷散热（NVL72/NVL8机架）</li>
+</ul>
+<h3 id="供应链"><a class="header" href="#供应链">供应链</a></h3>
+<ul>
+<li>HBM4供应商：三星 + SK海力士（独家供应）</li>
+<li>Micron未入选（性能不达标）</li>
+</ul>
+<h3 id="性能目标"><a class="header" href="#性能目标">性能目标</a></h3>
+<ul>
+<li>推理token成本↓90%</li>
+<li>训练GPU需求↓75%</li>
+<li>目标：大幅降低GPT-5/GPT-6等模型的训练时间</li>
+</ul>
+<h3 id="流片状态"><a class="header" href="#流片状态">流片状态</a></h3>
+<ul>
+<li>CEO Jensen Huang确认：Rubin及5款配套芯片已在TSMC流片</li>
+<li>目标：2026H2量产</li>
+</ul>
+<h2 id="关键数据-4"><a class="header" href="#关键数据-4">关键数据</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th></tr></thead><tbody>
+<tr><td>HBM4容量</td><td>576GB（16颗×36GB）</td></tr>
+<tr><td>对比AMD MI450</td><td>432GB</td></tr>
+<tr><td>上市时间</td><td>2026H2</td></tr>
+<tr><td>散热</td><td>液冷（NVL72/NVL8）</td></tr>
+</tbody></table>
+</div>
+<h2 id="关联页面-1"><a class="header" href="#关联页面-1">关联页面</a></h2>
+<ul>
+<li><a href="part3/../entities/nvidia.html">entities/nvidia.md</a></li>
+<li><a href="part3/../concepts/hbm.html">concepts/hbm.md</a></li>
+<li><a href="part3/../entities/sk-hynix.html">entities/sk-hynix.md</a></li>
+<li><a href="part3/../entities/samsung.html">entities/samsung.md</a></li>
+</ul>
+<hr />
+<p><strong>与AMD MI450对比</strong>：</p>
+<ul>
+<li>HBM容量：576GB (Rubin Ultra) vs 432GB (MI450) — NVIDIA领先144GB</li>
+<li>工艺：3nm vs 2nm — AMD首次工艺领先</li>
+<li>FP8算力：35 vs 20 PFLOPS — NVIDIA领先75%</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="amd-mi4502nm工艺首次反超"><a class="header" href="#amd-mi4502nm工艺首次反超">AMD MI450：2nm工艺首次反超</a></h1>
+<blockquote>
+<p>AMD采用TSMC 2nm，首次在工艺节点上领先NVIDIA。Meta $100B deal和Anthropic采用正在改变格局。</p>
+</blockquote>
+<h1 id="amd"><a class="header" href="#amd">AMD</a></h1>
+<p><strong>类型</strong>：硬件厂商（GPU/CPU/FPGA）<br />
+<strong>总部</strong>：美国加州Santa Clara<br />
+<strong>关键人物</strong>：Lisa Su（CEO，2014年上任后股价涨50倍+）, Mark Papermaster（CTO）</p>
+<hr />
+<h2 id="-时间线-1"><a class="header" href="#-时间线-1">🏛️ 时间线</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>时间</th><th>事件</th><th>来源</th></tr></thead><tbody>
+<tr><td>1969</td><td>AMD成立，早期为Intel第二供应商</td><td>amd.com</td></tr>
+<tr><td>2006</td><td>收购ATI，进入GPU市场</td><td>AMD官方</td></tr>
+<tr><td>2017</td><td><strong>Ryzen处理器发布</strong>，Zen架构翻身，Intel垄断被打破</td><td>amd.com</td></tr>
+<tr><td>2021</td><td><strong>EPYC服务器CPU份额突破20%</strong>，数据中心市场站稳</td><td>市场报告</td></tr>
+<tr><td>2022</td><td><strong>MI200系列发布</strong>，首款CDNA 2架构数据中心GPU</td><td>amd.com</td></tr>
+<tr><td>2023</td><td><strong>MI300X发布</strong>，192GB HBM3，对标NVIDIA H100</td><td>amd.com</td></tr>
+<tr><td>2024</td><td><strong>MI325X发布</strong>，256GB HBM3E，AI推理专用</td><td>amd.com</td></tr>
+<tr><td>2025</td><td><strong>Zen 6 / Zen 7架构确认</strong>，2026-2027年发布</td><td>Financial Analyst Day</td></tr>
+<tr><td>2025</td><td><strong>MI350系列发布</strong>，CDNA 4架构，对标Blackwell</td><td>amd.com</td></tr>
+<tr><td>2026（预计）</td><td><strong>MI400系列发布</strong>，CDNA 5架构，HBM4</td><td>Financial Analyst Day</td></tr>
+<tr><td>2027（预计）</td><td><strong>MI500系列发布</strong>，继续年度更新节奏</td><td>Financial Analyst Day</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-关键产品矩阵"><a class="header" href="#-关键产品矩阵">🔑 关键产品矩阵</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>系列</th><th>定位</th><th>架构</th><th>内存</th><th>对标NVIDIA</th></tr></thead><tbody>
+<tr><td>EPYC</td><td>服务器CPU</td><td>Zen 5/6/7</td><td>DDR5</td><td>Intel Xeon</td></tr>
+<tr><td>Instinct MI300X</td><td>AI训练</td><td>CDNA 3</td><td>192GB HBM3</td><td>H100</td></tr>
+<tr><td>Instinct MI325X</td><td>AI推理</td><td>CDNA 3</td><td>256GB HBM3E</td><td>H100/H200</td></tr>
+<tr><td>Instinct MI350</td><td>新一代AI</td><td>CDNA 4</td><td>HBM3E</td><td>Blackwell</td></tr>
+<tr><td>Instinct MI400（2026）</td><td>下一代</td><td>CDNA 5</td><td><strong>HBM4</strong></td><td>Rubin</td></tr>
+<tr><td>Instinct MI500（2027）</td><td>再下一代</td><td>CDNA 6（预计）</td><td>HBM4E/HBM5</td><td>Feynman</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-核心技术路线-1"><a class="header" href="#-核心技术路线-1">🚀 核心技术路线</a></h2>
+<h3 id="1-cdna架构演进"><a class="header" href="#1-cdna架构演进">1. CDNA架构演进</a></h3>
+<ul>
+<li><strong>CDNA 3（MI300系列）</strong>：首次统一CPU+GPU（APC架构），但市场反馈"样样通样样松"</li>
+<li><strong>CDNA 4（MI350）</strong>：专注GPU，放弃APC思路，算力对标Blackwell</li>
+<li><strong>CDNA 5（MI400，2026）</strong>：HBM4加持，年度更新节奏，正面竞争Rubin</li>
+</ul>
+<h3 id="2-年度更新战略"><a class="header" href="#2-年度更新战略">2. 年度更新战略</a></h3>
+<ul>
+<li><strong>2025 Financial Analyst Day宣布</strong>：数据中心GPU将<strong>每年更新</strong></li>
+<li><strong>目的</strong>：打破NVIDIA两年一代的节奏，用快速迭代抢占市场</li>
+<li><strong>风险</strong>：研发压力大，软件生态（ROCm）仍需追赶CUDA</li>
+</ul>
+<h3 id="3-rocm-vs-cuda"><a class="header" href="#3-rocm-vs-cuda">3. ROCm vs CUDA</a></h3>
+<ul>
+<li><strong>现状</strong>：ROCm支持PyTorch/TensorFlow，但生态成熟度远不及CUDA</li>
+<li><strong>差距</strong>：大多数AI框架优先优化CUDA，ROCm为"第二优先级"</li>
+<li><strong>机会</strong>：开源策略+社区贡献，部分云厂商（AWS/Azure）支持ROCm</li>
+</ul>
+<h3 id="4-mi450-vs-rubin-竞争态势2026"><a class="header" href="#4-mi450-vs-rubin-竞争态势2026">4. MI450 vs Rubin 竞争态势（2026）</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>AMD MI450</th><th>NVIDIA Rubin (Ultra)</th><th>优势方</th></tr></thead><tbody>
+<tr><td><strong>工艺</strong></td><td>TSMC 2nm</td><td>TSMC 3nm</td><td><strong>AMD</strong>（更先进制程）</td></tr>
+<tr><td><strong>架构</strong></td><td>CDNA 5</td><td>未知（新架构）</td><td>—</td></tr>
+<tr><td><strong>HBM容量</strong></td><td>432GB</td><td>576GB (Ultra) / 288GB (R100)</td><td><strong>NVIDIA</strong></td></tr>
+<tr><td><strong>带宽</strong></td><td>19.6 TB/s</td><td>~22 TB/s</td><td>接近</td></tr>
+<tr><td><strong>FP4算力</strong></td><td>40 PFLOPS</td><td>50 PFLOPS</td><td><strong>NVIDIA</strong></td></tr>
+<tr><td><strong>FP8算力</strong></td><td>20 PFLOPS</td><td>35 PFLOPS</td><td><strong>NVIDIA</strong></td></tr>
+<tr><td><strong>功耗</strong></td><td>~1500W</td><td>~1800W (R100) / ~2300W (Ultra)</td><td><strong>AMD</strong></td></tr>
+<tr><td><strong>散热</strong></td><td>液冷</td><td>液冷（NVL72/NVL8标准）</td><td>相同</td></tr>
+<tr><td><strong>送样/上市</strong></td><td>2026H2</td><td>2026H2</td><td>相同</td></tr>
+<tr><td><strong>关键客户</strong></td><td>Meta ($100B deal)、OpenAI、Anthropic</td><td>几乎所有云厂商+OpenAI</td><td><strong>NVIDIA</strong>（更广）</td></tr>
+</tbody></table>
+</div>
+<p><strong>关键竞争变量</strong>：</p>
+<ul>
+<li><strong>工艺优势</strong>：AMD MI450采用TSMC 2nm，比Rubin的3nm更先进，晶体管密度和能效比更优。这是AMD首次在工艺节点上领先NVIDIA。</li>
+<li><strong>内存差距</strong>：Rubin Ultra 576GB vs MI450 432GB，144GB差距在大模型训练中可能是决定性优势。</li>
+<li><strong>软件生态</strong>：NVIDIA CUDA vs AMD ROCm，差距仍在，但ROCm通过PyTorch/TensorFlow支持已大幅改善。</li>
+<li><strong>机架级设计</strong>：AMD Helios是首个机架级AI设计（含EPYC CPU + Pensando DPU + 开放网络标准），NVIDIA Rubin依赖NVLink机架方案。</li>
+<li><strong>市场份额</strong>：NVIDIA仍占~80%，但AMD+Meta $100B deal和Anthropic采用MI400系列正在改变格局。</li>
+</ul>
+<hr />
+<h2 id="-关键数据-3"><a class="header" href="#-关键数据-3">📊 关键数据</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
+<tr><td>数据中心收入（2025Q4）</td><td>38亿美元</td><td>AMD财报</td></tr>
+<tr><td>EPYC服务器份额</td><td>25%+</td><td>Mercury Research</td></tr>
+<tr><td>Instinct GPU收入（2025）</td><td>约50亿美元</td><td>行业估计</td></tr>
+<tr><td>Lisa Su任内股价涨幅</td><td>50倍+（2014-2026）</td><td>股市数据</td></tr>
+<tr><td>MI400预计发布时间</td><td>2026年H2</td><td>Financial Analyst Day</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-相关页面-3"><a class="header" href="#-相关页面-3">🔗 相关页面</a></h2>
+<ul>
+<li><a href="part3/../entities/nvidia.html">entities/nvidia.md</a> — NVIDIA竞争对比</li>
+<li><a href="part3/../concepts/hbm.html">concepts/hbm.md</a> — HBM技术演进</li>
+<li><a href="part3/../concepts/chiplet.html">concepts/chiplet.md</a> — AMD chiplet技术</li>
+<li><a href="part3/../weekly-digest/2026-05-09.html">weekly-digest/2026-05-09.md</a> — 首日记录</li>
+</ul>
+<hr />
+<p><em>最后更新：2026-05-09</em><br />
+<em>信息来源：amd.com、Financial Analyst Day、财报、行业报告</em></p>
+<hr />
+<p><strong>竞争分析</strong>：</p>
+<ul>
+<li><a href="part3/../sources/amd-mi450-vs-rubin.html">AMD MI450 vs NVIDIA Rubin 详细对比</a></li>
+</ul>
+<p><strong>关键数据</strong>：</p>
+<ul>
+<li>工艺：TSMC 2nm（首次领先NVIDIA）</li>
+<li>HBM4：432GB</li>
+<li>FP4：40 PFLOPS</li>
+<li>功耗：~1500W（比Rubin低）</li>
+<li>关键客户：Meta ($100B)、Anthropic、OpenAI</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="内存技术hbm与存算一体"><a class="header" href="#内存技术hbm与存算一体">内存技术：HBM与存算一体</a></h1>
+<blockquote>
+<p>AI推理是内存带宽受限，而非算力受限。内存技术是决定AI性能的关键瓶颈。</p>
+</blockquote>
+<h1 id="hbm高带宽内存"><a class="header" href="#hbm高带宽内存">HBM（高带宽内存）</a></h1>
+<p><strong>类型</strong>：内存技术 / AI芯片关键组件<br />
+<strong>全称</strong>：High Bandwidth Memory<br />
+<strong>核心作用</strong>：解决AI推理的"内存带宽瓶颈"</p>
+<hr />
+<h2 id="-技术原理-2"><a class="header" href="#-技术原理-2">🧬 技术原理</a></h2>
+<h3 id="什么是hbm"><a class="header" href="#什么是hbm">什么是HBM？</a></h3>
+<p>传统DRAM（如DDR4/DDR5）是"平面"布局——芯片平铺在PCB上。HBM采用<strong>3D堆叠</strong>：</p>
+<ul>
+<li>多颗DRAM芯片垂直堆叠</li>
+<li>通过**硅通孔（TSV, Through-Silicon Via）**连接</li>
+<li>与GPU/CPU通过**中介层（Interposer）**紧密封装</li>
+</ul>
+<h3 id="为什么ai需要hbm"><a class="header" href="#为什么ai需要hbm">为什么AI需要HBM？</a></h3>
+<p>AI推理是<strong>内存带宽受限</strong>，而非算力受限：</p>
+<ul>
+<li>Transformer模型每次推理需要加载全部权重</li>
+<li>算力再强，如果内存带宽不够，GPU就在"等数据"</li>
+<li><strong>关键公式</strong>：推理吞吐量 ∝ 内存带宽 / 模型权重大小</li>
+</ul>
+<hr />
+<h2 id="-技术演进时间线"><a class="header" href="#-技术演进时间线">🏛️ 技术演进时间线</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>代际</th><th>时间</th><th>带宽/堆叠</th><th>容量</th><th>关键应用</th></tr></thead><tbody>
+<tr><td>HBM1</td><td>2015</td><td>128GB/s, 4层</td><td>1GB</td><td>AMD Fiji GPU</td></tr>
+<tr><td>HBM2</td><td>2016</td><td>307GB/s, 4/8层</td><td>4-8GB</td><td>NVIDIA V100</td></tr>
+<tr><td>HBM2E</td><td>2020</td><td>460GB/s, 8层</td><td>16GB</td><td>NVIDIA A100</td></tr>
+<tr><td>HBM3</td><td>2022</td><td>819GB/s, 12层</td><td>24GB</td><td>NVIDIA H100</td></tr>
+<tr><td>HBM3E</td><td>2024</td><td>1.2TB/s, 12层</td><td>36GB</td><td>NVIDIA H200/B200</td></tr>
+<tr><td><strong>HBM4</strong></td><td><strong>2026</strong></td><td><strong>2TB/s+, 16层</strong></td><td><strong>48GB/颗</strong></td><td><strong>NVIDIA Rubin/AMD MI400</strong></td></tr>
+<tr><td>HBM4E</td><td>2027（预计）</td><td>2.4TB/s+, 16层</td><td>64GB/颗</td><td>下一代AI芯片</td></tr>
+<tr><td>HBM5</td><td>2028+（预计）</td><td>3TB/s+</td><td>96GB+</td><td>Feynman/下一代</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-关键技术指标"><a class="header" href="#-关键技术指标">🔑 关键技术指标</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>HBM3E</th><th>HBM4</th><th>HBM4E</th><th>提升逻辑</th></tr></thead><tbody>
+<tr><td>每颗带宽</td><td>1.2TB/s</td><td>2.0TB/s+</td><td>2.4TB/s+</td><td>更高频率+更多通道</td></tr>
+<tr><td>堆叠层数</td><td>12层</td><td><strong>16层</strong></td><td>16层</td><td>3D封装技术进步</td></tr>
+<tr><td>单颗容量</td><td>36GB</td><td><strong>48GB</strong></td><td>64GB</td><td>每层容量增加</td></tr>
+<tr><td>功耗</td><td>较高</td><td>优化</td><td>更低</td><td>先进制程+电压优化</td></tr>
+<tr><td>封装技术</td><td>热压缩键合</td><td><strong>混合铜键合(HCB)</strong></td><td>HCB优化</td><td>更薄、散热更好</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-厂商竞争格局"><a class="header" href="#-厂商竞争格局">🏢 厂商竞争格局</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>厂商</th><th>份额(2025Q3)</th><th>技术特点</th><th>关键客户</th></tr></thead><tbody>
+<tr><td><strong>SK海力士</strong></td><td><strong>53%</strong></td><td>先发优势，12层HBM3E成熟</td><td>NVIDIA、AMD、Google</td></tr>
+<tr><td><strong>三星</strong></td><td><strong>35%</strong></td><td>HBM4E 16Gbps/pin，HCB技术</td><td>NVIDIA（VeraRubin）</td></tr>
+<tr><td><strong>Micron</strong></td><td><strong>12%</strong></td><td>追赶中，HBM3E刚量产</td><td>部分云厂商</td></tr>
+</tbody></table>
+</div>
+<p><strong>来源</strong>：Counterpoint Research, 2025Q3 HBM市场份额报告 [来源链接待补充]</p>
+<p><strong>关键动态</strong>：</p>
+<ul>
+<li><strong>SK海力士</strong>：VeraRubin HBM4独家供应商（与三星共同供应）</li>
+<li><strong>三星</strong>：HBM4E 16Gbps/pin（对比HBM4的11.7Gbps），总带宽4TB/s</li>
+<li><strong>Micron</strong>：未入选NVIDIA VeraRubin供应链，处于劣势</li>
+</ul>
+<hr />
+<h2 id="-前沿技术"><a class="header" href="#-前沿技术">🚀 前沿技术</a></h2>
+<h3 id="1-混合铜键合hybrid-copper-bonding-hcb"><a class="header" href="#1-混合铜键合hybrid-copper-bonding-hcb">1. 混合铜键合（Hybrid Copper Bonding, HCB）</a></h3>
+<ul>
+<li><strong>三星领先</strong>：HCB支持16层以上堆叠，散热降低20%+</li>
+<li><strong>对比传统</strong>：热压缩键合（TCB）需要高温高压，HCB在室温下完成</li>
+<li><strong>意义</strong>：为HBM5（20+层）铺路</li>
+</ul>
+<h3 id="2-定制化hbmchbm"><a class="header" href="#2-定制化hbmchbm">2. 定制化HBM（cHBM）</a></h3>
+<ul>
+<li><strong>SK海力士</strong>：将GPU/ASIC部分功能集成到HBM基板</li>
+<li><strong>目的</strong>：减少数据移动，提升推理效率</li>
+<li><strong>信号</strong>：客户从"纯性能"转向"推理效率+成本优化"</li>
+</ul>
+<h3 id="3-容量扩展"><a class="header" href="#3-容量扩展">3. 容量扩展</a></h3>
+<ul>
+<li><strong>当前</strong>：16层堆叠 = 48GB/颗（HBM4）</li>
+<li><strong>未来</strong>：20层+ = 96GB+/颗（HBM5）</li>
+<li><strong>制约因素</strong>：散热、良率、成本</li>
+</ul>
+<hr />
+<h2 id="-关键数据-4"><a class="header" href="#-关键数据-4">📊 关键数据</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
+<tr><td>HBM市场规模（2026E）</td><td>$300亿+</td><td>行业估计 [来源：待补充具体报告链接]</td></tr>
+<tr><td>SK海力士HBM份额</td><td>53%</td><td>Counterpoint Research, 2025Q3</td></tr>
+<tr><td>三星HBM份额</td><td>35%</td><td>Counterpoint Research, 2025Q3</td></tr>
+<tr><td>VeraRubin总HBM容量</td><td>576GB</td><td>NVIDIA官方GTC 2026披露</td></tr>
+<tr><td>AMD MI450 HBM容量</td><td>432GB</td><td>AMD官方披露</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-相关页面-4"><a class="header" href="#-相关页面-4">🔗 相关页面</a></h2>
+<ul>
+<li><a href="part3/../entities/sk-hynix.html">entities/sk-hynix.md</a> — SK海力士详情</li>
+<li><a href="part3/../entities/samsung.html">entities/samsung.md</a> — 三星详情</li>
+<li><a href="part3/../entities/nvidia.html">entities/nvidia.md</a> — NVIDIA HBM策略</li>
+<li><a href="part3/processing-in-memory.html">concepts/processing-in-memory.md</a> — 存算一体（HBM的下一步）</li>
+</ul>
+<hr />
+<p><em>最后更新：2026-05-09</em><br />
+<em>信息来源：SK海力士/三星/Micron官方、Counterpoint、NVIDIA/AMD官方</em></p>
+<hr />
+<p><strong>厂商格局</strong>（2025Q3）：</p>
+<ul>
+<li>SK海力士：53%（收入）/ 62%（出货量）</li>
+<li>三星：35%</li>
+<li>其他：12%</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="hbm高带宽内存演进"><a class="header" href="#hbm高带宽内存演进">HBM：高带宽内存演进</a></h1>
+<blockquote>
+<p>从HBM3E到HBM4/4E，AI训练推理的内存瓶颈。</p>
+</blockquote>
+<h1 id="hbm高带宽内存-1"><a class="header" href="#hbm高带宽内存-1">HBM（高带宽内存）</a></h1>
+<p><strong>类型</strong>：内存技术 / AI芯片关键组件<br />
+<strong>全称</strong>：High Bandwidth Memory<br />
+<strong>核心作用</strong>：解决AI推理的"内存带宽瓶颈"</p>
+<hr />
+<h2 id="-技术原理-3"><a class="header" href="#-技术原理-3">🧬 技术原理</a></h2>
+<h3 id="什么是hbm-1"><a class="header" href="#什么是hbm-1">什么是HBM？</a></h3>
+<p>传统DRAM（如DDR4/DDR5）是"平面"布局——芯片平铺在PCB上。HBM采用<strong>3D堆叠</strong>：</p>
+<ul>
+<li>多颗DRAM芯片垂直堆叠</li>
+<li>通过**硅通孔（TSV, Through-Silicon Via）**连接</li>
+<li>与GPU/CPU通过**中介层（Interposer）**紧密封装</li>
+</ul>
+<h3 id="为什么ai需要hbm-1"><a class="header" href="#为什么ai需要hbm-1">为什么AI需要HBM？</a></h3>
+<p>AI推理是<strong>内存带宽受限</strong>，而非算力受限：</p>
+<ul>
+<li>Transformer模型每次推理需要加载全部权重</li>
+<li>算力再强，如果内存带宽不够，GPU就在"等数据"</li>
+<li><strong>关键公式</strong>：推理吞吐量 ∝ 内存带宽 / 模型权重大小</li>
+</ul>
+<hr />
+<h2 id="-技术演进时间线-1"><a class="header" href="#-技术演进时间线-1">🏛️ 技术演进时间线</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>代际</th><th>时间</th><th>带宽/堆叠</th><th>容量</th><th>关键应用</th></tr></thead><tbody>
+<tr><td>HBM1</td><td>2015</td><td>128GB/s, 4层</td><td>1GB</td><td>AMD Fiji GPU</td></tr>
+<tr><td>HBM2</td><td>2016</td><td>307GB/s, 4/8层</td><td>4-8GB</td><td>NVIDIA V100</td></tr>
+<tr><td>HBM2E</td><td>2020</td><td>460GB/s, 8层</td><td>16GB</td><td>NVIDIA A100</td></tr>
+<tr><td>HBM3</td><td>2022</td><td>819GB/s, 12层</td><td>24GB</td><td>NVIDIA H100</td></tr>
+<tr><td>HBM3E</td><td>2024</td><td>1.2TB/s, 12层</td><td>36GB</td><td>NVIDIA H200/B200</td></tr>
+<tr><td><strong>HBM4</strong></td><td><strong>2026</strong></td><td><strong>2TB/s+, 16层</strong></td><td><strong>48GB/颗</strong></td><td><strong>NVIDIA Rubin/AMD MI400</strong></td></tr>
+<tr><td>HBM4E</td><td>2027（预计）</td><td>2.4TB/s+, 16层</td><td>64GB/颗</td><td>下一代AI芯片</td></tr>
+<tr><td>HBM5</td><td>2028+（预计）</td><td>3TB/s+</td><td>96GB+</td><td>Feynman/下一代</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-关键技术指标-1"><a class="header" href="#-关键技术指标-1">🔑 关键技术指标</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>HBM3E</th><th>HBM4</th><th>HBM4E</th><th>提升逻辑</th></tr></thead><tbody>
+<tr><td>每颗带宽</td><td>1.2TB/s</td><td>2.0TB/s+</td><td>2.4TB/s+</td><td>更高频率+更多通道</td></tr>
+<tr><td>堆叠层数</td><td>12层</td><td><strong>16层</strong></td><td>16层</td><td>3D封装技术进步</td></tr>
+<tr><td>单颗容量</td><td>36GB</td><td><strong>48GB</strong></td><td>64GB</td><td>每层容量增加</td></tr>
+<tr><td>功耗</td><td>较高</td><td>优化</td><td>更低</td><td>先进制程+电压优化</td></tr>
+<tr><td>封装技术</td><td>热压缩键合</td><td><strong>混合铜键合(HCB)</strong></td><td>HCB优化</td><td>更薄、散热更好</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-厂商竞争格局-1"><a class="header" href="#-厂商竞争格局-1">🏢 厂商竞争格局</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>厂商</th><th>份额(2025Q3)</th><th>技术特点</th><th>关键客户</th></tr></thead><tbody>
+<tr><td><strong>SK海力士</strong></td><td><strong>53%</strong></td><td>先发优势，12层HBM3E成熟</td><td>NVIDIA、AMD、Google</td></tr>
+<tr><td><strong>三星</strong></td><td><strong>35%</strong></td><td>HBM4E 16Gbps/pin，HCB技术</td><td>NVIDIA（VeraRubin）</td></tr>
+<tr><td><strong>Micron</strong></td><td><strong>12%</strong></td><td>追赶中，HBM3E刚量产</td><td>部分云厂商</td></tr>
+</tbody></table>
+</div>
+<p><strong>来源</strong>：Counterpoint Research, 2025Q3 HBM市场份额报告 [来源链接待补充]</p>
+<p><strong>关键动态</strong>：</p>
+<ul>
+<li><strong>SK海力士</strong>：VeraRubin HBM4独家供应商（与三星共同供应）</li>
+<li><strong>三星</strong>：HBM4E 16Gbps/pin（对比HBM4的11.7Gbps），总带宽4TB/s</li>
+<li><strong>Micron</strong>：未入选NVIDIA VeraRubin供应链，处于劣势</li>
+</ul>
+<hr />
+<h2 id="-前沿技术-1"><a class="header" href="#-前沿技术-1">🚀 前沿技术</a></h2>
+<h3 id="1-混合铜键合hybrid-copper-bonding-hcb-1"><a class="header" href="#1-混合铜键合hybrid-copper-bonding-hcb-1">1. 混合铜键合（Hybrid Copper Bonding, HCB）</a></h3>
+<ul>
+<li><strong>三星领先</strong>：HCB支持16层以上堆叠，散热降低20%+</li>
+<li><strong>对比传统</strong>：热压缩键合（TCB）需要高温高压，HCB在室温下完成</li>
+<li><strong>意义</strong>：为HBM5（20+层）铺路</li>
+</ul>
+<h3 id="2-定制化hbmchbm-1"><a class="header" href="#2-定制化hbmchbm-1">2. 定制化HBM（cHBM）</a></h3>
+<ul>
+<li><strong>SK海力士</strong>：将GPU/ASIC部分功能集成到HBM基板</li>
+<li><strong>目的</strong>：减少数据移动，提升推理效率</li>
+<li><strong>信号</strong>：客户从"纯性能"转向"推理效率+成本优化"</li>
+</ul>
+<h3 id="3-容量扩展-1"><a class="header" href="#3-容量扩展-1">3. 容量扩展</a></h3>
+<ul>
+<li><strong>当前</strong>：16层堆叠 = 48GB/颗（HBM4）</li>
+<li><strong>未来</strong>：20层+ = 96GB+/颗（HBM5）</li>
+<li><strong>制约因素</strong>：散热、良率、成本</li>
+</ul>
+<hr />
+<h2 id="-关键数据-5"><a class="header" href="#-关键数据-5">📊 关键数据</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
+<tr><td>HBM市场规模（2026E）</td><td>$300亿+</td><td>行业估计 [来源：待补充具体报告链接]</td></tr>
+<tr><td>SK海力士HBM份额</td><td>53%</td><td>Counterpoint Research, 2025Q3</td></tr>
+<tr><td>三星HBM份额</td><td>35%</td><td>Counterpoint Research, 2025Q3</td></tr>
+<tr><td>VeraRubin总HBM容量</td><td>576GB</td><td>NVIDIA官方GTC 2026披露</td></tr>
+<tr><td>AMD MI450 HBM容量</td><td>432GB</td><td>AMD官方披露</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-相关页面-5"><a class="header" href="#-相关页面-5">🔗 相关页面</a></h2>
+<ul>
+<li><a href="part3/../entities/sk-hynix.html">entities/sk-hynix.md</a> — SK海力士详情</li>
+<li><a href="part3/../entities/samsung.html">entities/samsung.md</a> — 三星详情</li>
+<li><a href="part3/../entities/nvidia.html">entities/nvidia.md</a> — NVIDIA HBM策略</li>
+<li><a href="part3/processing-in-memory.html">concepts/processing-in-memory.md</a> — 存算一体（HBM的下一步）</li>
+</ul>
+<hr />
+<p><em>最后更新：2026-05-09</em><br />
+<em>信息来源：SK海力士/三星/Micron官方、Counterpoint、NVIDIA/AMD官方</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="存算一体突破冯诺依曼瓶颈"><a class="header" href="#存算一体突破冯诺依曼瓶颈">存算一体：突破冯·诺依曼瓶颈</a></h1>
+<blockquote>
+<p>数据在CPU和DRAM之间搬运消耗60%+系统能耗。存算一体在内存里做计算。</p>
+</blockquote>
+<h1 id="存算一体--processing-in-memory-pim"><a class="header" href="#存算一体--processing-in-memory-pim">存算一体 / Processing-in-Memory (PIM)</a></h1>
+<blockquote>
+<p>类型：硬件架构 | 别名：近存运算、Compute-in-Memory | 最后更新：2026-05-09</p>
+</blockquote>
+<h2 id="问题内存墙-memory-wall"><a class="header" href="#问题内存墙-memory-wall">问题：内存墙 (Memory Wall)</a></h2>
+<p>在传统冯·诺依曼架构中，数据在CPU和DRAM之间搬运：</p>
+<ul>
+<li>现代工作负载中，<strong>数据移动消耗超过60%的系统能耗</strong> [来源：Horowitz et al. 2014; arxiv 2511.22889]</li>
+<li>50%的执行时间浪费在基于页的虚拟内存开销上 [来源：待补充具体论文]</li>
+<li>AI推理是<strong>内存带宽受限</strong>，而非算力受限 [来源：AI推理性能分析共识]</li>
+</ul>
+<h2 id="三大子方向"><a class="header" href="#三大子方向">三大子方向</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>方向</th><th>英文</th><th>原理</th><th>距离</th></tr></thead><tbody>
+<tr><td><strong>近存处理</strong></td><td>Near-Memory Processing (NMP)</td><td>逻辑层紧邻DRAM/HBM/SSD</td><td>最近</td></tr>
+<tr><td><strong>存内计算</strong></td><td>Compute-in-Memory (CIM)</td><td>在内存位单元内执行运算</td><td>在内部</td></tr>
+<tr><td><strong>存内逻辑</strong></td><td>Logic-in-Memory (LIM)</td><td>在存储单元内嵌入布尔逻辑</td><td>在内部</td></tr>
+</tbody></table>
+</div>
+<h2 id="技术集群"><a class="header" href="#技术集群">技术集群</a></h2>
+<h3 id="集群1基于dram的processing-using-memory-pum"><a class="header" href="#集群1基于dram的processing-using-memory-pum">集群1：基于DRAM的Processing-Using-Memory (PuM)</a></h3>
+<ul>
+<li>利用DRAM的电荷共享和位线感应物理特性</li>
+<li>无需修改硬件即可在标准DRAM中执行位运算</li>
+<li>代表：ETH Zurich的SIMDRAM、PiDRAM</li>
+</ul>
+<h3 id="集群2sram-based-cim边缘ai主流"><a class="header" href="#集群2sram-based-cim边缘ai主流">集群2：SRAM-based CIM（边缘AI主流）</a></h3>
+<ul>
+<li>修改6T/8T SRAM阵列，在位单元内执行乘累加(MAC)</li>
+<li>无需片外数据移动</li>
+<li>代表：Purdue IMAC、Rice CAP-RAM</li>
+</ul>
+<h3 id="集群3阻变非易失存储器cim"><a class="header" href="#集群3阻变非易失存储器cim">集群3：阻变/非易失存储器CIM</a></h3>
+<ul>
+<li>ReRAM/RRAM/MRAM/PCM多电平模拟存储</li>
+<li>利用欧姆定律和基尔霍夫电流定律执行向量矩阵乘法</li>
+<li>代表：Stanford RRAM-CIM、清华Beijing Innovation Center</li>
+</ul>
+<h3 id="集群43d堆叠与chiplet封装"><a class="header" href="#集群43d堆叠与chiplet封装">集群4：3D堆叠与Chiplet封装</a></h3>
+<ul>
+<li>通过TSV、2.5D中介层物理缩短逻辑与内存距离</li>
+<li>代表：Carnegie Mellon FPGA+HBM、Google 3D-DRAM chiplet</li>
+</ul>
+<h2 id="2026年产业动态"><a class="header" href="#2026年产业动态">2026年产业动态</a></h2>
+<h3 id="nvidia-gtc-2026"><a class="header" href="#nvidia-gtc-2026">NVIDIA GTC 2026</a></h3>
+<ul>
+<li>探索SRAM-based推理架构（HBM的补充）</li>
+<li>Rubin平台采用HBM4，通过3D堆叠提升带宽</li>
+</ul>
+<h3 id="sk海力士-ces-2026"><a class="header" href="#sk海力士-ces-2026">SK海力士 CES 2026</a></h3>
+<ul>
+<li><strong>cHBM (Custom HBM)</strong>：将GPU/ASIC部分功能集成到HBM基板</li>
+<li><strong>AiMX</strong>：基于GDDR6-AiM芯片的LLM加速器卡</li>
+<li><strong>CuD (Compute-using-DRAM)</strong>：在DRAM单元内执行简单计算</li>
+<li><strong>CMM-Ax</strong>：CXL内存模块+计算能力</li>
+</ul>
+<h3 id="三星-gtc-2026"><a class="header" href="#三星-gtc-2026">三星 GTC 2026</a></h3>
+<ul>
+<li>HBM4E展示：16Gbps/pin，总带宽4TB/s</li>
+<li>混合铜键合(HCB)技术：支持16层以上堆叠</li>
+<li>计划2028年推出HBM5（1c DRAM + 2nm工艺）</li>
+</ul>
+<h3 id="产业痛点"><a class="header" href="#产业痛点">产业痛点</a></h3>
+<ul>
+<li>大多数CIM演示仍限于<strong>128Kb以下阵列</strong></li>
+<li>模拟非理想性随规模扩大而恶化</li>
+<li>缺乏CIM编译器和模拟工具链（软件-硬件协同设计缺口）</li>
+</ul>
+<h2 id="关键数字"><a class="header" href="#关键数字">关键数字</a></h2>
+<ul>
+<li><strong>60%+</strong>：数据移动占系统能耗比例 [来源：Horowitz et al. 2014]</li>
+<li><strong>2×</strong>：近存储处理端到端延迟降低（Harvard RecSSD）[来源：Harvard RecSSD研究]</li>
+<li><strong>98.34%</strong>：FeFET MCAM少样本学习准确率 [来源：学术论文，待补充具体DOI]</li>
+<li><strong>4.7×</strong>：ReCAM vs GPU的DNA比对吞吐量提升 [来源：学术论文，待补充具体DOI]</li>
+<li><strong>128Kb</strong>：大多数CIM演示阵列上限 [来源：2026年行业观察，CIM规模化瓶颈]</li>
+</ul>
+<h2 id="相关实体-1"><a class="header" href="#相关实体-1">相关实体</a></h2>
+<ul>
+<li><a href="part3/../entities/nvidia.html">NVIDIA</a></li>
+<li><a href="part3/../entities/samsung.html">三星</a></li>
+<li><a href="part3/../entities/sk-hynix.html">SK海力士</a></li>
+<li><a href="part3/../concepts/hbm.html">HBM</a></li>
+</ul>
+<hr />
+<p><strong>三大子方向</strong>：</p>
+<ul>
+<li>Near-Memory Processing（最接近产品化）</li>
+<li>Compute-in-Memory（实验室→原型）</li>
+<li>Logic-in-Memory（早期研究）</li>
+</ul>
+<p><strong>关键瓶颈</strong>：</p>
+<ul>
+<li>128Kb阵列限制</li>
+<li>软件链缺口（缺乏CIM编译器）</li>
+<li>精度vs能效权衡</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="近存运算最接近产品化"><a class="header" href="#近存运算最接近产品化">近存运算：最接近产品化</a></h1>
+<blockquote>
+<p>逻辑层紧邻DRAM/HBM，NVIDIA、SK海力士、Google都在推进。</p>
+</blockquote>
+<h1 id="near-memory-computing近存计算"><a class="header" href="#near-memory-computing近存计算">Near-Memory Computing（近存计算）</a></h1>
+<p><strong>类型</strong>：存算一体子方向<br />
+<strong>别名</strong>：Processing-Near-Memory (PNM) / Near-Data Processing<br />
+<strong>核心思想</strong>：<strong>把计算逻辑搬到内存旁边，而不是让数据跑来跑去</strong></p>
+<hr />
+<h2 id="-技术原理-4"><a class="header" href="#-技术原理-4">🧬 技术原理</a></h2>
+<h3 id="冯诺依曼瓶颈"><a class="header" href="#冯诺依曼瓶颈">冯·诺依曼瓶颈</a></h3>
+<p>传统计算机架构：</p>
+<ul>
+<li>CPU和内存分离，数据通过总线搬运</li>
+<li><strong>AI推理中</strong>：数据搬运消耗60%+系统能耗，延迟远高于计算本身</li>
+<li><strong>关键矛盾</strong>：算力增长快于内存带宽（"内存墙"）</li>
+</ul>
+<h3 id="near-memory-computing的解法"><a class="header" href="#near-memory-computing的解法">Near-Memory Computing的解法</a></h3>
+<ul>
+<li><strong>把计算逻辑放在内存控制器/内存旁边</strong></li>
+<li><strong>减少数据移动距离</strong>：从"去CPU计算"变成"在内存旁边算"</li>
+<li><strong>带宽优势</strong>：内存旁边的计算单元可以直接访问HBM/DRAM的宽总线</li>
+</ul>
+<p><strong>关键公式</strong>：推理吞吐量 ∝ 内存带宽 / 模型权重大小 [来源：AI推理性能分析经典公式，NVIDIA/MLSys社区共识]</p>
+<hr />
+<h2 id="-与processing-in-memory的关系"><a class="header" href="#-与processing-in-memory的关系">🏛️ 与Processing-in-Memory的关系</a></h2>
+<p>Near-Memory Computing是<strong>存算一体的三大子方向之一</strong>：</p>
+<div class="table-wrapper"><table><thead><tr><th>子方向</th><th>计算位置</th><th>成熟度</th><th>主要玩家</th></tr></thead><tbody>
+<tr><td><strong>Near-Memory Computing</strong></td><td>逻辑层紧邻DRAM/HBM</td><td><strong>最接近产品化</strong></td><td>NVIDIA、SK海力士、Google</td></tr>
+<tr><td><strong>Compute-in-Memory (CIM)</strong></td><td>在内存位单元内执行运算</td><td>实验室→原型</td><td>清华、Stanford、SK海力士(CuD)</td></tr>
+<tr><td><strong>Logic-in-Memory (LIM)</strong></td><td>存储单元内嵌入布尔逻辑</td><td>早期研究</td><td>高校为主</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-技术实现方式"><a class="header" href="#-技术实现方式">🔑 技术实现方式</a></h2>
+<h3 id="1-hbm基板集成chbm"><a class="header" href="#1-hbm基板集成chbm">1. HBM基板集成（cHBM）</a></h3>
+<ul>
+<li><strong>SK海力士</strong>：将GPU/ASIC部分功能集成到HBM基板</li>
+<li><strong>原理</strong>：在HBM的逻辑层（Base Die）上添加计算单元</li>
+<li><strong>优势</strong>：利用HBM的宽总线（1024-bit/2048-bit），带宽极高</li>
+<li><strong>成熟度</strong>：产品化中，CES 2026展示</li>
+</ul>
+<h3 id="2-3d-dram-chiplet"><a class="header" href="#2-3d-dram-chiplet">2. 3D-DRAM Chiplet</a></h3>
+<ul>
+<li><strong>Google专利（2024）</strong>：计算-内存3D堆叠Chiplet</li>
+<li><strong>设计</strong>：针对LLM serving优化，低功耗、高带宽</li>
+<li><strong>状态</strong>：专利阶段，未商用</li>
+</ul>
+<h3 id="3-cxl内存计算cmm-ax"><a class="header" href="#3-cxl内存计算cmm-ax">3. CXL内存+计算（CMM-Ax）</a></h3>
+<ul>
+<li><strong>SK海力士</strong>：CXL接口内存模块 + 计算能力集成</li>
+<li><strong>应用场景</strong>：服务器扩展内存+近端计算</li>
+<li><strong>优势</strong>：标准化接口（CXL），兼容现有服务器架构</li>
+</ul>
+<h3 id="4-smartnicdpu"><a class="header" href="#4-smartnicdpu">4. SmartNIC/DPU</a></h3>
+<ul>
+<li><strong>NVIDIA BlueField</strong>：在网卡上集成计算，减少CPU参与</li>
+<li><strong>归类</strong>：广义近存计算（数据在到达CPU前就被处理）</li>
+</ul>
+<hr />
+<h2 id="-2026年产业信号"><a class="header" href="#-2026年产业信号">🚀 2026年产业信号</a></h2>
+<h3 id="sk海力士-ces-2026-1"><a class="header" href="#sk海力士-ces-2026-1">SK海力士 CES 2026</a></h3>
+<ul>
+<li><strong>cHBM</strong>：将GPU/ASIC功能集成到HBM基板</li>
+<li><strong>AiMX</strong>：基于GDDR6-AiM芯片的LLM专用加速器卡</li>
+<li><strong>信号</strong>：客户从"纯性能"转向"推理效率+成本优化"</li>
+</ul>
+<h3 id="nvidia-sram探索"><a class="header" href="#nvidia-sram探索">NVIDIA SRAM探索</a></h3>
+<ul>
+<li><strong>片上SRAM</strong>：将大型SRAM块置于芯片内部，减少数据移动</li>
+<li><strong>定位</strong>：HBM的补充（小容量、超高速缓存）</li>
+<li><strong>限制</strong>：SRAM面积是DRAM的5-10倍，只能做小容量</li>
+</ul>
+<h3 id="google-3d-dram"><a class="header" href="#google-3d-dram">Google 3D-DRAM</a></h3>
+<ul>
+<li><strong>专利</strong>：2024年申请，计算-内存3D堆叠</li>
+<li><strong>目标</strong>：LLM serving优化</li>
+<li><strong>状态</strong>：早期研究</li>
+</ul>
+<hr />
+<h2 id="-关键数据-6"><a class="header" href="#-关键数据-6">📊 关键数据</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
+<tr><td>数据搬运能耗占比</td><td>60%+（传统架构）</td><td>Horowitz et al. 2014; arxiv 2511.22889</td></tr>
+<tr><td>HBM基板带宽</td><td>1024-bit × 4 = 4096-bit总线</td><td>HBM标准规范</td></tr>
+<tr><td>cHBM效率提升</td><td>预计2-5倍（vs传统HBM）</td><td>SK海力士 CES 2026展示 [来源：待补充官方技术白皮书]</td></tr>
+<tr><td>SRAM vs DRAM面积比</td><td>5-10倍</td><td>半导体工艺数据 [来源：NVIDIA/SK海力士公开技术讨论]</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-相关页面-6"><a class="header" href="#-相关页面-6">🔗 相关页面</a></h2>
+<ul>
+<li><a href="part3/processing-in-memory.html">concepts/processing-in-memory.md</a> — 存算一体全景</li>
+<li><a href="part3/../entities/sk-hynix.html">entities/sk-hynix.md</a> — cHBM/AiMX/CuD</li>
+<li><a href="part3/../entities/nvidia.html">entities/nvidia.md</a> — SRAM探索</li>
+<li><a href="part3/hbm.html">concepts/hbm.md</a> — HBM技术基础</li>
+</ul>
+<hr />
+<p><em>最后更新：2026-05-09</em><br />
+<em>信息来源：SK海力士CES 2026、学术论文、专利数据库</em></p>
+<hr />
+<p><strong>SK海力士 cHBM</strong>：</p>
+<ul>
+<li>"Stream DQ Architecture"：在HBM base die上集成计算逻辑</li>
+<li>推理吞吐提升~7倍</li>
+<li>Google/Amazon/Microsoft 2027年起也定制HBM</li>
+</ul>
+<p><strong>NVIDIA SRAM探索</strong>：</p>
+<ul>
+<li>片上SRAM减少数据移动</li>
+<li>但面积是DRAM的5-10倍，只能做小容量缓存</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="chiplet芯粒架构"><a class="header" href="#chiplet芯粒架构">Chiplet：芯粒架构</a></h1>
+<blockquote>
+<p>后摩尔时代的模块化设计。</p>
+</blockquote>
+<h1 id="chiplet芯粒"><a class="header" href="#chiplet芯粒">Chiplet（芯粒）</a></h1>
+<p><strong>类型</strong>：半导体封装技术 / 芯片设计范式<br />
+<strong>核心思想</strong>：<strong>把大芯片拆成小芯片（Chiplet），再封装在一起</strong></p>
+<hr />
+<h2 id="-技术原理-5"><a class="header" href="#-技术原理-5">🧬 技术原理</a></h2>
+<h3 id="为什么需要chiplet"><a class="header" href="#为什么需要chiplet">为什么需要Chiplet？</a></h3>
+<p>传统单片芯片（Monolithic）的困境：</p>
+<ul>
+<li><strong>良率问题</strong>：芯片越大，制造缺陷概率越高（良率 ∝ e^(-面积)）</li>
+<li><strong>成本问题</strong>：大芯片需要最先进的制程，但先进制程每片晶圆成本极高</li>
+<li><strong>灵活性问题</strong>：CPU/GPU/内存/IO需要不同制程，单片设计被迫统一</li>
+</ul>
+<h3 id="chiplet的解法"><a class="header" href="#chiplet的解法">Chiplet的解法</a></h3>
+<ul>
+<li><strong>拆分</strong>：大芯片拆成多个小Chiplet（如CPU核心、GPU核心、IO接口、内存控制器）</li>
+<li><strong>混搭</strong>：每个Chiplet用最合适的制程（核心用3nm，IO用7nm）</li>
+<li><strong>封装</strong>：通过高速互连（UCIe、Infinity Fabric）封装在一起</li>
+<li><strong>结果</strong>：成本降低、良率提升、灵活性增加</li>
+</ul>
+<hr />
+<h2 id="-发展时间线-2"><a class="header" href="#-发展时间线-2">🏛️ 发展时间线</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>时间</th><th>事件</th><th>来源</th></tr></thead><tbody>
+<tr><td>2017</td><td>AMD首次大规模使用Chiplet：EPYC Naples（4个Die）</td><td>AMD</td></tr>
+<tr><td>2019</td><td>AMD Ryzen 3000：CPU Chiplet + IO Die分离</td><td>AMD</td></tr>
+<tr><td>2021</td><td>Intel提出IDM 2.0，Chiplet为核心战略</td><td>Intel</td></tr>
+<tr><td>2022</td><td><strong>UCIe联盟成立</strong>（Intel/AMD/ARM/TSMC等），统一Chiplet互连标准</td><td>ucie.org</td></tr>
+<tr><td>2023</td><td>Apple M3 Ultra：2个M3 Max拼接，112核GPU</td><td>Apple</td></tr>
+<tr><td>2024</td><td>AMD MI300X：CPU+GPU+HBM的"超级Chiplet"</td><td>AMD</td></tr>
+<tr><td>2025</td><td>Intel Panther Lake：全Chiplet设计</td><td>Intel</td></tr>
+<tr><td>2026</td><td><strong>AMD MI400</strong>：CDNA 5 + HBM4 Chiplet</td><td>AMD</td></tr>
+<tr><td>2026</td><td><strong>NVIDIA Rubin</strong>：可能采用Chiplet架构（细节未公开）</td><td>供应链</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-关键技术标准"><a class="header" href="#-关键技术标准">🔑 关键技术标准</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>标准</th><th>主导者</th><th>带宽</th><th>用途</th></tr></thead><tbody>
+<tr><td><strong>UCIe</strong></td><td>Intel（联盟）</td><td>2-4TB/s/mm</td><td>Chiplet间互连行业标准</td></tr>
+<tr><td><strong>Infinity Fabric</strong></td><td>AMD</td><td>定制</td><td>AMD内部Chiplet互联</td></tr>
+<tr><td><strong>EMIB</strong></td><td>Intel</td><td>高密度</td><td>2D/2.5D封装</td></tr>
+<tr><td><strong>Foveros</strong></td><td>Intel</td><td>3D堆叠</td><td>垂直方向Chiplet堆叠</td></tr>
+<tr><td><strong>CoWoS</strong></td><td>TSMC</td><td>高密度</td><td>NVIDIA/AMD GPU+HBM封装</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-厂商策略"><a class="header" href="#-厂商策略">🏢 厂商策略</a></h2>
+<h3 id="amd-1"><a class="header" href="#amd-1">AMD</a></h3>
+<ul>
+<li><strong>最激进的Chiplet玩家</strong>：从2017年起全线产品使用Chiplet</li>
+<li><strong>EPYC</strong>：CPU核心Chiplet + IO Die分离，良率从30%提升到70%+</li>
+<li><strong>MI300X</strong>：APU架构（CPU+GPU统一内存），但被批评"样样通样样松"</li>
+<li><strong>MI400</strong>：回归纯GPU Chiplet，CDNA 5 + HBM4</li>
+</ul>
+<h3 id="intel"><a class="header" href="#intel">Intel</a></h3>
+<ul>
+<li><strong>UCIe联盟主导者</strong>：推动行业标准，打破 proprietary 互连</li>
+<li><strong>Foveros 3D</strong>：Lakefield处理器首次商用3D Chiplet堆叠</li>
+<li><strong>Panther Lake（2025）</strong>：全Chiplet设计，CPU+GPU+NPU分离</li>
+<li><strong>代工战略</strong>：Intel Foundry对外提供Chiplet封装服务</li>
+</ul>
+<h3 id="nvidia-1"><a class="header" href="#nvidia-1">NVIDIA</a></h3>
+<ul>
+<li><strong>相对保守</strong>：GPU传统单片设计（Hopper/Blackwell）</li>
+<li><strong>Blackwell架构</strong>：已有双Die拼接（GB200），但非全Chiplet</li>
+<li><strong>Rubin（2026）</strong>：可能采用更多Chiplet设计（传闻）</li>
+<li><strong>优势</strong>：单片设计内存带宽更高，但成本/良率压力大</li>
+</ul>
+<h3 id="apple"><a class="header" href="#apple">Apple</a></h3>
+<ul>
+<li><strong>M系列Ultra</strong>：2个Max Die拼接，GPU核心数翻倍</li>
+<li><strong>策略</strong>：相对简单的2-Die拼接，非复杂多Chiplet</li>
+<li><strong>优势</strong>：统一内存架构（UMA），CPU/GPU共享内存</li>
+</ul>
+<hr />
+<h2 id="-前沿方向"><a class="header" href="#-前沿方向">🚀 前沿方向</a></h2>
+<h3 id="1-3d-chiplet堆叠"><a class="header" href="#1-3d-chiplet堆叠">1. 3D Chiplet堆叠</a></h3>
+<ul>
+<li><strong>Intel Foveros</strong>：上下两层芯片垂直堆叠，密度更高</li>
+<li><strong>TSMC SoIC</strong>：更先进的3D封装，用于HBM堆叠</li>
+<li><strong>应用</strong>：HBM本身就是3D Chiplet（DRAM层堆叠）</li>
+</ul>
+<h3 id="2-optical-io-chiplet"><a class="header" href="#2-optical-io-chiplet">2. Optical I/O Chiplet</a></h3>
+<ul>
+<li><strong>概念</strong>：用光互连替代电互连，带宽提升10倍+</li>
+<li><strong>玩家</strong>：Ayar Labs（Intel投资）、NVIDIA Research</li>
+<li><strong>瓶颈</strong>：光电转换效率、成本</li>
+</ul>
+<h3 id="3-ucie生态成熟"><a class="header" href="#3-ucie生态成熟">3. UCIe生态成熟</a></h3>
+<ul>
+<li><strong>2026年</strong>：首批UCIe兼容Chiplet产品上市</li>
+<li><strong>意义</strong>：Chiplet从" proprietary 游戏"变为"开放生态"</li>
+<li><strong>影响</strong>：小公司也能设计Chiplet，大厂提供互连/封装</li>
+</ul>
+<hr />
+<h2 id="-关键数据-7"><a class="header" href="#-关键数据-7">📊 关键数据</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
+<tr><td>AMD EPYC良率提升</td><td>30% → 70%+（Chiplet vs Monolithic）</td><td>AMD官方</td></tr>
+<tr><td>UCIe联盟成员</td><td>100+公司</td><td>ucie.org</td></tr>
+<tr><td>MI300X Die数量</td><td>13个Die（CPU+GPU+HBM）</td><td>AMD</td></tr>
+<tr><td>CoWoS封装产能</td><td>TSMC 2026年扩产50%+</td><td>供应链</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-相关页面-7"><a class="header" href="#-相关页面-7">🔗 相关页面</a></h2>
+<ul>
+<li><a href="part3/../entities/amd.html">entities/amd.md</a> — AMD Chiplet策略</li>
+<li><a href="part3/../entities/intel.html">entities/intel.md</a> — Intel UCIe/Foveros</li>
+<li><a href="part3/../entities/nvidia.html">entities/nvidia.md</a> — NVIDIA封装策略</li>
+<li><a href="part3/hbm.html">concepts/hbm.md</a> — HBM本身就是3D Chiplet</li>
+</ul>
+<hr />
+<p><em>最后更新：2026-05-09</em><br />
+<em>信息来源：AMD/Intel/TSMC官方、UCIe联盟、供应链</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="anthropicclaude与harness领导者"><a class="header" href="#anthropicclaude与harness领导者">Anthropic：Claude与Harness领导者</a></h1>
+<blockquote>
+<p>Anthropic是2026年Harness Engineering的领导者，三Agent架构和Managed Agents产品化是其核心贡献。</p>
+</blockquote>
+<h1 id="anthropic-1"><a class="header" href="#anthropic-1">Anthropic</a></h1>
+<blockquote>
+<p>类型：模型厂商 | 核心产品：Claude系列 | 最后更新：2026-05-09</p>
+</blockquote>
+<h2 id="简介-2"><a class="header" href="#简介-2">简介</a></h2>
+<p>Anthropic是AI安全和对齐研究的前沿公司，Claude系列模型以长上下文和可靠性著称。2026年，Anthropic在Harness Engineering方法论上处于行业领先地位。</p>
+<h2 id="最新动态-2"><a class="header" href="#最新动态-2">最新动态</a></h2>
+<h3 id="2026-04harness-engineering-领导者-1"><a class="header" href="#2026-04harness-engineering-领导者-1">2026-04：Harness Engineering 领导者</a></h3>
+<p><strong>核心贡献</strong></p>
+<ul>
+<li>2026年2月发布工程博客《Harness design for long-running application development》</li>
+<li>提出三Agent Harness架构：Planner-Generator-Evaluator</li>
+<li>发布三篇 Harness 相关论文</li>
+<li>被Hugging Face的Philipp Schmid称为"2026年最重要的学科"</li>
+</ul>
+<p><strong>三Agent Harness设计</strong></p>
+<ul>
+<li><strong>Planner</strong>：负责规划</li>
+<li><strong>Generator</strong>：负责生成</li>
+<li><strong>Evaluator</strong>：负责评估（使用Playwright MCP导航实时页面）</li>
+<li>迭代5-15轮，有时长达4小时</li>
+<li>关键原则：AI只能通过验证来证明任务完成，不能自我声明</li>
+</ul>
+<p><strong>Managed Agents</strong></p>
+<ul>
+<li>将Agent拆解为Session / Harness / Sandbox三层</li>
+<li>Harness（大脑）与Sandbox（双手）完全解耦</li>
+<li>性能提升：p50 TTFT下降60%，p95 TTFT下降90%以上</li>
+</ul>
+<h3 id="2026-04opus-47-发布-1"><a class="header" href="#2026-04opus-47-发布-1">2026-04：Opus 4.7 发布</a></h3>
+<ul>
+<li>第三代模型（不到一年内）</li>
+<li>每次升级不仅改进模型，还简化Harness</li>
+<li>3月负载的组件到4月变成死重（需要定期清理workaround）</li>
+</ul>
+<h2 id="技术理念-1"><a class="header" href="#技术理念-1">技术理念</a></h2>
+<p><strong>公式</strong>：Agent = Model + Harness</p>
+<ul>
+<li>传统SDD关注"代码如何运行"</li>
+<li>Harness Engineering关注"AI如何在环境中生存和决策"</li>
+</ul>
+<h2 id="相关概念-2"><a class="header" href="#相关概念-2">相关概念</a></h2>
+<ul>
+<li><a href="part4/../concepts/harness-methodology.html">Harness方法论</a></li>
+<li><a href="part4/../concepts/rlhf.html">RLHF</a></li>
+</ul>
+<h2 id="引用来源-6"><a class="header" href="#引用来源-6">引用来源</a></h2>
+<ul>
+<li><a href="https://www.anthropic.com/engineering/managed-agents">Anthropic工程博客：Managed Agents</a> (2026-04)</li>
+<li><a href="https://www.anthropic.com/research/trustworthy-agents">Anthropic研究：Building trustworthy AI agents</a> (2026-04)</li>
+<li><a href="https://www.cnblogs.com/qiniushanghai/p/19857911">Harness Engineering详解（中文）</a> (2026-04)</li>
+<li><a href="https://openai.com/index/harness-engineering/">OpenAI Harness Engineering案例</a> (2026-02)</li>
+<li><a href="https://blog.langchain.dev/">LangChain Harness实验</a> (2026)</li>
+<li><a href="https://huggingface.co/">Hugging Face Philipp Schmid评论</a> (2026)</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="openaigpto系列与开源"><a class="header" href="#openaigpto系列与开源">OpenAI：GPT、o系列与开源</a></h1>
+<blockquote>
+<p>OpenAI是Harness Engineering的发起者，GPT-OSS-120B是其首个开源模型。</p>
+</blockquote>
+<h1 id="openai-1"><a class="header" href="#openai-1">OpenAI</a></h1>
+<p><strong>类型</strong>：模型厂商 / 平台型公司<br />
+<strong>总部</strong>：美国旧金山<br />
+<strong>关键人物</strong>：Sam Altman (CEO), Greg Brockman, Ilya Sutskever (前首席科学家), Mark Chen (VP Research), Noam Brown (推理研究)</p>
+<hr />
+<h2 id="-时间线-2"><a class="header" href="#-时间线-2">🏛️ 时间线</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>时间</th><th>事件</th><th>来源</th></tr></thead><tbody>
+<tr><td>2015-12</td><td>OpenAI成立，非营利AI研究机构</td><td>openai.com</td></tr>
+<tr><td>2018-06</td><td>GPT-1发布（1.17亿参数），无监督预训练+微调范式确立</td><td>arxiv.org</td></tr>
+<tr><td>2019-02</td><td>GPT-2发布（15亿参数），因"太危险"暂缓完整开源</td><td>openai.com</td></tr>
+<tr><td>2019-07</td><td>从非营利转为"利润上限"模式，获微软10亿美元投资</td><td>openai.com</td></tr>
+<tr><td>2020-06</td><td>GPT-3发布（1750亿参数），API商业化启动</td><td>arxiv.org</td></tr>
+<tr><td>2022-11</td><td>ChatGPT发布（基于GPT-3.5），5天用户破百万</td><td>openai.com</td></tr>
+<tr><td>2023-03</td><td>GPT-4发布，多模态能力、更可靠但闭源</td><td>openai.com</td></tr>
+<tr><td>2023-11</td><td>GPT-4 Turbo + GPTs（自定义Agent）+ Assistants API</td><td>openai.com/devday</td></tr>
+<tr><td>2024-05</td><td>GPT-4o（"omni"）发布，原生多模态，延迟大幅降低</td><td>openai.com</td></tr>
+<tr><td>2024-09</td><td>o1-preview / o1-mini 发布，测试时计算扩展（Test-Time Compute）</td><td>openai.com</td></tr>
+<tr><td>2024-12</td><td>o3 / o3-mini 发布，推理能力大幅跃升，ARC-AGI突破</td><td>openai.com</td></tr>
+<tr><td>2025-01</td><td>ChatGPT Operator发布，AI Agent可自主浏览网页执行任务</td><td>openai.com</td></tr>
+<tr><td>2025-03</td><td>GPT-4.5发布，"情商最高"的模型，规模巨大但推理成本极高</td><td>openai.com</td></tr>
+<tr><td>2025-05</td><td>Codex CLI / Codex Agent 发布，终端AI编码助手</td><td>openai.com</td></tr>
+<tr><td>2026-02</td><td><strong>Harness Engineering方法论公开</strong>：100万行AI编写生产代码，零手写</td><td>OpenAI工程博客</td></tr>
+<tr><td>2026-03</td><td><strong>GPT-OSS-120B开源</strong>：MoE架构（117B总量/5.1B激活），RL训练</td><td>arxiv.org</td></tr>
+<tr><td>2026-04</td><td>o4-mini 发布，低成本推理模型，API定价$1.10/$4.40 per 1M tokens</td><td>openai.com</td></tr>
+<tr><td>2026-05</td><td>Stargate项目推进，与SK海力士/三星签署90万片DRAM晶圆/月供应意向</td><td>供应链消息</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-关键模型矩阵-1"><a class="header" href="#-关键模型矩阵-1">🔑 关键模型矩阵</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>系列</th><th>定位</th><th>架构特点</th><th>最新版本</th><th>开源状态</th></tr></thead><tbody>
+<tr><td>GPT系列</td><td>通用对话</td><td>Dense Transformer</td><td>GPT-4.5</td><td>闭源</td></tr>
+<tr><td>o系列</td><td>深度推理</td><td>Test-Time Compute Scaling</td><td>o4-mini</td><td>闭源</td></tr>
+<tr><td>Codex</td><td>代码Agent</td><td>Agentic Coding</td><td>Codex CLI</td><td>闭源（产品）</td></tr>
+<tr><td>GPT-OSS</td><td>开源旗舰</td><td>MoE（117B/5.1B激活）</td><td>GPT-OSS-120B</td><td><strong>开源</strong></td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-核心技术路线-2"><a class="header" href="#-核心技术路线-2">🚀 核心技术路线</a></h2>
+<h3 id="1-test-time-compute-scaling测试时计算扩展-1"><a class="header" href="#1-test-time-compute-scaling测试时计算扩展-1">1. Test-Time Compute Scaling（测试时计算扩展）</a></h3>
+<ul>
+<li><strong>核心思想</strong>：在推理阶段投入更多计算资源（更多思考步骤、更多验证），而非仅扩大模型规模</li>
+<li><strong>o系列模型</strong>：o1→o3→o4，每次迭代都在推理时"多想一会"</li>
+<li><strong>关键论文</strong>："Scaling LLM Test-Time Compute Optimally"（2024）</li>
+<li><strong>影响</strong>：改变了"更大模型=更好性能"的单一范式</li>
+</ul>
+<h3 id="2-harness-engineering-1"><a class="header" href="#2-harness-engineering-1">2. Harness Engineering</a></h3>
+<ul>
+<li><strong>2026年2月公开</strong>：团队交付100万行生产代码，零手写</li>
+<li><strong>人类角色</strong>：设计约束、反馈循环、文档结构、依赖规则</li>
+<li><strong>Agent角色</strong>：写代码、生成测试、部署</li>
+<li><strong>核心公式</strong>：<code>Agent = Model + Harness</code></li>
+<li><strong>与Anthropic差异</strong>：OpenAI走"Raw Power"路线，Anthropic走"结构化可靠性"路线</li>
+</ul>
+<h3 id="3-moe架构探索gpt-oss-120b-1"><a class="header" href="#3-moe架构探索gpt-oss-120b-1">3. MoE架构探索（GPT-OSS-120B）</a></h3>
+<ul>
+<li><strong>参数规模</strong>：117B总量 / 5.1B激活</li>
+<li><strong>架构细节</strong>：
+<ul>
+<li>36层Transformer</li>
+<li>128个专家 (experts)，top-4 routing</li>
+<li>Hidden dimension 2880</li>
+<li>64个attention heads</li>
+<li>Grouped Query Attention (group size 8)</li>
+<li>128K context window</li>
+</ul>
+</li>
+<li><strong>量化</strong>：原生MXFP4量化（仅MoE权重），BF16用于其他tensor</li>
+<li><strong>训练方法</strong>：RL（强化学习）而非SFT+DPO</li>
+<li><strong>开源许可</strong>：Apache 2.0 license（可商用、可修改、可分发）</li>
+<li><strong>可配置推理</strong>：reasoning effort可调（low/medium/high）</li>
+<li><strong>意义</strong>：OpenAI首次开源Tier 2旗舰模型，验证MoE+RL的可行性</li>
+</ul>
+<hr />
+<h2 id="-关键数据-8"><a class="header" href="#-关键数据-8">📊 关键数据</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
+<tr><td>ChatGPT周活用户</td><td>5亿+（2026年初）</td><td>OpenAI官方</td></tr>
+<tr><td>API开发者</td><td>300万+</td><td>OpenAI官方</td></tr>
+<tr><td>o4-mini定价</td><td>$1.10/$4.40 per 1M tokens</td><td>openai.com</td></tr>
+<tr><td>GPT-4.5定价</td><td>$75/$150 per 1M tokens</td><td>openai.com</td></tr>
+<tr><td>Stargate项目预算</td><td>$5000亿（10年计划）</td><td>公开报道</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-相关页面-8"><a class="header" href="#-相关页面-8">🔗 相关页面</a></h2>
+<ul>
+<li><a href="part4/../concepts/harness-methodology.html">concepts/harness-methodology.md</a> — Harness方法论深度分析</li>
+<li><a href="part4/../concepts/test-time-compute.html">concepts/test-time-compute.md</a> — 测试时计算扩展详解</li>
+<li><a href="part4/../concepts/rlhf.html">concepts/rlhf.md</a> — RLHF训练方法</li>
+<li><a href="part4/../weekly-digest/2026-05-09.html">weekly-digest/2026-05-09.md</a> — 首日Harness Engineering记录</li>
+</ul>
+<hr />
+<p><em>最后更新：2026-05-09</em><br />
+<em>信息来源：OpenAI官方博客、arxiv.org、infoq.com、工程博客</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="google-deepmindgemini与tpu"><a class="header" href="#google-deepmindgemini与tpu">Google DeepMind：Gemini与TPU</a></h1>
+<blockquote>
+<p>Gemini系列和TPU是Google的核心AI资产。</p>
+</blockquote>
+<h1 id="google-deepmind"><a class="header" href="#google-deepmind">Google DeepMind</a></h1>
+<p><strong>类型</strong>：模型厂商 / 科技巨头AI部门<br />
+<strong>总部</strong>：英国伦敦（DeepMind）+ 美国加州（Google Brain）<br />
+<strong>关键人物</strong>：Demis Hassabis（CEO, 2024诺奖得主）, Jeff Dean（Google首席科学家）, Oriol Vinyals, Koray Kavukcuoglu</p>
+<hr />
+<h2 id="-时间线-3"><a class="header" href="#-时间线-3">🏛️ 时间线</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>时间</th><th>事件</th><th>来源</th></tr></thead><tbody>
+<tr><td>2010</td><td>DeepMind在伦敦成立，由Demis Hassabis等人创立</td><td>deepmind.com</td></tr>
+<tr><td>2014</td><td>被Google以4亿英镑收购</td><td>Google官方</td></tr>
+<tr><td>2016-03</td><td>AlphaGo击败李世石，AI里程碑事件</td><td>Nature</td></tr>
+<tr><td>2017-10</td><td>AlphaZero：自我对弈学习围棋/国际象棋/将棋</td><td>Science</td></tr>
+<tr><td>2018-12</td><td>AlphaFold诞生，蛋白质结构预测突破</td><td>CASP12</td></tr>
+<tr><td>2021</td><td>Google Brain发布Switch Transformer（1.6T参数MoE）</td><td>arxiv.org</td></tr>
+<tr><td>2022-04</td><td>PaLM（540B参数）发布，few-shot学习里程碑</td><td>arxiv.org</td></tr>
+<tr><td>2022-07</td><td>AlphaFold2开源，预测2亿+蛋白质结构</td><td>Nature</td></tr>
+<tr><td>2023-03</td><td>Google Brain + DeepMind合并为Google DeepMind</td><td>Google官方</td></tr>
+<tr><td>2023-12</td><td>Gemini 1.0发布，原生多模态（文本+图像+音频+视频）</td><td>deepmind.google</td></tr>
+<tr><td>2024-02</td><td>Gemini 1.5 Pro发布，100万token上下文窗口</td><td>deepmind.google</td></tr>
+<tr><td>2024-12</td><td>Gemini 2.0 Flash发布，速度最快的一代</td><td>deepmind.google</td></tr>
+<tr><td>2025-01</td><td>AlphaFold3发布，预测所有生物分子结构</td><td>Nature</td></tr>
+<tr><td>2025-03</td><td>Gemini 2.5 Pro发布，推理能力大幅提升</td><td>deepmind.google</td></tr>
+<tr><td>2025-04</td><td><strong>Gemini 2.5 Ultra发布</strong>，多模态+推理双冠王</td><td>deepmind.google</td></tr>
+<tr><td>2026-02</td><td><strong>Willow量子芯片发布</strong>，5分钟完成超算10^25年的计算</td><td>Google博客</td></tr>
+<tr><td>2026-04</td><td>Gemini 2.5 Flash更新，TPU v6p大规模部署</td><td>deepmind.google</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-关键模型矩阵-2"><a class="header" href="#-关键模型矩阵-2">🔑 关键模型矩阵</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>系列</th><th>定位</th><th>特点</th><th>最新版本</th><th>开源状态</th></tr></thead><tbody>
+<tr><td>Gemini</td><td>通用多模态</td><td>原生多模态架构</td><td>Gemini 2.5 Ultra</td><td>闭源（API）</td></tr>
+<tr><td>AlphaFold</td><td>科学计算</td><td>蛋白质/分子结构预测</td><td>AlphaFold3</td><td><strong>开源</strong></td></tr>
+<tr><td>Gemma</td><td>开源模型</td><td>轻量可部署</td><td>Gemma 3 27B</td><td><strong>开源</strong></td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-核心技术路线-3"><a class="header" href="#-核心技术路线-3">🚀 核心技术路线</a></h2>
+<h3 id="1-原生多模态native-multimodality"><a class="header" href="#1-原生多模态native-multimodality">1. 原生多模态（Native Multimodality）</a></h3>
+<ul>
+<li><strong>与GPT-4o的差异</strong>：Gemini从训练阶段就是多模态，而非后期拼接</li>
+<li><strong>2.5 Ultra能力</strong>：文本+图像+音频+视频统一推理，视频理解业界领先</li>
+<li><strong>关键突破</strong>：2024年Gemini 1.5 Pro实现100万token上下文，2025年扩展至200万</li>
+</ul>
+<h3 id="2-alphafold系列科学ai"><a class="header" href="#2-alphafold系列科学ai">2. AlphaFold系列（科学AI）</a></h3>
+<ul>
+<li><strong>AlphaFold2（2021）</strong>：蛋白质结构预测，开源，预测2亿+结构</li>
+<li><strong>AlphaFold3（2025）</strong>：扩展到DNA/RNA/小分子/蛋白质复合物</li>
+<li><strong>社会影响</strong>：被190个国家/地区的200万+研究人员使用</li>
+<li><strong>2024诺奖</strong>：Demis Hassabis和John Jumper获诺贝尔化学奖</li>
+</ul>
+<h3 id="3-tpu张量处理单元"><a class="header" href="#3-tpu张量处理单元">3. TPU（张量处理单元）</a></h3>
+<ul>
+<li><strong>TPU v5p</strong>：2023年发布，用于Gemini 1.0训练</li>
+<li><strong>TPU v6e/v6p</strong>：2025-2026年部署，能效比大幅提升</li>
+<li><strong>与NVIDIA竞争</strong>：Google自用为主，云服务器对外提供</li>
+<li><strong>Willow量子芯片</strong>：2026年2月发布，用于量子计算纠错</li>
+</ul>
+<h3 id="4-gemini-25-ultra-技术亮点"><a class="header" href="#4-gemini-25-ultra-技术亮点">4. Gemini 2.5 Ultra 技术亮点</a></h3>
+<ul>
+<li><strong>MMLU</strong>：87.8%（多模态理解）</li>
+<li><strong>MMMU</strong>：75.6%（大学级多模态推理）</li>
+<li><strong>Video Understanding</strong>：长视频（1小时+）内容理解业界最强</li>
+<li><strong>Context Window</strong>：200万token（约3000页PDF）</li>
+</ul>
+<hr />
+<h2 id="-关键数据-9"><a class="header" href="#-关键数据-9">📊 关键数据</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
+<tr><td>AlphaFold使用国家</td><td>190+</td><td>DeepMind官方</td></tr>
+<tr><td>AlphaFold预测结构</td><td>2亿+蛋白质</td><td>DeepMind官方</td></tr>
+<tr><td>Gemini API开发者</td><td>数百万</td><td>Google官方</td></tr>
+<tr><td>Gemma下载量</td><td>数千万</td><td>Hugging Face/Kaggle</td></tr>
+<tr><td>Willow量子芯片</td><td>105个物理量子比特</td><td>Google博客</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-相关页面-9"><a class="header" href="#-相关页面-9">🔗 相关页面</a></h2>
+<ul>
+<li><a href="part4/../concepts/harness-methodology.html">concepts/harness-methodology.md</a> — 对比Google Agent策略</li>
+<li><a href="part4/../concepts/test-time-compute.html">concepts/test-time-compute.md</a> — 测试时计算扩展</li>
+<li><a href="part4/../concepts/processing-in-memory.html">concepts/processing-in-memory.md</a> — Google 3D-DRAM chiplet专利</li>
+<li><a href="part4/../weekly-digest/2026-05-09.html">weekly-digest/2026-05-09.md</a> — 首日记录</li>
+</ul>
+<hr />
+<p><em>最后更新：2026-05-09</em><br />
+<em>信息来源：deepmind.google、Google博客、Nature、arxiv.org</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="月之暗面kimi与agent-swarm"><a class="header" href="#月之暗面kimi与agent-swarm">月之暗面：Kimi与Agent Swarm</a></h1>
+<blockquote>
+<p>中国AI厂商的代表，Kimi K2.5以Agent Swarm和激进定价挑战全球格局。</p>
+</blockquote>
+<h1 id="月之暗面-moonshot-ai"><a class="header" href="#月之暗面-moonshot-ai">月之暗面 (Moonshot AI)</a></h1>
+<p><strong>类型</strong>：模型厂商（中国）<br />
+<strong>总部</strong>：中国北京<br />
+<strong>关键人物</strong>：杨植麟（创始人&amp;CEO，清华+CMU背景）, 张宇韬（联合创始人）</p>
+<hr />
+<h2 id="-时间线-4"><a class="header" href="#-时间线-4">🏛️ 时间线</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>时间</th><th>事件</th><th>来源</th></tr></thead><tbody>
+<tr><td>2023-03</td><td>月之暗面成立，获红杉中国、真格基金等投资</td><td>公开报道</td></tr>
+<tr><td>2023-10</td><td><strong>Kimi Chat发布</strong>，长文本（20万字上下文）为核心卖点</td><td>moonshot.cn</td></tr>
+<tr><td>2024-03</td><td>Kimi智能助手App上线，支持联网搜索、文件阅读</td><td>应用商店</td></tr>
+<tr><td>2024-05</td><td>完成超10亿美元融资，估值约25亿美元</td><td>36氪/彭博</td></tr>
+<tr><td>2024-07</td><td><strong>Kimi K1.5发布</strong>，多模态推理模型，对标GPT-4o</td><td>moonshot.cn</td></tr>
+<tr><td>2024-10</td><td>支持200万字超长上下文</td><td>moonshot.cn</td></tr>
+<tr><td>2025-01</td><td><strong>Kimi k1.5深度思考版发布</strong>，推理能力大幅提升</td><td>moonshot.cn</td></tr>
+<tr><td>2025-03</td><td>完成新一轮融资，估值超30亿美元</td><td>36氪</td></tr>
+<tr><td>2025-06</td><td><strong>Kimi K2发布</strong>，MoE架构（1T总量/32B激活），32B上下文</td><td>moonshot.cn</td></tr>
+<tr><td>2026-01</td><td>Kimi开放平台API 2.0发布，支持Function Calling、代码解释器</td><td>moonshot.cn</td></tr>
+<tr><td>2026-04</td><td><strong>Kimi K2.5发布</strong>，推理能力再升级，多模态原生支持</td><td>moonshot.cn</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-关键模型矩阵-3"><a class="header" href="#-关键模型矩阵-3">🔑 关键模型矩阵</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>系列</th><th>定位</th><th>架构特点</th><th>上下文长度</th><th>最新版本</th></tr></thead><tbody>
+<tr><td>Kimi Chat</td><td>通用对话</td><td>Dense Transformer</td><td>200万字</td><td>Kimi Chat Pro</td></tr>
+<tr><td>Kimi K1.5</td><td>多模态</td><td>视觉-语言联合训练</td><td>128K</td><td>K1.5</td></tr>
+<tr><td>Kimi K2</td><td>旗舰模型</td><td>MoE（1T/32B激活）</td><td>32K</td><td>K2</td></tr>
+<tr><td>Kimi K2.5</td><td>推理增强</td><td>测试时计算扩展</td><td>32K</td><td>K2.5</td></tr>
+</tbody></table>
+</div>
+<h3 id="kimi-k25-深度分析2026-04发布"><a class="header" href="#kimi-k25-深度分析2026-04发布">Kimi K2.5 深度分析（2026-04发布）</a></h3>
+<p><strong>核心定位</strong>：开源、原生多模态、Agent Swarm编排的推理增强模型</p>
+<p><strong>技术架构</strong>：</p>
+<ul>
+<li><strong>1.5T混合token预训练</strong>：视觉token + 文本token联合预训练，非后期对齐</li>
+<li><strong>零视觉监督微调（Zero-shot Vision SFT）</strong>：仅用文本数据微调就能激活视觉推理能力</li>
+<li><strong>Agent Swarm（智能体集群）</strong>：最多100个子Agent并行运行，单任务1500次并行工具调用</li>
+<li><strong>PARL训练</strong>：Parallel-Agent Reinforcement Learning，端到端时间减少80%，效率提升4.5倍</li>
+<li><strong>Kimi Code</strong>：终端运行 + VSCode/Cursor/Zed IDE集成，SWE-Bench Verified 76.8%</li>
+</ul>
+<p><strong>关键数据</strong>：</p>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
+<tr><td>总参数量</td><td>1T（激活32B，MoE架构）</td><td>官方</td></tr>
+<tr><td>上下文长度</td><td>32K</td><td>官方</td></tr>
+<tr><td>SWE-Bench Verified</td><td>76.8%</td><td>官方benchmark</td></tr>
+<tr><td>Agent Swarm并行数</td><td>最多100个子Agent</td><td>官方</td></tr>
+<tr><td>并行工具调用</td><td>1500次/任务</td><td>官方</td></tr>
+<tr><td>端到端效率提升</td><td>4.5×（vs传统串行Agent）</td><td>PARL训练</td></tr>
+<tr><td>API输入价格</td><td>$0.6/M tokens</td><td>官方定价（降价48%）</td></tr>
+<tr><td>API输出价格</td><td>$3/M tokens</td><td>官方定价（降价60%+）</td></tr>
+<tr><td>License</td><td>Modified MIT（非完全开源，限制大型商业平台直接使用）</td><td>官方</td></tr>
+<tr><td>公司估值</td><td>$50亿</td><td>2026年报道</td></tr>
+</tbody></table>
+</div>
+<p><strong>战略意义</strong>：</p>
+<ul>
+<li><strong>价格屠夫</strong>：API定价比OpenAI/Anthropic低一个数量级，直接冲击商业模式</li>
+<li><strong>开源但不完全开放</strong>：Modified MIT license允许自托管，但限制AWS/Azure/GCP等大型云平台直接转售</li>
+<li><strong>Agent原生设计</strong>：不是"模型+Agent wrapper"，而是模型本身为Agent Swarm优化</li>
+<li><strong>IDE生态</strong>：Kimi Code直接嵌入主流IDE，挑战Cursor/Windsurf等独立Agent IDE</li>
+</ul>
+<hr />
+<h2 id="-核心技术路线-4"><a class="header" href="#-核心技术路线-4">🚀 核心技术路线</a></h2>
+<h3 id="1-超长上下文long-context"><a class="header" href="#1-超长上下文long-context">1. 超长上下文（Long Context）</a></h3>
+<ul>
+<li><strong>核心差异化</strong>：从诞生起就以"长文本"为卖点</li>
+<li><strong>技术演进</strong>：20万字 → 200万字 → 无损长上下文</li>
+<li><strong>应用场景</strong>：论文阅读、法律合同分析、小说创作、代码库理解</li>
+<li><strong>关键技术</strong>：稀疏注意力、滑动窗口+全局注意力混合、上下文压缩</li>
+</ul>
+<h3 id="2-moe架构kimi-k2系列"><a class="header" href="#2-moe架构kimi-k2系列">2. MoE架构（Kimi K2系列）</a></h3>
+<ul>
+<li><strong>参数规模</strong>：1T总量 / 32B激活（K2）</li>
+<li><strong>设计思路</strong>：用更大总参数量换取更强知识容量，但保持推理成本可控</li>
+<li><strong>与DeepSeek对比</strong>：月之暗面MoE更偏重消费级应用，DeepSeek更偏重推理效率</li>
+</ul>
+<h3 id="3-多模态原生k15k25"><a class="header" href="#3-多模态原生k15k25">3. 多模态原生（K1.5/K2.5）</a></h3>
+<ul>
+<li><strong>训练方式</strong>：视觉-语言联合预训练，而非后期对齐</li>
+<li><strong>能力范围</strong>：图像理解、视频分析、图表阅读、OCR</li>
+<li><strong>对标</strong>：GPT-4o、Gemini 2.5 Flash</li>
+</ul>
+<hr />
+<h2 id="-关键数据-10"><a class="header" href="#-关键数据-10">📊 关键数据</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
+<tr><td>Kimi Chat用户数</td><td>数千万（2025年）</td><td>公开报道</td></tr>
+<tr><td>估值</td><td>30亿美元+（2025年）</td><td>36氪/彭博</td></tr>
+<tr><td>K2训练算力</td><td>数万张GPU集群</td><td>行业估计</td></tr>
+<tr><td>核心团队</td><td>清华+CMU+Google Brain背景</td><td>公开信息</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-相关页面-10"><a class="header" href="#-相关页面-10">🔗 相关页面</a></h2>
+<ul>
+<li><a href="part4/../concepts/harness-methodology.html">concepts/harness-methodology.md</a> — 对比中国厂商Agent策略</li>
+<li><a href="part4/../concepts/test-time-compute.html">concepts/test-time-compute.md</a> — K2.5推理技术</li>
+<li><a href="part4/../weekly-digest/2026-05-09.html">weekly-digest/2026-05-09.md</a> — 首日记录</li>
+</ul>
+<hr />
+<p><em>最后更新：2026-05-09</em><br />
+<em>信息来源：moonshot.cn、36氪、彭博、公开报道</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="deepseek推理效率与低价策略"><a class="header" href="#deepseek推理效率与低价策略">DeepSeek：推理效率与低价策略</a></h1>
+<blockquote>
+<p>DeepSeek以极致的推理效率和开源策略在全球AI市场占据重要位置。</p>
+</blockquote>
+<h1 id="deepseek"><a class="header" href="#deepseek">DeepSeek</a></h1>
+<p><strong>类型</strong>：模型厂商（中国）/ 开源先锋<br />
+<strong>总部</strong>：中国杭州<br />
+<strong>关键人物</strong>：梁文锋（创始人，幻方量化背景）, 高华佐（首席科学家）</p>
+<hr />
+<h2 id="-时间线-5"><a class="header" href="#-时间线-5">🏛️ 时间线</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>时间</th><th>事件</th><th>来源</th></tr></thead><tbody>
+<tr><td>2023-07</td><td>DeepSeek成立，由幻方量化孵化</td><td>公开报道</td></tr>
+<tr><td>2024-01</td><td><strong>DeepSeek-V2发布</strong>，MoE架构（236B总量/21B激活），性价比轰动</td><td>deepseek.com</td></tr>
+<tr><td>2024-05</td><td><strong>DeepSeek-Coder-V2发布</strong>，代码能力对标GPT-4</td><td>deepseek.com</td></tr>
+<tr><td>2024-08</td><td><strong>DeepSeek-V2.5发布</strong>，对齐能力大幅提升</td><td>deepseek.com</td></tr>
+<tr><td>2024-12</td><td><strong>DeepSeek-V3发布</strong>，671B参数MoE，训练成本仅557.6万美元</td><td>deepseek.com</td></tr>
+<tr><td>2025-01</td><td><strong>DeepSeek-R1发布</strong>，推理模型，性能对标o1，开源MIT协议</td><td>deepseek.com</td></tr>
+<tr><td>2025-02</td><td>R1引发全球震动，NVIDIA股价单日跌17%</td><td>股市数据</td></tr>
+<tr><td>2025-03</td><td>DeepSeek-V3-0324发布，编程能力大幅提升</td><td>deepseek.com</td></tr>
+<tr><td>2025-05</td><td><strong>DeepSeek-R1-0528发布</strong>，推理更强，幻觉更少</td><td>deepseek.com</td></tr>
+<tr><td>2025-06</td><td>DeepSeek-V3.1发布，混合思考/非思考模式</td><td>deepseek.com</td></tr>
+<tr><td>2026-01</td><td><strong>DeepSeek-V4发布</strong>，下一代MoE，性能再升级</td><td>deepseek.com</td></tr>
+<tr><td>2026-03</td><td>DeepSeek持续迭代，R1系列更新频率加快</td><td>deepseek.com</td></tr>
+<tr><td>2026-04</td><td><strong>DeepSeek-R1-0528升级版</strong>，AIME 2025/GPQA/LCB_v6提升</td><td>deepseek.com</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-关键模型矩阵-4"><a class="header" href="#-关键模型矩阵-4">🔑 关键模型矩阵</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>系列</th><th>定位</th><th>架构</th><th>规模</th><th>开源状态</th></tr></thead><tbody>
+<tr><td>DeepSeek-V3</td><td>通用对话</td><td>MoE（671B/37B激活）</td><td>671B</td><td><strong>开源(MIT)</strong></td></tr>
+<tr><td>DeepSeek-R1</td><td>深度推理</td><td>基于V3基座，RL训练</td><td>671B</td><td><strong>开源(MIT)</strong></td></tr>
+<tr><td>DeepSeek-Coder</td><td>代码专用</td><td>代码数据专门训练</td><td>33B</td><td><strong>开源</strong></td></tr>
+<tr><td>DeepSeek-VL</td><td>多模态</td><td>视觉-语言联合</td><td>7B/13B</td><td><strong>开源</strong></td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-核心技术路线-5"><a class="header" href="#-核心技术路线-5">🚀 核心技术路线</a></h2>
+<h3 id="1-moe混合专家架构"><a class="header" href="#1-moe混合专家架构">1. MoE（混合专家）架构</a></h3>
+<ul>
+<li><strong>设计</strong>：236B/671B总量，但每次只激活21B/37B参数</li>
+<li><strong>优势</strong>：知识容量大（总参数多），推理成本低（激活参数少）</li>
+<li><strong>对比Dense模型</strong>：用MoE实现"大模型能力，小模型成本"</li>
+<li><strong>DeepSeek创新</strong>：多头潜在注意力（MLA）、无辅助损失的负载均衡</li>
+</ul>
+<h3 id="2-极致成本优化"><a class="header" href="#2-极致成本优化">2. 极致成本优化</a></h3>
+<ul>
+<li><strong>V3训练成本</strong>：557.6万美元（对比GPT-4的1亿美元+）</li>
+<li><strong>方法</strong>：
+<ul>
+<li>FP8混合精度训练</li>
+<li>专家并行+数据并行优化</li>
+<li>自研训练框架（非PyTorch/TensorFlow）</li>
+</ul>
+</li>
+<li><strong>影响</strong>：证明"好模型不一定需要天价训练成本"</li>
+</ul>
+<h3 id="3-开源策略mit协议"><a class="header" href="#3-开源策略mit协议">3. 开源策略（MIT协议）</a></h3>
+<ul>
+<li><strong>最宽松协议</strong>：可商用、可修改、无需 attribution</li>
+<li><strong>与Meta对比</strong>：Llama 2也有商用限制，DeepSeek完全放开</li>
+<li><strong>社区影响</strong>：
+<ul>
+<li>衍生模型数百个（Hugging Face）</li>
+<li>本地部署方案爆发（ds4、Ollama等）</li>
+<li>全球开发者免费获得SOTA模型</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-r1推理模型"><a class="header" href="#4-r1推理模型">4. R1（推理模型）</a></h3>
+<ul>
+<li><strong>训练方法</strong>：纯RL（强化学习），无SFT（监督微调）</li>
+<li><strong>能力</strong>：数学、代码、逻辑推理，对标OpenAI o1</li>
+<li><strong>R1-0528升级</strong>：AIME 2025、GPQA、LCB_v6提升，幻觉减少</li>
+<li><strong>行业影响</strong>：证明"推理能力可以通过RL获得，不需要昂贵的人类标注"</li>
+</ul>
+<hr />
+<h2 id="-关键数据-11"><a class="header" href="#-关键数据-11">📊 关键数据</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
+<tr><td>V3训练成本</td><td>$557.6万</td><td>deepseek.com</td></tr>
+<tr><td>R1引发NVIDIA股价跌幅</td><td>17%（单日）</td><td>股市数据</td></tr>
+<tr><td>Hugging Face下载量</td><td>数百万</td><td>Hugging Face</td></tr>
+<tr><td>API定价</td><td>比OpenAI低90%+</td><td>deepseek.com</td></tr>
+<tr><td>团队规模</td><td>约200人（极精简）</td><td>公开报道</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-相关页面-11"><a class="header" href="#-相关页面-11">🔗 相关页面</a></h2>
+<ul>
+<li><a href="part4/../concepts/ds4.html">concepts/ds4.md</a> — 本地部署方案</li>
+<li><a href="part4/../concepts/harness-methodology.html">concepts/harness-methodology.md</a> — 对比Harness策略</li>
+<li><a href="part4/../entities/pratiyush.html">entities/pratiyush.md</a> — ds4项目作者</li>
+<li><a href="part4/../entities/antirez.html">entities/antirez.md</a> — Redis作者，ds4贡献者</li>
+<li><a href="part4/../concepts/processing-in-memory.html">concepts/processing-in-memory.md</a> — 内存优化技术</li>
+</ul>
+<hr />
+<p><em>最后更新：2026-05-09</em><br />
+<em>信息来源：deepseek.com、GitHub、arxiv.org、公开报道</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="metallama与基础设施"><a class="header" href="#metallama与基础设施">Meta：Llama与基础设施</a></h1>
+<blockquote>
+<p>Meta通过Llama系列开源模型和巨额基础设施投入参与AI竞争。</p>
+</blockquote>
+<h1 id="meta-ai"><a class="header" href="#meta-ai">Meta AI</a></h1>
+<p><strong>类型</strong>：科技巨头AI部门<br />
+<strong>总部</strong>：美国加州Menlo Park<br />
+<strong>关键人物</strong>：Mark Zuckerberg（CEO）, Yann LeCun（首席AI科学家）, Joelle Pineau（VP AI Research）</p>
+<hr />
+<h2 id="-时间线-6"><a class="header" href="#-时间线-6">🏛️ 时间线</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>时间</th><th>事件</th><th>来源</th></tr></thead><tbody>
+<tr><td>2013</td><td>Yann LeCun加入Facebook（后Meta），创立FAIR（Facebook AI Research）</td><td>Meta官方</td></tr>
+<tr><td>2016</td><td>PyTorch开源发布，成为最流行的深度学习框架之一</td><td>pytorch.org</td></tr>
+<tr><td>2019</td><td>RoBERTa发布，BERT优化版本，多项NLP任务SOTA</td><td>arxiv.org</td></tr>
+<tr><td>2022</td><td>OPT-175B发布，开源大模型先驱，与GPT-3对标</td><td>arxiv.org</td></tr>
+<tr><td>2023-02</td><td>LLaMA 1发布（65B参数），但"泄露"式开源引发争议</td><td>arxiv.org</td></tr>
+<tr><td>2023-07</td><td>LLaMA 2发布，真正开源商用，2万亿token训练</td><td>ai.meta.com</td></tr>
+<tr><td>2024-04</td><td>LLaMA 3发布（70B/400B参数），训练数据15万亿token</td><td>ai.meta.com</td></tr>
+<tr><td>2024-07</td><td>Llama 3.1 405B发布，最大开源模型，对标GPT-4o</td><td>ai.meta.com</td></tr>
+<tr><td>2024-12</td><td><strong>Ray-Ban Meta智能眼镜AI功能升级</strong>，多模态Agent</td><td>Meta Connect</td></tr>
+<tr><td>2025-04</td><td><strong>LLaMA 4发布</strong>（405B参数），MMLU 88.2%，真正对标GPT-4o/Claude 3.5</td><td>ai.meta.com</td></tr>
+<tr><td>2025-06</td><td><strong>Meta AI内置到WhatsApp/Instagram/Facebook</strong>，覆盖30亿+用户</td><td>Meta官方</td></tr>
+<tr><td>2025-09</td><td><strong>Llama 4 Scout / Maverick发布</strong>，多模态+工具调用</td><td>ai.meta.com</td></tr>
+<tr><td>2026-01</td><td><strong>Meta AI月活突破7亿</strong>，成为全球最大AI产品之一</td><td>Meta财报</td></tr>
+<tr><td>2026-03</td><td>Llama 4 Behemoth训练中（预计2T+参数），训练集群16万GPU</td><td>供应链消息</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-关键模型矩阵-5"><a class="header" href="#-关键模型矩阵-5">🔑 关键模型矩阵</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>系列</th><th>定位</th><th>规模</th><th>特点</th><th>开源状态</th></tr></thead><tbody>
+<tr><td>LLaMA</td><td>开源旗舰</td><td>405B (LLaMA 4)</td><td>高性能、可商用</td><td><strong>开源</strong></td></tr>
+<tr><td>Llama Scout</td><td>轻量多模态</td><td>17B</td><td>端侧部署、工具调用</td><td><strong>开源</strong></td></tr>
+<tr><td>Llama Maverick</td><td>中端多模态</td><td>400B</td><td>平衡性能与效率</td><td><strong>开源</strong></td></tr>
+<tr><td>Llama Behemoth</td><td>实验级</td><td>2T+（预计）</td><td>研究前沿</td><td>待定</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-核心技术路线-6"><a class="header" href="#-核心技术路线-6">🚀 核心技术路线</a></h2>
+<h3 id="1-开源战略open-source-ai"><a class="header" href="#1-开源战略open-source-ai">1. 开源战略（Open Source AI）</a></h3>
+<ul>
+<li><strong>Zuckerberg立场</strong>："开源AI是未来的操作系统"</li>
+<li><strong>商业模式</strong>：模型免费 → 云服务收费（AWS/Azure/ GCP部署）+ 广告变现</li>
+<li><strong>与OpenAI差异</strong>：Meta走"开放生态"路线，OpenAI走"API变现"路线</li>
+<li><strong>社区影响</strong>：Hugging Face上Llama系列下载量破亿，衍生模型数千个</li>
+</ul>
+<h3 id="2-llama-4-技术亮点"><a class="header" href="#2-llama-4-技术亮点">2. LLaMA 4 技术亮点</a></h3>
+<ul>
+<li><strong>MMLU</strong>：88.2%（405B版本），与GPT-4、Claude 3.5相当</li>
+<li><strong>架构</strong>：Dense Transformer（非MoE），15万亿token训练数据</li>
+<li><strong>多模态</strong>：原生图像+文本理解，非后期拼接</li>
+<li><strong>工具调用</strong>：内置function calling，支持外部API</li>
+<li><strong>HellaSwag</strong>：95.3%（常识推理）</li>
+</ul>
+<h3 id="3-端侧aion-device-ai"><a class="header" href="#3-端侧aion-device-ai">3. 端侧AI（On-Device AI）</a></h3>
+<ul>
+<li><strong>Ray-Ban Meta眼镜</strong>：多模态Agent，语音+视觉+实时翻译</li>
+<li><strong>Llama Scout（17B）</strong>：专为手机/眼镜优化</li>
+<li><strong>与Apple竞争</strong>：Meta的"AI眼镜" vs Apple Vision Pro</li>
+</ul>
+<h3 id="4-算力基础设施"><a class="header" href="#4-算力基础设施">4. 算力基础设施</a></h3>
+<ul>
+<li><strong>训练集群</strong>：16万GPU（2026年，用于Behemoth训练）</li>
+<li><strong>与NVIDIA关系</strong>：深度绑定，但也在探索自研芯片</li>
+<li><strong>能源消耗</strong>：2025年宣布100亿美元数据中心投资</li>
+</ul>
+<hr />
+<h2 id="-关键数据-12"><a class="header" href="#-关键数据-12">📊 关键数据</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
+<tr><td>Meta AI月活用户</td><td>7亿+（2026年1月）</td><td>Meta财报</td></tr>
+<tr><td>LLaMA系列下载量</td><td>1亿+（Hugging Face）</td><td>Hugging Face</td></tr>
+<tr><td>训练数据规模</td><td>15万亿token（LLaMA 3/4）</td><td>ai.meta.com</td></tr>
+<tr><td>GPU集群规模</td><td>16万（2026年Behemoth训练）</td><td>供应链</td></tr>
+<tr><td>开源模型衍生数量</td><td>数千个</td><td>Hugging Face</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-相关页面-12"><a class="header" href="#-相关页面-12">🔗 相关页面</a></h2>
+<ul>
+<li><a href="part4/../concepts/harness-methodology.html">concepts/harness-methodology.md</a> — Meta Agent策略</li>
+<li><a href="part4/../concepts/test-time-compute.html">concepts/test-time-compute.md</a> — 推理技术对比</li>
+<li><a href="part4/../weekly-digest/2026-05-09.html">weekly-digest/2026-05-09.md</a> — 首日记录</li>
+</ul>
+<hr />
+<p><em>最后更新：2026-05-09</em><br />
+<em>信息来源：ai.meta.com、Meta财报、arxiv.org、Hugging Face</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="ds4deepseek-v4-flash本地推理引擎"><a class="header" href="#ds4deepseek-v4-flash本地推理引擎">ds4：DeepSeek V4 Flash本地推理引擎</a></h1>
+<blockquote>
+<p>antirez（Redis作者）用C语言编写的零依赖本地推理引擎。</p>
+</blockquote>
+<h1 id="ds4---deepseek-v4-flash专用推理引擎"><a class="header" href="#ds4---deepseek-v4-flash专用推理引擎">DS4 - DeepSeek V4 Flash专用推理引擎</a></h1>
+<ul>
+<li><strong>类型</strong>: 概念 / 开源项目 / 本地推理</li>
+<li><strong>作者</strong>: Salvatore Sanfilippo (antirez, Redis创始人)</li>
+<li><strong>创建时间</strong>: 2026-05-07</li>
+<li><strong>最后更新</strong>: 2026-05-09</li>
+</ul>
+<h2 id="一句话定义-1"><a class="header" href="#一句话定义-1">一句话定义</a></h2>
+<p><strong>ds4</strong> 是Redis创始人antirez为DeepSeek V4 Flash模型从零编写的专用本地推理引擎，采用"一模型一引擎"的激进路线，Metal-only、2-bit非对称量化、KV缓存磁盘化，目标是让本地推理从"能跑"走向"产品级"。</p>
+<hr />
+<h2 id="核心设计-1"><a class="header" href="#核心设计-1">核心设计</a></h2>
+<h3 id="三大关键技术"><a class="header" href="#三大关键技术">三大关键技术</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>技术</th><th>原理</th><th>效果</th></tr></thead><tbody>
+<tr><td><strong>非对称2-bit量化</strong></td><td>MoE Router层用IQ2_XXS/Q2_K，其他层保持Q8</td><td>大幅压缩体积，编码场景性能可接受</td></tr>
+<tr><td><strong>KV缓存磁盘化</strong></td><td>将KV状态写入SSD，下次请求匹配token前缀直接加载</td><td>跳过prefill，Claude Code式25K初始提示首次后瞬间恢复</td></tr>
+<tr><td><strong>内置API兼容层</strong></td><td>/v1/chat/completions (OpenAI) + /v1/messages (Anthropic)</td><td>直接接入opencode/Pi/Claude Code</td></tr>
+</tbody></table>
+</div>
+<h3 id="工程哲学"><a class="header" href="#工程哲学">工程哲学</a></h3>
+<blockquote>
+<p>"本地推理领域有很多优秀项目，但新模型不断发布，注意力立刻被下一个模型吸走。这个项目刻意走一条窄路：一次赌一个模型，官方logits验证，长上下文测试，足够的Agent集成来确认它真的能用。"
+— antirez</p>
+</blockquote>
+<p><strong>与通用框架的对比</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>维度</th><th>llama.cpp/MLX</th><th>ds4</th></tr></thead><tbody>
+<tr><td>定位</td><td>万能框架（一个框架跑所有模型）</td><td>专用引擎（一个模型一个优化）</td></tr>
+<tr><td>体积</td><td>几百MB+</td><td>68MB</td></tr>
+<tr><td>代码量</td><td>几十万行</td><td>几千行</td></tr>
+<tr><td>优化深度</td><td>通用抽象 = 妥协</td><td>针对性优化 = 极致</td></tr>
+<tr><td>维护模型数</td><td>数百个</td><td>1个（当前是V4 Flash）</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="关键数据-5"><a class="header" href="#关键数据-5">关键数据</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th></tr></thead><tbody>
+<tr><td>二进制体积</td><td>~68MB</td></tr>
+<tr><td>内存需求</td><td>128GB+ (Mac Studio级别)</td></tr>
+<tr><td>上下文支持</td><td>最高1M tokens (26GB内存)</td></tr>
+<tr><td>量化方案</td><td>2-bit非对称 (Router) + Q8 (其他)</td></tr>
+<tr><td>推理后端</td><td>Metal-only (未来可能CUDA)</td></tr>
+<tr><td>AI辅助开发</td><td>GPT 5.5 "strong assistance"</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="技术洞察-1"><a class="header" href="#技术洞察-1">技术洞察</a></h2>
+<h3 id="一模型一引擎路线的意义"><a class="header" href="#一模型一引擎路线的意义">"一模型一引擎"路线的意义</a></h3>
+<ol>
+<li>
+<p><strong>本地AI从"玩具"到"工作站"</strong></p>
+<ul>
+<li>配合Mac Studio + 128GB RAM + ds4 + Claude Code = 完全私有的准前沿AI工作站</li>
+</ul>
+</li>
+<li>
+<p><strong>对通用框架的挑战</strong></p>
+<ul>
+<li>如果每个明星模型都值得一个专用引擎，通用框架的价值在哪里？</li>
+<li>可能答案：通用框架跑实验，专用引擎跑生产</li>
+</ul>
+</li>
+<li>
+<p><strong>AI辅助开发的标杆案例</strong></p>
+<ul>
+<li>antirez公开承认："开发有GPT 5.5的强力协助"</li>
+<li>从fork llama.cpp到从零写ds4，仅两周</li>
+<li>"如果你不接受AI协助开发的代码，这个软件不适合你"</li>
+</ul>
+</li>
+</ol>
+<h3 id="潜在风险"><a class="header" href="#潜在风险">潜在风险</a></h3>
+<ul>
+<li><strong>模型过时风险</strong> — V4 Flash过气后，ds4可能需重写</li>
+<li><strong>硬件锁定</strong> — Metal-only，CUDA/Linux用户暂无法使用</li>
+<li><strong>维护可持续性</strong> — 个人项目，长期维护不确定</li>
+</ul>
+<hr />
+<h2 id="与harnessagent-skills的关联"><a class="header" href="#与harnessagent-skills的关联">与Harness/Agent Skills的关联</a></h2>
+<ul>
+<li>ds4是<strong>Agent的执行环境</strong> — 让本地Agent（Claude Code/opencode）有可靠的推理后端</li>
+<li>Agent Skills是<strong>Agent的行为规范</strong> — 让Agent在编码时遵循工程纪律</li>
+<li>两者结合 = 本地私有 + 工程级可靠的AI开发环境</li>
+</ul>
+<hr />
+<h2 id="相关页面-1"><a class="header" href="#相关页面-1">相关页面</a></h2>
+<ul>
+<li><a href="part5/../entities/antirez.html">entities/antirez.md</a> — 作者详情</li>
+<li><a href="part5/../entities/deepseek.html">entities/deepseek.md</a> — DeepSeek厂商页</li>
+<li><a href="part5/processing-in-memory.html">concepts/processing-in-memory.md</a> — 存算一体（量化技术相关）</li>
+<li><a href="part5/../sources/ds4-github.html">sources/ds4-github.md</a> — 仓库分析</li>
+</ul>
+<h2 id="外部链接-1"><a class="header" href="#外部链接-1">外部链接</a></h2>
+<ul>
+<li>GitHub: https://github.com/antirez/ds4</li>
+<li>HN讨论: https://news.ycombinator.com/item?id=48050751</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="值得关注的人物"><a class="header" href="#值得关注的人物">值得关注的人物</a></h1>
+<blockquote>
+<p>AI领域值得关注的技术领袖和意见领袖。</p>
+</blockquote>
+<h2 id="andrej-karpathy"><a class="header" href="#andrej-karpathy">Andrej Karpathy</a></h2>
+<h1 id="andrej-karpathy-1"><a class="header" href="#andrej-karpathy-1">Andrej Karpathy</a></h1>
+<p><strong>类型</strong>：行业大佬 / AI工程师 / 教育家<br />
+<strong>现状</strong>：Eureka Labs创始人，独立AI研究员<br />
+<strong>背景</strong>：前OpenAI创始成员、前Tesla AI总监、Stanford CS231n讲师</p>
+<hr />
+<h2 id="-职业时间线"><a class="header" href="#-职业时间线">🏛️ 职业时间线</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>时间</th><th>事件</th><th>来源</th></tr></thead><tbody>
+<tr><td>2011</td><td>加入Stanford AI Lab，师从Fei-Fei Li</td><td>公开信息</td></tr>
+<tr><td>2015</td><td>与Fei-Fei Li共同开设<strong>CS231n（Convolutional Neural Networks）</strong>，YouTube播放百万+</td><td>Stanford</td></tr>
+<tr><td>2015</td><td><strong>OpenAI创始成员</strong>（第5号员工），参与GPT早期研究</td><td>OpenAI官方</td></tr>
+<tr><td>2017</td><td><strong>Tesla AI总监</strong>，领导Autopilot计算机视觉团队</td><td>Tesla官方</td></tr>
+<tr><td>2018</td><td>离开Tesla，短暂回归OpenAI</td><td>公开报道</td></tr>
+<tr><td>2019</td><td>再次加入Tesla，领导Full Self-Driving（FSD）AI团队</td><td>Tesla官方</td></tr>
+<tr><td>2022</td><td><strong>离开Tesla</strong>，"Tesla AI团队已成熟，是时候离开了"</td><td>Twitter</td></tr>
+<tr><td>2023</td><td><strong>回归OpenAI</strong>，领导GPT-4视觉/多模态方向</td><td>OpenAI官方</td></tr>
+<tr><td>2024-02</td><td><strong>再次离开OpenAI</strong>，创立<strong>Eureka Labs</strong></td><td>Twitter/Eureka</td></tr>
+<tr><td>2024-07</td><td>Eureka Labs发布首个课程：<strong>"Let's build GPT: from scratch, in code"</strong></td><td>Eureka Labs</td></tr>
+<tr><td>2025</td><td>持续发布AI教育内容，YouTube订阅100万+</td><td>YouTube</td></tr>
+<tr><td>2026</td><td>发布<strong>LLM Wiki</strong>知识库（gist），收集主流LLM技术要点</td><td>GitHub Gist</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-核心贡献"><a class="header" href="#-核心贡献">🔑 核心贡献</a></h2>
+<h3 id="1-ai教育cs231n--eureka-labs"><a class="header" href="#1-ai教育cs231n--eureka-labs">1. AI教育（CS231n / Eureka Labs）</a></h3>
+<ul>
+<li><strong>CS231n（2015-2017）</strong>：最经典的深度学习计算机视觉课程</li>
+<li><strong>Eureka Labs（2024-）</strong>："AI原生学校"——AI辅助的个性化教育</li>
+<li><strong>教学风格</strong>：从零实现，强调理解而非调用API</li>
+<li><strong>YouTube频道</strong>：百万订阅，视频质量极高</li>
+</ul>
+<h3 id="2-tesla-autopilotfsd"><a class="header" href="#2-tesla-autopilotfsd">2. Tesla Autopilot/FSD</a></h3>
+<ul>
+<li><strong>领导时期</strong>：2017-2022，Tesla AI团队从几十人扩张到数百人</li>
+<li><strong>技术贡献</strong>：HydraNet多任务网络、BEV（Bird's Eye View）感知、Occupancy Networks</li>
+<li><strong>行业影响</strong>：证明了纯视觉方案可行性（无激光雷达）</li>
+</ul>
+<h3 id="3-openai-gpt早期"><a class="header" href="#3-openai-gpt早期">3. OpenAI GPT早期</a></h3>
+<ul>
+<li><strong>创始成员</strong>：参与GPT-1/GPT-2研究</li>
+<li><strong>2023回归</strong>：主导GPT-4视觉能力</li>
+<li><strong>2024离开</strong>："想独立做教育"</li>
+</ul>
+<h3 id="4-llm-wiki2026"><a class="header" href="#4-llm-wiki2026">4. LLM Wiki（2026）</a></h3>
+<ul>
+<li><strong>形式</strong>：GitHub Gist，持续更新</li>
+<li><strong>内容</strong>：主流LLM技术要点、论文、工程实践</li>
+<li><strong>影响</strong>：成为AI工程师的"速查手册"</li>
+<li><strong>链接</strong>：<a href="https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f">https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f</a> [⚠️部分网络环境可能受限]</li>
+</ul>
+<hr />
+<h2 id="-关键数据-13"><a class="header" href="#-关键数据-13">📊 关键数据</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
+<tr><td>YouTube订阅</td><td>100万+</td><td>YouTube</td></tr>
+<tr><td>CS231n影响力</td><td>数百万学生观看</td><td>Stanford/YouTube</td></tr>
+<tr><td>Eureka Labs融资</td><td>未公开（独立运营）</td><td>公开信息</td></tr>
+<tr><td>Twitter/X粉丝</td><td>50万+</td><td>X平台</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-相关页面-13"><a class="header" href="#-相关页面-13">🔗 相关页面</a></h2>
+<ul>
+<li><a href="part5/../concepts/llm-wiki-pattern.html">concepts/llm-wiki-pattern.md</a> — LLM Wiki知识库模式分析</li>
+<li><a href="part5/../weekly-digest/2026-05-09.html">weekly-digest/2026-05-09.md</a> — 首日记录</li>
+</ul>
+<hr />
+<p><em>最后更新：2026-05-09</em><br />
+<em>信息来源：Eureka Labs、Twitter/X、YouTube、Stanford</em></p>
+<hr />
+<h2 id="addy-osmani"><a class="header" href="#addy-osmani">Addy Osmani</a></h2>
+<h1 id="addy-osmani-1"><a class="header" href="#addy-osmani-1">Addy Osmani</a></h1>
+<p><strong>类型</strong>：工程领袖 / Chrome团队 / AI Agent工具开发者<br />
+<strong>现状</strong>：Google Chrome团队工程经理，Agent Skills项目作者<br />
+<strong>背景</strong>：Google Chrome团队资深工程师，性能优化专家，开源社区活跃贡献者</p>
+<hr />
+<h2 id="-职业时间线-1"><a class="header" href="#-职业时间线-1">🏛️ 职业时间线</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>时间</th><th>事件</th><th>来源</th></tr></thead><tbody>
+<tr><td>2012-2015</td><td>Google Chrome团队，性能工具开发（Lighthouse前身）</td><td>Google</td></tr>
+<tr><td>2015-2018</td><td>开源性能优化工具（PageSpeed Insights、Web Vitals标准）</td><td>开源社区</td></tr>
+<tr><td>2018-2021</td><td>主导Chrome DevTools性能面板，出版《Essential Image Optimization》</td><td>Google/书籍</td></tr>
+<tr><td>2021-2023</td><td>推广Core Web Vitals，成为Google搜索排名因素</td><td>Google博客</td></tr>
+<tr><td>2024</td><td>转向AI工程，关注LLM Agent开发工具</td><td>Twitter/X</td></tr>
+<tr><td>2025</td><td>开始研究Agent Skills框架——LLM Agent的"技能系统"</td><td>GitHub</td></tr>
+<tr><td>2026-02</td><td>发布<strong>Agent Skills</strong>项目：让LLM Agent像游戏角色一样"学技能"</td><td>GitHub</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-核心贡献-1"><a class="header" href="#-核心贡献-1">🔑 核心贡献</a></h2>
+<h3 id="1-agent-skills项目2026"><a class="header" href="#1-agent-skills项目2026">1. Agent Skills项目（2026）</a></h3>
+<ul>
+<li><strong>核心理念</strong>：LLM Agent应该像RPG游戏角色一样拥有"技能树"</li>
+<li><strong>技术设计</strong>：
+<ul>
+<li>每个Skill = 目标 + 工具 + 记忆 + 约束</li>
+<li>可组合：基础Skill组合成复杂Skill</li>
+<li>可学习：Agent通过实践"升级"Skill</li>
+<li>可共享：Skill包在团队/社区间复用</li>
+</ul>
+</li>
+<li><strong>与MCP关系</strong>：Agent Skills是"上层抽象"，MCP是"底层协议"</li>
+<li><strong>影响</strong>：为AI Agent的工程化提供了新的组织范式</li>
+</ul>
+<h3 id="2-工程博客"><a class="header" href="#2-工程博客">2. 工程博客</a></h3>
+<ul>
+<li><strong>主题</strong>：AI工程、Agent设计、LLM工具链</li>
+<li><strong>风格</strong>：实战导向，代码示例丰富</li>
+<li><strong>受众</strong>：AI工程师、全栈开发者</li>
+</ul>
+<h3 id="3-chromeweb性能遗产"><a class="header" href="#3-chromeweb性能遗产">3. Chrome/Web性能遗产</a></h3>
+<ul>
+<li><strong>Lighthouse</strong>：性能审计工具，数百万开发者使用</li>
+<li><strong>Core Web Vitals</strong>：LCP/FID/CLS，成为Web性能行业标准</li>
+<li><strong>性能优化书籍</strong>：《Essential Image Optimization》等</li>
+</ul>
+<hr />
+<h2 id="-技术观点"><a class="header" href="#-技术观点">🔑 技术观点</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>主题</th><th>观点</th><th>来源</th></tr></thead><tbody>
+<tr><td>Agent设计</td><td>"Agent不是大模型，而是会调用工具的流程"</td><td>博客</td></tr>
+<tr><td>技能系统</td><td>"未来的AI工程师会写Skill，而不是写Prompt"</td><td>GitHub README</td></tr>
+<tr><td>MCP协议</td><td>"MCP是USB-C，Agent Skills是App Store"</td><td>社区讨论</td></tr>
+<tr><td>工程化</td><td>"从Demo到产品，差的是100个边缘情况的处理"</td><td>博客</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-关键数据-14"><a class="header" href="#-关键数据-14">📊 关键数据</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
+<tr><td>Twitter/X粉丝</td><td>20万+</td><td>X平台</td></tr>
+<tr><td>GitHub Followers</td><td>数万</td><td>GitHub</td></tr>
+<tr><td>Chrome DevTools用户</td><td>数百万</td><td>Google</td></tr>
+<tr><td>Agent Skills Stars</td><td>快速增长中</td><td>GitHub</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-相关页面-14"><a class="header" href="#-相关页面-14">🔗 相关页面</a></h2>
+<ul>
+<li><a href="part5/../concepts/agent-skills.html">concepts/agent-skills.md</a> — Agent Skills深度分析</li>
+<li><a href="part5/../concepts/harness-methodology.html">concepts/harness-methodology.md</a> — 对比Harness方法论</li>
+<li><a href="part5/../weekly-digest/2026-05-09.html">weekly-digest/2026-05-09.md</a> — 首日记录</li>
+</ul>
+<hr />
+<p><em>最后更新：2026-05-09</em><br />
+<em>信息来源：GitHub、Twitter/X、工程博客</em></p>
+<hr />
+<h2 id="antirez"><a class="header" href="#antirez">antirez</a></h2>
+<h1 id="antirez-salvatore-sanfilippo"><a class="header" href="#antirez-salvatore-sanfilippo">antirez (Salvatore Sanfilippo)</a></h1>
+<p><strong>类型</strong>：传奇程序员 / 开源精神领袖<br />
+<strong>现状</strong>：独立开发者，活跃于LLM/本地AI领域<br />
+<strong>代表作</strong>：Redis（最流行的内存数据库）、ds4（DeepSeek for Local）</p>
+<hr />
+<h2 id="-职业时间线-2"><a class="header" href="#-职业时间线-2">🏛️ 职业时间线</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>时间</th><th>事件</th><th>来源</th></tr></thead><tbody>
+<tr><td>2009</td><td>创建<strong>Redis</strong>——内存数据结构存储，后成为最流行的NoSQL数据库</td><td>antirez博客</td></tr>
+<tr><td>2010-2020</td><td>全职维护Redis，1.0→6.0版本，社区从零到全球</td><td>GitHub</td></tr>
+<tr><td>2015</td><td>Redis Labs成立（商业公司），antirez保持核心维护者</td><td>Redis官方</td></tr>
+<tr><td>2020-06</td><td><strong>离开Redis维护者位置</strong>，"我想做新东西"</td><td>antirez博客</td></tr>
+<tr><td>2020-2022</td><td>开发小型项目（Line Noise、Smallchat等），探索新领域</td><td>GitHub</td></tr>
+<tr><td>2023</td><td>开始关注LLM/本地AI，"AI让我重新兴奋"</td><td>Twitter/X</td></tr>
+<tr><td>2024</td><td>活跃于本地LLM社区，分享推理优化经验</td><td>社区讨论</td></tr>
+<tr><td>2025</td><td>参与<a href="part5/../concepts/ds4.html">ds4</a>项目贡献，FlashMLA优化</td><td>GitHub</td></tr>
+<tr><td>2026</td><td>持续在X/Twitter分享AI工程观点，粉丝20万+</td><td>X平台</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-核心贡献-2"><a class="header" href="#-核心贡献-2">🔑 核心贡献</a></h2>
+<h3 id="1-redis2009-2020"><a class="header" href="#1-redis2009-2020">1. Redis（2009-2020）</a></h3>
+<ul>
+<li><strong>定位</strong>：内存数据结构存储——字符串、哈希、列表、集合、有序集合</li>
+<li><strong>影响力</strong>：全球最流行的NoSQL数据库，GitHub Stars 60万+</li>
+<li><strong>设计哲学</strong>：简洁、高效、单线程（避免并发复杂性）</li>
+<li><strong>技术遗产</strong>：
+<ul>
+<li>RESP协议（Redis Serialization Protocol）</li>
+<li>AOF/RDB持久化机制</li>
+<li>主从复制、哨兵、集群</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-ds4项目贡献2025-2026"><a class="header" href="#2-ds4项目贡献2025-2026">2. ds4项目贡献（2025-2026）</a></h3>
+<ul>
+<li><strong>参与方式</strong>：代码贡献+性能优化建议</li>
+<li><strong>技术贡献</strong>：
+<ul>
+<li>FlashMLA内存优化</li>
+<li>KV Cache管理优化</li>
+<li>量化策略建议</li>
+</ul>
+</li>
+<li><strong>社区角色</strong>：资深工程师视角的代码审查</li>
+</ul>
+<h3 id="3-工程师哲学"><a class="header" href="#3-工程师哲学">3. 工程师哲学</a></h3>
+<ul>
+<li><strong>"Simple is better"</strong>：Redis的设计核心</li>
+<li><strong>"Code is communication"</strong>：代码首先是给人看的</li>
+<li><strong>"Don't over-engineer"</strong>：反对过早优化</li>
+</ul>
+<hr />
+<h2 id="-技术观点-1"><a class="header" href="#-技术观点-1">🔑 技术观点</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>主题</th><th>观点</th><th>来源</th></tr></thead><tbody>
+<tr><td>本地LLM</td><td>"模型免费了，真正的工程才刚刚开始"</td><td>Twitter</td></tr>
+<tr><td>开源</td><td>"开源不只是分享代码，是分享信任"</td><td>博客</td></tr>
+<tr><td>AI工程</td><td>"现在的AI工具像2009年的Redis——有潜力，但需要打磨"</td><td>社区讨论</td></tr>
+<tr><td>简化</td><td>"复杂系统往往源于简单模块的清晰边界"</td><td>博客</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-关键数据-15"><a class="header" href="#-关键数据-15">📊 关键数据</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
+<tr><td>Redis GitHub Stars</td><td>60万+</td><td>GitHub</td></tr>
+<tr><td>Twitter/X粉丝</td><td>20万+</td><td>X平台</td></tr>
+<tr><td>Redis使用公司</td><td>数万（包括Twitter/GitHub/StackOverflow）</td><td>Redis官方</td></tr>
+<tr><td>博客文章</td><td>数百篇，技术写作标杆</td><td>antirez.com</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-相关页面-15"><a class="header" href="#-相关页面-15">🔗 相关页面</a></h2>
+<ul>
+<li><a href="part5/../concepts/ds4.html">concepts/ds4.md</a> — ds4项目深度分析</li>
+<li><a href="part5/../entities/deepseek.html">entities/deepseek.md</a> — DeepSeek厂商页</li>
+<li><a href="part5/../weekly-digest/2026-05-09.html">weekly-digest/2026-05-09.md</a> — 首日记录</li>
+</ul>
+<hr />
+<p><em>最后更新：2026-05-09</em><br />
+<em>信息来源：antirez.com、GitHub、Twitter/X、社区讨论</em></p>
+<hr />
+<h2 id="pratiyush"><a class="header" href="#pratiyush">Pratiyush</a></h2>
+<h1 id="pratiyush-1"><a class="header" href="#pratiyush-1">Pratiyush</a></h1>
+<p><strong>类型</strong>：独立开发者 / AI工具作者<br />
+<strong>关联项目</strong>：<a href="https://github.com/Pratiyush/llm-wiki">llm-wiki（LLM会话知识库工具）</a><br />
+<strong>背景</strong>：独立开发者，Andrej Karpathy LLM Wiki模式的实践者</p>
+<hr />
+<h2 id="-关键贡献"><a class="header" href="#-关键贡献">🏛️ 关键贡献</a></h2>
+<h3 id="1-llm-wiki项目"><a class="header" href="#1-llm-wiki项目">1. llm-wiki项目</a></h3>
+<ul>
+<li><strong>时间</strong>：2026年发布</li>
+<li><strong>核心目标</strong>：将Claude Code、Codex CLI、Cursor、Gemini CLI等会话历史转换为结构化知识库</li>
+<li><strong>技术特点</strong>：
+<ul>
+<li>本地运行，隐私优先</li>
+<li>生成 <code>llms.txt</code>、<code>llms-full.txt</code>、JSON-LD图谱等AI可消费格式</li>
+<li>活动热力图、工具调用图表、模型信息卡片</li>
+<li>内置搜索和可视化</li>
+</ul>
+</li>
+<li><strong>关联</strong>：Andrej Karpathy LLM Wiki模式的开源实现</li>
+</ul>
+<h3 id="2-技术博客分享"><a class="header" href="#2-技术博客分享">2. 技术博客/分享</a></h3>
+<ul>
+<li><strong>关注点</strong>：LLM工具链、AI辅助开发工作流</li>
+<li><strong>社区影响</strong>：llm-wiki获得较高关注，成为LLM会话管理的热门方案</li>
+</ul>
+<hr />
+<h2 id="-技术观点-2"><a class="header" href="#-技术观点-2">🔑 技术观点</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>主题</th><th>观点</th><th>来源</th></tr></thead><tbody>
+<tr><td>会话管理</td><td>LLM会话是沉睡的知识资产，需要结构化提取</td><td>llm-wiki README</td></tr>
+<tr><td>AI可读导出</td><td>知识库不仅要给人看，还要给其他AI Agent消费</td><td>技术博客</td></tr>
+<tr><td>本地优先</td><td>会话数据敏感，本地处理优于云端</td><td>项目文档</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-关键数据-16"><a class="header" href="#-关键数据-16">📊 关键数据</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
+<tr><td>llm-wiki GitHub Stars</td><td>增长中</td><td>GitHub</td></tr>
+<tr><td>支持CLI</td><td>Claude Code, Codex CLI, Cursor, Gemini CLI</td><td>项目文档</td></tr>
+<tr><td>输出格式</td><td>llms.txt, JSON-LD, 可视化图表</td><td>项目文档</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-相关页面-16"><a class="header" href="#-相关页面-16">🔗 相关页面</a></h2>
+<ul>
+<li><a href="part5/../concepts/llm-wiki-pattern.html">concepts/llm-wiki-pattern.md</a> — LLM Wiki模式深度分析</li>
+<li><a href="part5/../sources/agent-skills-github.html">sources/agent-skills-github.md</a> — 相关项目分析</li>
+</ul>
+<hr />
+<p><em>最后更新：2026-05-09</em><br />
+<em>信息来源：GitHub、技术博客、社区讨论</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="llm-wiki-知识库模式"><a class="header" href="#llm-wiki-知识库模式">LLM Wiki 知识库模式</a></h1>
+<blockquote>
+<p>本知识库的组织方法论，参考Andrej Karpathy的LLM Wiki模式。</p>
+</blockquote>
+<h1 id="llm-wiki-karpathy-pattern"><a class="header" href="#llm-wiki-karpathy-pattern">LLM Wiki (Karpathy Pattern)</a></h1>
+<ul>
+<li><strong>类型</strong>: 概念 / 知识管理方法论</li>
+<li><strong>提出者</strong>: Andrej Karpathy (OpenAI联合创始人, ex-Tesla AI总监)</li>
+<li><strong>发布时间</strong>: 2026-04-04</li>
+<li><strong>最后更新</strong>: 2026-05-09</li>
+</ul>
+<h2 id="一句话定义-2"><a class="header" href="#一句话定义-2">一句话定义</a></h2>
+<p><strong>LLM Wiki</strong> 是Andrej Karpathy提出的使用LLM增量构建和维护个人知识库的模式——不是每次查询重新检索（RAG），而是让LLM持续编译、结构化、更新知识，实现"知识随时间增长而非每次归零"。</p>
+<hr />
+<h2 id="核心思想"><a class="header" href="#核心思想">核心思想</a></h2>
+<h3 id="传统rag的问题"><a class="header" href="#传统rag的问题">传统RAG的问题</a></h3>
+<pre><code>RAG流程：
+用户提问 → 检索文档片段 → LLM基于片段回答 → 回答完即丢弃
+
+问题：
+- 每次回答都从零开始推导
+- 没有跨会话积累
+- 相同知识点反复检索
+</code></pre>
+<h3 id="llm-wiki的模式"><a class="header" href="#llm-wiki的模式">LLM Wiki的模式</a></h3>
+<pre><code>LLM Wiki流程：
+读取源材料 → LLM分析 → 生成结构化wiki页面 → 持续更新维护 → 查询时直接读取wiki
+
+优势：
+- 知识编译一次，持续复用
+- 增量更新，跨会话积累
+- LLM消费自己的产出（AI-consumable exports）
+</code></pre>
+<hr />
+<h2 id="架构分层"><a class="header" href="#架构分层">架构分层</a></h2>
+<p>Karpathy原始设计（llm-wiki.md gist）:</p>
+<div class="table-wrapper"><table><thead><tr><th>层级</th><th>内容</th><th>作用</th></tr></thead><tbody>
+<tr><td><strong>Layer 1: raw/</strong></td><td>原始材料（文章、对话、论文摘要）</td><td>不可变的输入层</td></tr>
+<tr><td><strong>Layer 2: wiki/</strong></td><td>LLM生成的结构化页面（实体、概念、合成）</td><td>可更新的知识层</td></tr>
+<tr><td><strong>Layer 3: site/</strong></td><td>导出的静态HTML/JSON-LD</td><td>可消费的输出层</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="开源实现生态"><a class="header" href="#开源实现生态">开源实现生态</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>项目</th><th>作者</th><th>特点</th><th>Stars</th></tr></thead><tbody>
+<tr><td><strong>Pratiyush/llm-wiki</strong></td><td>Pratiyush</td><td>最完整实现，MCP server, Obsidian集成, 16 lint规则, confidence scoring</td><td>快速增长中</td></tr>
+<tr><td><strong>nashsu/llm_wiki</strong></td><td>nashsu</td><td>跨平台桌面应用，2-step ingest, 4-signal知识图谱, Louvain社区检测</td><td>新兴</td></tr>
+<tr><td><strong>domleca/llm-wiki</strong></td><td>domleca</td><td>Obsidian插件，Ollama本地运行，隐私优先</td><td>Obsidian社区热门</td></tr>
+<tr><td><strong>本知识库</strong></td><td>ClawTest</td><td>OpenClaw cron驱动，AI Tech Intel专用，微信推送</td><td>定制版</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="关键特性以pratiyushllm-wiki为例"><a class="header" href="#关键特性以pratiyushllm-wiki为例">关键特性（以Pratiyush/llm-wiki为例）</a></h2>
+<h3 id="质量治理"><a class="header" href="#质量治理">质量治理</a></h3>
+<ul>
+<li><strong>4-factor confidence scoring</strong> — 来源数量、来源质量、时效性、交叉引用</li>
+<li><strong>5-state lifecycle</strong> — draft → reviewed → verified → stale → archived（90天自动stale）</li>
+<li><strong>16 lint rules</strong> — 8结构规则 + 3 LLM规则 + 5 freshness规则</li>
+</ul>
+<h3 id="ai消费接口"><a class="header" href="#ai消费接口">AI消费接口</a></h3>
+<ul>
+<li><code>llms.txt</code> / <code>llms-full.txt</code> — 标准AI可读格式</li>
+<li><code>graph.jsonld</code> — 知识图谱JSON-LD</li>
+<li>MCP server — 12个工具供任何MCP客户端查询</li>
+</ul>
+<h3 id="自动化"><a class="header" href="#自动化">自动化</a></h3>
+<ul>
+<li>SessionStart hook — 每次Claude Code启动自动同步</li>
+<li>Auto-build — 后台自动构建</li>
+<li>Auto Dream — 24h+5sessions后自动整理MEMORY.md</li>
+</ul>
+<hr />
+<h2 id="技术洞察-2"><a class="header" href="#技术洞察-2">技术洞察</a></h2>
+<h3 id="为什么这个模式重要"><a class="header" href="#为什么这个模式重要">为什么这个模式重要？</a></h3>
+<ol>
+<li>
+<p><strong>从"查询即计算"到"编译后查询"</strong></p>
+<ul>
+<li>RAG = JIT编译（每次查询现场编译）</li>
+<li>LLM Wiki = AOT编译（提前编译好，查询直接读取）</li>
+</ul>
+</li>
+<li>
+<p><strong>AI agent的"长期记忆"基础设施</strong></p>
+<ul>
+<li>Agent需要记住跨会话的知识</li>
+<li>LLM Wiki提供结构化的外部记忆</li>
+</ul>
+</li>
+<li>
+<p><strong>人机协作的新界面</strong></p>
+<ul>
+<li>人类提供源材料</li>
+<li>LLM整理成wiki</li>
+<li>人类审查、纠正、补充</li>
+<li>其他AI查询wiki完成新任务</li>
+</ul>
+</li>
+</ol>
+<h3 id="与当前知识库的对比"><a class="header" href="#与当前知识库的对比">与当前知识库的对比</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>维度</th><th>Karpathy原始</th><th>Pratiyush实现</th><th>本知识库 (AI Tech Intel)</th></tr></thead><tbody>
+<tr><td>驱动方式</td><td>手动运行脚本</td><td>CLI工具</td><td>OpenClaw cron自动</td></tr>
+<tr><td>内容来源</td><td>个人笔记/对话</td><td>多Agent适配器</td><td>kimi_search + 网络</td></tr>
+<tr><td>更新频率</td><td>按需</td><td>手动/自动可选</td><td>每日自动</td></tr>
+<tr><td>推送渠道</td><td>本地浏览</td><td>静态网站/GitHub Pages</td><td>微信推送</td></tr>
+<tr><td>专注领域</td><td>通用个人知识</td><td>通用个人知识</td><td>AI行业技术情报</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="相关页面-2"><a class="header" href="#相关页面-2">相关页面</a></h2>
+<ul>
+<li><a href="appendix/../entities/andrej-karpathy.html">entities/andrej-karpathy.md</a> — 模式提出者</li>
+<li><a href="appendix/../entities/pratiyush.html">entities/pratiyush.md</a> — 主要实现者</li>
+<li><a href="appendix/harness-methodology.html">concepts/harness-methodology.md</a> — 与Harness的关系（知识库是Harness的一部分）</li>
+<li><a href="appendix/../index.html">index.md</a> — 本知识库总览</li>
+</ul>
+<h2 id="外部链接-2"><a class="header" href="#外部链接-2">外部链接</a></h2>
+<ul>
+<li>Karpathy原始gist: https://gist.github.com/karpathy/llm-wiki.md</li>
+<li>Pratiyush实现: https://github.com/Pratiyush/llm-wiki</li>
+<li>nashsu桌面应用: https://github.com/nashsu/llm_wiki</li>
+<li>domleca Obsidian插件: https://github.com/domleca/llm-wiki</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="本项目信息源与方法论"><a class="header" href="#本项目信息源与方法论">本项目信息源与方法论</a></h1>
+<blockquote>
+<p>知识库的背景、追踪范围、信息源优先级和使用方法。</p>
+</blockquote>
+<h1 id="-关于-ai-tech-intel"><a class="header" href="#-关于-ai-tech-intel">📘 关于 AI Tech Intel</a></h1>
+<blockquote>
+<p>本知识库是怎么运作的、追踪什么、怎么使用。</p>
+</blockquote>
+<hr />
+<h2 id="这是什么-1"><a class="header" href="#这是什么-1">这是什么</a></h2>
+<p><strong>AI Tech Intel</strong> 是一个每日自动维护的 AI 前沿技术情报知识库。核心目标：</p>
+<ul>
+<li><strong>追踪信号</strong>：谁在发布什么、什么技术正在从论文走向产品、什么方法论被多家公司独立验证</li>
+<li><strong>建立关联</strong>：某个厂商的动作和某个技术概念的关系是什么</li>
+<li><strong>持续更新</strong>：知识随时间增长，不是一次性调研报告</li>
+</ul>
+<hr />
+<h2 id="追踪范围"><a class="header" href="#追踪范围">追踪范围</a></h2>
+<h3 id="-模型与软件"><a class="header" href="#-模型与软件">🧠 模型与软件</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>厂商</th><th>追踪重点</th></tr></thead><tbody>
+<tr><td><strong>Anthropic</strong></td><td>Claude模型、Harness Engineering、三Agent架构</td></tr>
+<tr><td><strong>OpenAI</strong></td><td>GPT/o系列、Harness方法论、开源策略、Stargate</td></tr>
+<tr><td><strong>Google DeepMind</strong></td><td>Gemini、TPU、Agent框架</td></tr>
+<tr><td><strong>月之暗面</strong></td><td>Kimi系列、长上下文、MoE、Agent Swarm</td></tr>
+<tr><td><strong>DeepSeek</strong></td><td>推理效率、开源模型、低价策略</td></tr>
+<tr><td><strong>Meta</strong></td><td>Llama系列、AI基础设施投入</td></tr>
+</tbody></table>
+</div>
+<h3 id="-硬件与基础设施"><a class="header" href="#-硬件与基础设施">⚡ 硬件与基础设施</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>厂商</th><th>追踪重点</th></tr></thead><tbody>
+<tr><td><strong>NVIDIA</strong></td><td>GPU架构（Rubin/Feynman）、CUDA生态、HBM策略</td></tr>
+<tr><td><strong>AMD</strong></td><td>MI系列GPU、ROCm、与NVIDIA竞争</td></tr>
+<tr><td><strong>三星</strong></td><td>HBM、存算一体、制程</td></tr>
+<tr><td><strong>SK海力士</strong></td><td>HBM霸主地位、cHBM/AiMX存算一体</td></tr>
+<tr><td><strong>Intel</strong></td><td>Gaudi加速器、代工合作</td></tr>
+</tbody></table>
+</div>
+<h3 id="-开源项目与工具"><a class="header" href="#-开源项目与工具">🛠️ 开源项目与工具</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>项目</th><th>作者</th><th>意义</th></tr></thead><tbody>
+<tr><td><a href="https://github.com/addyosmani/agent-skills">agent-skills</a></td><td>Addy Osmani</td><td>AI编程Agent技能库</td></tr>
+<tr><td><a href="https://github.com/antirez/ds4">ds4</a></td><td>antirez (Redis作者)</td><td>DeepSeek V4 Flash本地推理引擎</td></tr>
+<tr><td><a href="https://github.com/Pratiyush/llm-wiki">llm-wiki</a></td><td>Pratiyush</td><td>本知识库的模式参考</td></tr>
+</tbody></table>
+</div>
+<h3 id="-行业大佬博客"><a class="header" href="#-行业大佬博客">👤 行业大佬博客</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>人物</th><th>关注点</th></tr></thead><tbody>
+<tr><td><strong>Andrej Karpathy</strong></td><td>AI教育、LLM工具、Agent架构</td></tr>
+<tr><td><strong>Addy Osmani</strong></td><td>Chrome性能、AI Agent工程</td></tr>
+<tr><td><strong>Simon Willison</strong></td><td>LLM工具、Datasette、实用主义</td></tr>
+<tr><td><strong>swyx</strong></td><td>AI工程、Latent Space播客</td></tr>
+<tr><td><strong>Andrew Ng</strong></td><td>DeepLearning.AI、AI应用落地</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="信息源优先级"><a class="header" href="#信息源优先级">信息源优先级</a></h2>
+<p><strong>优先使用：</strong></p>
+<ul>
+<li>厂商官方博客（Anthropic Engineering、OpenAI Blog、Google DeepMind Blog）</li>
+<li>arxiv.org 论文</li>
+<li>IEEE 技术文献</li>
+<li>知名科技媒体（The Next Platform、Tom's Hardware、Wccftech）</li>
+<li>行业大佬个人博客</li>
+<li>GitHub Release / README</li>
+</ul>
+<p><strong>不使用：</strong></p>
+<ul>
+<li>CSDN（信息质量不稳定）</li>
+<li>未经验证的自媒体</li>
+</ul>
+<hr />
+<h2 id="知识库结构"><a class="header" href="#知识库结构">知识库结构</a></h2>
+<p>本知识库采用 <strong>Karpathy LLM Wiki 模式</strong> —— 增量式维护的结构化知识库：</p>
+<div class="table-wrapper"><table><thead><tr><th>目录</th><th>用途</th><th>给谁看</th></tr></thead><tbody>
+<tr><td><code>entities/</code></td><td>厂商/人物/产品的档案卡片</td><td>人类 / AI</td></tr>
+<tr><td><code>concepts/</code></td><td>技术概念的深度分析文章</td><td>人类 / AI</td></tr>
+<tr><td><code>sources/</code></td><td>单篇源文件的摘要（含关键数据和引用）</td><td>人类 / AI</td></tr>
+<tr><td><code>weekly-digest/</code></td><td>每日重点摘要（执行摘要 + Top信号）</td><td>人类</td></tr>
+<tr><td><code>index.md</code></td><td>结构化索引，机器可读</td><td>AI</td></tr>
+<tr><td><code>HANDBOOK.md</code></td><td>按主题组织的知识导航</td><td>人类</td></tr>
+<tr><td><code>ABOUT.md</code></td><td>本文件，项目背景</td><td>人类</td></tr>
+</tbody></table>
+</div>
+<p><strong>核心设计原则</strong>：</p>
+<ul>
+<li><strong>增量式维护</strong> — 知识随时间增长，每次查询不从零推导</li>
+<li><strong>结构化页面</strong> — 实体 + 概念 + 源文件，三层互相引用</li>
+<li><strong>来源可追溯</strong> — 每个结论都标注来源，可下钻验证</li>
+</ul>
+<hr />
+<h2 id="更新节奏-1"><a class="header" href="#更新节奏-1">更新节奏</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>时间（北京时间）</th><th>动作</th></tr></thead><tbody>
+<tr><td>08:00</td><td>调研亚洲/欧洲时段更新</td></tr>
+<tr><td>20:00</td><td>调研美国时段更新</td></tr>
+<tr><td>09:30</td><td>微信推送当日简报</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="技术重点方向"><a class="header" href="#技术重点方向">技术重点方向</a></h2>
+<ol>
+<li><strong>Harness方法论</strong> — LLM Agent的工程化框架，2026年最核心范式</li>
+<li><strong>存算一体 / 近存运算</strong> — 突破冯·诺依曼瓶颈，从论文走向产品</li>
+<li><strong>HBM与内存技术</strong> — AI推理的带宽瓶颈，HBM4/4E演进</li>
+<li><strong>Chiplet与先进封装</strong> — 后摩尔时代的架构创新</li>
+<li><strong>Agent Skills / Agent框架</strong> — 新工具、新协议、新范式</li>
+</ol>
+<hr />
+<h2 id="怎么使用这个知识库"><a class="header" href="#怎么使用这个知识库">怎么使用这个知识库</a></h2>
+<p><strong>快速浏览</strong>：打开 <a href="appendix/HANDBOOK.html">HANDBOOK.md</a>，按主题找到你关心的内容。</p>
+<p><strong>追踪某个公司</strong>：去 <code>entities/</code> 目录找到对应文件，看时间线和最新动态。</p>
+<p><strong>了解某个技术</strong>：去 <code>concepts/</code> 目录找到对应文件，看深度分析。</p>
+<p><strong>看今天发生了什么</strong>：打开 <code>weekly-digest/最新日期.md</code>。</p>
+<p><strong>验证某个数据点</strong>：去 <code>sources/</code> 目录找对应的源文件摘要，看原始来源。</p>
+<p><strong>让AI帮你查</strong>：给AI看 <code>index.md</code>，它有完整的结构化索引。</p>
+<hr />
+<p><em>最后更新：2026-05-09</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="完整实体索引"><a class="header" href="#完整实体索引">完整实体索引</a></h1>
+<blockquote>
+<p>所有厂商/人物/产品实体档案的索引。</p>
+</blockquote>
+<h2 id="模型厂商"><a class="header" href="#模型厂商">模型厂商</a></h2>
+<ul>
+<li><a href="appendix/entities/anthropic.html">Anthropic</a> — Claude系列</li>
+<li><a href="appendix/entities/openai.html">OpenAI</a> — GPT/o系列</li>
+<li><a href="appendix/entities/google-deepmind.html">Google DeepMind</a> — Gemini/TPU</li>
+<li><a href="appendix/entities/moonshot.html">月之暗面</a> — Kimi系列</li>
+<li><a href="appendix/entities/deepseek.html">DeepSeek</a> — DeepSeek-V3/R1/R2</li>
+<li><a href="appendix/entities/meta.html">Meta</a> — Llama系列</li>
+</ul>
+<h2 id="硬件厂商"><a class="header" href="#硬件厂商">硬件厂商</a></h2>
+<ul>
+<li><a href="appendix/entities/nvidia.html">NVIDIA</a> — GPU/CUDA</li>
+<li><a href="appendix/entities/amd.html">AMD</a> — MI系列GPU</li>
+<li><a href="appendix/entities/samsung.html">三星</a> — 内存/HBM</li>
+<li><a href="appendix/entities/sk-hynix.html">SK海力士</a> — HBM霸主</li>
+<li><a href="appendix/entities/intel.html">Intel</a> — Gaudi/CPU</li>
+</ul>
+<h2 id="人物"><a class="header" href="#人物">人物</a></h2>
+<ul>
+<li><a href="appendix/entities/andrej-karpathy.html">Andrej Karpathy</a> — ex-Tesla/OpenAI</li>
+<li><a href="appendix/entities/addy-osmani.html">Addy Osmani</a> — Google Chrome/AI Agent</li>
+<li><a href="appendix/entities/antirez.html">antirez</a> — Redis作者/ds4</li>
+<li><a href="appendix/entities/pratiyush.html">Pratiyush</a> — llm-wiki作者</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="完整概念索引"><a class="header" href="#完整概念索引">完整概念索引</a></h1>
+<blockquote>
+<p>所有技术概念深度分析文章的索引。</p>
+</blockquote>
+<h2 id="agent工程技能"><a class="header" href="#agent工程技能">Agent工程/技能</a></h2>
+<ul>
+<li><a href="appendix/concepts/harness-methodology.html">Harness方法论</a> — 2026年核心范式</li>
+<li><a href="appendix/concepts/agent-skills.html">Agent Skills</a> — AI编程Agent技能库</li>
+<li><a href="appendix/concepts/rlhf.html">RLHF</a> — 人类反馈强化学习</li>
+<li><a href="appendix/concepts/test-time-compute.html">测试时计算</a> — Test-Time Compute Scaling</li>
+</ul>
+<h2 id="硬件架构"><a class="header" href="#硬件架构">硬件架构</a></h2>
+<ul>
+<li><a href="appendix/concepts/processing-in-memory.html">存算一体</a> — Processing-in-Memory</li>
+<li><a href="appendix/concepts/near-memory-computing.html">近存运算</a> — Near-Memory Computing</li>
+<li><a href="appendix/concepts/hbm.html">HBM</a> — 高带宽内存</li>
+<li><a href="appendix/concepts/chiplet.html">Chiplet</a> — 芯粒架构</li>
+</ul>
+<h2 id="本地推理"><a class="header" href="#本地推理">本地推理</a></h2>
+<ul>
+<li><a href="appendix/concepts/ds4.html">DS4</a> — DeepSeek V4 Flash专用推理引擎</li>
+</ul>
+<h2 id="知识管理"><a class="header" href="#知识管理">知识管理</a></h2>
+<ul>
+<li><a href="appendix/concepts/llm-wiki-pattern.html">LLM Wiki模式</a> — 增量式维护方法论</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+    </div>
+    </body>
+</html>

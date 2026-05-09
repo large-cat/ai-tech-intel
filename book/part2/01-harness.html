@@ -1,0 +1,356 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Harness 方法论：Agent &#x3D; Model + Harness - AI Tech Intel 知识手册</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="每日AI前沿技术情报知识库 — 人类易读的翻阅版">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">AI Tech Intel 知识手册</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/large-cat/ai-tech-intel" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/large-cat/ai-tech-intel/edit/master/src/part2/01-harness.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="harness-方法论"><a class="header" href="#harness-方法论">Harness 方法论</a></h1>
+<blockquote>
+<p>2026年AI工程的核心范式。核心公式：<strong>Agent = Model + Harness</strong></p>
+</blockquote>
+<h1 id="harness-engineering--harness方法论"><a class="header" href="#harness-engineering--harness方法论">Harness Engineering / Harness方法论</a></h1>
+<blockquote>
+<p>类型：AI工程方法论 | 热度：🔥 2026年最核心范式 | 最后更新：2026-05-09</p>
+</blockquote>
+<h2 id="定义"><a class="header" href="#定义">定义</a></h2>
+<p>Harness Engineering（Harness工程）是2026年出现的AI工程新范式，核心是构建一个确定性的"执行环境"来约束和验证概率性的AI输出。</p>
+<p><strong>核心公式</strong>：Agent = Model + Harness</p>
+<ul>
+<li><strong>模型（Model）</strong>：大脑——推理能力</li>
+<li><strong>Harness（马具/线束）</strong>：身体+神经系统+规则框架——让模型在真实环境中持续行动、调用工具、完成长任务</li>
+</ul>
+<h2 id="为什么需要harness"><a class="header" href="#为什么需要harness">为什么需要Harness</a></h2>
+<p>传统软件开发（SDD）把AI当API调用，但Agent时代面临三大失败：</p>
+<ol>
+<li><strong>幻觉逃避测试</strong> —— 传统测试无法覆盖AI的创造性输出</li>
+<li><strong>长窗口上下文退化</strong> —— 长时间任务中上下文丢失</li>
+<li><strong>会话状态漂移</strong> —— 多轮交互中目标偏离</li>
+</ol>
+<h2 id="核心框架"><a class="header" href="#核心框架">核心框架</a></h2>
+<h3 id="pev循环plan-execute-verify"><a class="header" href="#pev循环plan-execute-verify">PEV循环（Plan-Execute-Verify）</a></h3>
+<ul>
+<li>标准SDLC对Agent太慢</li>
+<li>Harness强制Agent：写计划 → 在Sandbox执行 → Verifier模型检查 → 失败则重试</li>
+<li>无需人工干预</li>
+</ul>
+<h3 id="三agent架构anthropic"><a class="header" href="#三agent架构anthropic">三Agent架构（Anthropic）</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Agent</th><th>职责</th></tr></thead><tbody>
+<tr><td>Planner</td><td>规划任务、分解步骤</td></tr>
+<tr><td>Generator</td><td>执行生成（代码/设计/内容）</td></tr>
+<tr><td>Evaluator</td><td>评估输出质量，提供反馈</td></tr>
+</tbody></table>
+</div>
+<h3 id="五层架构行业共识"><a class="header" href="#五层架构行业共识">五层架构（行业共识）</a></h3>
+<p>根据OpenAI、Anthropic、LangChain、Stripe的实践提炼：</p>
+<div class="table-wrapper"><table><thead><tr><th>层级</th><th>名称</th><th>职责</th><th>变化频率</th></tr></thead><tbody>
+<tr><td>L1</td><td><strong>约束层</strong></td><td>定义Agent能做什么、不能做什么</td><td>慢</td></tr>
+<tr><td>L2</td><td><strong>上下文层</strong></td><td>控制模型每一步看到什么（CLAUDE.md等）</td><td>中</td></tr>
+<tr><td>L3</td><td><strong>执行层</strong></td><td>工具编排、MCP配置、Sandbox管理</td><td>中</td></tr>
+<tr><td>L4</td><td><strong>验证层</strong></td><td>检查输出正确性（测试、类型检查、规则）</td><td><strong>快</strong></td></tr>
+<tr><td>L5</td><td><strong>生命周期层</strong></td><td>健康监控、崩溃恢复、成本控制、人机协同</td><td>慢</td></tr>
+</tbody></table>
+</div>
+<p><strong>关键设计原则</strong>：</p>
+<ul>
+<li><strong>验证层（L4）是最高影响层</strong>：结构化验证带来最大可靠性提升（LangChain实验：仅优化Harness，Terminal Bench 2.0从52.8%→66.5%，排名#30→#5）[来源：LangChain Blog, 2026-02; 中文综合报道]</li>
+<li><strong>成功静默，失败 loud</strong>：通过测试不进入上下文，仅错误信息反馈给Agent</li>
+<li><strong>动态工具范围</strong>：规划阶段不需要文件写入权限，减少Token消耗和错误（Vercel实验：移除80%工具后任务成功率反而提升）[来源：行业报道, 2026-03]</li>
+</ul>
+<h3 id="关键组件"><a class="header" href="#关键组件">关键组件</a></h3>
+<ul>
+<li><strong>Contracts</strong>：输入输出约束、验证门、权限边界</li>
+<li><strong>Cognitive Memory</strong>：超越RAG，存储决策的"为什么"</li>
+<li><strong>File-backed State</strong>：外部化持久状态，路径可寻址</li>
+<li><strong>Failure Taxonomy</strong>：命名失败模式驱动恢复</li>
+</ul>
+<h2 id="行业验证"><a class="header" href="#行业验证">行业验证</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>公司/组织</th><th>实践</th><th>关键数据</th></tr></thead><tbody>
+<tr><td><strong>Anthropic</strong></td><td>三Agent Harness、Managed Agents、Claude Code</td><td>p50 TTFT↓60%，p95 TTFT↓90%+</td></tr>
+<tr><td><strong>OpenAI</strong></td><td>团队用Harness Engineering交付100万行生产代码</td><td>零手写代码</td></tr>
+<tr><td><strong>Stripe</strong></td><td>Minions体系每周合并1300+ AI编写的PR</td><td>持续运行</td></tr>
+<tr><td><strong>LangChain</strong></td><td>仅优化Harness，Terminal Bench 2.0得分从52.8%→66.5%</td><td>排名#30→#5</td></tr>
+</tbody></table>
+</div>
+<h3 id="stripe-minions-blueprint确定性智能体混合架构"><a class="header" href="#stripe-minions-blueprint确定性智能体混合架构">Stripe Minions Blueprint：确定性×智能体混合架构</a></h3>
+<p>Stripe内部自研的Agent编排框架，源于对Goose（Block/Square开源coding agent）的深度fork，解决"AI写代码不稳定"的核心问题。</p>
+<p><strong>核心创新：Blueprints = 确定性节点 + 智能体节点</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>节点类型</th><th>示例</th><th>特点</th></tr></thead><tbody>
+<tr><td><strong>确定性节点（Deterministic）</strong></td><td>git commit、lint、测试、创建分支、推送PR</td><td>硬编码步骤，100%可预测</td></tr>
+<tr><td><strong>智能体节点（Agentic）</strong></td><td>"实现任务描述"、"修复CI失败"</td><td>AI自主决策，输出不确定</td></tr>
+</tbody></table>
+</div>
+<p><strong>状态机设计</strong>：交替运行确定性代码节点和自由流动的Agent节点。例如：创建分支（确定）→ 写代码（Agent）→ 运行测试（确定）→ 修复失败（Agent）→ 推送PR（确定）。</p>
+<p><strong>关键子系统：</strong></p>
+<ul>
+<li><strong>上下文工程（Context Engineering）</strong>：规则按子目录条件应用，不是全局System Prompt。例如"只在infra/目录启用lint规则"，节省Token并减少误判。</li>
+<li><strong>Devbox</strong>：10秒启动的隔离开发环境，Agent在此沙箱中运行，与生产隔离。</li>
+<li><strong>MCP工具网络</strong>：内部"Toolshed"服务器连接400+ MCP工具，Agent按需调用。</li>
+<li><strong>并行化</strong>：同一Blueprint可在200+服务上同时运行。</li>
+<li><strong>多Agent协调</strong>：不同Agent专精不同任务类别（前端、后端、安全审计），中央编排器分配任务。</li>
+<li><strong>人类审查红线</strong>：AI只有提交权，没有合并权。所有PR需人类审查后才合并。</li>
+</ul>
+<h3 id="langchain-terminal-bench-20harness优化的对照实验"><a class="header" href="#langchain-terminal-bench-20harness优化的对照实验">LangChain Terminal Bench 2.0：Harness优化的"对照实验"</a></h3>
+<p>LangChain为验证"Harness&gt;模型"所做的对照实验，被Hugging Face Philipp Schmid称为"2026年最重要的验证"。</p>
+<p><strong>实验设计</strong>：固定模型（Claude 3.5 Sonnet），仅优化Harness，在SWE-Bench Terminal 2.0上测试。</p>
+<p><strong>优化维度与结果</strong>：</p>
+<div class="table-wrapper"><table><thead><tr><th>优化维度</th><th>具体措施</th><th>效果</th></tr></thead><tbody>
+<tr><td><strong>System Prompts</strong></td><td>结构化规划指令、Reasoning Sandwich（xhigh规划→high实现→xhigh验证）</td><td>基线提升</td></tr>
+<tr><td><strong>工具设计</strong></td><td>LocalContextMiddleware（自动映射工作目录和工具位置）、LoopDetectionMiddleware（追踪每文件编辑次数，N次后注入"重新考虑你的方法"）</td><td>减少死循环</td></tr>
+<tr><td><strong>Middleware层</strong></td><td>Trace Analyzer Skill：自动从LangSmith traces分析错误模式，类似boosting——失败案例自动反馈到Harness</td><td>持续提升</td></tr>
+<tr><td><strong>自验证循环</strong></td><td>时间预算警告、测试要求提示、输出验证</td><td>减少幻觉</td></tr>
+</tbody></table>
+</div>
+<p><strong>关键发现</strong>：</p>
+<ul>
+<li><strong>模型-specific Harness tuning</strong>：不同模型需要不同的Harness优化。Claude的Harness不能直接套到GPT上。</li>
+<li><strong>Reasoning Sandwich</strong>：规划用最高推理深度，实现用中等，验证再用最高——避免"想太多做太少"或"做太快想太少"。</li>
+<li><strong>开源承诺</strong>：公开了traces数据集和Deep Agents代码。</li>
+</ul>
+<p><strong>基础设施</strong>：Harbor + Daytona 编排Sandbox运行，支持大规模并行评估。</p>
+<h2 id="工具生态"><a class="header" href="#工具生态">工具生态</a></h2>
+<ul>
+<li><strong>LangGraph</strong>：状态管理图</li>
+<li><strong>E2B</strong>：安全Agent沙箱</li>
+<li><strong>ADK</strong>：Google Agent开发套件</li>
+<li><strong>MCP</strong>：模型控制协议（月下载9700万+）[来源：Anthropic官方及arxiv 2604.05969等多篇论文引用，2026年初数据]</li>
+</ul>
+<h2 id="关键洞察"><a class="header" href="#关键洞察">关键洞察</a></h2>
+<blockquote>
+<p>"在AI Agent时代，模型本身不再是瓶颈，围绕模型的外部系统设计才是决定性能的关键杠杆。"</p>
+</blockquote>
+<ul>
+<li>模型不变，Harness变，结果剧变</li>
+<li>环境比模型更重要</li>
+<li>需要定期Lint：清理随模型升级而过时的workaround</li>
+<li><strong>Context Anxiety</strong>：模型接近上下文上限时倾向于提前结束任务，Harness需处理</li>
+</ul>
+<h2 id="相关实体"><a class="header" href="#相关实体">相关实体</a></h2>
+<ul>
+<li><a href="../entities/anthropic.html">Anthropic</a></li>
+<li><a href="../entities/openai.html">OpenAI</a></li>
+</ul>
+<h2 id="引用来源"><a class="header" href="#引用来源">引用来源</a></h2>
+<ul>
+<li><a href="https://openai.com/index/harness-engineering/">OpenAI: Harness Engineering</a> (2026-02)</li>
+<li><a href="https://www.anthropic.com/engineering/managed-agents">Anthropic Engineering: Managed Agents</a> (2026-04)</li>
+<li><a href="https://www.anthropic.com/research/trustworthy-agents">Anthropic Research: Trustworthy Agents</a> (2026-04)</li>
+<li><a href="https://ai.gopubby.com/harness-engineering-what-every-ai-engineer-needs-to-know-in-2026-0ab649e5686a">Harness Engineering: What Every AI Engineer Needs</a> (2026-04)</li>
+<li><a href="https://cozypet.github.io/five-layers-harness/v2.html">Harness五层架构详解</a> (2026-04)</li>
+<li><del><a href="https://juejin.cn/post/7629339148294209551">从Harness Engineering到本地智能</a></del> (2026-04) [⚠️内容不符：实际为端脑科技硬件产品软文，非Harness技术详解]</li>
+<li><a href="https://mitchellh.com/writing">Mitchell Hashimoto: My AI Adoption Journey</a> (2026-02)</li>
+<li><a href="https://martinfowler.com/">ThoughtWorks: Harness Engineering框架</a> (2026)</li>
+</ul>
+<hr />
+<p><strong>延伸阅读</strong>：</p>
+<ul>
+<li><a href="../sources/anthropic-three-agent-harness.html">Anthropic 三Agent架构</a></li>
+<li><a href="../sources/anthropic-managed-agents.html">Anthropic Managed Agents</a></li>
+<li><a href="../sources/stripe-minions-blueprint.html">Stripe Minions Blueprint</a></li>
+<li><a href="../sources/langchain-terminal-bench-20.html">LangChain Terminal Bench 2.0</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../part1/2026-05-09.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../part2/02-anthropic-harness.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../part1/2026-05-09.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../part2/02-anthropic-harness.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

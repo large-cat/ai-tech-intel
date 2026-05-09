@@ -1,0 +1,271 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Anthropic：Claude与Harness领导者 - AI Tech Intel 知识手册</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="每日AI前沿技术情报知识库 — 人类易读的翻阅版">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">AI Tech Intel 知识手册</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/large-cat/ai-tech-intel" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/large-cat/ai-tech-intel/edit/master/src/part4/01-anthropic.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="anthropicclaude与harness领导者"><a class="header" href="#anthropicclaude与harness领导者">Anthropic：Claude与Harness领导者</a></h1>
+<blockquote>
+<p>Anthropic是2026年Harness Engineering的领导者，三Agent架构和Managed Agents产品化是其核心贡献。</p>
+</blockquote>
+<h1 id="anthropic"><a class="header" href="#anthropic">Anthropic</a></h1>
+<blockquote>
+<p>类型：模型厂商 | 核心产品：Claude系列 | 最后更新：2026-05-09</p>
+</blockquote>
+<h2 id="简介"><a class="header" href="#简介">简介</a></h2>
+<p>Anthropic是AI安全和对齐研究的前沿公司，Claude系列模型以长上下文和可靠性著称。2026年，Anthropic在Harness Engineering方法论上处于行业领先地位。</p>
+<h2 id="最新动态"><a class="header" href="#最新动态">最新动态</a></h2>
+<h3 id="2026-04harness-engineering-领导者"><a class="header" href="#2026-04harness-engineering-领导者">2026-04：Harness Engineering 领导者</a></h3>
+<p><strong>核心贡献</strong></p>
+<ul>
+<li>2026年2月发布工程博客《Harness design for long-running application development》</li>
+<li>提出三Agent Harness架构：Planner-Generator-Evaluator</li>
+<li>发布三篇 Harness 相关论文</li>
+<li>被Hugging Face的Philipp Schmid称为"2026年最重要的学科"</li>
+</ul>
+<p><strong>三Agent Harness设计</strong></p>
+<ul>
+<li><strong>Planner</strong>：负责规划</li>
+<li><strong>Generator</strong>：负责生成</li>
+<li><strong>Evaluator</strong>：负责评估（使用Playwright MCP导航实时页面）</li>
+<li>迭代5-15轮，有时长达4小时</li>
+<li>关键原则：AI只能通过验证来证明任务完成，不能自我声明</li>
+</ul>
+<p><strong>Managed Agents</strong></p>
+<ul>
+<li>将Agent拆解为Session / Harness / Sandbox三层</li>
+<li>Harness（大脑）与Sandbox（双手）完全解耦</li>
+<li>性能提升：p50 TTFT下降60%，p95 TTFT下降90%以上</li>
+</ul>
+<h3 id="2026-04opus-47-发布"><a class="header" href="#2026-04opus-47-发布">2026-04：Opus 4.7 发布</a></h3>
+<ul>
+<li>第三代模型（不到一年内）</li>
+<li>每次升级不仅改进模型，还简化Harness</li>
+<li>3月负载的组件到4月变成死重（需要定期清理workaround）</li>
+</ul>
+<h2 id="技术理念"><a class="header" href="#技术理念">技术理念</a></h2>
+<p><strong>公式</strong>：Agent = Model + Harness</p>
+<ul>
+<li>传统SDD关注"代码如何运行"</li>
+<li>Harness Engineering关注"AI如何在环境中生存和决策"</li>
+</ul>
+<h2 id="相关概念"><a class="header" href="#相关概念">相关概念</a></h2>
+<ul>
+<li><a href="../concepts/harness-methodology.html">Harness方法论</a></li>
+<li><a href="../concepts/rlhf.html">RLHF</a></li>
+</ul>
+<h2 id="引用来源"><a class="header" href="#引用来源">引用来源</a></h2>
+<ul>
+<li><a href="https://www.anthropic.com/engineering/managed-agents">Anthropic工程博客：Managed Agents</a> (2026-04)</li>
+<li><a href="https://www.anthropic.com/research/trustworthy-agents">Anthropic研究：Building trustworthy AI agents</a> (2026-04)</li>
+<li><a href="https://www.cnblogs.com/qiniushanghai/p/19857911">Harness Engineering详解（中文）</a> (2026-04)</li>
+<li><a href="https://openai.com/index/harness-engineering/">OpenAI Harness Engineering案例</a> (2026-02)</li>
+<li><a href="https://blog.langchain.dev/">LangChain Harness实验</a> (2026)</li>
+<li><a href="https://huggingface.co/">Hugging Face Philipp Schmid评论</a> (2026)</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../part3/04-chiplet.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../part4/02-openai.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../part3/04-chiplet.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../part4/02-openai.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
