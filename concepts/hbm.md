@@ -57,6 +57,8 @@ AI推理是**内存带宽受限**，而非算力受限：
 | **三星** | **35%** | HBM4E 16Gbps/pin，HCB技术 | NVIDIA（VeraRubin） |
 | **Micron** | **12%** | 追赶中，HBM3E刚量产 | 部分云厂商 |
 
+**来源**：Counterpoint Research, 2025Q3 HBM市场份额报告 [来源链接待补充]
+
 **关键动态**：
 - **SK海力士**：VeraRubin HBM4独家供应商（与三星共同供应）
 - **三星**：HBM4E 16Gbps/pin（对比HBM4的11.7Gbps），总带宽4TB/s
@@ -87,11 +89,11 @@ AI推理是**内存带宽受限**，而非算力受限：
 
 | 指标 | 数据 | 来源 |
 |------|------|------|
-| HBM市场规模（2026E） | $300亿+ | 行业估计 |
-| SK海力士HBM份额 | 53% | Counterpoint |
-| 三星HBM份额 | 35% | Counterpoint |
-| VeraRubin总HBM容量 | 576GB | NVIDIA官方 |
-| AMD MI450 HBM容量 | 432GB | AMD官方 |
+| HBM市场规模（2026E） | $300亿+ | 行业估计 [来源：待补充具体报告链接] |
+| SK海力士HBM份额 | 53% | Counterpoint Research, 2025Q3 |
+| 三星HBM份额 | 35% | Counterpoint Research, 2025Q3 |
+| VeraRubin总HBM容量 | 576GB | NVIDIA官方GTC 2026披露 |
+| AMD MI450 HBM容量 | 432GB | AMD官方披露 |
 
 ---
 

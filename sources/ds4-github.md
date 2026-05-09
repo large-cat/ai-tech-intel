@@ -1,8 +1,8 @@
 # ds4 - GitHub仓库分析
 
-> 来源：[github.com/pratiyush/ds4](https://github.com/pratiyush/ds4)（示例链接）  
+> 来源：[github.com/antirez/ds4](https://github.com/antirez/ds4)  
 > 采集时间：2026-05-09  
-> 作者：Pratiyush
+> 作者：antirez (Salvatore Sanfilippo, Redis创始人)
 
 ---
 

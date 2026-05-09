@@ -21,6 +21,9 @@ SK海力士是全球HBM（高带宽内存）市场的领导者，在AI内存基�
 ### 2026-01：CES 2026
 **AI System Demo Zone展示：**
 - **cHBM (Custom HBM)**：客户定制化HBM，将GPU/ASIC功能集成到HBM基板
+  - **核心技术"Stream DQ Architecture"**：在HBM base die上实现定制计算逻辑，将部分GPU/ASIC功能（HBM PHY、内存控制器、甚至处理逻辑）集成到HBM基板
+  - **性能提升**：SK海力士称cHBM可将最大推理吞吐提升约**7倍**（vs传统HBM）
+  - **客户扩展**：Google/Amazon/Microsoft等超大规模云厂商也计划从2027年起定制自己的HBM（"他们有自己的Workload"）
 - **AiMX**：基于GDDR6-AiM芯片的LLM专用加速器卡
 - **CuD (Compute-using-DRAM)**：在DRAM单元内执行简单计算
 - **CMM-Ax**：CXL内存模块+计算能力集成

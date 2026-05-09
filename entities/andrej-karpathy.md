@@ -47,7 +47,7 @@
 - **形式**：GitHub Gist，持续更新
 - **内容**：主流LLM技术要点、论文、工程实践
 - **影响**：成为AI工程师的"速查手册"
-- **链接**：[https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)
+- **链接**：[https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) [⚠️部分网络环境可能受限]
 
 ---
 

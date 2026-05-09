@@ -59,7 +59,17 @@
 
 ### 3. MoE架构探索（GPT-OSS-120B）
 - **参数规模**：117B总量 / 5.1B激活
+- **架构细节**：
+  - 36层Transformer
+  - 128个专家 (experts)，top-4 routing
+  - Hidden dimension 2880
+  - 64个attention heads
+  - Grouped Query Attention (group size 8)
+  - 128K context window
+- **量化**：原生MXFP4量化（仅MoE权重），BF16用于其他tensor
 - **训练方法**：RL（强化学习）而非SFT+DPO
+- **开源许可**：Apache 2.0 license（可商用、可修改、可分发）
+- **可配置推理**：reasoning effort可调（low/medium/high）
 - **意义**：OpenAI首次开源Tier 2旗舰模型，验证MoE+RL的可行性
 
 ---

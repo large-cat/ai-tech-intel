@@ -72,13 +72,13 @@ skills/
 
 ## 关键数据
 
-| 指标 | 数据 |
-|------|------|
-| GitHub Stars | 29K+ (2026-05-09) |
-| 日增Stars | ~629/天 |
-| 开源时间 | 2026-02-16 |
-| 当前版本 | v0.6.0 |
-| 许可 | MIT |
+| 指标 | 数据 | 来源 |
+|------|------|------|
+| GitHub Stars | 29K+ (2026-05-09) | GitHub仓库实时数据 |
+| 日增Stars | ~629/天 | GitHub统计估算 [来源：github.com/addyosmani/agent-skills] |
+| 开源时间 | 2026-02-16 | GitHub仓库创建日期 |
+| 当前版本 | v0.6.0 | GitHub Releases |
+| 许可 | MIT | GitHub仓库LICENSE
 
 ---
 

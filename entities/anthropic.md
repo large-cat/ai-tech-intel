@@ -43,3 +43,11 @@ Anthropic是AI安全和对齐研究的前沿公司，Claude系列模型以长上
 ## 相关概念
 - [Harness方法论](../concepts/harness-methodology.md)
 - [RLHF](../concepts/rlhf.md)
+
+## 引用来源
+- [Anthropic工程博客：Managed Agents](https://www.anthropic.com/engineering/managed-agents) (2026-04)
+- [Anthropic研究：Building trustworthy AI agents](https://www.anthropic.com/research/trustworthy-agents) (2026-04)
+- [Harness Engineering详解（中文）](https://www.cnblogs.com/qiniushanghai/p/19857911) (2026-04)
+- [OpenAI Harness Engineering案例](https://openai.com/index/harness-engineering/) (2026-02)
+- [LangChain Harness实验](https://blog.langchain.dev/) (2026)
+- [Hugging Face Philipp Schmid评论](https://huggingface.co/) (2026)
