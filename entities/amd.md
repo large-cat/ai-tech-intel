@@ -54,12 +54,27 @@
 - **差距**：大多数AI框架优先优化CUDA，ROCm为"第二优先级"
 - **机会**：开源策略+社区贡献，部分云厂商（AWS/Azure）支持ROCm
 
-### 4. MI400 技术预期
-- **架构**：CDNA 5
-- **内存**：HBM4，容量预计384GB+（对标Rubin 576GB）
-- **工艺**：3nm级（TSMC）
-- **散热**：液冷（跟随NVIDIA趋势）
-- **软件**：ROCm 7.x，强化推理优化
+### 4. MI450 vs Rubin 竞争态势（2026）
+
+| 指标 | AMD MI450 | NVIDIA Rubin (Ultra) | 优势方 |
+|------|-----------|---------------------|--------|
+| **工艺** | TSMC 2nm | TSMC 3nm | **AMD**（更先进制程） |
+| **架构** | CDNA 5 | 未知（新架构） | — |
+| **HBM容量** | 432GB | 576GB (Ultra) / 288GB (R100) | **NVIDIA** |
+| **带宽** | 19.6 TB/s | ~22 TB/s | 接近 |
+| **FP4算力** | 40 PFLOPS | 50 PFLOPS | **NVIDIA** |
+| **FP8算力** | 20 PFLOPS | 35 PFLOPS | **NVIDIA** |
+| **功耗** | ~1500W | ~1800W (R100) / ~2300W (Ultra) | **AMD** |
+| **散热** | 液冷 | 液冷（NVL72/NVL8标准） | 相同 |
+| **送样/上市** | 2026H2 | 2026H2 | 相同 |
+| **关键客户** | Meta ($100B deal)、OpenAI、Anthropic | 几乎所有云厂商+OpenAI | **NVIDIA**（更广） |
+
+**关键竞争变量**：
+- **工艺优势**：AMD MI450采用TSMC 2nm，比Rubin的3nm更先进，晶体管密度和能效比更优。这是AMD首次在工艺节点上领先NVIDIA。
+- **内存差距**：Rubin Ultra 576GB vs MI450 432GB，144GB差距在大模型训练中可能是决定性优势。
+- **软件生态**：NVIDIA CUDA vs AMD ROCm，差距仍在，但ROCm通过PyTorch/TensorFlow支持已大幅改善。
+- **机架级设计**：AMD Helios是首个机架级AI设计（含EPYC CPU + Pensando DPU + 开放网络标准），NVIDIA Rubin依赖NVLink机架方案。
+- **市场份额**：NVIDIA仍占~80%，但AMD+Meta $100B deal和Anthropic采用MI400系列正在改变格局。
 
 ---
 

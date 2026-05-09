@@ -29,6 +29,23 @@ NVIDIA是全球AI计算基础设施的核心供应商，其GPU架构从Ampere到
 - 采用液冷散热（NVL72/NVL8机架标准）
 - 目标：大幅降低GPT-5/GPT-6等模型的训练时间
 
+**Rubin vs AMD MI450 竞争格局**：
+
+| 指标 | NVIDIA Rubin (Ultra) | AMD MI450 | NVIDIA优势 |
+|------|---------------------|-----------|-----------|
+| **HBM容量** | 576GB (16颗HBM4) | 432GB | +144GB |
+| **带宽** | ~22 TB/s | 19.6 TB/s | 略高 |
+| **FP4算力** | 50 PFLOPS | 40 PFLOPS | +25% |
+| **FP8算力** | 35 PFLOPS | 20 PFLOPS | +75% |
+| **工艺** | TSMC 3nm | TSMC 2nm | 落后一代 |
+| **功耗** | ~2300W (Ultra) | ~1500W | 更高 |
+| **关键客户** | 几乎所有云厂商+OpenAI | Meta ($100B)、Anthropic | 更广 |
+
+- NVIDIA Rubin Ultra 576GB HBM4 vs AMD MI450 432GB，容量优势在大模型训练中可能关键
+- 但AMD采用TSMC 2nm工艺，比Rubin 3nm更先进，能效比更优
+- NVIDIA把Rubin功耗从1800W提升到2300W（Ultra版本），用功耗换性能来竞争MI455X
+- 市场份额NVIDIA仍占~80%，但AMD+Meta $100B deal和Anthropic采用MI400系列正在改变格局
+
 **SRAM架构探索**
 - 正在探索基于SRAM的AI推理芯片架构
 - 将大型SRAM块置于芯片内部，减少数据移动

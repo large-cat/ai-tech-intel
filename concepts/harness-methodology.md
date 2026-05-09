@@ -63,6 +63,49 @@ Harness Engineering（Harness工程）是2026年出现的AI工程新范式，核
 | **Stripe** | Minions体系每周合并1300+ AI编写的PR | 持续运行 | [来源：行业报道](https://www.mindstudio.ai/blog/what-is-ai-agent-harness-stripe-minions/) (2026-03)，基于Stripe 2025年初披露]
 | **LangChain** | 仅优化Harness，Terminal Bench 2.0得分从52.8%→66.5% | 排名#30→#5 |
 
+### Stripe Minions Blueprint：确定性×智能体混合架构
+
+Stripe内部自研的Agent编排框架，源于对Goose（Block/Square开源coding agent）的深度fork，解决"AI写代码不稳定"的核心问题。
+
+**核心创新：Blueprints = 确定性节点 + 智能体节点**
+
+| 节点类型 | 示例 | 特点 |
+|----------|------|------|
+| **确定性节点（Deterministic）** | git commit、lint、测试、创建分支、推送PR | 硬编码步骤，100%可预测 |
+| **智能体节点（Agentic）** | "实现任务描述"、"修复CI失败" | AI自主决策，输出不确定 |
+
+**状态机设计**：交替运行确定性代码节点和自由流动的Agent节点。例如：创建分支（确定）→ 写代码（Agent）→ 运行测试（确定）→ 修复失败（Agent）→ 推送PR（确定）。
+
+**关键子系统：**
+- **上下文工程（Context Engineering）**：规则按子目录条件应用，不是全局System Prompt。例如"只在infra/目录启用lint规则"，节省Token并减少误判。
+- **Devbox**：10秒启动的隔离开发环境，Agent在此沙箱中运行，与生产隔离。
+- **MCP工具网络**：内部"Toolshed"服务器连接400+ MCP工具，Agent按需调用。
+- **并行化**：同一Blueprint可在200+服务上同时运行。
+- **多Agent协调**：不同Agent专精不同任务类别（前端、后端、安全审计），中央编排器分配任务。
+- **人类审查红线**：AI只有提交权，没有合并权。所有PR需人类审查后才合并。
+
+### LangChain Terminal Bench 2.0：Harness优化的"对照实验"
+
+LangChain为验证"Harness>模型"所做的对照实验，被Hugging Face Philipp Schmid称为"2026年最重要的验证"。
+
+**实验设计**：固定模型（Claude 3.5 Sonnet），仅优化Harness，在SWE-Bench Terminal 2.0上测试。
+
+**优化维度与结果**：
+
+| 优化维度 | 具体措施 | 效果 |
+|----------|----------|------|
+| **System Prompts** | 结构化规划指令、Reasoning Sandwich（xhigh规划→high实现→xhigh验证） | 基线提升 |
+| **工具设计** | LocalContextMiddleware（自动映射工作目录和工具位置）、LoopDetectionMiddleware（追踪每文件编辑次数，N次后注入"重新考虑你的方法"） | 减少死循环 |
+| **Middleware层** | Trace Analyzer Skill：自动从LangSmith traces分析错误模式，类似boosting——失败案例自动反馈到Harness | 持续提升 |
+| **自验证循环** | 时间预算警告、测试要求提示、输出验证 | 减少幻觉 |
+
+**关键发现**：
+- **模型-specific Harness tuning**：不同模型需要不同的Harness优化。Claude的Harness不能直接套到GPT上。
+- **Reasoning Sandwich**：规划用最高推理深度，实现用中等，验证再用最高——避免"想太多做太少"或"做太快想太少"。
+- **开源承诺**：公开了traces数据集和Deep Agents代码。
+
+**基础设施**：Harbor + Daytona 编排Sandbox运行，支持大规模并行评估。
+
 ## 工具生态
 - **LangGraph**：状态管理图
 - **E2B**：安全Agent沙箱

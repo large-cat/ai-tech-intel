@@ -33,6 +33,38 @@
 | Kimi K2 | 旗舰模型 | MoE（1T/32B激活） | 32K | K2 |
 | Kimi K2.5 | 推理增强 | 测试时计算扩展 | 32K | K2.5 |
 
+### Kimi K2.5 深度分析（2026-04发布）
+
+**核心定位**：开源、原生多模态、Agent Swarm编排的推理增强模型
+
+**技术架构**：
+- **1.5T混合token预训练**：视觉token + 文本token联合预训练，非后期对齐
+- **零视觉监督微调（Zero-shot Vision SFT）**：仅用文本数据微调就能激活视觉推理能力
+- **Agent Swarm（智能体集群）**：最多100个子Agent并行运行，单任务1500次并行工具调用
+- **PARL训练**：Parallel-Agent Reinforcement Learning，端到端时间减少80%，效率提升4.5倍
+- **Kimi Code**：终端运行 + VSCode/Cursor/Zed IDE集成，SWE-Bench Verified 76.8%
+
+**关键数据**：
+
+| 指标 | 数据 | 来源 |
+|------|------|------|
+| 总参数量 | 1T（激活32B，MoE架构） | 官方 |
+| 上下文长度 | 32K | 官方 |
+| SWE-Bench Verified | 76.8% | 官方benchmark |
+| Agent Swarm并行数 | 最多100个子Agent | 官方 |
+| 并行工具调用 | 1500次/任务 | 官方 |
+| 端到端效率提升 | 4.5×（vs传统串行Agent） | PARL训练 |
+| API输入价格 | $0.6/M tokens | 官方定价（降价48%） |
+| API输出价格 | $3/M tokens | 官方定价（降价60%+） |
+| License | Modified MIT（非完全开源，限制大型商业平台直接使用） | 官方 |
+| 公司估值 | $50亿 | 2026年报道 |
+
+**战略意义**：
+- **价格屠夫**：API定价比OpenAI/Anthropic低一个数量级，直接冲击商业模式
+- **开源但不完全开放**：Modified MIT license允许自托管，但限制AWS/Azure/GCP等大型云平台直接转售
+- **Agent原生设计**：不是"模型+Agent wrapper"，而是模型本身为Agent Swarm优化
+- **IDE生态**：Kimi Code直接嵌入主流IDE，挑战Cursor/Windsurf等独立Agent IDE
+
 ---
 
 ## 🚀 核心技术路线
