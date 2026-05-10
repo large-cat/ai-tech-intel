@@ -7,6 +7,7 @@
 # 卷一：今日速递
 
 - [2026年5月9日](digest/2026-05-09.md)
+- [2026年5月10日](digest/2026-05-10.md)
 
 ---
 
@@ -69,6 +70,11 @@
 - [近存运算（最接近产品化）](hardware/pim/near-memory.md)
 - [存内计算（实验室→原型）](hardware/pim/compute-in-memory.md)
 - [存内逻辑（早期研究）](hardware/pim/logic-in-memory.md)
+
+### Chiplet 与先进封装
+
+- [先进封装：CoWoS/EMIB/Foveros对比](concepts/advanced-packaging.md)
+- [Chiplet：芯粒架构](hardware/chiplet/README.md)
 
 ### HBM 演进路线
 
