@@ -43,7 +43,7 @@ concepts: [存算一体, HBM, Near-Memory Computing]
 - DRAM收入市场份额：38%（2025Q2，超越三星成为第一）
 
 ## 关联页面
-- [entities/sk-hynix.md](../entities/sk-hynix.md)
-- [concepts/processing-in-memory.md](../concepts/processing-in-memory.md)
-- [concepts/near-memory-computing.md](../concepts/near-memory-computing.md)
-- [concepts/hbm.md](../concepts/hbm.md)
+- [entities/sk-hynix.md](../../entities/sk-hynix.md)
+- [concepts/processing-in-memory.md](../../concepts/processing-in-memory.md)
+- [concepts/near-memory-computing.md](../../concepts/near-memory-computing.md)
+- [concepts/hbm.md](../../concepts/hbm.md)

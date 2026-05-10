@@ -4,10 +4,19 @@
 
 ## SK海力士
 
-{{#include ../../entities/sk-hynix.md}}
+{{#include ../../entities/sk-hynix.md:2:52}}
+
+### 相关概念
+- [HBM](../../concepts/hbm.md)
+- [存算一体](../../concepts/processing-in-memory.md)
 
 ---
 
 ## 三星
 
-{{#include ../../entities/samsung.md}}
+{{#include ../../entities/samsung.md:2:37}}
+
+### 相关概念
+- [HBM](../../concepts/hbm.md)
+- [存算一体](../../concepts/processing-in-memory.md)
+- [Chiplet](../../concepts/chiplet.md)

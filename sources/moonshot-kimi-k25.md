@@ -2,7 +2,7 @@
 
 > 来源：月之暗面官方博客，开源中国，行业分析报告  
 > 日期：2026-04  
-> 关联：[entities/moonshot.md](../entities/moonshot.md) | [concepts/harness-methodology.md](../concepts/harness-methodology.md)
+> 关联：[entities/moonshot.md](../../entities/moonshot.md) | [concepts/harness-methodology.md](../../concepts/harness-methodology.md)
 
 ---
 

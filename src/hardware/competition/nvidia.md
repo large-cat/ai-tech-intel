@@ -2,7 +2,14 @@
 
 > ⭐⭐⭐ 难度 | 全球AI计算基础设施的核心供应商。
 
-{{#include ../../entities/nvidia.md}}
+{{#include ../../entities/nvidia.md:2:88}}
+
+---
+
+## 相关概念
+- [HBM](../../concepts/hbm.md)
+- [存算一体](../../concepts/processing-in-memory.md)
+- [Chiplet](../../concepts/chiplet.md)
 
 ---
 

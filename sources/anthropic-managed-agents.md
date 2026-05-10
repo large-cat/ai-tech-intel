@@ -36,5 +36,5 @@ concepts: [Harness方法论]
 > "2026年最重要的学科" — Hugging Face Philipp Schmid
 
 ## 关联页面
-- [concepts/harness-methodology.md](../concepts/harness-methodology.md)
-- [entities/anthropic.md](../entities/anthropic.md)
+- [concepts/harness-methodology.md](../../concepts/harness-methodology.md)
+- [entities/anthropic.md](../../entities/anthropic.md)

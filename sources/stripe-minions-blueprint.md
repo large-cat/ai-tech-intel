@@ -2,7 +2,7 @@
 
 > 来源：Mitchell Hashimoto博客（Stripe工程师，HashiCorp创始人），Stripe工程博客  
 > 日期：2025-2026  
-> 关联：[concepts/harness-methodology.md](../concepts/harness-methodology.md) | [entities/stripe.md](../entities/stripe.md)
+> 关联：[concepts/harness-methodology.md](../../concepts/harness-methodology.md) | [entities/stripe.md](../../entities/stripe.md)
 
 ---
 

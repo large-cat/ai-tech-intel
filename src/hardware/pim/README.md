@@ -4,7 +4,13 @@
 
 > 在内存里做计算，突破冯·诺依曼瓶颈。三大子方向：近存运算、存内计算、存内逻辑。
 
-{{#include ../../concepts/processing-in-memory.md}}
+{{#include ../../concepts/processing-in-memory.md:2:69}}
+
+## 相关实体
+- [NVIDIA](../../entities/nvidia.md)
+- [三星](../../entities/samsung.md)
+- [SK海力士](../../entities/sk-hynix.md)
+- [HBM](../../concepts/hbm.md)
 
 ---
 

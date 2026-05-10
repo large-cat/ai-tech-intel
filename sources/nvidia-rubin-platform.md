@@ -38,7 +38,7 @@ concepts: [HBM]
 | 散热 | 液冷（NVL72/NVL8） |
 
 ## 关联页面
-- [entities/nvidia.md](../entities/nvidia.md)
-- [concepts/hbm.md](../concepts/hbm.md)
-- [entities/sk-hynix.md](../entities/sk-hynix.md)
-- [entities/samsung.md](../entities/samsung.md)
+- [entities/nvidia.md](../../entities/nvidia.md)
+- [concepts/hbm.md](../../concepts/hbm.md)
+- [entities/sk-hynix.md](../../entities/sk-hynix.md)
+- [entities/samsung.md](../../entities/samsung.md)

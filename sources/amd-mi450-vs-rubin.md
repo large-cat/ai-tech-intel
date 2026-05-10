@@ -2,7 +2,7 @@
 
 > 来源：Tom's Hardware, Wccftech, HotHardware, AMD Financial Analyst Day  
 > 日期：2026-05  
-> 关联：[entities/amd.md](../entities/amd.md) | [entities/nvidia.md](../entities/nvidia.md) | [concepts/hbm.md](../concepts/hbm.md)
+> 关联：[entities/amd.md](../../entities/amd.md) | [entities/nvidia.md](../../entities/nvidia.md) | [concepts/hbm.md](../../concepts/hbm.md)
 
 ---
 

@@ -44,9 +44,9 @@ Agent Skills是一个让LLM Agent像游戏角色一样"学技能"的框架：
 
 | 发现 | 详情 | 关联实体/概念 |
 |------|------|--------------|
-| Skill是Agent的"函数" | 把Agent能力模块化，像编程语言的函数库 | [concepts/agent-skills.md](../concepts/agent-skills.md) |
-| 与Harness互补 | Harness是"大脑"，Skills是"肌肉" | [concepts/harness-methodology.md](../concepts/harness-methodology.md) |
-| 社区热度 | GitHub Stars快速增长，社区贡献活跃 | [entities/addy-osmani.md](../entities/addy-osmani.md) |
+| Skill是Agent的"函数" | 把Agent能力模块化，像编程语言的函数库 | [concepts/agent-skills.md](../../concepts/agent-skills.md) |
+| 与Harness互补 | Harness是"大脑"，Skills是"肌肉" | [concepts/harness-methodology.md](../../concepts/harness-methodology.md) |
+| 社区热度 | GitHub Stars快速增长，社区贡献活跃 | [entities/addy-osmani.md](../../entities/addy-osmani.md) |
 
 ---
 
@@ -58,9 +58,9 @@ Agent Skills是一个让LLM Agent像游戏角色一样"学技能"的框架：
 ---
 
 ## 🔗 相关页面
-- [concepts/agent-skills.md](../concepts/agent-skills.md) — 深度分析
-- [entities/addy-osmani.md](../entities/addy-osmani.md) — 作者详情
-- [concepts/harness-methodology.md](../concepts/harness-methodology.md) — 对比Harness方法论
+- [concepts/agent-skills.md](../../concepts/agent-skills.md) — 深度分析
+- [entities/addy-osmani.md](../../entities/addy-osmani.md) — 作者详情
+- [concepts/harness-methodology.md](../../concepts/harness-methodology.md) — 对比Harness方法论
 
 ---
 

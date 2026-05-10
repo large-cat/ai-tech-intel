@@ -4,4 +4,10 @@
 
 > 详见 [存算一体](../README.md) 中的 "三大子方向" 表格。
 
-{{#include ../../concepts/processing-in-memory.md}}
+{{#include ../../concepts/processing-in-memory.md:2:69}}
+
+## 相关实体
+- [NVIDIA](../../entities/nvidia.md)
+- [三星](../../entities/samsung.md)
+- [SK海力士](../../entities/sk-hynix.md)
+- [HBM](../../concepts/hbm.md)

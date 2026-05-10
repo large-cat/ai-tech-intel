@@ -2,7 +2,7 @@
 
 > 来源：LangChain工程博客，LangChain官方文档，Hugging Face Philipp Schmid评论  
 > 日期：2026-02  
-> 关联：[concepts/harness-methodology.md](../concepts/harness-methodology.md) | [entities/langchain.md](../entities/langchain.md)
+> 关联：[concepts/harness-methodology.md](../../concepts/harness-methodology.md) | [entities/langchain.md](../../entities/langchain.md)
 
 ---
 

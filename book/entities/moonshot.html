@@ -1,0 +1,312 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>月之暗面 - AI Tech Intel 知识手册</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="每日AI前沿技术情报知识库 — 人类易读的翻阅版">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">AI Tech Intel 知识手册</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/large-cat/ai-tech-intel" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/large-cat/ai-tech-intel/edit/master/src/entities/moonshot.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="月之暗面-moonshot-ai"><a class="header" href="#月之暗面-moonshot-ai">月之暗面 (Moonshot AI)</a></h1>
+<p><strong>类型</strong>：模型厂商（中国）<br />
+<strong>总部</strong>：中国北京<br />
+<strong>关键人物</strong>：杨植麟（创始人&amp;CEO，清华+CMU背景）, 张宇韬（联合创始人）</p>
+<hr />
+<h2 id="-时间线"><a class="header" href="#-时间线">🏛️ 时间线</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>时间</th><th>事件</th><th>来源</th></tr></thead><tbody>
+<tr><td>2023-03</td><td>月之暗面成立，获红杉中国、真格基金等投资</td><td>公开报道</td></tr>
+<tr><td>2023-10</td><td><strong>Kimi Chat发布</strong>，长文本（20万字上下文）为核心卖点</td><td>moonshot.cn</td></tr>
+<tr><td>2024-03</td><td>Kimi智能助手App上线，支持联网搜索、文件阅读</td><td>应用商店</td></tr>
+<tr><td>2024-05</td><td>完成超10亿美元融资，估值约25亿美元</td><td>36氪/彭博</td></tr>
+<tr><td>2024-07</td><td><strong>Kimi K1.5发布</strong>，多模态推理模型，对标GPT-4o</td><td>moonshot.cn</td></tr>
+<tr><td>2024-10</td><td>支持200万字超长上下文</td><td>moonshot.cn</td></tr>
+<tr><td>2025-01</td><td><strong>Kimi k1.5深度思考版发布</strong>，推理能力大幅提升</td><td>moonshot.cn</td></tr>
+<tr><td>2025-03</td><td>完成新一轮融资，估值超30亿美元</td><td>36氪</td></tr>
+<tr><td>2025-06</td><td><strong>Kimi K2发布</strong>，MoE架构（1T总量/32B激活），32B上下文</td><td>moonshot.cn</td></tr>
+<tr><td>2026-01</td><td>Kimi开放平台API 2.0发布，支持Function Calling、代码解释器</td><td>moonshot.cn</td></tr>
+<tr><td>2026-04</td><td><strong>Kimi K2.5发布</strong>，推理能力再升级，多模态原生支持</td><td>moonshot.cn</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-关键模型矩阵"><a class="header" href="#-关键模型矩阵">🔑 关键模型矩阵</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>系列</th><th>定位</th><th>架构特点</th><th>上下文长度</th><th>最新版本</th></tr></thead><tbody>
+<tr><td>Kimi Chat</td><td>通用对话</td><td>Dense Transformer</td><td>200万字</td><td>Kimi Chat Pro</td></tr>
+<tr><td>Kimi K1.5</td><td>多模态</td><td>视觉-语言联合训练</td><td>128K</td><td>K1.5</td></tr>
+<tr><td>Kimi K2</td><td>旗舰模型</td><td>MoE（1T/32B激活）</td><td>32K</td><td>K2</td></tr>
+<tr><td>Kimi K2.5</td><td>推理增强</td><td>测试时计算扩展</td><td>32K</td><td>K2.5</td></tr>
+</tbody></table>
+</div>
+<h3 id="kimi-k25-深度分析2026-04发布"><a class="header" href="#kimi-k25-深度分析2026-04发布">Kimi K2.5 深度分析（2026-04发布）</a></h3>
+<p><strong>核心定位</strong>：开源、原生多模态、Agent Swarm编排的推理增强模型</p>
+<p><strong>技术架构</strong>：</p>
+<ul>
+<li><strong>1.5T混合token预训练</strong>：视觉token + 文本token联合预训练，非后期对齐</li>
+<li><strong>零视觉监督微调（Zero-shot Vision SFT）</strong>：仅用文本数据微调就能激活视觉推理能力</li>
+<li><strong>Agent Swarm（智能体集群）</strong>：最多100个子Agent并行运行，单任务1500次并行工具调用</li>
+<li><strong>PARL训练</strong>：Parallel-Agent Reinforcement Learning，端到端时间减少80%，效率提升4.5倍</li>
+<li><strong>Kimi Code</strong>：终端运行 + VSCode/Cursor/Zed IDE集成，SWE-Bench Verified 76.8%</li>
+</ul>
+<p><strong>关键数据</strong>：</p>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
+<tr><td>总参数量</td><td>1T（激活32B，MoE架构）</td><td>官方</td></tr>
+<tr><td>上下文长度</td><td>32K</td><td>官方</td></tr>
+<tr><td>SWE-Bench Verified</td><td>76.8%</td><td>官方benchmark</td></tr>
+<tr><td>Agent Swarm并行数</td><td>最多100个子Agent</td><td>官方</td></tr>
+<tr><td>并行工具调用</td><td>1500次/任务</td><td>官方</td></tr>
+<tr><td>端到端效率提升</td><td>4.5×（vs传统串行Agent）</td><td>PARL训练</td></tr>
+<tr><td>API输入价格</td><td>$0.6/M tokens</td><td>官方定价（降价48%）</td></tr>
+<tr><td>API输出价格</td><td>$3/M tokens</td><td>官方定价（降价60%+）</td></tr>
+<tr><td>License</td><td>Modified MIT（非完全开源，限制大型商业平台直接使用）</td><td>官方</td></tr>
+<tr><td>公司估值</td><td>$50亿</td><td>2026年报道</td></tr>
+</tbody></table>
+</div>
+<p><strong>战略意义</strong>：</p>
+<ul>
+<li><strong>价格屠夫</strong>：API定价比OpenAI/Anthropic低一个数量级，直接冲击商业模式</li>
+<li><strong>开源但不完全开放</strong>：Modified MIT license允许自托管，但限制AWS/Azure/GCP等大型云平台直接转售</li>
+<li><strong>Agent原生设计</strong>：不是"模型+Agent wrapper"，而是模型本身为Agent Swarm优化</li>
+<li><strong>IDE生态</strong>：Kimi Code直接嵌入主流IDE，挑战Cursor/Windsurf等独立Agent IDE</li>
+</ul>
+<hr />
+<h2 id="-核心技术路线"><a class="header" href="#-核心技术路线">🚀 核心技术路线</a></h2>
+<h3 id="1-超长上下文long-context"><a class="header" href="#1-超长上下文long-context">1. 超长上下文（Long Context）</a></h3>
+<ul>
+<li><strong>核心差异化</strong>：从诞生起就以"长文本"为卖点</li>
+<li><strong>技术演进</strong>：20万字 → 200万字 → 无损长上下文</li>
+<li><strong>应用场景</strong>：论文阅读、法律合同分析、小说创作、代码库理解</li>
+<li><strong>关键技术</strong>：稀疏注意力、滑动窗口+全局注意力混合、上下文压缩</li>
+</ul>
+<h3 id="2-moe架构kimi-k2系列"><a class="header" href="#2-moe架构kimi-k2系列">2. MoE架构（Kimi K2系列）</a></h3>
+<ul>
+<li><strong>参数规模</strong>：1T总量 / 32B激活（K2）</li>
+<li><strong>设计思路</strong>：用更大总参数量换取更强知识容量，但保持推理成本可控</li>
+<li><strong>与DeepSeek对比</strong>：月之暗面MoE更偏重消费级应用，DeepSeek更偏重推理效率</li>
+</ul>
+<h3 id="3-多模态原生k15k25"><a class="header" href="#3-多模态原生k15k25">3. 多模态原生（K1.5/K2.5）</a></h3>
+<ul>
+<li><strong>训练方式</strong>：视觉-语言联合预训练，而非后期对齐</li>
+<li><strong>能力范围</strong>：图像理解、视频分析、图表阅读、OCR</li>
+<li><strong>对标</strong>：GPT-4o、Gemini 2.5 Flash</li>
+</ul>
+<hr />
+<h2 id="-关键数据"><a class="header" href="#-关键数据">📊 关键数据</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
+<tr><td>Kimi Chat用户数</td><td>数千万（2025年）</td><td>公开报道</td></tr>
+<tr><td>估值</td><td>30亿美元+（2025年）</td><td>36氪/彭博</td></tr>
+<tr><td>K2训练算力</td><td>数万张GPU集群</td><td>行业估计</td></tr>
+<tr><td>核心团队</td><td>清华+CMU+Google Brain背景</td><td>公开信息</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-相关页面"><a class="header" href="#-相关页面">🔗 相关页面</a></h2>
+<ul>
+<li><a href="../concepts/harness-methodology.html">concepts/harness-methodology.md</a> — 对比中国厂商Agent策略</li>
+<li><a href="../concepts/test-time-compute.html">concepts/test-time-compute.md</a> — K2.5推理技术</li>
+<li><a href="../weekly-digest/2026-05-09.html">weekly-digest/2026-05-09.md</a> — 首日记录</li>
+</ul>
+<hr />
+<p><em>最后更新：2026-05-09</em><br />
+<em>信息来源：moonshot.cn、36氪、彭博、公开报道</em></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../entities/google-deepmind.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../entities/deepseek.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../entities/google-deepmind.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../entities/deepseek.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

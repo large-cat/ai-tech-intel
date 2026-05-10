@@ -2,7 +2,11 @@
 
 > ⭐⭐⭐⭐ 难度 | Harness Engineering的领导者。
 
-{{#include ../../entities/anthropic.md}}
+{{#include ../../entities/anthropic.md:2:42}}
+
+## 相关概念
+- [Harness方法论](../../concepts/harness-methodology.md)
+- [RLHF](../../concepts/rlhf.md)
 
 ---
 
