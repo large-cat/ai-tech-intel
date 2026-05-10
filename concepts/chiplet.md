@@ -32,8 +32,16 @@
 | 2023 | Apple M3 Ultra：2个M3 Max拼接，112核GPU | Apple |
 | 2024 | AMD MI300X：CPU+GPU+HBM的"超级Chiplet" | AMD |
 | 2025 | Intel Panther Lake：全Chiplet设计 | Intel |
-| 2026 | **AMD MI400**：CDNA 5 + HBM4 Chiplet | AMD |
-| 2026 | **NVIDIA Rubin**：可能采用Chiplet架构（细节未公开） | 供应链 |
+| 2026 | **UCIe联盟达120+成员**（Intel/AMD/TSMC/Samsung/ARM/Meta/Google），专有Die-to-Die链路走向过时 | PatSnap |
+| 2026 | **Chiplet互连专利达1,070件/年**（2017年仅152件，7倍增长） | PatSnap专利数据库 |
+| 2026 | **先进封装市场$49-55B**（2020年$24B翻倍） | 行业分析 |
+| 2026 | **2.5D/3D封装增速10.1% CAGR** — 最快子赛道 | PatSnap |
+| 2026H1 | SK海力士2026全年HBM产能售罄 | 供应链 |
+| 2026Q1 | Samsung、Micron开始出货HBM4 | The Register |
+| 2026 | Intel EMIB-T进入生产工厂投产，支持HBM4/HBM5 | Tom's Hardware |
+| 2026 | TSMC CoWoS Gen 6支持8颗HBM4 + 双计算Chiplet(N3) | 供应链 |
+| 2026 | Tesla成为HBM4新客户（Dojo超算） | The Register |
+| 2026 | UCIe 2.0预计引入：64 Gbps + 光学Die-to-Die | UCIe联盟路线图 |
 
 ---
 
@@ -114,5 +122,5 @@
 
 ---
 
-*最后更新：2026-05-09*  
+*最后更新：2026-05-10*  
 *信息来源：AMD/Intel/TSMC官方、UCIe联盟、供应链*
