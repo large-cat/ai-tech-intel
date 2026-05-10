@@ -11,5 +11,5 @@
 ---
 
 **延伸阅读**：
-- [三Agent Harness架构](../../sources/anthropic-three-agent-harness.md)
-- [Managed Agents产品化](../../sources/anthropic-managed-agents.md)
+- [Harness 方法论](../../concepts/harness-methodology.md)
+- [Anthropic 实践详情](anthropic.md)

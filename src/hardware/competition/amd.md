@@ -15,4 +15,4 @@
 ---
 
 **延伸阅读**：
-- [AMD MI450 vs NVIDIA Rubin 详细对比](../../sources/amd-mi450-vs-rubin.md)
+- [AMD MI450 vs NVIDIA Rubin 详细对比](../../hardware/competition/amd.md)
