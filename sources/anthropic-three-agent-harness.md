@@ -27,6 +27,6 @@ concepts: [Harness方法论]
 > "在AI Agent时代，模型本身不再是瓶颈，围绕模型的外部系统设计才是决定性能的关键杠杆。"
 
 ## 关联页面
-- [concepts/harness-methodology.md](../concepts/harness-methodology.md)
-- [entities/anthropic.md](../entities/anthropic.md)
-- [entities/openai.md](../entities/openai.md)
+- [concepts/harness-methodology.md](../../concepts/harness-methodology.md)
+- [entities/anthropic.md](../../entities/anthropic.md)
+- [entities/openai.md](../../entities/openai.md)

@@ -1,0 +1,292 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>测试时计算 - AI Tech Intel 知识手册</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="每日AI前沿技术情报知识库 — 人类易读的翻阅版">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">AI Tech Intel 知识手册</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/large-cat/ai-tech-intel" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/large-cat/ai-tech-intel/edit/master/src/concepts/test-time-compute.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="test-time-compute测试时计算扩展"><a class="header" href="#test-time-compute测试时计算扩展">Test-Time Compute（测试时计算扩展）</a></h1>
+<p><strong>类型</strong>：推理范式 / 模型性能优化策略<br />
+<strong>别名</strong>：Inference-Time Compute / 推理时计算<br />
+<strong>核心思想</strong>：<strong>推理时多"想"一会，比训练更大模型更划算</strong></p>
+<hr />
+<h2 id="-技术原理"><a class="header" href="#-技术原理">🧬 技术原理</a></h2>
+<h3 id="核心洞察"><a class="header" href="#核心洞察">核心洞察</a></h3>
+<p>传统 Scaling Law：</p>
+<ul>
+<li><strong>训练时扩展</strong>：更大模型 + 更多数据 → 更好性能（但成本指数增长）</li>
+<li><strong>测试时扩展</strong>：相同模型，推理时投入更多计算（多步思考、验证、搜索）→ 更好性能</li>
+</ul>
+<h3 id="openai的验证"><a class="header" href="#openai的验证">OpenAI的验证</a></h3>
+<ul>
+<li><strong>o1模型</strong>：推理时生成"思维链"（Chain-of-Thought），多步验证</li>
+<li><strong>o3/o4</strong>：进一步增加推理步骤，性能持续提升</li>
+<li><strong>关键发现</strong>：测试时计算扩展的"性价比"高于训练时扩展</li>
+</ul>
+<hr />
+<h2 id="-发展时间线"><a class="header" href="#-发展时间线">🏛️ 发展时间线</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>时间</th><th>事件</th><th>来源</th></tr></thead><tbody>
+<tr><td>2022</td><td>Chain-of-Thought Prompting论文：让模型"一步步想"</td><td>arxiv.org</td></tr>
+<tr><td>2023</td><td>"Let's Verify Step by Step"：逐步验证提升数学推理</td><td>OpenAI</td></tr>
+<tr><td>2024-09</td><td><strong>OpenAI o1-preview发布</strong>，测试时计算扩展首次产品化</td><td>OpenAI</td></tr>
+<tr><td>2024-12</td><td><strong>o3发布</strong>，ARC-AGI基准突破，证明扩展极限远未到达</td><td>OpenAI</td></tr>
+<tr><td>2025-01</td><td><strong>o3-mini发布</strong>，低成本推理模型，普及测试时计算</td><td>OpenAI</td></tr>
+<tr><td>2025-04</td><td><strong>Google Gemini 2.5 Flash Thinking</strong>发布，跟进测试时计算</td><td>Google</td></tr>
+<tr><td>2025-06</td><td><strong>DeepSeek-R1</strong>证明纯RL也能获得推理能力（无需人类思维链）</td><td>DeepSeek</td></tr>
+<tr><td>2026-04</td><td><strong>o4-mini发布</strong>，测试时计算进一步成本优化</td><td>OpenAI</td></tr>
+<tr><td>2026-04</td><td><strong>月之暗面K2.5</strong>跟进推理增强，测试时计算成为行业标配</td><td>Moonshot</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-技术方法"><a class="header" href="#-技术方法">🔑 技术方法</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>方法</th><th>原理</th><th>成本</th><th>效果</th></tr></thead><tbody>
+<tr><td><strong>Chain-of-Thought</strong></td><td>模型生成中间推理步骤</td><td>低（仅需Prompt）</td><td>中等提升</td></tr>
+<tr><td><strong>Self-Consistency</strong></td><td>多次采样，选多数答案</td><td>中（3-10次推理）</td><td>稳定提升</td></tr>
+<tr><td><strong>Tree-of-Thought</strong></td><td>多路径探索，评估后选择</td><td>高（分支搜索）</td><td>大幅提示</td></tr>
+<tr><td><strong>Verifier/ORM</strong></td><td>训练验证模型，筛选正确路径</td><td>高（需额外模型）</td><td>精准提升</td></tr>
+<tr><td><strong>Process Reward Model</strong></td><td>奖励每一步的正确性</td><td>高（细粒度标注）</td><td>最佳效果</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-核心争议"><a class="header" href="#-核心争议">🚀 核心争议</a></h2>
+<h3 id="1-思考vs背诵"><a class="header" href="#1-思考vs背诵">1. "思考"vs"背诵"</a></h3>
+<ul>
+<li><strong>支持方</strong>：测试时计算让模型真正"推理"，而非 memorization</li>
+<li><strong>质疑方</strong>：可能只是更长的 pattern matching，没有真正的抽象推理</li>
+</ul>
+<h3 id="2-成本与延迟"><a class="header" href="#2-成本与延迟">2. 成本与延迟</a></h3>
+<ul>
+<li><strong>o1/o3</strong>：推理时间从几秒延长到几分钟</li>
+<li><strong>API定价</strong>：o4-mini $1.10/$4.40 per 1M tokens vs GPT-4.5 $75/$150</li>
+<li><strong>权衡</strong>：用户愿意为更好答案等更久吗？</li>
+</ul>
+<h3 id="3-可解释性"><a class="header" href="#3-可解释性">3. 可解释性</a></h3>
+<ul>
+<li><strong>优势</strong>：思维链让模型"展示工作过程"，可审计</li>
+<li><strong>局限</strong>：模型可能"编造"思维链（看起来合理但实际错误）</li>
+</ul>
+<hr />
+<h2 id="-关键数据"><a class="header" href="#-关键数据">📊 关键数据</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
+<tr><td>o1 vs GPT-4o数学提升</td><td>AIME 2024: 12% → 83%</td><td>OpenAI</td></tr>
+<tr><td>o3 ARC-AGI</td><td>87.5%（接近人类水平）</td><td>OpenAI</td></tr>
+<tr><td>测试时计算成本</td><td>比训练同性能大模型低10-100倍</td><td>论文估计</td></tr>
+<tr><td>o4-mini定价</td><td>$1.10/$4.40 per 1M tokens</td><td>OpenAI</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-相关页面"><a class="header" href="#-相关页面">🔗 相关页面</a></h2>
+<ul>
+<li><a href="../entities/openai.html">entities/openai.md</a> — o系列模型</li>
+<li><a href="../entities/deepseek.html">entities/deepseek.md</a> — R1推理模型</li>
+<li><a href="../entities/moonshot.html">entities/moonshot.md</a> — K2.5推理</li>
+<li><a href="../entities/google-deepmind.html">entities/google-deepmind.md</a> — Gemini Thinking</li>
+</ul>
+<hr />
+<p><em>最后更新：2026-05-09</em><br />
+<em>信息来源：OpenAI/Google/DeepSeek论文、arxiv.org</em></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../concepts/rlhf.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../concepts/processing-in-memory.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../concepts/rlhf.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../concepts/processing-in-memory.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

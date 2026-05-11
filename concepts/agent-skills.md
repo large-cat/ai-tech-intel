@@ -108,7 +108,7 @@ Agent Skills是**Harness的具象化实现**之一：
 
 - [entities/addy-osmani.md](../entities/addy-osmani.md) — 项目作者
 - [concepts/harness-methodology.md](harness-methodology.md) — Harness方法论
-- [sources/agent-skills-github.md](../sources/agent-skills-github.md) — 仓库分析
+- [GitHub 仓库](https://github.com/addyosmani/agent-skills) — 实时数据
 
 ## 外部链接
 

@@ -12,6 +12,7 @@ build-dir = "book"
 google-analytics = ""
 git-repository-url = "https://github.com/large-cat/ai-tech-intel"
 edit-url-template = "https://github.com/large-cat/ai-tech-intel/edit/master/{path}"
+site-url = "/ai-tech-intel/"
 
 [output.html.fold]
 enable = true

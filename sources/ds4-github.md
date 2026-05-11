@@ -45,10 +45,10 @@ ds4让DeepSeek模型在本地高效运行，无需云服务：
 
 | 发现 | 详情 | 关联实体/概念 |
 |------|------|--------------|
-| 本地部署爆发 | DeepSeek开源后，本地部署工具需求激增 | [entities/deepseek.md](../entities/deepseek.md) |
-| FlashMLA | DeepSeek的MLA注意力机制的高效实现 | [concepts/processing-in-memory.md](../concepts/processing-in-memory.md) |
-| 量化技术 | FP8/INT8混合精度是本地部署关键 | [concepts/hbm.md](../concepts/hbm.md) |
-| 社区贡献 | antirez等资深工程师参与优化 | [entities/antirez.md](../entities/antirez.md) |
+| 本地部署爆发 | DeepSeek开源后，本地部署工具需求激增 | [entities/deepseek.md](../../entities/deepseek.md) |
+| FlashMLA | DeepSeek的MLA注意力机制的高效实现 | [concepts/processing-in-memory.md](../../concepts/processing-in-memory.md) |
+| 量化技术 | FP8/INT8混合精度是本地部署关键 | [concepts/hbm.md](../../concepts/hbm.md) |
+| 社区贡献 | antirez等资深工程师参与优化 | [entities/antirez.md](../../entities/antirez.md) |
 
 ---
 
@@ -60,10 +60,10 @@ ds4让DeepSeek模型在本地高效运行，无需云服务：
 ---
 
 ## 🔗 相关页面
-- [concepts/ds4.md](../concepts/ds4.md) — 深度分析
-- [entities/pratiyush.md](../entities/pratiyush.md) — 作者详情
-- [entities/deepseek.md](../entities/deepseek.md) — DeepSeek厂商页
-- [entities/antirez.md](../entities/antirez.md) — 贡献者
+- [concepts/ds4.md](../../concepts/ds4.md) — 深度分析
+- [entities/pratiyush.md](../../entities/pratiyush.md) — 作者详情
+- [entities/deepseek.md](../../entities/deepseek.md) — DeepSeek厂商页
+- [entities/antirez.md](../../entities/antirez.md) — 贡献者
 
 ---
 

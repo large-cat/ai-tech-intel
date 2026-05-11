@@ -46,7 +46,7 @@
 
 ## 🔗 相关页面
 - [concepts/llm-wiki-pattern.md](../concepts/llm-wiki-pattern.md) — LLM Wiki模式深度分析
-- [sources/agent-skills-github.md](../sources/agent-skills-github.md) — 相关项目分析
+- [concepts/llm-wiki-pattern.md](../concepts/llm-wiki-pattern.md) — LLM Wiki模式深度分析
 
 ---
 

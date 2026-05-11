@@ -4,7 +4,14 @@
 
 > 2026年AI工程的核心范式。核心公式：**Agent = Model + Harness**
 
-{{#include ../../concepts/harness-methodology.md}}
+{{#include ../../concepts/harness-methodology.md:2:123}}
+
+## 相关实体
+- [Anthropic](../../entities/anthropic.md)
+- [OpenAI](../../entities/openai.md)
+- [月之暗面](../../entities/moonshot.md)
+- [DeepSeek](../../entities/deepseek.md)
+- [Meta](../../entities/meta.md)
 
 ---
 

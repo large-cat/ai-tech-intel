@@ -122,3 +122,56 @@
 - [信息源与方法论](appendix/methodology.md)
 - [完整实体索引](appendix/entities-index.md)
 - [完整概念索引](appendix/concepts-index.md)
+
+## 实体档案
+
+### 模型厂商
+- [Anthropic](entities/anthropic.md) — Claude系列
+- [OpenAI](entities/openai.md) — GPT/o系列
+- [Google DeepMind](entities/google-deepmind.md) — Gemini/TPU
+- [月之暗面](entities/moonshot.md) — Kimi系列
+- [DeepSeek](entities/deepseek.md) — DeepSeek-V3/R1/R2
+- [Meta](entities/meta.md) — Llama系列
+- [LangChain](entities/langchain.md) — LLM应用框架
+
+### 硬件厂商
+- [NVIDIA](entities/nvidia.md) — GPU/CUDA
+- [AMD](entities/amd.md) — MI系列GPU
+- [三星](entities/samsung.md) — 内存/HBM
+- [SK海力士](entities/sk-hynix.md) — HBM霸主
+- [Intel](entities/intel.md) — Gaudi/CPU
+- [Micron](entities/micron.md) — 内存/HBM
+- [TSMC](entities/tsmc.md) — 晶圆代工
+- [Stripe](entities/stripe.md) — 支付基础设施/AI工程
+
+### 人物
+- [Andrej Karpathy](entities/andrej-karpathy.md) — ex-Tesla/OpenAI
+- [Addy Osmani](entities/addy-osmani.md) — Google Chrome/AI Agent
+- [antirez](entities/antirez.md) — Redis作者/ds4
+- [Pratiyush](entities/pratiyush.md) — llm-wiki作者
+
+## 概念深度分析
+
+### Agent工程/技能
+- [Harness方法论](concepts/harness-methodology.md) — 2026年核心范式
+- [Agent Skills](concepts/agent-skills.md) — AI编程Agent技能库
+- [RLHF](concepts/rlhf.md) — 人类反馈强化学习
+- [测试时计算](concepts/test-time-compute.md) — Test-Time Compute Scaling
+
+### 硬件架构
+- [存算一体](concepts/processing-in-memory.md) — Processing-in-Memory
+- [近存运算](concepts/near-memory-computing.md) — Near-Memory Computing
+- [HBM](concepts/hbm.md) — 高带宽内存
+- [Chiplet](concepts/chiplet.md) — 芯粒架构
+
+### 本地推理
+- [DS4](concepts/ds4.md) — DeepSeek V4 Flash专用推理引擎
+
+### 知识管理
+- [LLM Wiki模式](concepts/llm-wiki-pattern.md) — 增量式维护方法论
+
+---
+
+## 每日速递
+- [2026-05-09](weekly-digest/2026-05-09.md)
+- [2026-05-10](weekly-digest/2026-05-10.md)

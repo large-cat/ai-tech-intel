@@ -29,6 +29,6 @@ concepts: [HBM, Chiplet]
 - 散热方案：液冷（延续Rubin的NVL72/NVL8标准）
 
 ## 关联页面
-- [entities/nvidia.md](../entities/nvidia.md)
-- [concepts/hbm.md](../concepts/hbm.md)
-- [concepts/chiplet.md](../concepts/chiplet.md)
+- [entities/nvidia.md](../../entities/nvidia.md)
+- [concepts/hbm.md](../../concepts/hbm.md)
+- [concepts/chiplet.md](../../concepts/chiplet.md)
