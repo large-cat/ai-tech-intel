@@ -47,13 +47,93 @@
 
 ## 🔑 关键技术标准
 
+### UCIe（Universal Chiplet Interconnect Express）
+
+UCIe是2022年3月由Intel/AMD/ARM/TSMC/Google/Meta/Microsoft/Qualcomm/Samsung/ASE联合发起的开放标准，目标是让不同厂商、不同工艺的Chiplet能在同一个封装内互操作。
+
+#### 三层协议栈
+
+```
+┌─────────────────────────────────────────┐
+│  Protocol Layer                         │
+│  PCIe 6.0 / CXL 2.0~3.0 / Streaming    │
+│  （兼容现有生态，即插即用）               │
+├─────────────────────────────────────────┤
+│  Die-to-Die Adapter Layer               │
+│  • 链路初始化与参数协商                  │
+│  • 多协议复用（Arb/Mux）                 │
+│  • CRC + Retry 错误恢复                  │
+│  • 链路状态/功耗管理                     │
+├─────────────────────────────────────────┤
+│  Physical Layer                         │
+│  • 电气AFE（Tx/Rx）                      │
+│  • 时钟转发（Clock Forward）             │
+│  • 边带通道（Sideband）参数交换          │
+│  • 链路训练/校准/修复（Lane Repair）     │
+└─────────────────────────────────────────┘
+```
+
+#### 核心KPI
+
+| 指标 | 标准封装(2D) | 先进封装(2.5D) | 对比基准(PCIe) |
+|------|------------|--------------|--------------|
+| **带宽密度(线性)** | 28-224 GB/s/mm | 165-1317 GB/s/mm | PCIe: ~10 GB/s/mm |
+| **带宽密度(面积)** | 1.5-6.5 TB/s/mm² | 9-38 TB/s/mm² | — |
+| **单pin数据率** | 最高32 Gbps | 最高64 Gbps | PCIe 5.0: 32 GT/s |
+| **端到端延迟** | <2 ns | <2 ns | PCIe: ~20 ns |
+| **功耗效率** | 0.5 pJ/bit | 0.25 pJ/bit | PCIe: ~5-10 pJ/bit |
+| **误码率(BER)** | <1e-15 | <1e-15 | — |
+
+#### 封装类型支持
+
+- **UCIe-S（Standard）**：2D有机基板，成本低，距离长（~25mm），凸点间距25-55μm
+- **UCIe-A（Advanced）**：2.5D硅中介层/EMIB，距离短（~2mm），凸点间距25-45μm
+- **UCIe 3D**：垂直堆叠（开发中），通过TSV实现
+
+#### 版本演进
+
+| 版本 | 时间 | 关键新增 |
+|------|------|---------|
+| **UCIe 1.0** | 2022-03 | 首发，支持2D/2.5D，PCIe/CXL/Streaming协议 |
+| **UCIe 1.1** | 2024 | 链路健康监控、运行时parity、合规性改进 |
+| **UCIe 2.0** | 2025-08 | **3D封装支持**、可管理性、调试/测试架构 |
+| **UCIe 3D** | 开发中 | 垂直堆叠，简化Chiplet连接 |
+
+#### 物理层细节
+
+- **Lane模块**：1个Module = 16条SE（单端）Lane或64条差分Lane（先进封装）
+- **Link组成**：1、2或4个Module组成一个双向Link
+- **Bump-out规格**：规范明确定义凸点布局，支持Die旋转/镜像，确保即使未来凸点间距缩小仍能互操作
+- **Lane Repair**：支持坏Lane自动屏蔽和重映射，提升良率
+
+#### 与专有互连的对比
+
+| 标准 | 数据率/lane | 带宽密度 | 延迟 | 开放/专有 |
+|------|-----------|---------|------|----------|
+| **UCIe** | 最高64 GT/s | >20 Tbps/mm² | <4 ns | **开放** |
+| AIB (Intel) | 2 GT/s | 504 Gbps/mm | 5 ns | 专有 |
+| Lipincon (TSMC) | 8-16 GT/s | 536 Gbps/mm | 14 ns | 专有 |
+| Bunch of Wires | 2-16 GT/s | 1280 Gbps/mm | 5 ns | 开放(OCP) |
+| XSR/USR (Rambus) | 16-56 GT/s | N/A | N/A | 专有 |
+
+#### 产业意义
+
+- **打破专有壁垒**：Intel的AIB、AMD的Infinity Fabric、TSMC的Lipincon互不兼容 → UCIe统一
+- **Chiplet民主化**：小公司可以设计专用Chiplet（如AI加速器、射频、传感器），大厂提供互连/封装
+- **代工灵活性**：AMD可以用TSMC工艺做计算Die + Intel Foundry做IO Die，通过UCIe封装在一起
+- **2026年首批UCIe兼容产品**：首批基于UCIe的Chiplet系统上市
+
+### 其他专有互连
+
 | 标准 | 主导者 | 带宽 | 用途 |
 |------|--------|------|------|
-| **UCIe** | Intel（联盟） | 2-4TB/s/mm | Chiplet间互连行业标准 |
-| **Infinity Fabric** | AMD | 定制 | AMD内部Chiplet互联 |
-| **EMIB** | Intel | 高密度 | 2D/2.5D封装 |
-| **Foveros** | Intel | 3D堆叠 | 垂直方向Chiplet堆叠 |
-| **CoWoS** | TSMC | 高密度 | NVIDIA/AMD GPU+HBM封装 |
+| **Infinity Fabric** | AMD | 定制 | AMD内部Chiplet互联（EPYC/MI系列） |
+| **EMIB** | Intel | 高密度 | 2D/2.5D封装（Sapphire Rapids/Ponte Vecchio） |
+| **Foveros** | Intel | 3D堆叠 | 垂直方向Chiplet堆叠（Lakefield） |
+| **CoWoS** | TSMC | 高密度 | AI加速器封装（NVIDIA/AMD GPU+HBM） |
+| **SoIC** | TSMC | sub-10μm pitch | 3D Chiplet垂直集成（混合键合） |
+
+
 
 ---
 
