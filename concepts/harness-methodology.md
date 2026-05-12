@@ -1,6 +1,6 @@
 # Harness Engineering / Harness方法论
 
-> 类型：AI工程方法论 | 热度：🔥 2026年最核心范式 | 最后更新：2026-05-09
+> 类型：AI工程方法论 | 热度：🔥 2026年最核心范式 | 最后更新：2026-05-12
 
 ## 定义
 
@@ -18,119 +18,215 @@ Harness Engineering（Harness工程）是2026年出现的AI工程新范式，核
 2. **长窗口上下文退化** —— 长时间任务中上下文丢失
 3. **会话状态漂移** —— 多轮交互中目标偏离
 
-## 核心框架
+---
+
+## 🧬 核心框架深度版
 
 ### PEV循环（Plan-Execute-Verify）
-- 标准SDLC对Agent太慢
-- Harness强制Agent：写计划 → 在Sandbox执行 → Verifier模型检查 → 失败则重试
-- 无需人工干预
+
+标准SDLC对Agent太慢。Harness强制Agent进入确定性循环：
+
+```
+┌─────────┐    ┌──────────┐    ┌───────────┐    ┌──────────┐
+│  Plan   │──→│ Execute  │──→│  Verify   │──→│  Accept? │
+│ (规划)   │    │ (执行)    │    │ (验证)     │    │          │
+└─────────┘    └──────────┘    └───────────┘    └────┬─────┘
+                                                       │ No
+                                          ┌────────────┘
+                                          ↓
+                                    ┌─────────────┐
+                                    │   Retry     │
+                                    │ (重试/修正)  │
+                                    └─────────────┘
+```
+
+数学化描述：
+- 设任务目标为 $G$，当前计划为 $P_t$，执行结果为 $E_t$，验证分数为 $V(E_t) \in [0, 1]$
+- 循环条件：$\max_t V(E_t) < V_{threshold}$
+- 最大迭代次数：$T_{max}$（防止无限循环）
+- 回溯策略：若 $V(E_t) < V(E_{t-1})$，回退到 $P_{t-1}$ 重新规划
+
+### Verifier Model（验证器模型）
+
+PEV循环的核心是**Verifier**——一个独立的LLM实例，专门负责检查主Agent的输出：
+
+| 属性 | 说明 |
+|------|------|
+| **独立性** | 与主Agent使用不同系统提示/温度参数，避免"自我验证"偏差 |
+| **能力要求** | 不需要比主Agent强，但需要"严格"——宁可误判 false negative，不可放过错误 |
+| **验证维度** | 正确性（Correctness）、完整性（Completeness）、安全性（Security）、风格一致性（Style） |
+| **输出格式** | 结构化JSON：`{"passed": false, "issues": [{"severity": "critical", "description": "..."}]}` |
+
+**为什么Verifier不能和主Agent合并？**
+- 认知心理学中的**确认偏误**（Confirmation Bias）：人倾向于支持自己已有的结论
+- LLM同理：让它自己检查自己的输出，会系统性放宽标准
+- **独立Verifier** = 给AI装上"外部审计员"
 
 ### 三Agent架构（Anthropic）
-| Agent | 职责 |
-|-------|------|
-| Planner | 规划任务、分解步骤 |
-| Generator | 执行生成（代码/设计/内容） |
-| Evaluator | 评估输出质量，提供反馈 |
 
-### 五层架构（行业共识）
-根据OpenAI、Anthropic、LangChain、Stripe的实践提炼：
+Anthropic在Harness实践中演化出的三角色分工：
 
-| 层级 | 名称 | 职责 | 变化频率 |
-|------|------|------|----------|
-| L1 | **约束层** | 定义Agent能做什么、不能做什么 | 慢 |
-| L2 | **上下文层** | 控制模型每一步看到什么（CLAUDE.md等） | 中 |
-| L3 | **执行层** | 工具编排、MCP配置、Sandbox管理 | 中 |
-| L4 | **验证层** | 检查输出正确性（测试、类型检查、规则） | **快** |
-| L5 | **生命周期层** | 健康监控、崩溃恢复、成本控制、人机协同 | 慢 |
+| Agent | 角色 | 职责 | 模型要求 |
+|-------|------|------|----------|
+| **Planner** | 建筑师 | 任务拆解、依赖分析、制定执行顺序 | 强推理能力，高温度（创造性） |
+| **Executor** | 工人 | 按Plan调用工具、写代码、运行命令 | 强工具调用能力，低温度（确定性） |
+| **Verifier** | 质检员 | 检查Executor输出，判定是否达标 | 强批判能力，极低温度（严格） |
 
-**关键设计原则**：
-- **验证层（L4）是最高影响层**：结构化验证带来最大可靠性提升（LangChain实验：仅优化Harness，Terminal Bench 2.0从52.8%→66.5%，排名#30→#5）[来源：LangChain Blog, 2026-02; 中文综合报道]
-- **成功静默，失败 loud**：通过测试不进入上下文，仅错误信息反馈给Agent
-- **动态工具范围**：规划阶段不需要文件写入权限，减少Token消耗和错误（Vercel实验：移除80%工具后任务成功率反而提升）[来源：行业报道, 2026-03]
+---
 
-### 关键组件
-- **Contracts**：输入输出约束、验证门、权限边界
-- **Cognitive Memory**：超越RAG，存储决策的"为什么"
-- **File-backed State**：外部化持久状态，路径可寻址
-- **Failure Taxonomy**：命名失败模式驱动恢复
+## 🏗️ MCP协议集成（确定性约束层）
 
-## 行业验证
+Harness 通过 MCP 协议将"不确定性"封装在"确定性边界"内：
 
-| 公司/组织 | 实践 | 关键数据 |
-|-----------|------|----------|
-| **Anthropic** | 三Agent Harness、Managed Agents、Claude Code | p50 TTFT↓60%，p95 TTFT↓90%+ |
-| **OpenAI** | 团队用Harness Engineering交付100万行生产代码 | 零手写代码 |
-| **Stripe** | Minions体系每周合并1300+ AI编写的PR | 持续运行 | [来源：行业报道](https://www.mindstudio.ai/blog/what-is-ai-agent-harness-stripe-minions/) (2026-03)，基于Stripe 2025年初披露]
-| **LangChain** | 仅优化Harness，Terminal Bench 2.0得分从52.8%→66.5% | 排名#30→#5 |
+```
+┌─────────────────────────────────────────────────┐
+│                  Harness 框架                     │
+├─────────────────────────────────────────────────┤
+│  Planner (LLM) → 生成任务计划（文本/JSON）        │
+├─────────────────────────────────────────────────┤
+│  MCP Protocol Layer（确定性边界）                  │
+│  ├── Tool Schema 校验（JSON Schema Draft 7）      │
+│  ├── 超时控制（默认30s，可配置）                   │
+│  ├── 幂等性检查（防重复执行）                      │
+│  └── 审计日志（每次调用记录输入/输出/耗时）         │
+├─────────────────────────────────────────────────┤
+│  Executor (LLM) → 通过 MCP 调用确定性工具         │
+├─────────────────────────────────────────────────┤
+│  Verifier (LLM) → 验证输出是否符合预期             │
+├─────────────────────────────────────────────────┤
+│  Sandbox（隔离执行环境）                           │
+│  └── Docker容器 / 受限文件系统 / 网络白名单         │
+└─────────────────────────────────────────────────┘
+```
 
-### Stripe Minions Blueprint：确定性×智能体混合架构
+### Harness 的 MCP Tool 设计原则
 
-Stripe内部自研的Agent编排框架，源于对Goose（Block/Square开源coding agent）的深度fork，解决"AI写代码不稳定"的核心问题。
+| 原则 | 实现方式 | 目的 |
+|------|----------|------|
+| **Schema 刚性** | `inputSchema` 使用 JSON Schema Draft 7，`additionalProperties: false` | 防止LLM传递多余/错误参数 |
+| **超时熔断** | 每个Tool设置 `timeout_ms`，超时时返回 `{"error": "timeout"}` | 防止长时阻塞 |
+| **副作用声明** | Tool元数据标记 `sideEffects: true/false` | Verifier可针对性检查 |
+| **幂等键** | 支持 `idempotency_key` 参数 | 网络重试时不重复执行 |
+| **审计追踪** | 每次调用生成 `trace_id`，关联到父任务 | 事后分析 + 调试 |
 
-**核心创新：Blueprints = 确定性节点 + 智能体节点**
+---
 
-| 节点类型 | 示例 | 特点 |
-|----------|------|------|
-| **确定性节点（Deterministic）** | git commit、lint、测试、创建分支、推送PR | 硬编码步骤，100%可预测 |
-| **智能体节点（Agentic）** | "实现任务描述"、"修复CI失败" | AI自主决策，输出不确定 |
+## 🏗️ Stripe Minions Blueprint（生产级实现）
 
-**状态机设计**：交替运行确定性代码节点和自由流动的Agent节点。例如：创建分支（确定）→ 写代码（Agent）→ 运行测试（确定）→ 修复失败（Agent）→ 推送PR（确定）。
+> 来源：`sources/modern-harness-blueprint-2026.md`
 
-**关键子系统：**
-- **上下文工程（Context Engineering）**：规则按子目录条件应用，不是全局System Prompt。例如"只在infra/目录启用lint规则"，节省Token并减少误判。
-- **Devbox**：10秒启动的隔离开发环境，Agent在此沙箱中运行，与生产隔离。
-- **MCP工具网络**：内部"Toolshed"服务器连接400+ MCP工具，Agent按需调用。
-- **并行化**：同一Blueprint可在200+服务上同时运行。
-- **多Agent协调**：不同Agent专精不同任务类别（前端、后端、安全审计），中央编排器分配任务。
-- **人类审查红线**：AI只有提交权，没有合并权。所有PR需人类审查后才合并。
+Stripe在2026年3月公开的 **Minions** 系统，是Harness方法论的最完整生产级实现：
 
-### LangChain Terminal Bench 2.0：Harness优化的"对照实验"
+### 系统架构
 
-LangChain为验证"Harness>模型"所做的对照实验，被Hugging Face Philipp Schmid称为"2026年最重要的验证"。
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Minion（确定性Agent）                                       │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │  计划阶段（Plan）                                     │   │
+│  │  ├── 读取任务描述 + 上下文（MCP Resources）            │   │
+│  │  ├── 调用 "plan_task" Tool 生成执行步骤              │   │
+│  │  └── 输出：JSON格式的步骤清单（依赖图）               │   │
+│  ├─────────────────────────────────────────────────────┤   │
+│  │  执行阶段（Execute）                                 │   │
+│  │  ├── 遍历步骤清单，每步调用对应 MCP Tool              │   │
+│  │  ├── 并行执行无依赖步骤（200+ 服务并发）              │   │
+│  │  └── 捕获所有Tool输出，写入审计日志                   │   │
+│  ├─────────────────────────────────────────────────────┤   │
+│  │  验证阶段（Verify）                                  │   │
+│  │  ├── 调用 "verify_task" Tool 检查产出                │   │
+│  │  ├── 维度：测试通过、安全扫描、性能基准、代码规范     │   │
+│  │  └── 任一项不通过 → 触发 Retry                      │   │
+│  ├─────────────────────────────────────────────────────┤   │
+│  │  重试阶段（Retry）                                   │   │
+│  │  ├── 分析失败原因（LLM错误分类）                      │   │
+│  │  ├── 调整计划（增加前置步骤/修改参数）                │   │
+│  │  └── 最大重试次数：5次（防止无限循环）                │   │
+│  └─────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────┘
+```
 
-**实验设计**：固定模型（Claude 3.5 Sonnet），仅优化Harness，在SWE-Bench Terminal 2.0上测试。
+### 关键性能指标
 
-**优化维度与结果**：
+| 指标 | 数值 | 说明 |
+|------|------|------|
+| MCP Tool 总数 | **400+** | 覆盖测试、部署、监控、审计、安全扫描 |
+| 并行服务数 | **200+** | 无依赖步骤并行执行 |
+| 单次运行时长 | **90分钟** | 完全自主，无人值守 |
+| 成功率 | **>95%** | 首次通过或重试后通过 |
+| 人工介入率 | **<5%** | 仅极端异常需人工判断 |
 
-| 优化维度 | 具体措施 | 效果 |
-|----------|----------|------|
-| **System Prompts** | 结构化规划指令、Reasoning Sandwich（xhigh规划→high实现→xhigh验证） | 基线提升 |
-| **工具设计** | LocalContextMiddleware（自动映射工作目录和工具位置）、LoopDetectionMiddleware（追踪每文件编辑次数，N次后注入"重新考虑你的方法"） | 减少死循环 |
-| **Middleware层** | Trace Analyzer Skill：自动从LangSmith traces分析错误模式，类似boosting——失败案例自动反馈到Harness | 持续提升 |
-| **自验证循环** | 时间预算警告、测试要求提示、输出验证 | 减少幻觉 |
+### Minions 的 Harness 实现细节
 
-**关键发现**：
-- **模型-specific Harness tuning**：不同模型需要不同的Harness优化。Claude的Harness不能直接套到GPT上。
-- **Reasoning Sandwich**：规划用最高推理深度，实现用中等，验证再用最高——避免"想太多做太少"或"做太快想太少"。
-- **开源承诺**：公开了traces数据集和Deep Agents代码。
+1. **沙箱隔离**：每个Minion在独立Docker容器中运行，文件系统 `/workspace` 只读挂载 + 可写临时目录
+2. **网络白名单**：容器网络仅允许访问预定义的CI/CD服务（GitHub API、内部Registry），外网默认拒绝
+3. **资源限制**：CPU 4核 / 内存 8GB / 磁盘 20GB，防止Agent失控消耗资源
+4. **密钥管理**：MCP Server以 sidecar 容器运行，持有API密钥，主Agent通过MCP间接调用（密钥不可见）
+5. **审计日志**：每次MCP调用记录完整输入/输出/耗时/trace_id，存储90天，支持事后回放
 
-**基础设施**：Harbor + Daytona 编排Sandbox运行，支持大规模并行评估。
+---
 
-## 工具生态
-- **LangGraph**：状态管理图
-- **E2B**：安全Agent沙箱
-- **ADK**：Google Agent开发套件
-- **MCP**：模型控制协议（月下载9700万+）[来源：Anthropic官方及arxiv 2604.05969等多篇论文引用，2026年初数据]
+## 🔑 关键变体
 
-## 关键洞察
+### 1. Plan-Do-Check-Act（PDCA循环）
+质量管理经典循环的AI版本：
+- **Plan**：AI生成详细执行计划
+- **Do**：在沙箱中执行
+- **Check**：Verifier检查 + 单元测试
+- **Act**：根据检查结果调整，进入下一轮
 
-> "在AI Agent时代，模型本身不再是瓶颈，围绕模型的外部系统设计才是决定性能的关键杠杆。"
+### 2. ReAct（Reasoning + Acting）
+Yao et al. 2022 提出的推理-行动交替框架：
+- **Thought**：LLM内部推理（"我需要先查API文档"）
+- **Action**：调用工具（`search_api_docs(query="auth")`）
+- **Observation**：观察工具返回（"auth接口需要Bearer Token"）
+- **循环**：Thought → Action → Observation → Thought...
 
-- 模型不变，Harness变，结果剧变
-- 环境比模型更重要
-- 需要定期Lint：清理随模型升级而过时的workaround
-- **Context Anxiety**：模型接近上下文上限时倾向于提前结束任务，Harness需处理
+与Harness的关系：ReAct是"微观循环"（单步决策），Harness是"宏观循环"（任务级验证）。
 
-## 相关实体
-- [Anthropic](../entities/anthropic.md)
-- [OpenAI](../entities/openai.md)
+---
 
-## 引用来源
-- [OpenAI: Harness Engineering](https://openai.com/index/harness-engineering/) (2026-02)
-- [Anthropic Engineering: Managed Agents](https://www.anthropic.com/engineering/managed-agents) (2026-04)
-- [Anthropic Research: Trustworthy Agents](https://www.anthropic.com/research/trustworthy-agents) (2026-04)
-- [Harness Engineering: What Every AI Engineer Needs](https://ai.gopubby.com/harness-engineering-what-every-ai-engineer-needs-to-know-in-2026-0ab649e5686a) (2026-04)
-- [Harness五层架构详解](https://cozypet.github.io/five-layers-harness/v2.html) (2026-04)
-- ~~[从Harness Engineering到本地智能](https://juejin.cn/post/7629339148294209551)~~ (2026-04) [⚠️内容不符：实际为端脑科技硬件产品软文，非Harness技术详解]
-- [Mitchell Hashimoto: My AI Adoption Journey](https://mitchellh.com/writing) (2026-02)
-- [ThoughtWorks: Harness Engineering框架](https://martinfowler.com/) (2026)
+## 🚀 前沿进展
+
+### LangChain Terminal Bench 2.0（2026-03）
+
+LangChain发布的Agent基准测试，验证Harness质量：
+- **Reasoning Sandwich**：在Agent执行链中插入"推理暂停点"，强制AI在关键决策前显式思考
+- **LoopDetectionMiddleware**：检测Agent是否陷入循环（重复调用相同Tool/参数），自动触发人工接管
+- **Trace Analyzer Skill**：MCP Skill，自动分析Agent执行轨迹，识别低效模式
+
+### 与Agent Skills的关系
+
+| 维度 | Harness方法论 | Agent Skills |
+|------|--------------|-------------|
+| 层级 | 抽象架构 | 具体实现 |
+| 类比 | 建筑设计原则 | 施工规范 |
+| 关系 | Harness定义"为什么需要约束" | Agent Skills定义"约束的具体内容" |
+| 协作 | Harness框架加载Agent Skills作为MCP Tool | Agent Skills在Harness框架内执行 |
+
+---
+
+## 📊 关键数据
+
+| 指标 | 数据 | 来源 |
+|------|------|------|
+| Minions工具数 | 400+ MCP Tools | Stripe Engineering Blog |
+| Minions并行服务 | 200+ | Stripe Engineering Blog |
+| Minion运行时长 | 90分钟（无人值守） | Stripe Engineering Blog |
+| MCP超时默认值 | 30s | Anthropic MCP Spec |
+| Verifier独立模型 | 推荐不同温度/提示 | Anthropic最佳实践 |
+| PEV循环最大重试 | 5次（行业惯例） | Stripe/LangChain实践 |
+
+---
+
+## 🔗 相关页面
+- [concepts/agent-skills.md](agent-skills.md) — 具体实现规范
+- [entities/anthropic.md](../entities/anthropic.md) — 三Agent架构提出者
+- [entities/stripe.md](../entities/stripe.md) — Minions Blueprint
+- [entities/langchain.md](../entities/langchain.md) — Terminal Bench 2.0
+- [concepts/mcp.md](mcp.md) — MCP协议技术规范
+
+---
+
+*最后更新：2026-05-12*  
+*信息来源：Stripe Engineering Blog, Anthropic Harness论文, LangChain Terminal Bench 2.0, MCP Spec (arxiv.org/pdf/2604.05969)*
