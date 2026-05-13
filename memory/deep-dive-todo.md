@@ -71,6 +71,7 @@
 - [ ] **Advanced Packaging**：台积电CoWoS Gen6的12层中介层、Intel玻璃基板量产路线图、混合键合的可靠性（热循环、跌落测试）
 - [ ] **Karpathy动态追踪**：microGPT更新（2026-02）、Claude coding工作流转变分析（2026-01推文）、2025 LLM Year in Review、新YouTube系列（RL+AI Agents）、Eureka Labs种子轮融资
 - [ ] **12-Factor Agents深度调研**：humanlayer/12-factor-agents工程原则逐条解析、与Karpathy 4条原则的对比定位、生产级Agent架构实践
+- [ ] **GitHub AI仓库排名追踪**：yuxiaopeng/Github-Ranking-AI（AI分类Top100）、EvanLi/Github-Ranking（全语言总榜Top100）、ossinsight.io/trending/ai（实时增长率Top50）
 
 ## 深度完成度追踪
 
