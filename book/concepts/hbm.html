@@ -162,146 +162,464 @@
 <p><strong>类型</strong>：内存技术 / AI芯片关键组件<br />
 <strong>全称</strong>：High Bandwidth Memory<br />
 <strong>核心作用</strong>：解决AI推理的"内存带宽瓶颈"</p>
+<blockquote>
+<p><strong>本文档为深度技术版。覆盖TSV制造工艺、3D堆叠物理结构、封装技术细节、电气特性与产业演进。</strong></p>
+</blockquote>
 <hr />
-<h2 id="-技术原理"><a class="header" href="#-技术原理">🧬 技术原理</a></h2>
-<h3 id="什么是hbm"><a class="header" href="#什么是hbm">什么是HBM？</a></h3>
-<p>传统DRAM（如DDR4/DDR5）是"平面"布局——芯片平铺在PCB上。HBM采用<strong>3D堆叠</strong>：</p>
+<h2 id="一为什么ai需要hbm内存带宽瓶颈"><a class="header" href="#一为什么ai需要hbm内存带宽瓶颈">一、为什么AI需要HBM：内存带宽瓶颈</a></h2>
+<p>AI推理是<strong>内存带宽受限</strong>，而非算力受限。</p>
+<h3 id="量化分析"><a class="header" href="#量化分析">量化分析</a></h3>
+<p>Transformer模型每次推理需要加载全部权重到GPU寄存器：</p>
 <ul>
-<li>多颗DRAM芯片垂直堆叠</li>
-<li>通过**硅通孔（TSV, Through-Silicon Via）**连接</li>
-<li>与GPU/CPU通过**中介层（Interposer）**紧密封装</li>
-</ul>
-<h3 id="为什么ai需要hbm"><a class="header" href="#为什么ai需要hbm">为什么AI需要HBM？</a></h3>
-<p>AI推理是<strong>内存带宽受限</strong>，而非算力受限：</p>
-<ul>
-<li>Transformer模型每次推理需要加载全部权重</li>
-<li>算力再强，如果内存带宽不够，GPU就在"等数据"</li>
+<li><strong>GPT-4级别模型</strong>：权重约1.8TB，每次forward pass需读取全部权重</li>
 <li><strong>关键公式</strong>：推理吞吐量 ∝ 内存带宽 / 模型权重大小</li>
+<li>算力再强（TFLOPS再高），如果内存带宽不够，GPU就在"等数据"——利用率常低于<strong>30%</strong></li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th>对比项</th><th>DDR5</th><th>GDDR6X</th><th>HBM3E</th></tr></thead><tbody>
+<tr><td>单通道带宽</td><td>~51 GB/s</td><td>~100 GB/s</td><td><strong>~1.2 TB/s</strong></td></tr>
+<tr><td>与GPU距离</td><td>PCB走线（cm级）</td><td>PCB走线</td><td>硅中介层（μm级）</td></tr>
+<tr><td>功耗效率</td><td>低</td><td>中</td><td><strong>高</strong>（近距+宽总线）</td></tr>
+<tr><td>容量/封装</td><td>大/标准DIMM</td><td>中/标准BGA</td><td>小/2.5D封装</td></tr>
+</tbody></table>
+</div>
+<blockquote>
+<p>来源：NVIDIA H100白皮书、JEDEC HBM3标准、MLPerf推理基准</p>
+</blockquote>
+<hr />
+<h2 id="二hbm物理结构3d堆叠--tsv--中介层"><a class="header" href="#二hbm物理结构3d堆叠--tsv--中介层">二、HBM物理结构：3D堆叠 + TSV + 中介层</a></h2>
+<h3 id="21-整体封装架构"><a class="header" href="#21-整体封装架构">2.1 整体封装架构</a></h3>
+<pre><code>┌─────────────────────────────────────────────────┐
+│                  散热盖 / 导热材料                 │
+├─────────────────────────────────────────────────┤
+│  ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐               │
+│  │HBM4 │ │HBM4 │ │HBM4 │ │HBM4 │  ← 4-8颗HBM  │
+│  │堆叠  │ │堆叠  │ │堆叠  │ │堆叠  │               │
+│  └─────┘ └─────┘ └─────┘ └─────┘               │
+│       ↓ TSV ↓ TSV ↓ TSV ↓ TSV                   │
+│  ┌─────────────────────────────────────────┐     │
+│  │           硅中介层 (Silicon Interposer)   │     │
+│  │     微米级布线，连接HBM与GPU             │     │
+│  │     RDL重布线层 + TSV垂直通孔            │     │
+│  └─────────────────────────────────────────┘     │
+│       ↓ μbump ↓ μbump ↓ μbump ↓ μbump          │
+│  ┌─────────────────────────────────────────┐     │
+│  │              GPU/ASIC 逻辑Die             │     │
+│  │        (如NVIDIA H100的GH100芯片)         │     │
+│  └─────────────────────────────────────────┘     │
+│       ↓ C4 bump ↓ C4 bump                        │
+│  ┌─────────────────────────────────────────┐     │
+│  │            有机基板 (Organic Substrate)   │     │
+│  │         PCB级走线 → 主板连接器             │     │
+│  └─────────────────────────────────────────┘     │
+└─────────────────────────────────────────────────┘
+</code></pre>
+<h3 id="22-tsv3d堆叠的核心"><a class="header" href="#22-tsv3d堆叠的核心">2.2 TSV：3D堆叠的核心</a></h3>
+<p>TSV（Through-Silicon Via，硅通孔）是HBM的<strong>定义性技术</strong>——没有TSV就没有3D堆叠。</p>
+<h4 id="tsv关键参数"><a class="header" href="#tsv关键参数">TSV关键参数</a></h4>
+<div class="table-wrapper"><table><thead><tr><th>参数</th><th>HBM3</th><th>HBM4</th><th>说明</th></tr></thead><tbody>
+<tr><td><strong>TSV直径</strong></td><td>~5-10 μm</td><td>~5-8 μm</td><td>越小越难刻蚀</td></tr>
+<tr><td><strong>TSV间距(pitch)</strong></td><td>40-55 μm</td><td>30-40 μm</td><td>决定布线密度</td></tr>
+<tr><td><strong>TSV深宽比</strong></td><td>10:1 ~ 15:1</td><td>15:1 ~ 20:1</td><td>越深越难填充</td></tr>
+<tr><td><strong>每堆叠TSV数</strong></td><td>&gt;5,000</td><td>&gt;10,000</td><td>含冗余</td></tr>
+<tr><td><strong>TSV电阻</strong></td><td>50-200 mΩ</td><td>30-150 mΩ</td><td>影响信号完整性</td></tr>
+<tr><td><strong>TSV电容</strong></td><td>20-50 fF</td><td>15-40 fF</td><td>影响RC延迟</td></tr>
+<tr><td><strong>TSV占面积</strong></td><td>~1%</td><td>~0.5%</td><td>越小越好</td></tr>
+</tbody></table>
+</div>
+<h4 id="tsv完整制造流程"><a class="header" href="#tsv完整制造流程">TSV完整制造流程</a></h4>
+<p>TSV制造是HBM生产的<strong>最大瓶颈</strong>，良率直接影响HBM成本。</p>
+<p><strong>Step 1：光刻定义</strong></p>
+<ul>
+<li>涂布光刻胶 → 光刻图案化（定义TSV位置）</li>
+<li>TSV密度：每mm²数百个通孔</li>
+</ul>
+<p><strong>Step 2：DRIE Bosch刻蚀</strong>（最关键步骤）</p>
+<pre><code>Bosch工艺 = 刻蚀-钝化循环：
+
+刻蚀阶段：SF₆等离子体 → 各向同性刻蚀Si
+         ↓
+钝化阶段：C₄F₈等离子体 → 沉积氟碳聚合物保护层
+         ↓
+重复循环数百次 → 形成高深宽比垂直孔
+
+关键挑战：
+• 深孔底部反应物排出困难 → 刻蚀速率下降（ARDE效应）
+• 侧壁粗糙度（scalloping）→ 后续薄膜覆盖不均
+• 孔底剖面控制 → 影响填充质量
+</code></pre>
+<div class="table-wrapper"><table><thead><tr><th>参数</th><th>典型值</th><th>挑战</th></tr></thead><tbody>
+<tr><td>刻蚀气体</td><td>SF₆ + C₄F₈</td><td>副产物排出</td></tr>
+<tr><td>孔径</td><td>5-10 μm</td><td>侧壁粗糙度</td></tr>
+<tr><td>深度</td><td>50-100 μm</td><td>ARDE（深宽比依赖刻蚀）</td></tr>
+<tr><td>深宽比</td><td>10:1 ~ 20:1</td><td>孔底平坦化</td></tr>
+</tbody></table>
+</div>
+<p><strong>Step 3：绝缘层沉积</strong></p>
+<ul>
+<li>材料：SiO₂（热氧化或PECVD）</li>
+<li>厚度：1-2 μm</li>
+<li>作用：隔离TSV铜与硅基底，防止漏电</li>
+<li>挑战：高深宽比孔内<strong>阶梯覆盖</strong>——孔底薄膜厚度仅为顶部的30-50%</li>
+</ul>
+<p><strong>Step 4：阻挡层 + 种子层</strong></p>
+<ul>
+<li>阻挡层：TiN / TaN（5-20nm，PVD或ALD）
+<ul>
+<li>防止Cu扩散到Si中（Cu是Si中的快扩散杂质）</li>
+</ul>
+</li>
+<li>种子层：Cu（PVD溅射，~100-200nm）
+<ul>
+<li>为电镀提供导电基底</li>
+</ul>
+</li>
+<li>挑战：高深宽比孔的<strong>PVD覆盖均匀性</strong></li>
+</ul>
+<p><strong>Step 5：铜电镀填充（ECD）</strong></p>
+<pre><code>电镀方式：
+├─ 均匀电镀（Conformal）：侧壁+底部同时沉积
+│   → 适合大孔径、低深宽比
+│   → 风险：孔口封闭前底部未填满 → 空洞(void)
+│
+└─ 底部向上电镀（Bottom-up）：底部优先沉积
+    → 添加剂（加速剂/抑制剂/整平剂）控制生长
+    → 适合小孔径、高深宽比
+    → 最优选择，但化学控制极难
+</code></pre>
+<ul>
+<li>电镀后<strong>过填充</strong>（Overburden）：TSV顶部铜凸起</li>
+</ul>
+<p><strong>Step 6：CMP（化学机械抛光）</strong></p>
+<ul>
+<li>磨除过填充铜 + 阻挡层 + 多余绝缘层</li>
+<li>目标：表面平整如镜，暴露TSV顶部</li>
+<li>后续：标准BEOL（后段金属化）工艺继续</li>
+</ul>
+<p><strong>Step 7：背面暴露（Backside Reveal）</strong>（仅Via-Last TSV）</p>
+<pre><code>流程：
+1. 临时键合：Device wafer → 载体wafer（粘合剂）
+2. 背面研磨：粗磨 → 中磨 → 精磨 → 接近TSV底部
+3. CMP抛光：镜面表面
+4. 干法刻蚀暴露TSV：等离子体精确去除剩余Si
+5. 沉积Si₃N₄止蚀层 → SiO₂ → CMP回蚀暴露TSV
+6. 背面RDL（重布线层）+ μbump
+</code></pre>
+<p><strong>TSV暴露是最脆弱的步骤之一</strong>：研磨深度控制精度需达到微米级，过深损伤TSV，过浅暴露不完全。</p>
+<hr />
+<h3 id="23-hbm堆叠结构"><a class="header" href="#23-hbm堆叠结构">2.3 HBM堆叠结构</a></h3>
+<pre><code>┌─────────────────────────┐ ← 最顶层DRAM Die
+│    DRAM Die N (第N层)   │
+│  ┌─────────────────┐    │
+│  │ 存储阵列         │    │
+│  │ (Bank/Row/Col)  │    │
+│  └─────────────────┘    │
+│  ↓ TSV贯穿              │
+├─────────────────────────┤
+│    DRAM Die N-1         │
+│  ┌─────────────────┐    │
+│  │ 存储阵列         │    │
+│  └─────────────────┘    │
+│  ↓ TSV贯穿              │
+├─────────────────────────┤
+│         ...             │  ← 重复N-2次
+├─────────────────────────┤
+│    DRAM Die 1 (第1层)   │
+│  ┌─────────────────┐    │
+│  │ 存储阵列         │    │
+│  └─────────────────┘    │
+│  ↓ TSV贯穿              │
+├─────────────────────────┤
+│    **Base Die**          │  ← 不是DRAM！
+│  ┌─────────────────┐    │
+│  │ PHY (物理层)     │    │
+│  │ • SerDes串并转换 │    │
+│  │ • 时钟分配       │    │
+│  │ • 信号调理       │    │
+│  ├─────────────────┤    │
+│  │  Repair Logic    │    │
+│  │ • 冗余行/列管理   │    │
+│  ├─────────────────┤    │
+│  │ BIST (内建自测试)│    │
+│  ├─────────────────┤    │
+│  │ Mode Registers   │    │
+│  │ • 时序参数配置   │    │
+│  └─────────────────┘    │
+│  ↓ μbump到中介层        │
+└─────────────────────────┘
+</code></pre>
+<p><strong>关键设计决策</strong>：</p>
+<ul>
+<li>Base Die用<strong>逻辑工艺</strong>（28nm-12nm），不用DRAM工艺
+<ul>
+<li>原因：DRAM工艺优化存储单元密度，逻辑速度/IO差；Base Die需要高速PHY和复杂逻辑</li>
+</ul>
+</li>
+<li>TSV<strong>贯穿所有DRAM层</strong>，在Base Die终止</li>
+<li>每层DRAM Die的厚度：~30-50 μm（研磨减薄后）</li>
+</ul>
+<h3 id="24-堆叠键合技术演进"><a class="header" href="#24-堆叠键合技术演进">2.4 堆叠键合技术演进</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>技术</th><th>温度</th><th>压力</th><th>适用层数</th><th>精度</th><th>状态</th></tr></thead><tbody>
+<tr><td><strong>热压缩键合(TCB)</strong></td><td>250-300°C</td><td>高压</td><td>≤12层</td><td>±1-2 μm</td><td>HBM3/HBM3E主流</td></tr>
+<tr><td><strong>热压+非导电胶(TCNCP)</strong></td><td>250°C</td><td>中压</td><td>≤16层</td><td>±1 μm</td><td>过渡方案</td></tr>
+<tr><td><strong>混合铜键合(HCB)</strong></td><td><strong>室温</strong></td><td>无</td><td><strong>≥16层</strong></td><td><strong>±0.5 μm</strong></td><td>HBM4主流</td></tr>
+<tr><td><strong>晶圆级键合</strong></td><td>室温</td><td>无</td><td>无上限</td><td>±0.2 μm</td><td>研发中</td></tr>
+</tbody></table>
+</div>
+<p><strong>HCB（Hybrid Copper Bonding）技术细节</strong>：</p>
+<ul>
+<li>原理：两片wafer的Cu焊盘直接面对面键合，无需中间材料</li>
+<li>工艺：
+<ol>
+<li>表面CMP抛光至原子级平整（Ra &lt; 0.5nm）</li>
+<li>等离子体激活表面</li>
+<li>对准精度：亚微米级</li>
+<li>室温键合 → Cu-Cu扩散形成金属键合</li>
+</ol>
+</li>
+<li>优势：
+<ul>
+<li>无填充材料 → 热阻降低20%+</li>
+<li>间距可缩至<strong>10 μm以下</strong></li>
+<li>支持20+层堆叠</li>
+</ul>
+</li>
+<li>挑战：表面平整度要求极高，任何颗粒/缺陷都导致键合失败</li>
 </ul>
 <hr />
-<h2 id="-技术演进时间线"><a class="header" href="#-技术演进时间线">🏛️ 技术演进时间线</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>代际</th><th>时间</th><th>带宽/堆叠</th><th>容量</th><th>关键应用</th></tr></thead><tbody>
-<tr><td>HBM1</td><td>2015</td><td>128GB/s, 4层</td><td>1GB</td><td>AMD Fiji GPU</td></tr>
-<tr><td>HBM2</td><td>2016</td><td>307GB/s, 4/8层</td><td>4-8GB</td><td>NVIDIA V100</td></tr>
-<tr><td>HBM2E</td><td>2020</td><td>460GB/s, 8层</td><td>16GB</td><td>NVIDIA A100</td></tr>
-<tr><td>HBM3</td><td>2022</td><td>819GB/s, 12层</td><td>24GB</td><td>NVIDIA H100</td></tr>
-<tr><td>HBM3E</td><td>2024</td><td>1.2TB/s, 12层</td><td>36GB</td><td>NVIDIA H200/B200</td></tr>
-<tr><td><strong>HBM4</strong></td><td><strong>2026</strong></td><td><strong>2.0TB/s+, 16层</strong></td><td><strong>24-36GB/颗</strong></td><td><strong>NVIDIA Rubin/AMD MI400</strong></td></tr>
-<tr><td><strong>HBM4E</strong></td><td><strong>2026H2(样品)</strong></td><td><strong>2.4TB/s+, 16层</strong></td><td><strong>48GB/颗</strong></td><td><strong>下一代加速器</strong></td></tr>
-<tr><td>HBM5</td><td>2028+（预计）</td><td>3+ TB/s</td><td>64GB+</td><td>Feynman/下一代</td></tr>
+<h3 id="25-硅中介层silicon-interposer"><a class="header" href="#25-硅中介层silicon-interposer">2.5 硅中介层（Silicon Interposer）</a></h3>
+<p><strong>作用</strong>：在HBM堆叠和GPU之间提供高密度布线层。</p>
+<pre><code>硅中介层结构：
+┌─────────────────────────────┐
+│     μbump层（连接HBM/GPU）   │  ← 顶部凸点阵列
+├─────────────────────────────┤
+│     金属层 N（最细）         │  ← 线宽/间距 ~0.8 μm
+│     金属层 N-1              │
+│         ...                 │  ← 共4-6层金属
+│     金属层 1（最粗，供电）   │
+├─────────────────────────────┤
+│     TSV（贯穿中介层）        │  ← 连接上下表面
+├─────────────────────────────┤
+│     C4 bump（连接基板）      │  ← 底部焊球阵列
+└─────────────────────────────┘
+</code></pre>
+<p><strong>关键参数</strong>：</p>
+<ul>
+<li>中介层面积：可达reticle尺寸（~800mm²）或更大（TSMC CoWoS-L支持多reticle拼接）</li>
+<li>金属层线宽：~0.8-2 μm（比芯片内金属粗得多，但比PCB细两个数量级）</li>
+<li>中介层厚度：~100 μm</li>
+<li>TSV直径：~10 μm（比HBM TSV大，但深宽比更低）</li>
+</ul>
+<hr />
+<h2 id="三hbm电气接口jedec标准"><a class="header" href="#三hbm电气接口jedec标准">三、HBM电气接口：JEDEC标准</a></h2>
+<h3 id="31-接口架构"><a class="header" href="#31-接口架构">3.1 接口架构</a></h3>
+<p>HBM采用<strong>宽总线、低速率</strong>策略，与GDDR的窄总线、高速率形成对比：</p>
+<div class="table-wrapper"><table><thead><tr><th>参数</th><th>GDDR6X</th><th>HBM3E</th><th>HBM4</th></tr></thead><tbody>
+<tr><td>数据总线宽度</td><td>32-bit × 1</td><td>1024-bit × 1</td><td><strong>2048-bit</strong></td></tr>
+<tr><td>每pin数据率</td><td>19-24 Gbps</td><td>9.6 Gbps</td><td>11.7+ Gbps</td></tr>
+<tr><td>等效总带宽</td><td>~1 TB/s</td><td>~1.2 TB/s</td><td>~2.4 TB/s</td></tr>
+<tr><td>信号完整性</td><td>挑战极大</td><td>较易</td><td>较易</td></tr>
+<tr><td>功耗</td><td>高</td><td>较低</td><td>更低</td></tr>
+</tbody></table>
+</div>
+<p><strong>HBM3E引脚组织</strong>：</p>
+<ul>
+<li>1024-bit数据总线 = 16个<strong>独立通道</strong>（每通道64-bit）</li>
+<li>每通道独立时序控制 → 可部分关闭未用通道省电</li>
+<li>每个通道有独立的Command/Address总线</li>
+</ul>
+<h3 id="32-信号类型"><a class="header" href="#32-信号类型">3.2 信号类型</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>信号组</th><th>数量</th><th>作用</th></tr></thead><tbody>
+<tr><td><strong>DQ</strong></td><td>1024 (HBM3) / 2048 (HBM4)</td><td>数据</td></tr>
+<tr><td><strong>DBI</strong></td><td>按字节</td><td>数据总线翻转（降低功耗）</td></tr>
+<tr><td><strong>DMI</strong></td><td>按字节</td><td>数据掩码/数据总线翻转</td></tr>
+<tr><td><strong>CA</strong></td><td>每通道独立</td><td>Command/Address</td></tr>
+<tr><td><strong>CK/CK#</strong></td><td>差分时钟</td><td>全局时钟分配</td></tr>
+<tr><td><strong>CKE</strong></td><td>每通道</td><td>时钟使能</td></tr>
+<tr><td><strong>RAS/CAS/WE</strong></td><td>隐含在CA中</td><td>行/列地址选通、写使能</td></tr>
+</tbody></table>
+</div>
+<h3 id="33-关键时序参数"><a class="header" href="#33-关键时序参数">3.3 关键时序参数</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>参数</th><th>HBM3</th><th>HBM3E</th><th>HBM4</th><th>说明</th></tr></thead><tbody>
+<tr><td>tCK (时钟周期)</td><td>~1.04 ns</td><td>~1.04 ns</td><td>~0.85 ns</td><td>频率倒数</td></tr>
+<tr><td>CL (CAS延迟)</td><td>32</td><td>32</td><td>待定</td><td>列选通到数据</td></tr>
+<tr><td>tRCD (行到列延迟)</td><td>32 ns</td><td>32 ns</td><td>待定</td><td>ACT到READ/WRITE</td></tr>
+<tr><td>tRAS (行激活时间)</td><td>33 ns</td><td>33 ns</td><td>待定</td><td>行保持激活</td></tr>
+<tr><td>tREFI (刷新间隔)</td><td>1.95 μs</td><td>1.95 μs</td><td>待定</td><td>每行刷新间隔</td></tr>
 </tbody></table>
 </div>
 <hr />
-<h2 id="2026年hbm4量产最新动态"><a class="header" href="#2026年hbm4量产最新动态">2026年HBM4量产最新动态</a></h2>
-<h3 id="samsung--率先宣布量产"><a class="header" href="#samsung--率先宣布量产">Samsung — 率先宣布量产</a></h3>
+<h2 id="四技术演进时间线"><a class="header" href="#四技术演进时间线">四、技术演进时间线</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>代际</th><th>时间</th><th>堆叠</th><th>带宽/堆叠</th><th>单颗容量</th><th>制程</th><th>关键应用</th></tr></thead><tbody>
+<tr><td><strong>HBM1</strong></td><td>2015</td><td>4层</td><td>128 GB/s</td><td>1 GB</td><td>2x nm</td><td>AMD Fiji</td></tr>
+<tr><td><strong>HBM2</strong></td><td>2016</td><td>4/8层</td><td>307 GB/s</td><td>4-8 GB</td><td>2x nm</td><td>NVIDIA V100</td></tr>
+<tr><td><strong>HBM2E</strong></td><td>2020</td><td>8层</td><td>460 GB/s</td><td>16 GB</td><td>1x nm</td><td>NVIDIA A100</td></tr>
+<tr><td><strong>HBM3</strong></td><td>2022</td><td>12层</td><td>819 GB/s</td><td>24 GB</td><td>1x nm</td><td>NVIDIA H100</td></tr>
+<tr><td><strong>HBM3E</strong></td><td>2024</td><td>12层</td><td>1.2 TB/s</td><td>36 GB</td><td>1β nm</td><td>H200/B200</td></tr>
+<tr><td><strong>HBM4</strong></td><td><strong>2026量产</strong></td><td><strong>16层</strong></td><td><strong>2.0 TB/s+</strong></td><td><strong>24-36 GB</strong></td><td>1c nm</td><td>Rubin/MI400</td></tr>
+<tr><td><strong>HBM4E</strong></td><td>2026H2样品</td><td>16层</td><td>2.4 TB/s+</td><td>48 GB</td><td>1c nm</td><td>下一代</td></tr>
+<tr><td><strong>HBM5</strong></td><td>2028+</td><td>20+层</td><td>3+ TB/s</td><td>64 GB+</td><td>1c/2nm</td><td>Feynman</td></tr>
+</tbody></table>
+</div>
+<p><strong>制程说明</strong>：</p>
 <ul>
-<li><strong>2026年2月</strong>：Samsung宣布开始HBM4量产出货（首批发货）</li>
+<li>1x nm = 10-19nm级DRAM工艺（如1y, 1z）</li>
+<li>1α nm = 第四代10nm级</li>
+<li>1β nm = 第五代10nm级</li>
+<li>1c nm = 第六代10nm级（~12nm等效）</li>
+<li>DRAM工艺命名与逻辑工艺（3nm, 5nm）不同，数字不直接可比</li>
+</ul>
+<hr />
+<h2 id="五2026年hbm4量产动态"><a class="header" href="#五2026年hbm4量产动态">五、2026年HBM4量产动态</a></h2>
+<h3 id="51-samsung--率先宣布量产"><a class="header" href="#51-samsung--率先宣布量产">5.1 Samsung — 率先宣布量产</a></h3>
+<ul>
+<li><strong>2026年2月</strong>：宣布HBM4量产出货（首批发货）</li>
 <li>速度：<strong>11.7 Gbps</strong>（可超频至13 Gbps）</li>
 <li>单堆叠带宽：最高<strong>3.3 TB/s</strong></li>
 <li>容量：24-36 GB（计划扩展至48 GB）</li>
-<li>热阻改善+10%，散热改善+30%，能效提升+40%</li>
-<li><strong>HBM4E样品</strong>：2026H2出货</li>
+<li><strong>技术亮点</strong>：HCB混合铜键合、散热改善+30%、能效提升+40%</li>
+<li><strong>HBM4E样品</strong>：2026H2出货，16Gbps/pin</li>
 <li><strong>销售预测</strong>：2026年HBM销售额较2025年增长<strong>3倍以上</strong></li>
-<li><strong>来源</strong>：The Register, 2026-02-13</li>
+<li><strong>来源</strong>：Samsung官方 / The Register, 2026-02-13</li>
 </ul>
-<h3 id="micron--提前一个季度交付"><a class="header" href="#micron--提前一个季度交付">Micron — 提前一个季度交付</a></h3>
+<h3 id="52-micron--提前一个季度交付"><a class="header" href="#52-micron--提前一个季度交付">5.2 Micron — 提前一个季度交付</a></h3>
 <ul>
-<li><strong>2026年2月</strong>：Micron CFO Mark Murphy宣布HBM4已进入高量产</li>
+<li><strong>2026年2月</strong>：CFO Mark Murphy宣布HBM4已进入高量产</li>
 <li>速度：<strong>&gt;11 Gbps</strong></li>
 <li><strong>全年产能已预售完毕</strong></li>
 <li>HBM良率"on track"</li>
 <li><strong>股价反应</strong>：消息发布后上涨近<strong>10%</strong></li>
-<li><strong>来源</strong>：Wolfe Research活动 / The Register, 2026-02-13</li>
+<li><strong>新客户</strong>：Tesla Dojo超级计算机</li>
+<li><strong>来源</strong>：Wolfe Research活动 / The Register</li>
 </ul>
-<h3 id="sk海力士--市场领导者但未官宣hbm4"><a class="header" href="#sk海力士--市场领导者但未官宣hbm4">SK海力士 — 市场领导者但未官宣HBM4</a></h3>
+<h3 id="53-sk海力士--市场领导者"><a class="header" href="#53-sk海力士--市场领导者">5.3 SK海力士 — 市场领导者</a></h3>
 <ul>
-<li><strong>2025Q2 HBM份额62%</strong>（行业最高）</li>
+<li><strong>2025Q2 HBM份额62%</strong></li>
 <li><strong>2026全年产能H1 2025即售罄</strong></li>
 <li>与Samsung共同供应NVIDIA VeraRubin HBM4</li>
-<li><strong>尚未宣布HBM4量产</strong>（三大厂中唯一未官宣）</li>
-<li>可能优先保障大客户（NVIDIA）供应而非公开announcement</li>
-<li><strong>来源</strong>：PatSnap分析 / The Register</li>
+<li><strong>尚未宣布HBM4量产</strong>——可能优先保障大客户（NVIDIA）供应而非PR</li>
+<li><strong>来源</strong>：PatSnap分析 / 供应链</li>
 </ul>
-<h3 id="新需求方tesla-dojo"><a class="header" href="#新需求方tesla-dojo">新需求方：Tesla Dojo</a></h3>
+<h3 id="54-新需求方tesla-dojo"><a class="header" href="#54-新需求方tesla-dojo">5.4 新需求方：Tesla Dojo</a></h3>
 <ul>
 <li>Tesla成为HBM4新客户</li>
 <li>同时向SK海力士和Samsung索取样品</li>
 <li>用于Dojo超级计算机</li>
-<li>需求基础从传统NVIDIA/AMD轴心扩大</li>
-<li><strong>来源</strong>：The Register, 2026-02-13</li>
+<li><strong>信号</strong>：HBM需求从NVIDIA/AMD轴心扩大</li>
+<li><strong>来源</strong>：The Register</li>
 </ul>
 <hr />
-<h2 id="-关键技术指标"><a class="header" href="#-关键技术指标">🔑 关键技术指标</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>指标</th><th>HBM3E</th><th>HBM4</th><th>HBM4E</th><th>提升逻辑</th></tr></thead><tbody>
-<tr><td>每颗带宽</td><td>1.2TB/s</td><td>2.0TB/s+</td><td>2.4TB/s+</td><td>更高频率+更多通道</td></tr>
-<tr><td>堆叠层数</td><td>12层</td><td><strong>16层</strong></td><td>16层</td><td>3D封装技术进步</td></tr>
-<tr><td>单颗容量</td><td>36GB</td><td><strong>24-36GB</strong></td><td>48GB</td><td>实际出货容量范围</td></tr>
-<tr><td>功耗</td><td>较高</td><td>优化</td><td>更低</td><td>先进制程+电压优化</td></tr>
-<tr><td>封装技术</td><td>热压缩键合</td><td><strong>混合铜键合(HCB)</strong></td><td>HCB优化</td><td>更薄、散热更好</td></tr>
+<h2 id="六产业竞争格局"><a class="header" href="#六产业竞争格局">六、产业竞争格局</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>厂商</th><th>2025Q3份额</th><th>技术路线</th><th>关键客户</th><th>产能状态</th></tr></thead><tbody>
+<tr><td><strong>SK海力士</strong></td><td><strong>53%</strong></td><td>1α→1β→1c DRAM</td><td>NVIDIA、AMD、Google</td><td>2026全年H1售罄</td></tr>
+<tr><td><strong>三星</strong></td><td><strong>35%</strong></td><td>HCB技术领先、HBM4E 16Gbps</td><td>NVIDIA(VeraRubin)、Tesla</td><td>HBM4已出货</td></tr>
+<tr><td><strong>Micron</strong></td><td><strong>12%</strong></td><td>HBM4提前量产、全年预售完毕</td><td>Tesla、云厂商</td><td>产能紧张</td></tr>
+</tbody></table>
+</div>
+<p><strong>关键趋势</strong>：</p>
+<ul>
+<li><strong>产能紧张</strong>：三大厂将产能转向高利润HBM，普通DRAM价格上涨</li>
+<li><strong>技术竞赛</strong>：从"谁先量产"转向"HCB良率"和"散热方案"</li>
+<li><strong>需求扩大</strong>：从AI训练卡扩展到推理卡、Dojo、云厂商定制</li>
+</ul>
+<hr />
+<h2 id="七前沿技术方向"><a class="header" href="#七前沿技术方向">七、前沿技术方向</a></h2>
+<h3 id="71-混合铜键合hcb"><a class="header" href="#71-混合铜键合hcb">7.1 混合铜键合（HCB）</a></h3>
+<ul>
+<li><strong>三星率先采用</strong>，支持16层以上堆叠</li>
+<li>散热降低20%+，间距可缩至10 μm以下</li>
+<li>表面平整度要求：Ra &lt; 0.5 nm（原子级）</li>
+<li>为HBM5（20+层）铺路</li>
+</ul>
+<h3 id="72-定制化hbmchbm"><a class="header" href="#72-定制化hbmchbm">7.2 定制化HBM（cHBM）</a></h3>
+<ul>
+<li><strong>SK海力士</strong>：将轻量级计算单元集成到Base Die</li>
+<li>功能：累加器、激活函数、数据预处理</li>
+<li>目标：推理效率提升2-5×（减少HBM→GPU数据搬运）</li>
+<li>信号：从"纯性能竞争"转向"推理效率+TCO优化"</li>
+</ul>
+<h3 id="73-面板级封装plp"><a class="header" href="#73-面板级封装plp">7.3 面板级封装（PLP）</a></h3>
+<ul>
+<li>从晶圆级（300mm/450mm）转向面板级（600mm×600mm或更大）</li>
+<li><strong>优势</strong>：面积利用率更高、适合大面积中介层</li>
+<li><strong>挑战</strong>：面板平整度控制、热膨胀系数匹配</li>
+<li>Applied Materials收购ASMPT NEXX即为此布局</li>
+</ul>
+<h3 id="74-cxl内存扩展"><a class="header" href="#74-cxl内存扩展">7.4 CXL内存扩展</a></h3>
+<ul>
+<li>HBM容量受限（单GPU最多8颗 = 192-576GB）</li>
+<li>CXL.mem协议允许GPU通过PCIe访问远端DRAM</li>
+<li>延迟惩罚：~100-200 ns（vs HBM ~10 ns）</li>
+<li>适用场景：大模型推理权重卸载、KV Cache扩展</li>
+</ul>
+<hr />
+<h2 id="八关键公式与数据"><a class="header" href="#八关键公式与数据">八、关键公式与数据</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数值</th><th>来源</th></tr></thead><tbody>
+<tr><td>推理吞吐量公式</td><td>∝ 内存带宽 / 模型权重大小</td><td>NVIDIA/MLSys共识</td></tr>
+<tr><td>HBM3 TSV数量</td><td>&gt;5,000/堆叠</td><td>JEDEC规范</td></tr>
+<tr><td>HBM4 TSV深宽比</td><td>15:1 ~ 20:1</td><td>SemiEngineering</td></tr>
+<tr><td>TSV电阻</td><td>30-200 mΩ</td><td>工艺实测</td></tr>
+<tr><td>TSV电容</td><td>15-50 fF</td><td>工艺实测</td></tr>
+<tr><td>DRIE刻蚀速率</td><td>~5-10 μm/min</td><td>Bosch工艺典型值</td></tr>
+<tr><td>Cu电镀填充速率</td><td>~0.5-2 μm/min</td><td>ECD工艺</td></tr>
+<tr><td>HCB对准精度</td><td>±0.5 μm</td><td>混合键合要求</td></tr>
+<tr><td>HBM市场规模(2027E)</td><td><strong>$330亿</strong></td><td>Morgan Stanley</td></tr>
+<tr><td>VeraRubin总HBM容量</td><td>576 GB</td><td>NVIDIA GTC 2026</td></tr>
+<tr><td>AMD MI450 HBM容量</td><td>432 GB</td><td>AMD官方</td></tr>
+<tr><td>HBM4 Samsung速度</td><td>11.7 Gbps</td><td>Samsung官方</td></tr>
+<tr><td>HBM4 Micron速度</td><td>&gt;11 Gbps</td><td>Micron CFO</td></tr>
 </tbody></table>
 </div>
 <hr />
-<h2 id="-厂商竞争格局"><a class="header" href="#-厂商竞争格局">🏢 厂商竞争格局</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>厂商</th><th>份额(2025Q3)</th><th>技术特点</th><th>关键客户</th></tr></thead><tbody>
-<tr><td><strong>SK海力士</strong></td><td><strong>53%(Q3) / 62%(Q2)</strong></td><td>先发优势，2026全年产能H1售罄</td><td>NVIDIA、AMD、Google、Tesla</td></tr>
-<tr><td><strong>三星</strong></td><td><strong>35%(Q3) / 17%(Q2)</strong></td><td>HBM4E 16Gbps/pin，HCB技术，<strong>HBM4已出货</strong></td><td>NVIDIA（VeraRubin）、Tesla</td></tr>
-<tr><td><strong>Micron</strong></td><td><strong>12%(Q3) / 21%(Q2)</strong></td><td><strong>HBM4已量产，全年预售完毕</strong></td><td>Tesla、云厂商</td></tr>
+<h2 id="九tsv制造瓶颈分析"><a class="header" href="#九tsv制造瓶颈分析">九、TSV制造瓶颈分析</a></h2>
+<h3 id="为什么tsv是hbm产能瓶颈"><a class="header" href="#为什么tsv是hbm产能瓶颈">为什么TSV是HBM产能瓶颈？</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>步骤</th><th>瓶颈原因</th><th>缓解方向</th></tr></thead><tbody>
+<tr><td><strong>DRIE刻蚀</strong></td><td>高深宽比孔底部副产物排出困难</td><td>优化气体配比、脉冲刻蚀</td></tr>
+<tr><td><strong>绝缘层沉积</strong></td><td>阶梯覆盖差，孔底薄膜薄</td><td>ALD替代PECVD、多步沉积</td></tr>
+<tr><td><strong>阻挡层沉积</strong></td><td>PVD高深宽比覆盖差</td><td>ALD原子层沉积</td></tr>
+<tr><td><strong>Cu电镀</strong></td><td>孔口先封闭→空洞(void)</td><td>底部向上电镀、添加剂优化</td></tr>
+<tr><td><strong>CMP</strong></td><td>全局平整度控制</td><td>终点检测、选择性抛光</td></tr>
+<tr><td><strong>背面暴露</strong></td><td>研磨深度精度（μm级）</td><td>在线厚度监测、智能研磨</td></tr>
+<tr><td><strong>热应力</strong></td><td>Cu/Si热膨胀系数差(17×)</td><td>退火工艺优化、保持区设计</td></tr>
 </tbody></table>
 </div>
-<p><strong>来源</strong>：Counterpoint Research, 2025Q3；PatSnap分析, 2026-04；The Register, 2026-02</p>
-<p><strong>关键动态</strong>：</p>
+<p><strong>TSV热应力</strong>：Cu的热膨胀系数(~17 ppm/°C)是Si(~2.6 ppm/°C)的<strong>6.5倍</strong>。温度循环时：</p>
 <ul>
-<li><strong>SK海力士</strong>：HBM市场绝对领导者，2026全年产能H1即售罄，与Samsung共同供应NVIDIA VeraRubin</li>
-<li><strong>三星</strong>：率先宣布HBM4量产出货（2026.2），速度11.7 Gbps，散热/能效大幅改善</li>
-<li><strong>Micron</strong>：HBM4提前一季度量产，全年产能预售完毕，股价涨10%，Tesla成为新客户</li>
-<li><strong>Tesla Dojo</strong>：新晋HBM4需求方，同时向SK海力士和Samsung索取样品</li>
-<li><strong>供应紧张</strong>：Samsung/Micron将产能转向高利润HBM，普通DRAM价格上涨</li>
+<li>Cu膨胀/收缩比Si多 → 界面剪切应力</li>
+<li>影响：
+<ol>
+<li>附近晶体管性能偏移（Keep-out Zone，通常5-10 μm范围内电路受影响）</li>
+<li>长期可靠性：界面分层、空洞形成</li>
+<li>翘曲：整片wafer变形</li>
+</ol>
+</li>
 </ul>
 <hr />
-<h2 id="-前沿技术"><a class="header" href="#-前沿技术">🚀 前沿技术</a></h2>
-<h3 id="1-混合铜键合hybrid-copper-bonding-hcb"><a class="header" href="#1-混合铜键合hybrid-copper-bonding-hcb">1. 混合铜键合（Hybrid Copper Bonding, HCB）</a></h3>
+<h2 id="十相关实体与引用"><a class="header" href="#十相关实体与引用">十、相关实体与引用</a></h2>
+<h3 id="相关实体"><a class="header" href="#相关实体">相关实体</a></h3>
 <ul>
-<li><strong>三星领先</strong>：HCB支持16层以上堆叠，散热降低20%+</li>
-<li><strong>对比传统</strong>：热压缩键合（TCB）需要高温高压，HCB在室温下完成</li>
-<li><strong>意义</strong>：为HBM5（20+层）铺路</li>
+<li><a href="../entities/sk-hynix.html">entities/sk-hynix.md</a> — SK海力士</li>
+<li><a href="../entities/samsung.html">entities/samsung.md</a> — 三星</li>
+<li><a href="../entities/nvidia.html">entities/nvidia.md</a> — NVIDIA</li>
+<li><a href="processing-in-memory.html">concepts/processing-in-memory.md</a> — 存算一体</li>
+<li><a href="chiplet.html">concepts/chiplet.md</a> — Chiplet封装</li>
+<li><a href="advanced-packaging.html">concepts/advanced-packaging.md</a> — 先进封装</li>
 </ul>
-<h3 id="2-定制化hbmchbm"><a class="header" href="#2-定制化hbmchbm">2. 定制化HBM（cHBM）</a></h3>
+<h3 id="引用来源"><a class="header" href="#引用来源">引用来源</a></h3>
 <ul>
-<li><strong>SK海力士</strong>：将GPU/ASIC部分功能集成到HBM基板</li>
-<li><strong>目的</strong>：减少数据移动，提升推理效率</li>
-<li><strong>信号</strong>：客户从"纯性能"转向"推理效率+成本优化"</li>
+<li><a href="https://semiengineering.com/tsv-complexity-leads-to-manufacturing-bottleneck/">TSV Complexity Leads to Manufacturing Bottleneck</a> — SemiEngineering, 2026-04-22</li>
+<li><a href="https://www.enostech.com/the-ai-memory-crisis-a-deep-technical-analysis-of-hbm3e-hbm4-dram-process-technology-and-the-bandwidth-wall-constraining-ai/">AI Memory Crisis: HBM3E/HBM4 Deep Analysis</a> — EnoSTech, 2026-02-25</li>
+<li><a href="https://anysilicon.com/semipedia/through-silicon-via-tsv/">Through-Silicon Via (TSV) Manufacturing</a> — AnySilicon, 2025-12</li>
+<li><a href="https://pure.tudelft.nl/ws/portalfiles/portal/73507610/Through_Package_Via_A_bottom_up_approach_Hengqian_Yi.pdf">TSV Process: TU Delft</a> — 学术论文</li>
+<li><a href="https://semianalysis.com/2024/02/09/hybrid-bonding-process-flow-advanced/">Hybrid Bonding Process Flow</a> — SemiAnalysis, 2024-02</li>
+<li><a href="https://aaltodoc.aalto.fi/server/api/core/bitstreams/8c7673c9-c9a5-4b88-8d54-9a46a8c8fe19/content">Reliability of TSV Under Thermal Cycling</a> — Aalto University</li>
+<li><a href="https://www.jedec.org/">JEDEC HBM3 Standard</a> — JEDEC官方</li>
+<li><a href="https://www.theregister.com/2026/02/13/samsung_hbm4_mass_production/">Samsung HBM4 Announcement</a> — The Register, 2026-02-13</li>
+<li><a href="https://www.theregister.com/2026/02/13/micron_hbm4_mass_production/">Micron HBM4 Mass Production</a> — The Register, 2026-02-13</li>
+<li><a href="https://www.patsnap.com/">PatSnap HBM Analysis</a> — PatSnap Eureka, 2026</li>
+<li><a href="https://www.nvidia.com/">NVIDIA VeraRubin HBM Details</a> — NVIDIA GTC 2026</li>
 </ul>
-<h3 id="3-容量扩展"><a class="header" href="#3-容量扩展">3. 容量扩展</a></h3>
-<ul>
-<li><strong>当前</strong>：16层堆叠 = 48GB/颗（HBM4）</li>
-<li><strong>未来</strong>：20层+ = 96GB+/颗（HBM5）</li>
-<li><strong>制约因素</strong>：散热、良率、成本</li>
-</ul>
-<hr />
-<h2 id="-关键数据"><a class="header" href="#-关键数据">📊 关键数据</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
-<tr><td>HBM市场规模（2027E）</td><td><strong>$330亿</strong></td><td>Morgan Stanley（PatSnap引用）</td></tr>
-<tr><td>SK海力士HBM份额(Q2)</td><td><strong>62%</strong></td><td>PatSnap / 供应链</td></tr>
-<tr><td>三星HBM份额(Q2)</td><td><strong>17%</strong></td><td>PatSnap</td></tr>
-<tr><td>Micron HBM份额(Q2)</td><td><strong>21%</strong></td><td>PatSnap</td></tr>
-<tr><td>HBM4 Samsung速度</td><td><strong>11.7 Gbps</strong></td><td>Samsung官方</td></tr>
-<tr><td>HBM4 Micron速度</td><td><strong>&gt;11 Gbps</strong></td><td>Micron CFO</td></tr>
-<tr><td>Micron股价涨幅(HBM4新闻)</td><td><strong>+10%</strong></td><td>市场反应</td></tr>
-<tr><td>VeraRubin总HBM容量</td><td>576GB</td><td>NVIDIA官方GTC 2026披露</td></tr>
-<tr><td>AMD MI450 HBM容量</td><td>432GB</td><td>AMD官方披露</td></tr>
-</tbody></table>
-</div>
-<hr />
-<h2 id="-相关页面"><a class="header" href="#-相关页面">🔗 相关页面</a></h2>
-<ul>
-<li><a href="../entities/sk-hynix.html">entities/sk-hynix.md</a> — SK海力士详情</li>
-<li><a href="../entities/samsung.html">entities/samsung.md</a> — 三星详情</li>
-<li><a href="../entities/nvidia.html">entities/nvidia.md</a> — NVIDIA HBM策略</li>
-<li><a href="processing-in-memory.html">concepts/processing-in-memory.md</a> — 存算一体（HBM的下一步）</li>
-</ul>
-<hr />
-<p><em>最后更新：2026-05-10</em><br />
-<em>信息来源：PatSnap Eureka, The Register, Tom's Hardware, Samsung/Micron官方, Counterpoint, NVIDIA/AMD官方</em></p>
+<p><em>最后更新：2026-05-12</em><br />
+<em>本文档从概括版拓展到TSV制造工艺细节、物理结构、电气特性与产业动态。</em></p>
 
                     </main>
 

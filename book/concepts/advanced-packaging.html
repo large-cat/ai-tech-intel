@@ -162,15 +162,17 @@
 <p><strong>类型</strong>：半导体封装技术 / AI芯片核心基础设施<br />
 <strong>核心作用</strong>：把多个芯片（Chiplet、HBM、逻辑Die）封装在一起，实现高带宽互联</p>
 <hr />
-<h2 id="-技术原理"><a class="header" href="#-技术原理">🧬 技术原理</a></h2>
+<h2 id="-技术原理深度版"><a class="header" href="#-技术原理深度版">🧬 技术原理深度版</a></h2>
 <h3 id="为什么需要先进封装"><a class="header" href="#为什么需要先进封装">为什么需要先进封装？</a></h3>
 <p>摩尔定律放缓：单片大芯片（Monolithic）在3nm以下成本 prohibitively expensive：</p>
 <ul>
-<li><strong>良率暴跌</strong>：芯片面积越大，缺陷概率指数增长（良率 ∝ e^(-面积)）</li>
-<li><strong>成本失控</strong>：3nm单片芯片一片晶圆成本极高，且面积受光罩限制（~800mm²）</li>
+<li><strong>良率暴跌</strong>：芯片面积越大，缺陷概率指数增长（良率 $\propto e^{-D_0 \cdot A}$，$D_0$ = 缺陷密度）</li>
+<li><strong>成本失控</strong>：3nm单片芯片一片晶圆成本极高，且面积受光罩限制（~800mm²，Reticle Limit）</li>
 <li><strong>异构需求</strong>：CPU/GPU/IO/内存需要不同制程，无法单片统一</li>
 </ul>
 <h3 id="先进封装的解法"><a class="header" href="#先进封装的解法">先进封装的解法</a></h3>
+<p>$$C_{total} = \sum_{i} C_{die,i} + C_{packaging} + C_{yield_loss}$$</p>
+<p>当 $C_{packaging} + C_{yield_loss} &lt; C_{monolithic_yield_loss}$ 时，Chiplet划算。</p>
 <ul>
 <li><strong>拆分</strong>：大芯片拆成多个小Die（Chiplet）</li>
 <li><strong>混搭</strong>：每个Die用最合适的制程（核心3nm，IO 7nm，HBM独立）</li>
@@ -187,46 +189,82 @@
 </div>
 <hr />
 <h2 id="tsmc-cowoschip-on-wafer-on-substrate"><a class="header" href="#tsmc-cowoschip-on-wafer-on-substrate">TSMC CoWoS（Chip-on-Wafer-on-Substrate）</a></h2>
-<h3 id="技术原理"><a class="header" href="#技术原理">技术原理</a></h3>
+<h3 id="技术原理深度版"><a class="header" href="#技术原理深度版">技术原理深度版</a></h3>
+<p><strong>结构层次</strong>：</p>
+<pre><code>┌─────────────────────────────────────────┐
+│  计算Die + HBM堆叠（顶部）               │  ← C4凸点（~150μm）
+├─────────────────────────────────────────┤
+│  硅中介层（Silicon Interposer）          │  ← 核心创新层
+│  ├── 亚微米布线（0.4μm线宽/间距）        │
+│  ├── TSV穿透（10-20μm直径）              │
+│  └── 光罩拼接（Reticle Stitching）       │
+├─────────────────────────────────────────┤
+│  有机基板（Organic Substrate）            │  ← C4凸点（~150μm）
+│  └── PCB级布线（~10μm线宽）              │
+└─────────────────────────────────────────┘
+</code></pre>
+<p><strong>中介层制造关键工艺</strong>：</p>
+<ol>
+<li><strong>硅片准备</strong>：300mm SOI或bulk硅片</li>
+<li><strong>前段FEOL</strong>：CMOS兼容工艺制造TSV和互连线</li>
+<li><strong>TSV刻蚀</strong>：Bosch DRIE工艺，深宽比 10:1
 <ul>
-<li>在硅中介层（Interposer）上放置计算Die和HBM堆叠</li>
-<li>中介层提供高密度布线（~0.4μm线宽）</li>
-<li>通过微凸点（Micro-bump）连接Die与中介层</li>
-<li>整个组合再封装到有机基板上</li>
+<li>刻蚀深度：~100μm</li>
+<li>TSV直径：10-20μm</li>
+<li>侧壁角度：~89°（接近垂直）</li>
 </ul>
-<h3 id="世代演进"><a class="header" href="#世代演进">世代演进</a></h3>
-<div class="table-wrapper"><table><thead><tr><th>世代</th><th>时间</th><th>规模</th><th>HBM支持</th><th>计算Die</th><th>备注</th></tr></thead><tbody>
-<tr><td>CoWoS-S</td><td>2016-2020</td><td>1-2x光罩</td><td>4 HBM2</td><td>1</td><td>初代</td></tr>
-<tr><td>CoWoS-R</td><td>2021-2022</td><td>2-4x光罩</td><td>4-6 HBM2E/3</td><td>1-2</td><td>有机中介层降本</td></tr>
-<tr><td>CoWoS-L</td><td>2023-2025</td><td>5.5x光罩</td><td>6-8 HBM3E</td><td>2</td><td>局部硅互连（LSI）</td></tr>
-<tr><td><strong>CoWoS-L</strong></td><td><strong>2026</strong></td><td><strong>5.5x光罩</strong></td><td><strong>8 HBM3E</strong></td><td><strong>2</strong></td><td><strong>当前主力</strong></td></tr>
-<tr><td><strong>CoWoS Gen 6</strong></td><td><strong>2026+</strong></td><td><strong>9.5x光罩(2027)</strong></td><td><strong>8 HBM4</strong></td><td><strong>双N3 Chiplet</strong></td><td><strong>2027目标</strong></td></tr>
+</li>
+<li><strong>绝缘层沉积</strong>：TEOS氧化物 liner，厚度 ~1μm</li>
+<li><strong>阻挡层/种子层</strong>：Ti/TiN阻挡层 + Cu种子层（PVD）</li>
+<li><strong>Cu电镀填充</strong>：自下而上填充（Bottom-up plating），防止空洞</li>
+<li><strong>CMP平坦化</strong>：化学机械抛光，暴露TSV顶部</li>
+<li><strong>后段BEOL</strong>：多层Cu互连（~4层），线宽 0.4μm</li>
+<li><strong>凸点制备</strong>：UBM（Under Bump Metallurgy）+ 焊球（SAC305）</li>
+</ol>
+<p><strong>世代演进</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>世代</th><th>时间</th><th>中介层尺寸</th><th>HBM支持</th><th>计算Die</th><th>布线层数</th><th>光罩拼接</th><th>备注</th></tr></thead><tbody>
+<tr><td>CoWoS-S</td><td>2016-2020</td><td>1-2x光罩</td><td>4 HBM2</td><td>1</td><td>2层</td><td>无</td><td>初代</td></tr>
+<tr><td>CoWoS-R</td><td>2021-2022</td><td>2-4x光罩</td><td>4-6 HBM2E/3</td><td>1-2</td><td>2层</td><td>有</td><td>有机中介层降本</td></tr>
+<tr><td>CoWoS-L</td><td>2023-2025</td><td>5.5x光罩</td><td>6-8 HBM3E</td><td>2</td><td>3层</td><td>有</td><td>局部硅互连（LSI）</td></tr>
+<tr><td><strong>CoWoS-L</strong></td><td><strong>2026</strong></td><td><strong>5.5x光罩</strong></td><td><strong>8 HBM3E</strong></td><td><strong>2</strong></td><td><strong>3层</strong></td><td><strong>有</strong></td><td><strong>当前主力</strong></td></tr>
+<tr><td><strong>CoWoS Gen 6</strong></td><td><strong>2027</strong></td><td><strong>9.5x光罩</strong></td><td><strong>8 HBM4</strong></td><td><strong>双N3 Chiplet</strong></td><td><strong>4层+</strong></td><td><strong>有</strong></td><td><strong>2027目标</strong></td></tr>
 </tbody></table>
 </div>
-<h3 id="产能瓶颈"><a class="header" href="#产能瓶颈">产能瓶颈</a></h3>
+<p><strong>光罩拼接技术</strong>：</p>
 <ul>
-<li><strong>TSMC 2021年投资$2.8B</strong> CoWoS产能</li>
-<li>**2026年宣布TWD 90B（约$3B）**新建专用先进封装厂</li>
-<li><strong>2026年交期6-9个月</strong></li>
-<li>Apple/NVIDIA/AMD竞争分配产能</li>
-<li><strong>100%领先CoWoS产能集中在台湾</strong>——地缘风险巨大</li>
+<li>单片光罩面积 ~858mm²（26mm × 33mm）</li>
+<li>5.5x光罩 = ~4700mm²中介层</li>
+<li>拼接精度要求：亚微米级对准（~0.5μm overlay accuracy）</li>
 </ul>
-<blockquote>
-<p>"Through 2027, HBM and CoWoS capacity allocation will determine AI accelerator market share more than chip architecture." — 行业共识</p>
-</blockquote>
 <hr />
 <h2 id="intel-emib--emib-t--foveros"><a class="header" href="#intel-emib--emib-t--foveros">Intel EMIB / EMIB-T / Foveros</a></h2>
 <h3 id="emibembedded-multi-die-interconnect-bridge"><a class="header" href="#emibembedded-multi-die-interconnect-bridge">EMIB（Embedded Multi-die Interconnect Bridge）</a></h3>
+<p><strong>结构</strong>：</p>
+<pre><code>┌─────────────────────────────────────┐
+│  Die A    │ Bridge │    Die B       │  ← 计算Die
+│  (CPU)    │(Silicon│   (GPU)        │
+├───────────┴────────┴────────────────┤
+│  有机基板（Organic Substrate）         │
+│  └── EMIB桥嵌入基板腔体内            │
+└─────────────────────────────────────┘
+</code></pre>
 <ul>
 <li><strong>2017年量产</strong>：Sapphire Rapids Xeon、Ponte Vecchio GPU</li>
 <li>在有机基板腔体内嵌入小硅桥Die</li>
-<li><strong>跳过TSV</strong>——桥Die简单廉价</li>
+<li><strong>跳过TSV</strong>——桥Die简单廉价（面积小，良率高）</li>
 <li>功率必须通过有机基板绕桥传输（长路径、高电阻）</li>
 </ul>
-<h3 id="emib-t2026投产"><a class="header" href="#emib-t2026投产">EMIB-T（2026投产）</a></h3>
-<p>Intel Foundry的翻身之作：</p>
+<h3 id="emib-t2026投产-intel的翻身之作"><a class="header" href="#emib-t2026投产-intel的翻身之作">EMIB-T（2026投产）—— Intel的翻身之作</a></h3>
+<p>关键改进（加入TSV）：</p>
+<pre><code>┌─────────────────────────────────────┐
+│  Die A    │ Bridge │    Die B       │
+├───────────┴─TSV────┴────────────────┤  ← TSV穿透桥Die
+│  有机基板                            │
+│  └── 桥Die含TSV：垂直功率传输        │
+└─────────────────────────────────────┘
+</code></pre>
 <ul>
-<li><strong>加入TSV</strong>——桥Die支持垂直功率传输</li>
+<li><strong>加入TSV</strong>：桥Die支持垂直功率传输（解决EMIB功率绕路问题）</li>
 <li>集成MIM电容（噪声抑制）+ 铜接地网格（信号隔离）</li>
 <li><strong>45μm凸点间距</strong>，路线图→35μm→25μm</li>
 <li>能效：<strong>~0.25 pJ/bit</strong></li>
@@ -234,20 +272,20 @@
 <li>支持HBM3→HBM3E→<strong>HBM4→HBM5</strong></li>
 <li>封装尺寸可达<strong>120mm×180mm</strong>（38+桥接、12+光罩级Die）</li>
 </ul>
-<h3 id="intel-vs-tsmc-封装尺寸对标"><a class="header" href="#intel-vs-tsmc-封装尺寸对标">Intel vs TSMC 封装尺寸对标</a></h3>
-<div class="table-wrapper"><table><thead><tr><th>年份</th><th>Intel EMIB-T</th><th>TSMC CoWoS-L</th></tr></thead><tbody>
+<p><strong>Intel vs TSMC 封装尺寸对标</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>年份</th><th>Intel EMIB-T</th><th>TSMC CoWoS-L/Gen6</th></tr></thead><tbody>
 <tr><td>2026</td><td><strong>8x光罩</strong></td><td>5.5x光罩</td></tr>
 <tr><td>2027</td><td>12x光罩</td><td><strong>9.5x光罩</strong></td></tr>
 <tr><td>2028</td><td><strong>12x+光罩</strong></td><td>—</td></tr>
 </tbody></table>
 </div>
-<h3 id="成本优势"><a class="header" href="#成本优势">成本优势</a></h3>
+<p><strong>成本优势</strong>：</p>
 <ul>
 <li>EMIB封装：<strong>低数百美元/芯片</strong></li>
 <li>CoWoS（Rubin级）：<strong>$900-1,000/芯片</strong></li>
 <li>桥Die晶圆利用率：Intel <strong>~90%</strong> vs TSMC <strong>~60%</strong></li>
 </ul>
-<h3 id="概念封装intel-202512发布"><a class="header" href="#概念封装intel-202512发布">概念封装（Intel 2025.12发布）</a></h3>
+<p><strong>概念封装（Intel 2025.12发布）</strong>：</p>
 <ul>
 <li>16个计算元素跨8个基Die</li>
 <li><strong>24个HBM5堆叠</strong></li>
@@ -255,33 +293,71 @@
 <li><strong>12x光罩尺寸</strong></li>
 </ul>
 <h3 id="foveros3d堆叠"><a class="header" href="#foveros3d堆叠">Foveros（3D堆叠）</a></h3>
+<p><strong>有源芯片垂直堆叠</strong>（active-on-active）：</p>
 <ul>
-<li>有源芯片垂直堆叠（active-on-active）</li>
 <li>Lakefield处理器首次商用</li>
+<li>混合键合（Hybrid Bonding）连接上下Die</li>
 <li>与EMIB组合为<strong>Co-EMIB</strong>：灵活异构架构</li>
 </ul>
 <hr />
-<h2 id="samsung-x-cube"><a class="header" href="#samsung-x-cube">Samsung X-Cube</a></h2>
+<h2 id="混合键合hybrid-bonding深度版"><a class="header" href="#混合键合hybrid-bonding深度版">混合键合（Hybrid Bonding）深度版</a></h2>
+<p><strong>下一代互连技术</strong>，替代微凸点（Micro-bump）：</p>
+<h3 id="物理原理"><a class="header" href="#物理原理">物理原理</a></h3>
+<p>传统微凸点 vs 混合键合：</p>
+<div class="table-wrapper"><table><thead><tr><th>属性</th><th>微凸点（C4/μbump）</th><th>混合键合（HCB）</th></tr></thead><tbody>
+<tr><td>连接方式</td><td>焊球熔化焊接</td><td>Cu-Cu直接键合 + SiO₂-SiO₂熔融</td></tr>
+<tr><td>凸点间距</td><td>150μm → 55μm → 40μm</td><td><strong>&lt;10μm</strong>（可达亚微米）</td></tr>
+<tr><td>电容</td><td>较高（焊球体积大）</td><td><strong>极低</strong>（Cu盘面积小）</td></tr>
+<tr><td>信号速率</td><td>~2-4 Gb/s/pin</td><td><strong>&gt;10 Gb/s/pin</strong></td></tr>
+<tr><td>功耗</td><td>~0.5-1.0 pJ/bit</td><td><strong>~0.1 pJ/bit</strong></td></tr>
+<tr><td>散热</td><td>焊球热阻较高</td><td>Cu直接导热，热阻低</td></tr>
+</tbody></table>
+</div>
+<h3 id="混合键合工艺流程"><a class="header" href="#混合键合工艺流程">混合键合工艺流程</a></h3>
+<pre><code>[1] 晶圆制备
+    ├─→ 顶部Die：Cu pad + SiO₂ passivation
+    └─→ 底部Die：Cu pad + SiO₂ passivation
+
+[2] 表面活化（Surface Activation）
+    ├─→ Ar/N₂等离子体清洗
+    └─→ 去除表面氧化层，暴露洁净Cu和SiO₂
+
+[3] 室温预键合（Room Temp Pre-bonding）
+    ├─→ 两晶圆对准（精度 &lt;0.5μm）
+    └─→ 施加轻压，SiO₂-SiO₂ van der Waals键合
+
+[4] 退火强化（Annealing）
+    ├─→ 300-400°C，N₂氛围
+    ├─→ Cu原子互扩散 → Cu-Cu晶粒生长
+    └─→ SiO₂-SiO₂熔融 → 共价键合
+
+[5] 晶圆减薄（Grinding）
+    └─→ 顶部晶圆磨薄至目标厚度（通常 &lt;50μm）
+
+[6] TSV/布线（可选）
+    └─→ 若需垂直互联，继续TSV工艺
+</code></pre>
+<p><strong>TSMC SoIC</strong>：</p>
 <ul>
-<li><strong>3D IC技术</strong>：硅验证完成</li>
-<li><strong>唯一整合</strong>：Foundry + Memory + 先进封装全在一家</li>
-<li><strong>劣势</strong>：封装成熟度落后TSMC约一代</li>
-<li><strong>设计赢单有限</strong>：难以撼动TSMC/NVIDIA的co-optimization关系</li>
+<li>sub-10μm pitch混合键合</li>
+<li>已实现量产（AMD 3D V-Cache使用SoIC）</li>
 </ul>
-<hr />
-<h2 id="混合键合hybrid-bonding"><a class="header" href="#混合键合hybrid-bonding">混合键合（Hybrid Bonding）</a></h2>
-<p>下一代互连技术：</p>
+<p><strong>Intel Foveros Direct</strong>：</p>
 <ul>
-<li><strong>TSMC SoIC</strong>：sub-10μm pitch混合键合</li>
-<li><strong>Intel Foveros Direct</strong>：sub-10μm pitch</li>
-<li><strong>优势</strong>：比微凸点更高带宽密度、更低功耗</li>
-<li><strong>应用</strong>：HBM堆叠、3D Chiplet垂直集成</li>
+<li>sub-10μm pitch</li>
+<li>3D Foveros堆叠的核心互连技术</li>
 </ul>
 <hr />
 <h2 id="玻璃基板glass-substrate"><a class="header" href="#玻璃基板glass-substrate">玻璃基板（Glass Substrate）</a></h2>
 <ul>
 <li><strong>Intel和TSMC 2026-2028路线图</strong></li>
-<li><strong>优势</strong>：更低信号损耗、更高布线密度（vs有机基板）</li>
+<li><strong>优势</strong>：
+<ul>
+<li>更低信号损耗（vs有机基板，介电常数更低）</li>
+<li>更高布线密度（玻璃通孔TGV，~10μm直径）</li>
+<li>热膨胀系数匹配硅（CTE ~3.5 ppm/K，接近Si的2.6 ppm/K）</li>
+</ul>
+</li>
 <li><strong>IEEE研究</strong>：高频互连通道中玻璃封装在信号/电源完整性上优于硅中介层</li>
 <li><strong>量产时间</strong>：Intel目标3年内商业化就绪</li>
 </ul>
@@ -290,7 +366,7 @@
 <ol>
 <li><strong>CoWoS产能</strong>：TSMC交期6-9个月，2027年前难缓解</li>
 <li><strong>HBM供应</strong>：SK海力士2026全年产能H1售罄</li>
-<li><strong>ABF基板</strong>：味之味积层膜短缺，新工厂2-3年投产</li>
+<li><strong>ABF基板</strong>：味之素积层膜（ABF）短缺，新工厂2-3年投产</li>
 <li><strong>KGD测试</strong>：UCIe链路已知良片测试仍不成熟，Chiplet级良率损失在封装级乘法放大</li>
 </ol>
 <hr />
@@ -303,7 +379,7 @@
 <li>中国受限：ASML/Applied Materials出口管制，限制先进封装设备</li>
 </ul>
 <hr />
-<h2 id="市场数据"><a class="header" href="#市场数据">市场数据</a></h2>
+<h2 id="-关键数据"><a class="header" href="#-关键数据">📊 关键数据</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
 <tr><td>先进封装市场(2026E)</td><td><strong>$49-55B</strong></td><td>PatSnap行业分析</td></tr>
 <tr><td>2.5D/3D封装CAGR</td><td><strong>10.1%</strong></td><td>最快子赛道</td></tr>
@@ -312,6 +388,9 @@
 <tr><td>OSAT CapEx增长</td><td><strong>+27% YoY</strong></td><td>2020年$6B</td></tr>
 <tr><td>Intel EMIB成本</td><td><strong>低数百美元/芯片</strong></td><td>Bernstein</td></tr>
 <tr><td>CoWoS成本(Rubin级)</td><td><strong>$900-1,000/芯片</strong></td><td>Investing.com</td></tr>
+<tr><td>混合键合间距</td><td><strong>&lt;10μm</strong>（SoIC/Foveros Direct）</td><td>TSMC/Intel官方</td></tr>
+<tr><td>混合键合功耗</td><td><strong>~0.1 pJ/bit</strong></td><td>论文估算</td></tr>
+<tr><td>玻璃基板CTE</td><td><strong>3.5 ppm/K</strong>（接近Si 2.6）</td><td>Corning/Intel</td></tr>
 </tbody></table>
 </div>
 <hr />
@@ -324,8 +403,8 @@
 <li><a href="../entities/tsmc.html">entities/tsmc.md</a> — TSMC CoWoS产能</li>
 </ul>
 <hr />
-<p><em>最后更新：2026-05-10</em><br />
-<em>信息来源：PatSnap Eureka, Tom's Hardware, The Register, Intel/TSMC官方, Bernstein</em></p>
+<p><em>最后更新：2026-05-12</em><br />
+<em>信息来源：PatSnap Eureka, Tom's Hardware, The Register, Intel/TSMC官方, Bernstein, IEEE封装论文, ChipStrat分析</em></p>
 
                     </main>
 

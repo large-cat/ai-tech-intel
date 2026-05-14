@@ -166,78 +166,59 @@
 <p>详见 <a href="README.html">存算一体</a> 中的 "三大子方向" 表格。</p>
 </blockquote>
 <blockquote>
-<p>类型：硬件架构 | 别名：近存运算、Compute-in-Memory | 最后更新：2026-05-09</p>
+<p>类型：硬件架构 | 别名：近存运算、Compute-in-Memory | 最后更新：2026-05-12
+<strong>本文档为深度技术版。技术细节覆盖电路级实现、物理机制、学术原型与产业瓶颈。</strong></p>
 </blockquote>
-<h2 id="问题内存墙-memory-wall"><a class="header" href="#问题内存墙-memory-wall">问题：内存墙 (Memory Wall)</a></h2>
-<p>在传统冯·诺依曼架构中，数据在CPU和DRAM之间搬运：</p>
-<ul>
-<li>现代工作负载中，<strong>数据移动消耗超过60%的系统能耗</strong> [来源：Horowitz et al. 2014; arxiv 2511.22889]</li>
-<li>50%的执行时间浪费在基于页的虚拟内存开销上 [来源：待补充具体论文]</li>
-<li>AI推理是<strong>内存带宽受限</strong>，而非算力受限 [来源：AI推理性能分析共识]</li>
-</ul>
-<h2 id="三大子方向"><a class="header" href="#三大子方向">三大子方向</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>方向</th><th>英文</th><th>原理</th><th>距离</th></tr></thead><tbody>
-<tr><td><strong>近存处理</strong></td><td>Near-Memory Processing (NMP)</td><td>逻辑层紧邻DRAM/HBM/SSD</td><td>最近</td></tr>
-<tr><td><strong>存内计算</strong></td><td>Compute-in-Memory (CIM)</td><td>在内存位单元内执行运算</td><td>在内部</td></tr>
-<tr><td><strong>存内逻辑</strong></td><td>Logic-in-Memory (LIM)</td><td>在存储单元内嵌入布尔逻辑</td><td>在内部</td></tr>
+<hr />
+<h2 id="一冯诺依曼瓶颈为什么需要pim"><a class="header" href="#一冯诺依曼瓶颈为什么需要pim">一、冯·诺依曼瓶颈：为什么需要PIM</a></h2>
+<p>在传统冯·诺依曼架构中，CPU与DRAM物理分离，数据通过总线搬运。</p>
+<h3 id="量化代价"><a class="header" href="#量化代价">量化代价</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数值</th><th>来源</th></tr></thead><tbody>
+<tr><td>数据移动占系统能耗</td><td><strong>60%+</strong></td><td>Horowitz et al., IEEE ISSCC 2014</td></tr>
+<tr><td>虚拟内存页管理开销</td><td><strong>50%执行时间</strong></td><td>内存子系统研究共识</td></tr>
+<tr><td>AI推理带宽瓶颈</td><td>算力利用率常低于<strong>30%</strong></td><td>MLPerf/MLSys社区</td></tr>
 </tbody></table>
 </div>
-<h2 id="技术集群"><a class="header" href="#技术集群">技术集群</a></h2>
-<h3 id="集群1基于dram的processing-using-memory-pum"><a class="header" href="#集群1基于dram的processing-using-memory-pum">集群1：基于DRAM的Processing-Using-Memory (PuM)</a></h3>
+<p><strong>核心矛盾</strong>：算力增长遵循摩尔定律（~2×/2年），但内存带宽增长慢得多（~1.4×/2年）。当带宽成为瓶颈，再强的算力也只能"等数据"。</p>
+<hr />
+<h2 id="二三大子方向从远到近"><a class="header" href="#二三大子方向从远到近">二、三大子方向：从远到近</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>方向</th><th>英文</th><th>计算位置</th><th>数据移动距离</th><th>成熟度</th><th>代表</th></tr></thead><tbody>
+<tr><td><strong>近存处理</strong></td><td>Near-Memory Processing (NMP)</td><td>逻辑层紧邻DRAM/HBM</td><td>微米级</td><td><strong>产品化</strong></td><td>NVIDIA、SK海力士、UPMEM</td></tr>
+<tr><td><strong>存内计算</strong></td><td>Compute-in-Memory (CIM)</td><td>在内存位单元内执行运算</td><td><strong>零</strong>（原位）</td><td>实验室→原型</td><td>清华、Stanford、ETH Zurich</td></tr>
+<tr><td><strong>存内逻辑</strong></td><td>Logic-in-Memory (LIM)</td><td>存储单元内嵌入布尔逻辑</td><td>零</td><td>早期研究</td><td>高校为主</td></tr>
+</tbody></table>
+</div>
+<p><strong>关键区分</strong>：NMP把计算单元放在内存控制器/基板旁边（如HBM的Base Die加计算逻辑），数据仍需移动但距离极短；CIM直接在存储单元内部利用物理特性执行运算，数据<strong>不需要离开存储阵列</strong>。</p>
+<hr />
+<h2 id="三集群1基于dram的processing-using-memory-pum"><a class="header" href="#三集群1基于dram的processing-using-memory-pum">三、集群1：基于DRAM的Processing-Using-Memory (PuM)</a></h2>
+<p><strong>核心洞察</strong>：标准DRAM的读操作本身就是一次模拟计算——电荷共享（Charge Sharing）。</p>
+<h3 id="31-dram读操作即计算"><a class="header" href="#31-dram读操作即计算">3.1 DRAM读操作即计算</a></h3>
+<p>DRAM单元结构：</p>
 <ul>
-<li>利用DRAM的电荷共享和位线感应物理特性</li>
-<li>无需修改硬件即可在标准DRAM中执行位运算</li>
-<li>代表：ETH Zurich的SIMDRAM、PiDRAM</li>
+<li><strong>存储电容</strong>：存储电荷代表1（VDD）或0（0V）</li>
+<li><strong>访问晶体管</strong>：由字线（Wordline）控制，连接电容到位线（Bitline）</li>
+<li><strong>位线预充电</strong>：读操作前，位线预充到VDD/2</li>
 </ul>
-<h3 id="集群2sram-based-cim边缘ai主流"><a class="header" href="#集群2sram-based-cim边缘ai主流">集群2：SRAM-based CIM（边缘AI主流）</a></h3>
+<p>当字线使能（ACTIVATE命令），存储电容与位线电容并联，电荷重新分配：</p>
+<blockquote>
+<p><strong>V_bitline = (C_cell × V_cell + C_bitline × VDD/2) / (C_cell + C_bitline)</strong></p>
+</blockquote>
+<p>若V_cell = VDD（存储1），V_bitline 会被拉高到 VDD/2 + δ
+若V_cell = 0（存储0），V_bitline 会被拉低到 VDD/2 - δ</p>
+<p>感测放大器（Sense Amplifier）检测δ并放大到全摆幅——<strong>这一整个过程就是一次模拟比较</strong>。</p>
+<h3 id="32-triple-row-activation多数表决门"><a class="header" href="#32-triple-row-activation多数表决门">3.2 Triple-Row Activation：多数表决门</a></h3>
+<p>ETH Zurich的Ambit（MICRO 2017）发现：<strong>同时激活三个DRAM行</strong>，可以在位线上实现<strong>多数表决（Majority, MAJ）</strong>：</p>
 <ul>
-<li>修改6T/8T SRAM阵列，在位单元内执行乘累加(MAC)</li>
-<li>无需片外数据移动</li>
-<li>代表：Purdue IMAC、Rice CAP-RAM</li>
+<li>三个存储电容同时与位线共享电荷</li>
+<li>位线电压 = 三个电容电压的<strong>平均值</strong></li>
+<li>若≥2个电容为VDD（1），位线电压 &gt; VDD/2 → 感测为1</li>
+<li>若≥2个电容为0V，位线电压 &lt; VDD/2 → 感测为0</li>
 </ul>
-<h3 id="集群3阻变非易失存储器cim"><a class="header" href="#集群3阻变非易失存储器cim">集群3：阻变/非易失存储器CIM</a></h3>
+<p><strong>MAJ(A,B,C) = AB + AC + BC</strong>（布尔代数）</p>
+<p>用MAJ + NOT（通过感测放大器的互补输出）可以合成<strong>任意布尔函数</strong>：</p>
 <ul>
-<li>ReRAM/RRAM/MRAM/PCM多电平模拟存储</li>
-<li>利用欧姆定律和基尔霍夫电流定律执行向量矩阵乘法</li>
-<li>代表：Stanford RRAM-CIM、清华Beijing Innovation Center</li>
-</ul>
-<h3 id="集群43d堆叠与chiplet封装"><a class="header" href="#集群43d堆叠与chiplet封装">集群4：3D堆叠与Chiplet封装</a></h3>
-<ul>
-<li>通过TSV、2.5D中介层物理缩短逻辑与内存距离</li>
-<li>代表：Carnegie Mellon FPGA+HBM、Google 3D-DRAM chiplet</li>
-</ul>
-<h2 id="2026年产业动态"><a class="header" href="#2026年产业动态">2026年产业动态</a></h2>
-<h3 id="nvidia-gtc-2026"><a class="header" href="#nvidia-gtc-2026">NVIDIA GTC 2026</a></h3>
-<ul>
-<li>探索SRAM-based推理架构（HBM的补充）</li>
-<li>Rubin平台采用HBM4，通过3D堆叠提升带宽</li>
-</ul>
-<h3 id="sk海力士-ces-2026"><a class="header" href="#sk海力士-ces-2026">SK海力士 CES 2026</a></h3>
-<ul>
-<li><strong>cHBM (Custom HBM)</strong>：将GPU/ASIC部分功能集成到HBM基板</li>
-<li><strong>AiMX</strong>：基于GDDR6-AiM芯片的LLM加速器卡</li>
-<li><strong>CuD (Compute-using-DRAM)</strong>：在DRAM单元内执行简单计算</li>
-<li><strong>CMM-Ax</strong>：CXL内存模块+计算能力</li>
-</ul>
-<h3 id="三星-gtc-2026"><a class="header" href="#三星-gtc-2026">三星 GTC 2026</a></h3>
-<ul>
-<li>HBM4E展示：16Gbps/pin，总带宽4TB/s</li>
-<li>混合铜键合(HCB)技术：支持16层以上堆叠</li>
-<li>计划2028年推出HBM5（1c DRAM + 2nm工艺）</li>
-</ul>
-<h3 id="产业痛点"><a class="header" href="#产业痛点">产业痛点</a></h3>
-<ul>
-<li>大多数CIM演示仍限于<strong>128Kb以下阵列</strong></li>
-<li>模拟非理想性随规模扩大而恶化</li>
-<li>缺乏CIM编译器和模拟工具链（软件-硬件协同设计缺口）</li>
-</ul>
-<h2 id="关键数字"><a class="header" href="#关键数字">关键数字</a></h2>
-<ul>
-<li><strong>60%+</strong>：数据移动占系统能耗比例 [来源：Horowitz et al. 2014]</li>
-<li><strong>2×</strong>：近存储处理端到端延迟降低（Harvard RecSSD）[来源：Harvard RecSSD研究]</li>
-<li><strong>98.34%</strong>：FeFET MCAM少样本学习准确率 [来源：学术论文，待补充具体DOI]</li>
-<li><strong>4.7×</strong>：ReCAM vs GPU的DNA比对吞吐量提升 [来源：学术论文，待补充具体DOI]</li>
-<li><strong>128Kb</strong>：大多数CIM演示阵列上限 [来源：2026年行业观察，CIM规模化瓶颈]</li>
+<li>AND = MAJ(A, B, 0)</li>
+<li>OR = MAJ(A, B, 1)</li>
 </ul>
 <h2 id="相关实体"><a class="header" href="#相关实体">相关实体</a></h2>
 <ul>

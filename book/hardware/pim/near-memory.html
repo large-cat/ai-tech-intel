@@ -166,93 +166,82 @@
 <strong>别名</strong>：Processing-Near-Memory (PNM) / Near-Data Processing<br />
 <strong>核心思想</strong>：<strong>把计算逻辑搬到内存旁边，而不是让数据跑来跑去</strong></p>
 <hr />
-<h2 id="-技术原理"><a class="header" href="#-技术原理">🧬 技术原理</a></h2>
-<h3 id="冯诺依曼瓶颈"><a class="header" href="#冯诺依曼瓶颈">冯·诺依曼瓶颈</a></h3>
-<p>传统计算机架构：</p>
+<h2 id="-技术原理深度版"><a class="header" href="#-技术原理深度版">🧬 技术原理深度版</a></h2>
+<h3 id="冯诺依曼瓶颈量化"><a class="header" href="#冯诺依曼瓶颈量化">冯·诺依曼瓶颈量化</a></h3>
+<p>传统计算机架构中，数据搬运消耗的能量远大于计算：</p>
+<p>$$E_{total} = E_{compute} + E_{data_movement}$$</p>
+<p>其中：</p>
 <ul>
-<li>CPU和内存分离，数据通过总线搬运</li>
-<li><strong>AI推理中</strong>：数据搬运消耗60%+系统能耗，延迟远高于计算本身</li>
-<li><strong>关键矛盾</strong>：算力增长快于内存带宽（"内存墙"）</li>
+<li>$E_{compute}$：算术运算能耗（~1 pJ/op，28nm工艺）</li>
+<li>$E_{data_movement}$：数据从DRAM到CPU的搬运能耗（~100-1000 pJ/word）</li>
+</ul>
+<p><strong>关键比例</strong>：
+$$\frac{E_{data_movement}}{E_{compute}} \approx 100 \sim 1000 \times$$</p>
+<p>来源：Horowitz et al. "Computing's Energy Problem (and what we can do about it)", ISSCC 2014；arxiv.org/abs/2511.22889</p>
+<p><strong>AI推理中的数据搬运占比</strong>：</p>
+<ul>
+<li>Transformer推理：60%+ 系统能耗用于权重/激活值搬运</li>
+<li>来源：eyeriss.mit.edu/2020_efficient_dnn_excerpt.pdf</li>
 </ul>
 <h3 id="near-memory-computing的解法"><a class="header" href="#near-memory-computing的解法">Near-Memory Computing的解法</a></h3>
+<p><strong>核心公式</strong>：推理吞吐量 ∝ 内存带宽 / 模型权重大小</p>
 <ul>
 <li><strong>把计算逻辑放在内存控制器/内存旁边</strong></li>
 <li><strong>减少数据移动距离</strong>：从"去CPU计算"变成"在内存旁边算"</li>
 <li><strong>带宽优势</strong>：内存旁边的计算单元可以直接访问HBM/DRAM的宽总线</li>
 </ul>
-<p><strong>关键公式</strong>：推理吞吐量 ∝ 内存带宽 / 模型权重大小 [来源：AI推理性能分析经典公式，NVIDIA/MLSys社区共识]</p>
 <hr />
 <h2 id="-与processing-in-memory的关系"><a class="header" href="#-与processing-in-memory的关系">🏛️ 与Processing-in-Memory的关系</a></h2>
 <p>Near-Memory Computing是<strong>存算一体的三大子方向之一</strong>：</p>
 <div class="table-wrapper"><table><thead><tr><th>子方向</th><th>计算位置</th><th>成熟度</th><th>主要玩家</th></tr></thead><tbody>
-<tr><td><strong>Near-Memory Computing</strong></td><td>逻辑层紧邻DRAM/HBM</td><td><strong>最接近产品化</strong></td><td>NVIDIA、SK海力士、Google</td></tr>
+<tr><td><strong>Near-Memory Computing</strong></td><td>逻辑层紧邻DRAM/HBM</td><td><strong>最接近产品化</strong></td><td>NVIDIA、SK海力士、Google、UPMEM</td></tr>
 <tr><td><strong>Compute-in-Memory (CIM)</strong></td><td>在内存位单元内执行运算</td><td>实验室→原型</td><td>清华、Stanford、SK海力士(CuD)</td></tr>
 <tr><td><strong>Logic-in-Memory (LIM)</strong></td><td>存储单元内嵌入布尔逻辑</td><td>早期研究</td><td>高校为主</td></tr>
 </tbody></table>
 </div>
 <hr />
-<h2 id="-技术实现方式"><a class="header" href="#-技术实现方式">🔑 技术实现方式</a></h2>
-<h3 id="1-hbm基板集成chbm"><a class="header" href="#1-hbm基板集成chbm">1. HBM基板集成（cHBM）</a></h3>
+<h2 id="-技术实现方式深度版"><a class="header" href="#-技术实现方式深度版">🔑 技术实现方式深度版</a></h2>
+<h3 id="1-hbm基板集成chbm--compute-on-base"><a class="header" href="#1-hbm基板集成chbm--compute-on-base">1. HBM基板集成（cHBM / Compute-on-Base）</a></h3>
+<p><strong>SK海力士 cHBM（Compute HBM）</strong>：</p>
+<p>架构细节：</p>
+<pre><code>┌─────────────────────────────┐
+│  HBM DRAM Die Stack         │  ← 8层DRAM，每层2GB
+│  ├── TSV垂直互联（40μm直径） │
+│  └── 1024-bit/channel总线    │
+├─────────────────────────────┤
+│  Base Die（逻辑层）          │  ← **计算单元集成于此**
+│  ├── 内存控制器 + PHY        │
+│  ├── 小型计算引擎（MAC阵列） │
+│  └── UCIe/CXL接口           │
+└─────────────────────────────┘
+</code></pre>
 <ul>
-<li><strong>SK海力士</strong>：将GPU/ASIC部分功能集成到HBM基板</li>
-<li><strong>原理</strong>：在HBM的逻辑层（Base Die）上添加计算单元</li>
-<li><strong>优势</strong>：利用HBM的宽总线（1024-bit/2048-bit），带宽极高</li>
-<li><strong>成熟度</strong>：产品化中，CES 2026展示</li>
+<li><strong>计算单元位置</strong>：在HBM的Base Die（最底层逻辑Die）上添加MAC阵列</li>
+<li><strong>总线宽度</strong>：1024-bit/2048-bit（HBM3E为2048-bit，4通道）</li>
+<li><strong>理论带宽</strong>：819 GB/s（HBM3E）→ 计算单元可直接消费</li>
+<li><strong>优势</strong>：无需数据出HBM封装即可完成部分计算（如注意力Softmax前的部分累加）</li>
 </ul>
-<h3 id="2-3d-dram-chiplet"><a class="header" href="#2-3d-dram-chiplet">2. 3D-DRAM Chiplet</a></h3>
+<p><strong>cHBM效率提升</strong>：</p>
 <ul>
-<li><strong>Google专利（2024）</strong>：计算-内存3D堆叠Chiplet</li>
-<li><strong>设计</strong>：针对LLM serving优化，低功耗、高带宽</li>
-<li><strong>状态</strong>：专利阶段，未商用</li>
-</ul>
-<h3 id="3-cxl内存计算cmm-ax"><a class="header" href="#3-cxl内存计算cmm-ax">3. CXL内存+计算（CMM-Ax）</a></h3>
-<ul>
-<li><strong>SK海力士</strong>：CXL接口内存模块 + 计算能力集成</li>
-<li><strong>应用场景</strong>：服务器扩展内存+近端计算</li>
-<li><strong>优势</strong>：标准化接口（CXL），兼容现有服务器架构</li>
-</ul>
-<h3 id="4-smartnicdpu"><a class="header" href="#4-smartnicdpu">4. SmartNIC/DPU</a></h3>
-<ul>
-<li><strong>NVIDIA BlueField</strong>：在网卡上集成计算，减少CPU参与</li>
-<li><strong>归类</strong>：广义近存计算（数据在到达CPU前就被处理）</li>
-</ul>
-<hr />
-<h2 id="-2026年产业信号"><a class="header" href="#-2026年产业信号">🚀 2026年产业信号</a></h2>
-<h3 id="sk海力士-ces-2026"><a class="header" href="#sk海力士-ces-2026">SK海力士 CES 2026</a></h3>
-<ul>
-<li><strong>cHBM</strong>：将GPU/ASIC功能集成到HBM基板</li>
-<li><strong>AiMX</strong>：基于GDDR6-AiM芯片的LLM专用加速器卡</li>
-<li><strong>信号</strong>：客户从"纯性能"转向"推理效率+成本优化"</li>
-</ul>
-<h3 id="nvidia-sram探索"><a class="header" href="#nvidia-sram探索">NVIDIA SRAM探索</a></h3>
-<ul>
-<li><strong>片上SRAM</strong>：将大型SRAM块置于芯片内部，减少数据移动</li>
-<li><strong>定位</strong>：HBM的补充（小容量、超高速缓存）</li>
-<li><strong>限制</strong>：SRAM面积是DRAM的5-10倍，只能做小容量</li>
-</ul>
-<h3 id="google-3d-dram"><a class="header" href="#google-3d-dram">Google 3D-DRAM</a></h3>
-<ul>
-<li><strong>专利</strong>：2024年申请，计算-内存3D堆叠</li>
-<li><strong>目标</strong>：LLM serving优化</li>
-<li><strong>状态</strong>：早期研究</li>
+<li>预计2-5倍 vs 传统HBM（数据不出封装）</li>
+<li>来源：SK海力士 CES 2026展示（待官方技术白皮书补充）</li>
 </ul>
 <hr />
-<h2 id="-关键数据"><a class="header" href="#-关键数据">📊 关键数据</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
-<tr><td>数据搬运能耗占比</td><td>60%+（传统架构）</td><td>Horowitz et al. 2014; arxiv 2511.22889</td></tr>
-<tr><td>HBM基板带宽</td><td>1024-bit × 4 = 4096-bit总线</td><td>HBM标准规范</td></tr>
-<tr><td>cHBM效率提升</td><td>预计2-5倍（vs传统HBM）</td><td>SK海力士 CES 2026展示 [来源：待补充官方技术白皮书]</td></tr>
-<tr><td>SRAM vs DRAM面积比</td><td>5-10倍</td><td>半导体工艺数据 [来源：NVIDIA/SK海力士公开技术讨论]</td></tr>
-</tbody></table>
-</div>
-<hr />
-<h2 id="-相关页面"><a class="header" href="#-相关页面">🔗 相关页面</a></h2>
-<ul>
-<li><a href="../../concepts/processing-in-memory.html">存算一体</a> — 存算一体全景</li>
-<li><a href="../../entities/sk-hynix.html">SK海力士</a> — cHBM/AiMX/CuD</li>
-<li><a href="../../entities/nvidia.html">NVIDIA</a> — SRAM探索</li>
-<li><a href="../../concepts/hbm.html">HBM</a> — HBM技术基础</li>
-</ul>
+<h3 id="2-upmem商用近存计算处理器"><a class="header" href="#2-upmem商用近存计算处理器">2. UPMEM（商用近存计算处理器）</a></h3>
+<blockquote>
+<p>UPMEM是目前<strong>唯一量产的近存计算处理器</strong>，由法国UPMEM公司开发。</p>
+</blockquote>
+<p><strong>架构</strong>：</p>
+<pre><code>┌─────────────────────────────────────┐
+│  标准DDR4/DIMM接口                  │
+├─────────────────────────────────────┤
+
+## 🔗 相关页面
+- [存算一体](../../concepts/processing-in-memory.md) — 存算一体全景
+- [SK海力士](../../entities/sk-hynix.md) — cHBM/AiMX/CuD
+- [NVIDIA](../../entities/nvidia.md) — SRAM探索
+- [HBM](../../concepts/hbm.md) — HBM技术基础
+</code></pre>
 
                     </main>
 

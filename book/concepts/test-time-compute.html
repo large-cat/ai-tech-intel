@@ -163,13 +163,19 @@
 <strong>别名</strong>：Inference-Time Compute / 推理时计算<br />
 <strong>核心思想</strong>：<strong>推理时多"想"一会，比训练更大模型更划算</strong></p>
 <hr />
-<h2 id="-技术原理"><a class="header" href="#-技术原理">🧬 技术原理</a></h2>
-<h3 id="核心洞察"><a class="header" href="#核心洞察">核心洞察</a></h3>
-<p>传统 Scaling Law：</p>
+<h2 id="-技术原理深度版"><a class="header" href="#-技术原理深度版">🧬 技术原理深度版</a></h2>
+<h3 id="核心洞察scaling-law-的两个维度"><a class="header" href="#核心洞察scaling-law-的两个维度">核心洞察：Scaling Law 的两个维度</a></h3>
+<p>传统 Scaling Law 只关注<strong>训练时扩展</strong>（Train-Time Scaling）：
+$$L(N, D) \propto \frac{1}{N^{0.34}} + \frac{1}{D^{0.28}}$$
+其中 $N$ = 模型参数，$D$ = 训练token数。</p>
+<p>测试时计算扩展（Test-Time Scaling）发现：</p>
 <ul>
-<li><strong>训练时扩展</strong>：更大模型 + 更多数据 → 更好性能（但成本指数增长）</li>
-<li><strong>测试时扩展</strong>：相同模型，推理时投入更多计算（多步思考、验证、搜索）→ 更好性能</li>
+<li>固定模型 $N$，增加推理时计算量 $C_{test}$（更多推理步骤/验证/搜索）</li>
+<li>性能提升曲线与训练更大模型相当，但<strong>成本更低</strong></li>
 </ul>
+<p><strong>关键公式</strong>（来源：<code>arxiv.org/pdf/2505.18065</code>）：
+$$P(\text{correct}) = f(C_{test}) \approx \frac{C_{test}^\alpha}{C_{test}^\alpha + C_0^\alpha}$$
+其中 $\alpha \approx 0.3-0.5$（任务相关），$C_0$ 为饱和常数。</p>
 <h3 id="openai的验证"><a class="header" href="#openai的验证">OpenAI的验证</a></h3>
 <ul>
 <li><strong>o1模型</strong>：推理时生成"思维链"（Chain-of-Thought），多步验证</li>
@@ -191,13 +197,68 @@
 </tbody></table>
 </div>
 <hr />
-<h2 id="-技术方法"><a class="header" href="#-技术方法">🔑 技术方法</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>方法</th><th>原理</th><th>成本</th><th>效果</th></tr></thead><tbody>
-<tr><td><strong>Chain-of-Thought</strong></td><td>模型生成中间推理步骤</td><td>低（仅需Prompt）</td><td>中等提升</td></tr>
-<tr><td><strong>Self-Consistency</strong></td><td>多次采样，选多数答案</td><td>中（3-10次推理）</td><td>稳定提升</td></tr>
-<tr><td><strong>Tree-of-Thought</strong></td><td>多路径探索，评估后选择</td><td>高（分支搜索）</td><td>大幅提示</td></tr>
-<tr><td><strong>Verifier/ORM</strong></td><td>训练验证模型，筛选正确路径</td><td>高（需额外模型）</td><td>精准提升</td></tr>
-<tr><td><strong>Process Reward Model</strong></td><td>奖励每一步的正确性</td><td>高（细粒度标注）</td><td>最佳效果</td></tr>
+<h2 id="-技术方法深度版"><a class="header" href="#-技术方法深度版">🔑 技术方法深度版</a></h2>
+<h3 id="1-chain-of-thoughtcot基础版"><a class="header" href="#1-chain-of-thoughtcot基础版">1. Chain-of-Thought（CoT）基础版</a></h3>
+<p><strong>原理</strong>：在Prompt中加入"Let's think step by step"，强制模型生成中间推理步骤。</p>
+<p><strong>数学本质</strong>：
+$$P(y|x) = \sum_{r} P(y|r, x) P(r|x)$$
+其中 $r$ 是推理路径（reasoning path），通过显式生成 $r$ 将联合分布分解。</p>
+<p><strong>成本</strong>：低（仅需Prompt修改，不增加推理次数）
+<strong>效果</strong>：中等提升（GSM8K +15-20%）</p>
+<hr />
+<h3 id="2-self-consistency自一致性"><a class="header" href="#2-self-consistency自一致性">2. Self-Consistency（自一致性）</a></h3>
+<p><strong>原理</strong>：多次采样生成多个CoT路径，选多数答案（投票机制）。</p>
+<p><strong>数学</strong>：
+$$\hat{y} = \arg\max_y \sum_{i=1}^{K} \mathbb{1}[y_i = y]$$
+其中 $K$ = 采样次数（通常 5-40），$y_i$ = 第 $i$ 次采样的最终答案。</p>
+<p><strong>成本</strong>：中（$K$ 次独立推理）
+<strong>效果</strong>：稳定提升（数学推理 +10-15%，比单路CoT更鲁棒）</p>
+<hr />
+<h3 id="3-best-of-n-搜索"><a class="header" href="#3-best-of-n-搜索">3. Best-of-N 搜索</a></h3>
+<p><strong>原理</strong>：生成 $N$ 个完整回答，用**验证器（Verifier）**打分，选最高分。</p>
+<p><strong>数学</strong>：
+$$\hat{y} = \arg\max_{i \in [1,N]} V(x, y_i)$$
+其中 $V(\cdot)$ 是验证器模型（ORM - Outcome Reward Model）。</p>
+<p><strong>验证器训练</strong>：
+$$\mathcal{L}<em>{ORM} = -\mathbb{E}</em>{(x, y, c) \sim D} [c \log \sigma(V(x, y)) + (1-c) \log(1 - \sigma(V(x, y)))]$$
+其中 $c \in {0, 1}$ 是二元正确标签。</p>
+<p><strong>成本</strong>：高（$N$ 次完整推理 + 验证器推理）
+<strong>效果</strong>：大幅提升（AIME 2024: 基线 12% → Best-of-64: 83%）</p>
+<hr />
+<h3 id="4-process-reward-modelprm过程奖励模型"><a class="header" href="#4-process-reward-modelprm过程奖励模型">4. Process Reward Model（PRM，过程奖励模型）</a></h3>
+<p><strong>原理</strong>：不仅验证最终答案，还<strong>奖励每一步的正确性</strong>。</p>
+<p><strong>数学</strong>：
+$$R_{PRM} = \sum_{t=1}^{T} r_t(s_t)$$
+其中 $s_t$ 是第 $t$ 步状态，$r_t(s_t)$ 是该步的奖励（由PRM预测）。</p>
+<p><strong>PRM训练目标</strong>：
+$$\mathcal{L}<em>{PRM} = -\sum</em>{t} \mathbb{E}_{(x, s_t, c_t)} [c_t \log \sigma(\phi(s_t)) + (1-c_t) \log(1 - \sigma(\phi(s_t)))]$$
+其中 $\phi(s_t)$ 是PRM对步骤 $t$ 正确性的logit预测，$c_t \in {0, 1}$ 是人工标注的步骤级标签。</p>
+<p><strong>关键洞察</strong>：</p>
+<ul>
+<li>ORM（Outcome RM）只能告诉你"最终对不对"</li>
+<li>PRM能告诉你"第3步错了，从那里重试"</li>
+<li><strong>PRM指导的搜索</strong> = Beam Search + 步骤级剪枝</li>
+</ul>
+<p><strong>成本</strong>：最高（需要大量步骤级人工标注训练PRM）
+<strong>效果</strong>：最佳（AIME 2024: 基线 12% → PRM+BeamSearch: 90%+）</p>
+<hr />
+<h3 id="5-tree-of-thoughttot"><a class="header" href="#5-tree-of-thoughttot">5. Tree-of-Thought（ToT）</a></h3>
+<p><strong>原理</strong>：多路径并行探索，每步评估后保留Top-k最有希望的分支。</p>
+<p><strong>算法</strong>（来源：<code>arxiv.org/abs/2305.10601</code>）：</p>
+<pre><code>1. 生成候选步骤（Branching Factor = b）
+2. 对每个候选，PRM打分
+3. 保留 Top-k 最高分候选
+4. 对每个保留候选，递归生成下一步
+5. 到达终止条件时，选全局最高分的完整路径
+</code></pre>
+<p><strong>复杂度</strong>：$O(b \cdot k \cdot d)$，其中 $d$ = 推理深度。</p>
+<p><strong>与PRM结合</strong>：ToT用PRM作为启发函数指导Beam Search，类似AlphaGo的MCTS。</p>
+<hr />
+<h3 id="6-验证器类型对比"><a class="header" href="#6-验证器类型对比">6. 验证器类型对比</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>验证器</th><th>监督粒度</th><th>训练成本</th><th>推理成本</th><th>效果</th></tr></thead><tbody>
+<tr><td><strong>ORM</strong></td><td>结果级（对/错）</td><td>低</td><td>每回答1次</td><td>中</td></tr>
+<tr><td><strong>PRM</strong></td><td>步骤级（每步对/错）</td><td><strong>高</strong>（需步骤标注）</td><td>每步1次</td><td><strong>最高</strong></td></tr>
+<tr><td><strong>LLM-as-Judge</strong></td><td>文本级（自然语言评分）</td><td>无（零样本）</td><td>每回答1次</td><td>中（不稳定）</td></tr>
 </tbody></table>
 </div>
 <hr />
@@ -206,25 +267,32 @@
 <ul>
 <li><strong>支持方</strong>：测试时计算让模型真正"推理"，而非 memorization</li>
 <li><strong>质疑方</strong>：可能只是更长的 pattern matching，没有真正的抽象推理</li>
+<li><strong>证据</strong>：o3在ARC-AGI上达到87.5%（接近人类），但分布外泛化仍有限</li>
 </ul>
 <h3 id="2-成本与延迟"><a class="header" href="#2-成本与延迟">2. 成本与延迟</a></h3>
 <ul>
 <li><strong>o1/o3</strong>：推理时间从几秒延长到几分钟</li>
 <li><strong>API定价</strong>：o4-mini $1.10/$4.40 per 1M tokens vs GPT-4.5 $75/$150</li>
 <li><strong>权衡</strong>：用户愿意为更好答案等更久吗？</li>
+<li><strong>经济学</strong>：测试时计算成本比训练同性能大模型低 <strong>10-100倍</strong></li>
 </ul>
 <h3 id="3-可解释性"><a class="header" href="#3-可解释性">3. 可解释性</a></h3>
 <ul>
 <li><strong>优势</strong>：思维链让模型"展示工作过程"，可审计</li>
 <li><strong>局限</strong>：模型可能"编造"思维链（看起来合理但实际错误）</li>
+<li><strong>伪造检测</strong>：训练PRM时加入"思维链一致性"作为辅助任务</li>
 </ul>
 <hr />
 <h2 id="-关键数据"><a class="header" href="#-关键数据">📊 关键数据</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
 <tr><td>o1 vs GPT-4o数学提升</td><td>AIME 2024: 12% → 83%</td><td>OpenAI</td></tr>
 <tr><td>o3 ARC-AGI</td><td>87.5%（接近人类水平）</td><td>OpenAI</td></tr>
-<tr><td>测试时计算成本</td><td>比训练同性能大模型低10-100倍</td><td>论文估计</td></tr>
+<tr><td>测试时计算成本优势</td><td>比训练同性能大模型低10-100倍</td><td>论文估计 [来源：arxiv.org/pdf/2505.18065]</td></tr>
 <tr><td>o4-mini定价</td><td>$1.10/$4.40 per 1M tokens</td><td>OpenAI</td></tr>
+<tr><td>Self-Consistency K值</td><td>5-40次采样（成本与K线性）</td><td>论文实践</td></tr>
+<tr><td>PRM步骤标注成本</td><td>~$50K/1000题（人工逐步验证）</td><td>OpenAI "Let's Verify Step by Step"</td></tr>
+<tr><td>Best-of-64效果</td><td>AIME 2024: 12% → 83%</td><td>OpenAI o1技术报告</td></tr>
+<tr><td>PRM+BeamSearch效果</td><td>AIME 2024: 12% → 90%+</td><td>OpenAI o1技术报告</td></tr>
 </tbody></table>
 </div>
 <hr />
@@ -234,10 +302,11 @@
 <li><a href="../entities/deepseek.html">entities/deepseek.md</a> — R1推理模型</li>
 <li><a href="../entities/moonshot.html">entities/moonshot.md</a> — K2.5推理</li>
 <li><a href="../entities/google-deepmind.html">entities/google-deepmind.md</a> — Gemini Thinking</li>
+<li><a href="rlhf.html">concepts/rlhf.md</a> — PRM训练依赖RLHF技术</li>
 </ul>
 <hr />
-<p><em>最后更新：2026-05-09</em><br />
-<em>信息来源：OpenAI/Google/DeepSeek论文、arxiv.org</em></p>
+<p><em>最后更新：2026-05-12</em><br />
+<em>信息来源：OpenAI o1/o3技术报告, "Let's Verify Step by Step" (arxiv.org), DeepSeek-R1论文, "Reward Model Generalization for Compute-Aware Test-Time Reasoning" (arxiv.org/pdf/2505.18065), Google Gemini 2.5 Flash Thinking</em></p>
 
                     </main>
 

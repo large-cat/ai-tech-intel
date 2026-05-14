@@ -163,7 +163,7 @@
 <li><strong>类型</strong>: 概念 / 开源项目 / Agent工程规范</li>
 <li><strong>提出者</strong>: Addy Osmani (Google Chrome DevTools总监, AngularJS联创)</li>
 <li><strong>创建时间</strong>: 2026-02-16</li>
-<li><strong>最后更新</strong>: 2026-05-09</li>
+<li><strong>最后更新</strong>: 2026-05-12</li>
 </ul>
 <h2 id="一句话定义"><a class="header" href="#一句话定义">一句话定义</a></h2>
 <p><strong>Agent Skills</strong> 是一套将Google二十年工程实践封装成AI可执行技能模块的开源规范，解决AI编程工具"走最短路径、跳过工程纪律"的痛点。</p>
@@ -179,87 +179,346 @@
 </ul>
 <p><strong>根本原因</strong>: AI的目标是"让用户满意"，不是"让代码能上生产"。</p>
 <hr />
-<h2 id="核心设计"><a class="header" href="#核心设计">核心设计</a></h2>
-<h3 id="skillmd-文件规范"><a class="header" href="#skillmd-文件规范">SKILL.md 文件规范</a></h3>
-<p>每个技能是一个结构化的Markdown文件，定义AI在特定工程场景下应遵循的工作流：</p>
-<pre><code>skills/
-├── code-review/
-│   └── SKILL.md          ← 代码审查技能
-├── testing/
-│   └── SKILL.md          ← 测试策略技能
-├── refactoring/
-│   └── SKILL.md          ← 重构技能
-├── documentation/
-│   └── SKILL.md          ← 文档编写技能
-├── security/
-│   └── SKILL.md          ← 安全审计技能
-└── deprecation/
-    └── SKILL.md          ← 弃用迁移技能
+<h2 id="-技术原理深度版"><a class="header" href="#-技术原理深度版">🧬 技术原理深度版</a></h2>
+<h3 id="为什么需要agent-skills"><a class="header" href="#为什么需要agent-skills">为什么需要Agent Skills？</a></h3>
+<p>AI编程助手的核心问题是<strong>目标函数错位</strong>：</p>
+<ul>
+<li>AI优化的是"用户即时满意度"（单次对话评分）</li>
+<li>工程需要的是"长期系统健康度"（可维护性、安全性、可测试性）</li>
+<li>结果：AI写出"能跑但不敢上生产"的代码</li>
+</ul>
+<p>Agent Skills通过<strong>结构化指令注入</strong>修正这个目标函数——把"工程纪律"编码成AI必须遵循的工作流。</p>
+<h3 id="核心洞察llm的短视问题"><a class="header" href="#核心洞察llm的短视问题">核心洞察：LLM的"短视"问题</a></h3>
+<p>LLM的上下文窗口虽大，但在长任务中表现出<strong>时间折扣</strong>（Temporal Discounting）：</p>
+<ul>
+<li>前面的决策在后续步骤中被遗忘或覆盖</li>
+<li>看不到全局架构约束（"这里加个字段"破坏了另一处接口）</li>
+<li>Agent Skills本质是给LLM装上<strong>外部记忆 + 检查清单</strong>（Checklist），防止遗忘</li>
+</ul>
+<hr />
+<h2 id="-skillmd-文件规范详解"><a class="header" href="#-skillmd-文件规范详解">🔑 SKILL.md 文件规范详解</a></h2>
+<h3 id="文件结构openclaw-agentskills规范"><a class="header" href="#文件结构openclaw-agentskills规范">文件结构（OpenClaw AgentSkills规范）</a></h3>
+<p>每个 <code>SKILL.md</code> 遵循严格的元数据区块 + 指令区块结构：</p>
+<pre><code class="language-yaml">---
+# 元数据区块（YAML Front Matter）
+name: code-review              # 技能标识符（kebab-case）
+description: 代码审查技能     # 一句话描述
+version: 1.0.0               # 语义化版本
+author: addyosmani           # 作者
+tags: [code-quality, security]  # 分类标签
+---
+
+# 指令区块（Markdown正文）
+## 触发条件
+- 当用户要求"审查代码"或"code review"时激活
+
+## 工作流
+1. **静态分析**：运行 ESLint/Prettier/类型检查
+2. **安全扫描**：检查 SQL注入/XSS/依赖漏洞
+3. **架构审查**：验证是否符合项目既定模式
+4. **输出格式**：使用标准Code Review模板
+
+## 禁止事项
+- ❌ 不要只指出问题而不给修复建议
+- ❌ 不要审查测试文件中的测试逻辑（除非明显错误）
+- ❌ 不要修改第三方库代码
+
+## 输出模板
+```markdown
+### 🔴 Critical
+- {文件}:{行号} — {问题} → {修复建议}
+
+### 🟡 Warning
+...
 </code></pre>
-<h3 id="关键原则"><a class="header" href="#关键原则">关键原则</a></h3>
-<ol>
-<li><strong>先写规格再写代码</strong> — PRD/规格文档是强制前置步骤</li>
-<li><strong>测试即证明</strong> — 每个功能必须有对应测试</li>
-<li><strong>安全审查内嵌</strong> — 安全不是可选项</li>
-<li><strong>向后兼容保证</strong> — API变更需有迁移路径</li>
-</ol>
-<hr />
-<h2 id="生态系统"><a class="header" href="#生态系统">生态系统</a></h2>
-<h3 id="支持的工具"><a class="header" href="#支持的工具">支持的工具</a></h3>
+<pre><code>
+### 关键设计原则
+
+| 原则 | 说明 | 反例 |
+|------|------|------|
+| **明确激活条件** | 什么场景下触发，避免误激活 | "代码相关任务"（太模糊） |
+| **确定性输出** | 结构化模板，减少AI自由发挥 | "请给一些建议"（无格式） |
+| **否定指令** | 明确禁止的行为清单 | 防止AI"自作聪明" |
+| **版本控制** | 技能本身可迭代 | v1.0 → v1.1 新增安全检查项 |
+| **原子性** | 一个技能只做一件事 | "代码审查+重构+测试"（过于庞大） |
+
+---
+
+## 🏗️ MCP协议技术实现（Model Context Protocol）
+
+&gt; **来源**：`arxiv.org/pdf/2604.05969`（MCP: JSON-RPC 2.0 Background）
+
+Agent Skills 的底层通信协议是 **MCP（Model Context Protocol）**，由 Anthropic 设计并开源，采用 **JSON-RPC 2.0** 作为传输层规范。
+
+### 协议架构：三层栈
+
+</code></pre>
+<p>┌─────────────────────────────────────┐
+│  Application Layer: Agent Skills     │  ← SKILL.md 语义层
+├─────────────────────────────────────┤
+│  Protocol Layer: MCP Primitives    │  ← Tools / Resources / Prompts
+├─────────────────────────────────────┤
+│  Transport Layer: JSON-RPC 2.0     │  ← stdio / SSE / HTTP
+└─────────────────────────────────────┘</p>
+<pre><code>
+### JSON-RPC 2.0 消息格式
+
+所有MCP通信基于JSON-RPC 2.0标准请求/响应：
+
+**请求消息**：
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "tools/call",
+  "params": {
+    "name": "code_review",
+    "arguments": {"file_path": "src/main.js", "strictness": "high"}
+  }
+}
+</code></pre>
+<p><strong>响应消息</strong>：</p>
+<pre><code class="language-json">{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "content": [{"type": "text", "text": "### 🔴 Critical..."}]
+  }
+}
+</code></pre>
+<p><strong>错误消息</strong>：</p>
+<pre><code class="language-json">{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "error": {"code": -32602, "message": "Invalid params", "data": {"field": "strictness"}}
+}
+</code></pre>
+<p>标准错误码（继承JSON-RPC 2.0）：</p>
+<div class="table-wrapper"><table><thead><tr><th>错误码</th><th>含义</th><th>MCP场景</th></tr></thead><tbody>
+<tr><td><code>-32700</code></td><td>Parse Error</td><td>JSON格式错误</td></tr>
+<tr><td><code>-32600</code></td><td>Invalid Request</td><td>缺少jsonrpc/version字段</td></tr>
+<tr><td><code>-32601</code></td><td>Method Not Found</td><td>调用了未注册的Tool</td></tr>
+<tr><td><code>-32602</code></td><td>Invalid Params</td><td>参数类型/必填校验失败</td></tr>
+<tr><td><code>-32603</code></td><td>Internal Error</td><td>Tool执行异常崩溃</td></tr>
+<tr><td><code>-32000</code></td><td>MCP Server Error</td><td>服务端自定义错误</td></tr>
+</tbody></table>
+</div>
+<h3 id="mcp-primitives三大核心原语"><a class="header" href="#mcp-primitives三大核心原语">MCP Primitives：三大核心原语</a></h3>
+<h4 id="1-tools工具-可执行函数"><a class="header" href="#1-tools工具-可执行函数">1. Tools（工具）—— 可执行函数</a></h4>
+<p>Tools 是 Agent 可调用的<strong>确定性函数</strong>，签名必须显式声明：</p>
+<pre><code class="language-json">{
+  "name": "run_linter",
+  "description": "对指定文件运行静态分析",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "file_path": {"type": "string", "description": "相对路径"},
+      "linter_type": {"type": "string", "enum": ["eslint", "prettier", "tsc"]}
+    },
+    "required": ["file_path", "linter_type"]
+  }
+}
+</code></pre>
+<p>Tool 执行四阶段生命周期：</p>
+<pre><code>Client Request → Server Validate(inputSchema) → Execute → Client Receive(result)
+</code></pre>
+<p>关键约束：</p>
 <ul>
-<li>Claude Code</li>
-<li>Cursor</li>
-<li>Windsurf</li>
-<li>Codex CLI</li>
-<li>GitHub Copilot Chat</li>
+<li><strong>Schema 严格校验</strong>：输入必须匹配 <code>inputSchema</code>（JSON Schema Draft 7）</li>
+<li><strong>超时控制</strong>：默认 30s，可配置</li>
+<li><strong>幂等性</strong>：同一输入应产生相同输出（推荐但非强制）</li>
 </ul>
-<h3 id="衍生项目"><a class="header" href="#衍生项目">衍生项目</a></h3>
-<ul>
-<li><strong>skillsjars.com</strong> — Maven Central上的技能包分发</li>
-<li><strong>community skills</strong> — 社区贡献的技能库扩展</li>
-</ul>
-<hr />
-<h2 id="关键数据"><a class="header" href="#关键数据">关键数据</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
-<tr><td>GitHub Stars</td><td>29K+ (2026-05-09)</td><td>GitHub仓库实时数据</td></tr>
-<tr><td>日增Stars</td><td>~629/天</td><td>GitHub统计估算 [来源：github.com/addyosmani/agent-skills]</td></tr>
-<tr><td>开源时间</td><td>2026-02-16</td><td>GitHub仓库创建日期</td></tr>
-<tr><td>当前版本</td><td>v0.6.0</td><td>GitHub Releases</td></tr>
-<tr><td>许可</td><td>MIT</td><td>GitHub仓库LICENSE</td></tr>
+<h4 id="2-resources资源-只读上下文"><a class="header" href="#2-resources资源-只读上下文">2. Resources（资源）—— 只读上下文</a></h4>
+<p>Resources 提供<strong>结构化只读数据</strong>，不执行副作用：</p>
+<pre><code class="language-json">{
+  "uri": "file:///project/src/main.js",
+  "mimeType": "text/javascript",
+  "text": "// 文件内容...",
+  "metadata": {"size": 2048, "last_modified": "2026-05-01T12:00:00Z"}
+}
+</code></pre>
+<p>Resource vs Tool 的本质区别：</p>
+<div class="table-wrapper"><table><thead><tr><th>维度</th><th>Tool</th><th>Resource</th></tr></thead><tbody>
+<tr><td>副作用</td><td>✅ 可执行任意操作</td><td>❌ 只读</td></tr>
+<tr><td>输入</td><td>需参数（inputSchema）</td><td>仅需URI</td></tr>
+<tr><td>返回</td><td>结构化结果</td><td>原始内容 + 元数据</td></tr>
+<tr><td>缓存</td><td>不可缓存</td><td>可订阅变更（Resource Updated通知）</td></tr>
+<tr><td>典型用例</td><td>运行测试、部署、发送消息</td><td>读取文件、查询数据库、获取配置</td></tr>
+</tbody></table>
+</div>
+<h4 id="3-prompts提示模板-预定义指令"><a class="header" href="#3-prompts提示模板-预定义指令">3. Prompts（提示模板）—— 预定义指令</a></h4>
+<p>Prompts 是<strong>可复用的对话模板</strong>，支持插值：</p>
+<pre><code class="language-json">{
+  "name": "code_review_prompt",
+  "description": "结构化代码审查模板",
+  "arguments": [
+    {"name": "file_path", "required": true},
+    {"name": "language", "required": false, "default": "typescript"}
+  ],
+  "messages": [
+    {
+      "role": "user",
+      "content": {
+        "type": "text",
+        "text": "请审查以下 {{language}} 代码文件：{{file_path}}"
+      }
+    }
+  ]
+}
+</code></pre>
+<h3 id="mcp连接生命周期4阶段"><a class="header" href="#mcp连接生命周期4阶段">MCP连接生命周期（4阶段）</a></h3>
+<pre><code>[1] 初始化 (Initialize)
+    └─→ Client 发送 initialize 请求（protocolVersion, capabilities, clientInfo）
+    └─→ Server 返回支持的能力集
+    └─→ 握手完成 → 进入 Operation 阶段
+
+[2] 运行 (Operation)
+    └─→ 工具调用、资源读取、提示填充、采样请求循环发生
+    └─→ 支持并发请求（id字段区分）
+
+[3] 通知 (Notification)
+    └─→ 单向消息（无id字段），如 progress/cancel/resource_updated
+    └─→ 客户端可发 `notifications/cancel` 中止长时操作
+
+[4] 关闭 (Close)
+    └─→ 优雅关闭：发送 `notifications/closed`
+    └─→ 异常断开：Transport层检测连接丢失
+</code></pre>
+<h3 id="transport层实现"><a class="header" href="#transport层实现">Transport层实现</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>传输方式</th><th>方向</th><th>适用场景</th><th>协议细节</th></tr></thead><tbody>
+<tr><td><strong>stdio</strong></td><td>Client→Server单向</td><td>本地子进程（最常见）</td><td>子进程标准输入输出，JSON-RPC消息以换行符分隔</td></tr>
+<tr><td><strong>SSE</strong></td><td>Server→Client单向</td><td>远程HTTP推送</td><td><code>Content-Type: text/event-stream</code>，JSON-RPC消息封装在SSE data字段</td></tr>
+<tr><td><strong>HTTP</strong></td><td>请求/响应双向</td><td>RESTful集成</td><td>POST请求体携带JSON-RPC消息，SSE流回传响应</td></tr>
 </tbody></table>
 </div>
 <hr />
-<h2 id="技术洞察"><a class="header" href="#技术洞察">技术洞察</a></h2>
-<h3 id="为什么这是一个信号"><a class="header" href="#为什么这是一个信号">为什么这是一个信号？</a></h3>
-<ol>
-<li><strong>工程化拐点</strong> — AI编程从"demo级"走向"生产级"的标志</li>
-<li><strong>标准化尝试</strong> — 类似当年ESLint/Prettier对JS生态的规范化作用</li>
-<li><strong>人机协作新范式</strong> — 人类定纪律，AI执行纪律，而非人类逐行审查</li>
-</ol>
-<h3 id="与harness方法论的关系"><a class="header" href="#与harness方法论的关系">与Harness方法论的关系</a></h3>
-<p>Agent Skills是<strong>Harness的具象化实现</strong>之一：</p>
+<h2 id="-acpa2a-协议对比多agent通信"><a class="header" href="#-acpa2a-协议对比多agent通信">🏗️ ACP/A2A 协议对比（多Agent通信）</a></h2>
+<p>当单Agent不够用时，需要多Agent协作协议。</p>
+<h3 id="acpanthropic-agent-communication-protocol"><a class="header" href="#acpanthropic-agent-communication-protocol">ACP（Anthropic Agent Communication Protocol）</a></h3>
+<p>Anthropic提出的<strong>轻量级Agent间通信标准</strong>：</p>
+<pre><code class="language-json">{
+  "message_type": "task_request",
+  "from_agent": "planner",
+  "to_agent": "coder",
+  "task": {
+    "id": "task-001",
+    "description": "实现用户认证中间件",
+    "dependencies": [],
+    "deliverables": ["src/auth.ts", "tests/auth.test.ts"]
+  },
+  "context": {
+    "parent_task": "build-api-server",
+    "constraints": ["使用JWT", "支持刷新令牌"]
+  }
+}
+</code></pre>
+<p>特点：</p>
 <ul>
-<li>Harness = 抽象架构概念（Planner-Generator-Evaluator）</li>
-<li>Agent Skills = 可落地的工程实践规范（SKILL.md文件集）</li>
+<li><strong>无中心协调器</strong>：Agent间直接通信</li>
+<li><strong>任务粒度高</strong>：支持子任务拆分、依赖声明</li>
+<li><strong>上下文传递</strong>：parent_task 保证全局一致性</li>
 </ul>
-<h3 id="潜在挑战"><a class="header" href="#潜在挑战">潜在挑战</a></h3>
+<h3 id="a2agoogle-agent-to-agent-protocol"><a class="header" href="#a2agoogle-agent-to-agent-protocol">A2A（Google Agent-to-Agent Protocol）</a></h3>
+<p>Google在2026年4月发布的<strong>结构化Agent互操作协议</strong>（比ACP更正式）：</p>
+<p>核心概念：</p>
+<div class="table-wrapper"><table><thead><tr><th>概念</th><th>说明</th></tr></thead><tbody>
+<tr><td><strong>Agent Card</strong></td><td>每个Agent发布能力清单（类似OpenAPI Spec）</td></tr>
+<tr><td><strong>Task</strong></td><td>工作单元，有生命周期（submitted → working → input_required → completed/failed）</td></tr>
+<tr><td><strong>Artifact</strong></td><td>任务产出物（文件、数据、结构化结果）</td></tr>
+<tr><td><strong>Message</strong></td><td>Agent间对话流，支持多轮协商</td></tr>
+</tbody></table>
+</div>
+<p>Agent Card示例：</p>
+<pre><code class="language-json">{
+  "agent_name": "frontend_builder",
+  "version": "1.0.0",
+  "capabilities": ["react", "typescript", "css_modules"],
+  "input_schema": {"project_type": "string", "design_url": "string?"},
+  "output_schema": {"deliverables": ["file_path"], "build_commands": ["string"]},
+  "endpoint": "https://agents.example.com/frontend/invoke"
+}
+</code></pre>
+<p>A2A vs MCP 的关系：</p>
 <ul>
-<li><strong>过度约束风险</strong> — 严格规范可能降低AI的创造性解决问题的能力</li>
-<li><strong>维护负担</strong> — 技能文件本身需要随技术演进更新</li>
-<li><strong>工具碎片化</strong> — 不同AI IDE的技能格式不完全兼容</li>
+<li><strong>MCP</strong>：Agent ↔ 工具/资源（"我有什么能力"）</li>
+<li><strong>A2A</strong>：Agent ↔ Agent（"你能帮我做什么"）</li>
+<li><strong>互补</strong>：MCP解决"工具调用"，A2A解决"任务协作"</li>
+</ul>
+<h3 id="三协议定位对比"><a class="header" href="#三协议定位对比">三协议定位对比</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>协议</th><th>层级</th><th>通信对象</th><th>核心问题</th><th>状态（2026）</th></tr></thead><tbody>
+<tr><td><strong>MCP</strong></td><td>工具层</td><td>Agent ↔ Tool/Resource</td><td>"我能调用什么功能？"</td><td><strong>已开源</strong>，生态成熟</td></tr>
+<tr><td><strong>ACP</strong></td><td>任务层</td><td>Agent ↔ Agent</td><td>"谁能帮我做这个子任务？"</td><td>Anthropic内部使用</td></tr>
+<tr><td><strong>A2A</strong></td><td>协作层</td><td>Agent ↔ Agent</td><td>"多Agent如何协同完成复杂任务？"</td><td>Google发布，待验证</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-生态与工具链"><a class="header" href="#-生态与工具链">🚀 生态与工具链</a></h2>
+<h3 id="openclaw-agentskills本机运行"><a class="header" href="#openclaw-agentskills本机运行">OpenClaw AgentSkills（本机运行）</a></h3>
+<p>OpenClaw是第一个原生支持Agent Skills的运行时：</p>
+<ul>
+<li><strong>运行时选择</strong>：用户对话 → 匹配SKILL.md → 加载上下文 → AI按工作流执行</li>
+<li><strong>本地工具链</strong>：通过MCP stdio传输层调用本地工具（git, npm, docker, curl）</li>
+<li><strong>文件系统代理</strong>：AI通过MCP Resources安全读取/写入文件（URI白名单控制）</li>
+</ul>
+<h3 id="anthropic-mcp-sdk"><a class="header" href="#anthropic-mcp-sdk">Anthropic MCP SDK</a></h3>
+<p>官方SDK支持多语言：</p>
+<ul>
+<li><strong>TypeScript SDK</strong>：<code>@anthropic-ai/mcp</code>，提供 <code>Client</code> 和 <code>Server</code> 类</li>
+<li><strong>Python SDK</strong>：<code>mcp-python</code>，异步 asyncio 架构</li>
+<li><strong>核心API</strong>：
+<ul>
+<li><code>client.list_tools()</code> → 返回可用Tool清单</li>
+<li><code>client.call_tool(name, arguments)</code> → 执行Tool</li>
+<li><code>client.read_resource(uri)</code> → 读取Resource</li>
+<li><code>client.get_prompt(name, arguments)</code> → 获取Prompt模板</li>
+</ul>
+</li>
+</ul>
+<h3 id="stripe-minions-blueprint确定性智能体混合架构"><a class="header" href="#stripe-minions-blueprint确定性智能体混合架构">Stripe Minions Blueprint（确定性×智能体混合架构）</a></h3>
+<p>Stripe在2026年3月发布的<strong>生产级Agent架构</strong>（来源：<code>sources/modern-harness-blueprint-2026.md</code>）：</p>
+<pre><code>┌─────────────────────────────────────────────────┐
+│  Minion（确定性Agent）                           │
+│  ├── 400+ MCP Tools（测试、部署、监控、审计）      │
+│  ├── 200+ 服务并行执行                            │
+│  ├── 循环：计划 → 执行 → 验证 → 失败则重试        │
+│  └── 总运行时间：90分钟（完全自主，无人值守）       │
+└─────────────────────────────────────────────────┘
+</code></pre>
+<p>关键实现细节：</p>
+<ul>
+<li><strong>Harness约束</strong>：所有MCP Tool调用必须有Schema约束 + 超时控制</li>
+<li><strong>验证器（Verifier）</strong>：独立LLM实例审查Minion输出，不通过则回滚</li>
+<li><strong>沙箱隔离</strong>：每个Minion在独立Docker容器中运行，文件系统隔离</li>
+<li><strong>审计日志</strong>：每次Tool调用记录输入/输出/耗时，用于事后分析</li>
 </ul>
 <hr />
-<h2 id="相关页面"><a class="header" href="#相关页面">相关页面</a></h2>
+<h2 id="-关键数据"><a class="header" href="#-关键数据">📊 关键数据</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
+<tr><td>GitHub Stars</td><td>29K+ (2026-05-09)</td><td>GitHub仓库实时数据</td></tr>
+<tr><td>日增Stars</td><td>~629/天</td><td>GitHub统计估算 [来源：github.com/addyosmani/agent-skills]</td></tr>
+<tr><td>MCP协议版本</td><td>2025-03-26（JSON-RPC 2.0）</td><td>Anthropic官方</td></tr>
+<tr><td>OpenClaw AgentSkills</td><td>30+内置技能</td><td>OpenClaw仓库</td></tr>
+<tr><td>Minions Blueprint工具数</td><td>400+ MCP Tools</td><td>Stripe Engineering Blog</td></tr>
+<tr><td>Minions并行服务数</td><td>200+</td><td>Stripe Engineering Blog</td></tr>
+<tr><td>Minion单次运行时长</td><td>90分钟（无人值守）</td><td>Stripe Engineering Blog</td></tr>
+<tr><td>A2A协议发布</td><td>2026-04</td><td>Google Cloud Blog</td></tr>
+<tr><td>Agent Card标准</td><td>基于JSON Schema</td><td>Google A2A Spec</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-相关页面"><a class="header" href="#-相关页面">🔗 相关页面</a></h2>
 <ul>
+<li><a href="harness-methodology.html">concepts/harness-methodology.md</a> — Harness Engineering（确定性约束）</li>
 <li><a href="../entities/addy-osmani.html">entities/addy-osmani.md</a> — 项目作者</li>
-<li><a href="harness-methodology.html">concepts/harness-methodology.md</a> — Harness方法论</li>
+<li><a href="../entities/anthropic.html">entities/anthropic.md</a> — MCP/ACP协议设计者</li>
+<li><a href="../entities/google-deepmind.html">entities/google-deepmind.md</a> — A2A协议发布者</li>
+<li><a href="../entities/stripe.html">entities/stripe.md</a> — Minions Blueprint</li>
+<li><a href="../entities/openclaw.html">entities/openclaw.md</a> — OpenClaw运行时</li>
 <li><a href="https://github.com/addyosmani/agent-skills">GitHub 仓库</a> — 实时数据</li>
 </ul>
-<h2 id="外部链接"><a class="header" href="#外部链接">外部链接</a></h2>
-<ul>
-<li>GitHub: https://github.com/addyosmani/agent-skills</li>
-<li>Maven Central: https://skillsjars.com</li>
-</ul>
+<hr />
+<p><em>最后更新：2026-05-12</em><br />
+<em>信息来源：Anthropic MCP Spec (arxiv.org/pdf/2604.05969), Google A2A Protocol, Stripe Engineering Blog, OpenClaw AgentSkills规范, Addy Osmani博客</em></p>
 
                     </main>
 

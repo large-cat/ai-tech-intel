@@ -166,13 +166,19 @@
 <strong>别名</strong>：Inference-Time Compute / 推理时计算<br />
 <strong>核心思想</strong>：<strong>推理时多"想"一会，比训练更大模型更划算</strong></p>
 <hr />
-<h2 id="-技术原理"><a class="header" href="#-技术原理">🧬 技术原理</a></h2>
-<h3 id="核心洞察"><a class="header" href="#核心洞察">核心洞察</a></h3>
-<p>传统 Scaling Law：</p>
+<h2 id="-技术原理深度版"><a class="header" href="#-技术原理深度版">🧬 技术原理深度版</a></h2>
+<h3 id="核心洞察scaling-law-的两个维度"><a class="header" href="#核心洞察scaling-law-的两个维度">核心洞察：Scaling Law 的两个维度</a></h3>
+<p>传统 Scaling Law 只关注<strong>训练时扩展</strong>（Train-Time Scaling）：
+$$L(N, D) \propto \frac{1}{N^{0.34}} + \frac{1}{D^{0.28}}$$
+其中 $N$ = 模型参数，$D$ = 训练token数。</p>
+<p>测试时计算扩展（Test-Time Scaling）发现：</p>
 <ul>
-<li><strong>训练时扩展</strong>：更大模型 + 更多数据 → 更好性能（但成本指数增长）</li>
-<li><strong>测试时扩展</strong>：相同模型，推理时投入更多计算（多步思考、验证、搜索）→ 更好性能</li>
+<li>固定模型 $N$，增加推理时计算量 $C_{test}$（更多推理步骤/验证/搜索）</li>
+<li>性能提升曲线与训练更大模型相当，但<strong>成本更低</strong></li>
 </ul>
+<p><strong>关键公式</strong>（来源：<code>arxiv.org/pdf/2505.18065</code>）：
+$$P(\text{correct}) = f(C_{test}) \approx \frac{C_{test}^\alpha}{C_{test}^\alpha + C_0^\alpha}$$
+其中 $\alpha \approx 0.3-0.5$（任务相关），$C_0$ 为饱和常数。</p>
 <h3 id="openai的验证"><a class="header" href="#openai的验证">OpenAI的验证</a></h3>
 <ul>
 <li><strong>o1模型</strong>：推理时生成"思维链"（Chain-of-Thought），多步验证</li>
@@ -194,43 +200,24 @@
 </tbody></table>
 </div>
 <hr />
-<h2 id="-技术方法"><a class="header" href="#-技术方法">🔑 技术方法</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>方法</th><th>原理</th><th>成本</th><th>效果</th></tr></thead><tbody>
-<tr><td><strong>Chain-of-Thought</strong></td><td>模型生成中间推理步骤</td><td>低（仅需Prompt）</td><td>中等提升</td></tr>
-<tr><td><strong>Self-Consistency</strong></td><td>多次采样，选多数答案</td><td>中（3-10次推理）</td><td>稳定提升</td></tr>
-<tr><td><strong>Tree-of-Thought</strong></td><td>多路径探索，评估后选择</td><td>高（分支搜索）</td><td>大幅提示</td></tr>
-<tr><td><strong>Verifier/ORM</strong></td><td>训练验证模型，筛选正确路径</td><td>高（需额外模型）</td><td>精准提升</td></tr>
-<tr><td><strong>Process Reward Model</strong></td><td>奖励每一步的正确性</td><td>高（细粒度标注）</td><td>最佳效果</td></tr>
-</tbody></table>
-</div>
+<h2 id="-技术方法深度版"><a class="header" href="#-技术方法深度版">🔑 技术方法深度版</a></h2>
+<h3 id="1-chain-of-thoughtcot基础版"><a class="header" href="#1-chain-of-thoughtcot基础版">1. Chain-of-Thought（CoT）基础版</a></h3>
+<p><strong>原理</strong>：在Prompt中加入"Let's think step by step"，强制模型生成中间推理步骤。</p>
+<p><strong>数学本质</strong>：
+$$P(y|x) = \sum_{r} P(y|r, x) P(r|x)$$
+其中 $r$ 是推理路径（reasoning path），通过显式生成 $r$ 将联合分布分解。</p>
+<p><strong>成本</strong>：低（仅需Prompt修改，不增加推理次数）
+<strong>效果</strong>：中等提升（GSM8K +15-20%）</p>
 <hr />
-<h2 id="-核心争议"><a class="header" href="#-核心争议">🚀 核心争议</a></h2>
-<h3 id="1-思考vs背诵"><a class="header" href="#1-思考vs背诵">1. "思考"vs"背诵"</a></h3>
-<ul>
-<li><strong>支持方</strong>：测试时计算让模型真正"推理"，而非 memorization</li>
-<li><strong>质疑方</strong>：可能只是更长的 pattern matching，没有真正的抽象推理</li>
-</ul>
-<h3 id="2-成本与延迟"><a class="header" href="#2-成本与延迟">2. 成本与延迟</a></h3>
-<ul>
-<li><strong>o1/o3</strong>：推理时间从几秒延长到几分钟</li>
-<li><strong>API定价</strong>：o4-mini $1.10/$4.40 per 1M tokens vs GPT-4.5 $75/$150</li>
-<li><strong>权衡</strong>：用户愿意为更好答案等更久吗？</li>
-</ul>
-<h3 id="3-可解释性"><a class="header" href="#3-可解释性">3. 可解释性</a></h3>
-<ul>
-<li><strong>优势</strong>：思维链让模型"展示工作过程"，可审计</li>
-<li><strong>局限</strong>：模型可能"编造"思维链（看起来合理但实际错误）</li>
-</ul>
+<h3 id="2-self-consistency自一致性"><a class="header" href="#2-self-consistency自一致性">2. Self-Consistency（自一致性）</a></h3>
+<p><strong>原理</strong>：多次采样生成多个CoT路径，选多数答案（投票机制）。</p>
+<p><strong>数学</strong>：
+$$\hat{y} = \arg\max_y \sum_{i=1}^{K} \mathbb{1}[y_i = y]$$
+其中 $K$ = 采样次数（通常 5-40），$y_i$ = 第 $i$ 次采样的最终答案。</p>
+<p><strong>成本</strong>：中（$K$ 次独立推理）
+<strong>效果</strong>：稳定提升（数学推理 +10-15%，比单路CoT更鲁棒）</p>
 <hr />
-<h2 id="-关键数据"><a class="header" href="#-关键数据">📊 关键数据</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
-<tr><td>o1 vs GPT-4o数学提升</td><td>AIME 2024: 12% → 83%</td><td>OpenAI</td></tr>
-<tr><td>o3 ARC-AGI</td><td>87.5%（接近人类水平）</td><td>OpenAI</td></tr>
-<tr><td>测试时计算成本</td><td>比训练同性能大模型低10-100倍</td><td>论文估计</td></tr>
-<tr><td>o4-mini定价</td><td>$1.10/$4.40 per 1M tokens</td><td>OpenAI</td></tr>
-</tbody></table>
-</div>
-<hr />
+<h3 id="3-best-of-n-搜索"><a class="header" href="#3-best-of-n-搜索">3. Best-of-N 搜索</a></h3>
 <h2 id="相关实体"><a class="header" href="#相关实体">相关实体</a></h2>
 <ul>
 <li><a href="../../entities/openai.html">OpenAI</a> — o系列模型</li>

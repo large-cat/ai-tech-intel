@@ -166,7 +166,7 @@
 <strong>全称</strong>：Reinforcement Learning from Human Feedback<br />
 <strong>核心作用</strong>：让LLM"学会"人类的偏好和价值观</p>
 <hr />
-<h2 id="-技术原理"><a class="header" href="#-技术原理">🧬 技术原理</a></h2>
+<h2 id="-技术原理深度版"><a class="header" href="#-技术原理深度版">🧬 技术原理深度版</a></h2>
 <h3 id="三步流程"><a class="header" href="#三步流程">三步流程</a></h3>
 <ol>
 <li><strong>预训练（Pre-training）</strong>：海量文本自监督学习，模型学会语言规律</li>
@@ -193,45 +193,39 @@
 </tbody></table>
 </div>
 <hr />
-<h2 id="-关键变体方法"><a class="header" href="#-关键变体方法">🔑 关键变体方法</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>方法</th><th>原理</th><th>优势</th><th>代表模型</th></tr></thead><tbody>
-<tr><td><strong>PPO-RLHF</strong></td><td>传统RL，训练Reward Model+PPO优化</td><td>效果稳定，广泛验证</td><td>GPT-4、Claude 3</td></tr>
-<tr><td><strong>DPO</strong></td><td>直接用偏好数据优化，无需Reward Model</td><td>简单高效，训练快</td><td>Llama 2、Mistral</td></tr>
-<tr><td><strong>RLAIF</strong></td><td>用AI（而非人类）生成反馈</td><td>成本低，可扩展</td><td>Gemini、Claude</td></tr>
-<tr><td><strong>纯RL（R1）</strong></td><td>完全跳过SFT，RL从头训练</td><td>推理能力涌现</td><td>DeepSeek-R1</td></tr>
+<h2 id="-关键变体方法深度版"><a class="header" href="#-关键变体方法深度版">🔑 关键变体方法深度版</a></h2>
+<h3 id="1-ppo-rlhf经典路线"><a class="header" href="#1-ppo-rlhf经典路线">1. PPO-RLHF（经典路线）</a></h3>
+<p><strong>完整流程</strong>：</p>
+<pre><code>SFT模型（π_SFT） → 人类比较数据 → 训练Reward Model（r_θ） → PPO优化 → RLHF模型（π_RL）
+</code></pre>
+<p><strong>Reward Model训练</strong>：
+给定偏好对 $(x, y_w, y_l)$（$y_w$ = 人类偏好的回答，$y_l$ = 较差的回答）：
+$$\mathcal{L}<em>R(r</em>\theta, D) = -\mathbb{E}<em>{(x, y_w, y_l) \sim D} \left[ \log \sigma\left( r</em>\theta(x, y_w) - r_\theta(x, y_l) \right) \right]$$
+其中 $\sigma$ 是sigmoid函数。$r_\theta(x, y)$ 输出标量奖励值。</p>
+<p><strong>PPO优化目标</strong>：
+$$\mathcal{L}^{CLIP}(\theta) = \mathbb{E}_t \left[ \min\left( r_t(\theta) \hat{A}_t, \text{clip}\left(r_t(\theta), 1-\epsilon, 1+\epsilon\right) \hat{A}_t \right) \right]$$
+其中：</p>
+<ul>
+<li>$r_t(\theta) = \frac{\pi_\theta(a_t|s_t)}{\pi_{\theta_{old}}(a_t|s_t)}$：新旧策略概率比</li>
+<li>$\hat{A}_t$：优势函数估计（GAE - Generalized Advantage Estimation）</li>
+<li>$\epsilon = 0.2$：裁剪阈值，防止策略突变</li>
+</ul>
+<p><strong>KL散度约束</strong>：
+为了防止RL模型偏离SFT模型太远，加入KL惩罚：
+$$\mathcal{L}<em>{total} = \mathcal{L}^{CLIP} - \beta \cdot \mathbb{E}\left[ \text{KL}(\pi</em>\theta | \pi_{SFT}) \right]$$
+其中 $\beta$ 是KL系数（通常 0.01-0.1）。</p>
+<p><strong>PPO的超参数</strong>：</p>
+<div class="table-wrapper"><table><thead><tr><th>参数</th><th>典型值</th><th>作用</th></tr></thead><tbody>
+<tr><td>$\epsilon$ (clip)</td><td>0.2</td><td>限制策略更新幅度</td></tr>
+<tr><td>$\beta$ (KL coef)</td><td>0.01-0.1</td><td>防止RL模型偏离SFT太远</td></tr>
+<tr><td>$\gamma$ (discount)</td><td>0.99</td><td>未来奖励折扣因子</td></tr>
+<tr><td>$\lambda$ (GAE)</td><td>0.95</td><td>GAE权衡参数</td></tr>
+<tr><td>learning rate</td><td>1e-6 ~ 1e-5</td><td>极小的学习率防止崩溃</td></tr>
+<tr><td>batch size</td><td>64-512</td><td>每个PPO batch的样本数</td></tr>
 </tbody></table>
 </div>
 <hr />
-<h2 id="-前沿进展"><a class="header" href="#-前沿进展">🚀 前沿进展</a></h2>
-<h3 id="1-deepseek-r1的纯rl突破"><a class="header" href="#1-deepseek-r1的纯rl突破">1. DeepSeek-R1的纯RL突破</a></h3>
-<ul>
-<li><strong>传统</strong>：Pre-train → SFT → RLHF</li>
-<li><strong>R1</strong>：Pre-train → <strong>纯RL</strong>（无SFT！）</li>
-<li><strong>结果</strong>：推理能力（数学/代码）直接涌现</li>
-<li><strong>意义</strong>：证明"推理可以通过自我强化获得，不需要昂贵的人类标注"</li>
-<li><strong>代价</strong>：通用对话能力需后续SFT补充（R1-Zero → R1）</li>
-</ul>
-<h3 id="2-rlaifai-feedback替代人类"><a class="header" href="#2-rlaifai-feedback替代人类">2. RLAIF（AI Feedback替代人类）</a></h3>
-<ul>
-<li><strong>Google</strong>：Constitutional AI（Claude的前身思路），用规则指导AI自我批评</li>
-<li><strong>优势</strong>：人类标注 bottleneck 消除，可扩展</li>
-<li><strong>局限</strong>：AI反馈质量取决于基础模型能力</li>
-</ul>
-<h3 id="3-多模态rlhf"><a class="header" href="#3-多模态rlhf">3. 多模态RLHF</a></h3>
-<ul>
-<li><strong>Gemini 2.5</strong>：图像+文本+视频的联合偏好学习</li>
-<li><strong>挑战</strong>：多模态偏好标注更复杂，成本更高</li>
-</ul>
-<hr />
-<h2 id="-关键数据"><a class="header" href="#-关键数据">📊 关键数据</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
-<tr><td>InstructGPT人类标注成本</td><td>数百万美元</td><td>OpenAI论文</td></tr>
-<tr><td>DPO训练时间</td><td>比PPO快2-3倍</td><td>论文</td></tr>
-<tr><td>R1纯RL训练成本</td><td>远低于传统RLHF</td><td>DeepSeek</td></tr>
-<tr><td>RLAIF降低标注成本</td><td>70%+</td><td>Google论文</td></tr>
-</tbody></table>
-</div>
-<hr />
+<h3 id="2-dpodirect-preference-optimization"><a class="header" href="#2-dpodirect-preference-optimization">2. DPO（Direct Preference Optimization）</a></h3>
 <h2 id="相关实体"><a class="header" href="#相关实体">相关实体</a></h2>
 <ul>
 <li><a href="../../entities/anthropic.html">Anthropic</a> — Claude对齐</li>

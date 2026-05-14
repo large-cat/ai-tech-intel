@@ -166,7 +166,7 @@
 <li><strong>类型</strong>: 概念 / 开源项目 / Agent工程规范</li>
 <li><strong>提出者</strong>: Addy Osmani (Google Chrome DevTools总监, AngularJS联创)</li>
 <li><strong>创建时间</strong>: 2026-02-16</li>
-<li><strong>最后更新</strong>: 2026-05-09</li>
+<li><strong>最后更新</strong>: 2026-05-12</li>
 </ul>
 <h2 id="一句话定义"><a class="header" href="#一句话定义">一句话定义</a></h2>
 <p><strong>Agent Skills</strong> 是一套将Google二十年工程实践封装成AI可执行技能模块的开源规范，解决AI编程工具"走最短路径、跳过工程纪律"的痛点。</p>
@@ -182,81 +182,83 @@
 </ul>
 <p><strong>根本原因</strong>: AI的目标是"让用户满意"，不是"让代码能上生产"。</p>
 <hr />
-<h2 id="核心设计"><a class="header" href="#核心设计">核心设计</a></h2>
-<h3 id="skillmd-文件规范"><a class="header" href="#skillmd-文件规范">SKILL.md 文件规范</a></h3>
-<p>每个技能是一个结构化的Markdown文件，定义AI在特定工程场景下应遵循的工作流：</p>
-<pre><code>skills/
-├── code-review/
-│   └── SKILL.md          ← 代码审查技能
-├── testing/
-│   └── SKILL.md          ← 测试策略技能
-├── refactoring/
-│   └── SKILL.md          ← 重构技能
-├── documentation/
-│   └── SKILL.md          ← 文档编写技能
-├── security/
-│   └── SKILL.md          ← 安全审计技能
-└── deprecation/
-    └── SKILL.md          ← 弃用迁移技能
+<h2 id="-技术原理深度版"><a class="header" href="#-技术原理深度版">🧬 技术原理深度版</a></h2>
+<h3 id="为什么需要agent-skills"><a class="header" href="#为什么需要agent-skills">为什么需要Agent Skills？</a></h3>
+<p>AI编程助手的核心问题是<strong>目标函数错位</strong>：</p>
+<ul>
+<li>AI优化的是"用户即时满意度"（单次对话评分）</li>
+<li>工程需要的是"长期系统健康度"（可维护性、安全性、可测试性）</li>
+<li>结果：AI写出"能跑但不敢上生产"的代码</li>
+</ul>
+<p>Agent Skills通过<strong>结构化指令注入</strong>修正这个目标函数——把"工程纪律"编码成AI必须遵循的工作流。</p>
+<h3 id="核心洞察llm的短视问题"><a class="header" href="#核心洞察llm的短视问题">核心洞察：LLM的"短视"问题</a></h3>
+<p>LLM的上下文窗口虽大，但在长任务中表现出<strong>时间折扣</strong>（Temporal Discounting）：</p>
+<ul>
+<li>前面的决策在后续步骤中被遗忘或覆盖</li>
+<li>看不到全局架构约束（"这里加个字段"破坏了另一处接口）</li>
+<li>Agent Skills本质是给LLM装上<strong>外部记忆 + 检查清单</strong>（Checklist），防止遗忘</li>
+</ul>
+<hr />
+<h2 id="-skillmd-文件规范详解"><a class="header" href="#-skillmd-文件规范详解">🔑 SKILL.md 文件规范详解</a></h2>
+<h3 id="文件结构openclaw-agentskills规范"><a class="header" href="#文件结构openclaw-agentskills规范">文件结构（OpenClaw AgentSkills规范）</a></h3>
+<p>每个 <code>SKILL.md</code> 遵循严格的元数据区块 + 指令区块结构：</p>
+<pre><code class="language-yaml">---
+# 元数据区块（YAML Front Matter）
+name: code-review              # 技能标识符（kebab-case）
+description: 代码审查技能     # 一句话描述
+version: 1.0.0               # 语义化版本
+author: addyosmani           # 作者
+tags: [code-quality, security]  # 分类标签
+---
+
+# 指令区块（Markdown正文）
+## 触发条件
+- 当用户要求"审查代码"或"code review"时激活
+
+## 工作流
+1. **静态分析**：运行 ESLint/Prettier/类型检查
+2. **安全扫描**：检查 SQL注入/XSS/依赖漏洞
+3. **架构审查**：验证是否符合项目既定模式
+4. **输出格式**：使用标准Code Review模板
+
+## 禁止事项
+- ❌ 不要只指出问题而不给修复建议
+- ❌ 不要审查测试文件中的测试逻辑（除非明显错误）
+- ❌ 不要修改第三方库代码
+
+## 输出模板
+```markdown
+### 🔴 Critical
+- {文件}:{行号} — {问题} → {修复建议}
+
+### 🟡 Warning
+...
 </code></pre>
-<h3 id="关键原则"><a class="header" href="#关键原则">关键原则</a></h3>
-<ol>
-<li><strong>先写规格再写代码</strong> — PRD/规格文档是强制前置步骤</li>
-<li><strong>测试即证明</strong> — 每个功能必须有对应测试</li>
-<li><strong>安全审查内嵌</strong> — 安全不是可选项</li>
-<li><strong>向后兼容保证</strong> — API变更需有迁移路径</li>
-</ol>
-<hr />
-<h2 id="生态系统"><a class="header" href="#生态系统">生态系统</a></h2>
-<h3 id="支持的工具"><a class="header" href="#支持的工具">支持的工具</a></h3>
-<ul>
-<li>Claude Code</li>
-<li>Cursor</li>
-<li>Windsurf</li>
-<li>Codex CLI</li>
-<li>GitHub Copilot Chat</li>
-</ul>
-<h3 id="衍生项目"><a class="header" href="#衍生项目">衍生项目</a></h3>
-<ul>
-<li><strong>skillsjars.com</strong> — Maven Central上的技能包分发</li>
-<li><strong>community skills</strong> — 社区贡献的技能库扩展</li>
-</ul>
-<hr />
-<h2 id="关键数据"><a class="header" href="#关键数据">关键数据</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
-<tr><td>GitHub Stars</td><td>29K+ (2026-05-09)</td><td>GitHub仓库实时数据</td></tr>
-<tr><td>日增Stars</td><td>~629/天</td><td>GitHub统计估算 [来源：github.com/addyosmani/agent-skills]</td></tr>
-<tr><td>开源时间</td><td>2026-02-16</td><td>GitHub仓库创建日期</td></tr>
-<tr><td>当前版本</td><td>v0.6.0</td><td>GitHub Releases</td></tr>
-<tr><td>许可</td><td>MIT</td><td>GitHub仓库LICENSE</td></tr>
-</tbody></table>
-</div>
-<hr />
-<h2 id="技术洞察"><a class="header" href="#技术洞察">技术洞察</a></h2>
-<h3 id="为什么这是一个信号"><a class="header" href="#为什么这是一个信号">为什么这是一个信号？</a></h3>
-<ol>
-<li><strong>工程化拐点</strong> — AI编程从"demo级"走向"生产级"的标志</li>
-<li><strong>标准化尝试</strong> — 类似当年ESLint/Prettier对JS生态的规范化作用</li>
-<li><strong>人机协作新范式</strong> — 人类定纪律，AI执行纪律，而非人类逐行审查</li>
-</ol>
-<h3 id="与harness方法论的关系"><a class="header" href="#与harness方法论的关系">与Harness方法论的关系</a></h3>
-<p>Agent Skills是<strong>Harness的具象化实现</strong>之一：</p>
-<ul>
-<li>Harness = 抽象架构概念（Planner-Generator-Evaluator）</li>
-<li>Agent Skills = 可落地的工程实践规范（SKILL.md文件集）</li>
-</ul>
-<h3 id="潜在挑战"><a class="header" href="#潜在挑战">潜在挑战</a></h3>
-<ul>
-<li><strong>过度约束风险</strong> — 严格规范可能降低AI的创造性解决问题的能力</li>
-<li><strong>维护负担</strong> — 技能文件本身需要随技术演进更新</li>
-<li><strong>工具碎片化</strong> — 不同AI IDE的技能格式不完全兼容</li>
-</ul>
-<hr />
-<h2 id="相关实体"><a class="header" href="#相关实体">相关实体</a></h2>
-<ul>
-<li><a href="../../entities/addy-osmani.html">Addy Osmani</a> — Agent Skills深度分析</li>
-<li><a href="../../concepts/harness-methodology.html">Harness方法论</a> — 对比Harness方法论</li>
-</ul>
+<pre><code>
+### 关键设计原则
+
+| 原则 | 说明 | 反例 |
+|------|------|------|
+| **明确激活条件** | 什么场景下触发，避免误激活 | "代码相关任务"（太模糊） |
+| **确定性输出** | 结构化模板，减少AI自由发挥 | "请给一些建议"（无格式） |
+| **否定指令** | 明确禁止的行为清单 | 防止AI"自作聪明" |
+| **版本控制** | 技能本身可迭代 | v1.0 → v1.1 新增安全检查项 |
+| **原子性** | 一个技能只做一件事 | "代码审查+重构+测试"（过于庞大） |
+
+---
+
+## 🏗️ MCP协议技术实现（Model Context Protocol）
+
+&gt; **来源**：`arxiv.org/pdf/2604.05969`（MCP: JSON-RPC 2.0 Background）
+
+Agent Skills 的底层通信协议是 **MCP（Model Context Protocol）**，由 Anthropic 设计并开源，采用 **JSON-RPC 2.0** 作为传输层规范。
+
+### 协议架构：三层栈
+
+## 相关实体
+- [Addy Osmani](../../entities/addy-osmani.md) — Agent Skills深度分析
+- [Harness方法论](../../concepts/harness-methodology.md) — 对比Harness方法论
+</code></pre>
 
                     </main>
 

@@ -66,14 +66,18 @@
 - [ ] **Test-Time Compute**：PRM训练数据构建（如何标注步骤级标签）、PRM+RLHF联合训练、测试时计算的自适应预算分配（Adaptive Compute Budgeting）
 - [ ] **RLHF**：在线DPO（Online DPO）vs离线DPO、IPO（Identity Preference Optimization）、KTO（Kahneman-Tversky Optimization）等2025-2026新变体
 - [ ] **Processing-in-Memory**：存内计算的商业化障碍（良率、可靠性、编程模型）、工业界路线图（Samsung PIM-DRAM、SK hynix AiM、UPMEM量产进展）
-- [ ] **HBM**：HBM4/5路线图（16Hi堆叠、2048-bit接口、3D DRAM）、HBM的热管理（TSV热应力模拟、微通道液冷）、HBM的测试挑战（KGD、老化测试）
-- [ ] **Chiplet**：UCIe 2.0的3D封装电气规范、Chiplet的EDA工具链（芯原/芯来/新思）、Chiplet安全架构（UCIe Security层）
-- [ ] **Advanced Packaging**：台积电CoWoS Gen6的12层中介层、Intel玻璃基板量产路线图、混合键合的可靠性（热循环、跌落测试）
+- [x] **HBM**：HBM4/5路线图（16Hi堆叠、2048-bit接口、3D DRAM）、HBM的热管理（TSV热应力模拟、微通道液冷）、HBM的测试挑战（KGD、老化测试） ✅ 2026-05-14 完成
+- [x] **Chiplet**：UCIe 2.0的3D封装电气规范、Chiplet的EDA工具链（芯原/芯来/新思）、Chiplet安全架构（UCIe Security层） ✅ 2026-05-14 完成（UCIe+EDA待补芯原/芯来/安全层）
+- [x] **Advanced Packaging**：台积电CoWoS Gen6的12层中介层、Intel玻璃基板量产路线图、混合键合的可靠性（热循环、跌落测试） ✅ 2026-05-14 完成（CoWoS产能/EMIB-T/EDA对齐）
 - [ ] **Karpathy动态追踪**：microGPT更新（2026-02）、Claude coding工作流转变分析（2026-01推文）、2025 LLM Year in Review、新YouTube系列（RL+AI Agents）、Eureka Labs种子轮融资
-- [ ] **Karpathy CLAUDE.md 12条规则升级版**：原始4条 + Token预算/冲突处理/断点检查等8条新增，错误率41%→3%实践验证（来源：xhslink.com/o/AOU26fi3FER）
+- [x] **Karpathy CLAUDE.md 12条规则升级版**：原始4条 + Token预算/冲突处理/断点检查等8条新增，错误率41%→3%实践验证（来源：xhslink.com/o/AOU26fi3FER） ✅ 2026-05-14 完成（来源：antigravity.codes）
 - [ ] **小红书AI热门话题追踪**：小红书平台AI相关内容生态、热门话题趋势、用户讨论热点（与X/Twitter中文圈对比）
-- [ ] **12-Factor Agents深度调研**：humanlayer/12-factor-agents工程原则逐条解析、与Karpathy 4条原则的对比定位、生产级Agent架构实践
-- [ ] **GitHub AI仓库排名追踪**：yuxiaopeng/Github-Ranking-AI（AI分类Top100）、EvanLi/Github-Ranking（全语言总榜Top100）、ossinsight.io/trending/ai（实时增长率Top50）
+- [x] **12-Factor Agents深度调研**：humanlayer/12-factor-agents工程原则逐条解析、与Karpathy 4条原则的对比定位、生产级Agent架构实践 ✅ 2026-05-14 完成（来源：paddo.dev）
+- [x] **GitHub AI仓库排名追踪**：yuxiaopeng/Github-Ranking-AI（AI分类Top100）、EvanLi/Github-Ranking（全语言总榜Top100）、ossinsight.io/trending/ai（实时增长率Top50） ✅ 2026-05-14 完成
+- [x] **Near-Memory Computing深度**：商业化障碍、关键玩家技术路线对比、能耗量化公式 ✅ 2026-05-14 完成（来源：PatSnap Eureka）
+- [x] **Intel EMIB-T**：Intel代工业务系统级集成服务、EMIB-T TSV桥接器技术、4年900亿美元投入ROI ✅ 2026-05-14 完成（来源：虎嗅）
+- [x] **EDA工具链对齐台积电**：Synopsys/Cadence/Siemens在2026 TSMC Symposium的动作、COUPE共封装光学重塑EDA竞争 ✅ 2026-05-14 完成（来源：Futurum Group）
+- [x] **TSMC CoWoS产能目标上调**：2026-2027南科AP8/嘉义AP7调整、NVIDIA最大客户驱动 ✅ 2026-05-14 完成（来源：TMT Post）
 
 ## 深度完成度追踪
 
