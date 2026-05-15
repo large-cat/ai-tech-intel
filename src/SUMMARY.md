@@ -8,6 +8,8 @@
 
 - [2026年5月9日](digest/2026-05-09.md)
 - [2026年5月10日](digest/2026-05-10.md)
+- [2026年5月12日](digest/2026-05-12.md)
+- [2026年5月15日](digest/2026-05-15.md)
 
 ---
 
@@ -172,6 +174,46 @@
 
 ---
 
-## 每日速递
-- [2026-05-09](weekly-digest/2026-05-09.md)
-- [2026-05-10](weekly-digest/2026-05-10.md)
+## 深度源文件索引
+
+### Agent 工程
+- [12-Factor Agents](sources/12-factor-agents-humanlayer.md)
+- [Agent Skills GitHub生态](sources/agent-skills-github.md)
+- [Anthropic Managed Agents](sources/anthropic-managed-agents.md)
+- [Anthropic 三Agent Harness架构](sources/anthropic-three-agent-harness.md)
+- [Harness工程化（虎嗅报道）](sources/harness-engineering-huxiu-2026-03-13.md)
+- [LangChain Terminal Bench 2.0](sources/langchain-terminal-bench-20.md)
+- [MCP Sampling Loop 深度解析](sources/mcp-sampling-loop-deep-dive.md)
+- [Modern Harness Blueprint](sources/modern-harness-blueprint-2026.md)
+- [Stripe Minions Blueprint](sources/stripe-minions-blueprint.md)
+
+### 模型与算法
+- [Karpathy Agentic Engineering演讲](sources/karpathy-agentic-engineering-2026.md)
+- [Karpathy CLAUDE.md 12条规则](sources/karpathy-claude-md-12-rules.md)
+- [月之暗面 Kimi K2.5](sources/moonshot-kimi-k25.md)
+- [RLHF新变体：Online DPO/IPO/KTO](sources/rlhf-online-dpo-ipo-kto.md)
+
+### 半导体与硬件
+- [AMD MI450 vs Rubin对比](sources/amd-mi450-vs-rubin.md)
+- [Applied Materials Nexx收购](sources/applied-materials-nexx-acquisition-2026-05-03.md)
+- [Chiplet互联生态](sources/chiplet-interconnect-2026.md)
+- [EDA工具链对齐台积电](sources/eda-vendors-tsmc-2026.md)
+- [HBM4/5路线图](sources/hbm4-5-roadmap-2026.md)
+- [Intel EMIB-T先进封装](sources/intel-emib-t-advanced-packaging.md)
+- [Intel EMIB-T投产](sources/intel-emib-t-production-2026.md)
+- [Near-Memory Computing商业化](sources/near-memory-computing-commercialization.md)
+- [NVIDIA Feynman架构](sources/nvidia-feynman-gtc2026.md)
+- [NVIDIA Rubin平台](sources/nvidia-rubin-platform.md)
+- [PatSnap Chiplet生态](sources/patsnap-chiplet-ecosystem-2026.md)
+- [Samsung/Micron HBM4量产](sources/samsung-micron-hbm4-shipping-2026.md)
+- [SK海力士CES2026](sources/sk-hynix-ces2026.md)
+- [TSMC CoWoS产能目标](sources/tsmc-cowos-capacity-2026-2027.md)
+
+### 开源生态
+- [DS4 GitHub项目](sources/ds4-github.md)
+- [GitHub AI仓库排名（2026-05）](sources/github-ai-ranking-2026-05.md)
+- [GitHub Trending（2026-03-25）](sources/github-trending-2026-03-25.md)
+
+### 产业与商业
+- [AI封装市场$50B](sources/ai-packaging-50b-market-2026.md)
+- [小红书AI战略](sources/xiaohongshu-ai-strategy-2026.md)

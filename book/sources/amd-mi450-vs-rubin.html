@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>LLM Wiki模式 - AI Tech Intel 知识手册</title>
+        <title>AMD MI450 vs Rubin对比 - AI Tech Intel 知识手册</title>
 
 
         <!-- Custom HTML head -->
@@ -129,7 +129,7 @@
                         <a href="https://github.com/large-cat/ai-tech-intel" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/large-cat/ai-tech-intel/edit/master/src/concepts/llm-wiki-pattern.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/large-cat/ai-tech-intel/edit/master/src/sources/amd-mi450-vs-rubin.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -158,135 +158,125 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="llm-wiki-karpathy-pattern"><a class="header" href="#llm-wiki-karpathy-pattern">LLM Wiki (Karpathy Pattern)</a></h1>
-<ul>
-<li><strong>类型</strong>: 概念 / 知识管理方法论</li>
-<li><strong>提出者</strong>: Andrej Karpathy (OpenAI联合创始人, ex-Tesla AI总监)</li>
-<li><strong>发布时间</strong>: 2026-04-04</li>
-<li><strong>最后更新</strong>: 2026-05-09</li>
-</ul>
-<h2 id="一句话定义"><a class="header" href="#一句话定义">一句话定义</a></h2>
-<p><strong>LLM Wiki</strong> 是Andrej Karpathy提出的使用LLM增量构建和维护个人知识库的模式——不是每次查询重新检索（RAG），而是让LLM持续编译、结构化、更新知识，实现"知识随时间增长而非每次归零"。</p>
+                        <h1 id="amd-mi450-vs-nvidia-rubin-竞争分析"><a class="header" href="#amd-mi450-vs-nvidia-rubin-竞争分析">AMD MI450 vs NVIDIA Rubin 竞争分析</a></h1>
+<blockquote>
+<p>来源：Tom's Hardware, Wccftech, HotHardware, AMD Financial Analyst Day<br />
+日期：2026-05<br />
+关联：<a href="../../entities/amd.html">entities/amd.md</a> | <a href="../../entities/nvidia.html">entities/nvidia.md</a> | <a href="../../concepts/hbm.html">concepts/hbm.md</a></p>
+</blockquote>
 <hr />
-<h2 id="核心思想"><a class="header" href="#核心思想">核心思想</a></h2>
-<h3 id="传统rag的问题"><a class="header" href="#传统rag的问题">传统RAG的问题</a></h3>
-<pre><code>RAG流程：
-用户提问 → 检索文档片段 → LLM基于片段回答 → 回答完即丢弃
-
-问题：
-- 每次回答都从零开始推导
-- 没有跨会话积累
-- 相同知识点反复检索
-</code></pre>
-<h3 id="llm-wiki的模式"><a class="header" href="#llm-wiki的模式">LLM Wiki的模式</a></h3>
-<pre><code>LLM Wiki流程：
-读取源材料 → LLM分析 → 生成结构化wiki页面 → 持续更新维护 → 查询时直接读取wiki
-
-优势：
-- 知识编译一次，持续复用
-- 增量更新，跨会话积累
-- LLM消费自己的产出（AI-consumable exports）
-</code></pre>
-<hr />
-<h2 id="架构分层"><a class="header" href="#架构分层">架构分层</a></h2>
-<p>Karpathy原始设计（llm-wiki.md gist）:</p>
-<div class="table-wrapper"><table><thead><tr><th>层级</th><th>内容</th><th>作用</th></tr></thead><tbody>
-<tr><td><strong>Layer 1: raw/</strong></td><td>原始材料（文章、对话、论文摘要）</td><td>不可变的输入层</td></tr>
-<tr><td><strong>Layer 2: wiki/</strong></td><td>LLM生成的结构化页面（实体、概念、合成）</td><td>可更新的知识层</td></tr>
-<tr><td><strong>Layer 3: site/</strong></td><td>导出的静态HTML/JSON-LD</td><td>可消费的输出层</td></tr>
+<h2 id="核心对比"><a class="header" href="#核心对比">核心对比</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>AMD MI450</th><th>NVIDIA Rubin (R100)</th><th>NVIDIA Rubin Ultra</th></tr></thead><tbody>
+<tr><td><strong>架构</strong></td><td>CDNA 5</td><td>新一代</td><td>新一代</td></tr>
+<tr><td><strong>工艺</strong></td><td><strong>TSMC 2nm</strong></td><td>TSMC 3nm</td><td>TSMC 3nm</td></tr>
+<tr><td><strong>HBM容量</strong></td><td><strong>432GB</strong></td><td>288GB</td><td><strong>576GB</strong></td></tr>
+<tr><td><strong>HBM带宽</strong></td><td>19.6 TB/s</td><td>~15 TB/s</td><td><strong>~22 TB/s</strong></td></tr>
+<tr><td><strong>FP4算力</strong></td><td>40 PFLOPS</td><td>35 PFLOPS</td><td><strong>50 PFLOPS</strong></td></tr>
+<tr><td><strong>FP8算力</strong></td><td>20 PFLOPS</td><td>25 PFLOPS</td><td><strong>35 PFLOPS</strong></td></tr>
+<tr><td><strong>功耗</strong></td><td><strong>~1500W</strong></td><td>~1800W</td><td>~2300W</td></tr>
+<tr><td><strong>散热</strong></td><td>液冷</td><td>液冷 (NVL72/NVL8)</td><td>液冷 (NVL72/NVL8)</td></tr>
+<tr><td><strong>送样时间</strong></td><td>2026H1</td><td>2026H2</td><td>2026H2</td></tr>
+<tr><td><strong>量产时间</strong></td><td>2026H2</td><td>2026H2</td><td>2026H2</td></tr>
 </tbody></table>
 </div>
 <hr />
-<h2 id="开源实现生态"><a class="header" href="#开源实现生态">开源实现生态</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>项目</th><th>作者</th><th>特点</th><th>Stars</th></tr></thead><tbody>
-<tr><td><strong>Pratiyush/llm-wiki</strong></td><td>Pratiyush</td><td>最完整实现，MCP server, Obsidian集成, 16 lint规则, confidence scoring</td><td>快速增长中</td></tr>
-<tr><td><strong>nashsu/llm_wiki</strong></td><td>nashsu</td><td>跨平台桌面应用，2-step ingest, 4-signal知识图谱, Louvain社区检测</td><td>新兴</td></tr>
-<tr><td><strong>domleca/llm-wiki</strong></td><td>domleca</td><td>Obsidian插件，Ollama本地运行，隐私优先</td><td>Obsidian社区热门</td></tr>
-<tr><td><strong>本知识库</strong></td><td>ClawTest</td><td>OpenClaw cron驱动，AI Tech Intel专用，微信推送</td><td>定制版</td></tr>
+<h2 id="amd关键优势"><a class="header" href="#amd关键优势">AMD关键优势</a></h2>
+<h3 id="1-工艺领先"><a class="header" href="#1-工艺领先">1. 工艺领先</a></h3>
+<p><strong>TSMC 2nm vs 3nm</strong>：</p>
+<ul>
+<li>AMD MI450采用TSMC 2nm，比Rubin的3nm更先进一代。</li>
+<li>晶体管密度更高，同性能下功耗更低。</li>
+<li><strong>这是AMD首次在工艺节点上领先NVIDIA</strong>。</li>
+</ul>
+<h3 id="2-功耗效率"><a class="header" href="#2-功耗效率">2. 功耗效率</a></h3>
+<ul>
+<li>MI450约1500W vs Rubin Ultra 2300W。</li>
+<li>在数据中心功耗预算固定的情况下，MI450可部署更多卡。</li>
+<li>对于推理工作负载（功耗敏感），MI450可能更优。</li>
+</ul>
+<h3 id="3-机架级设计helios"><a class="header" href="#3-机架级设计helios">3. 机架级设计（Helios）</a></h3>
+<ul>
+<li>AMD Helios是<strong>首个机架级AI设计</strong>。</li>
+<li>包含：EPYC CPU + Pensando DPU + 开放网络标准（OCP）。</li>
+<li>对比NVIDIA NVLink机架：更开放，不锁定在NVIDIA生态。</li>
+</ul>
+<h3 id="4-关键客户"><a class="header" href="#4-关键客户">4. 关键客户</a></h3>
+<ul>
+<li><strong>Meta</strong>：签署$100B deal（多年期，多代GPU）。</li>
+<li><strong>Anthropic</strong>： reportedly 使用MI400系列。</li>
+<li><strong>OpenAI</strong>：也签署MI400部署协议。</li>
+<li>这些客户的采购量足以支撑AMD生态。</li>
+</ul>
+<hr />
+<h2 id="nvidia关键优势"><a class="header" href="#nvidia关键优势">NVIDIA关键优势</a></h2>
+<h3 id="1-内存容量"><a class="header" href="#1-内存容量">1. 内存容量</a></h3>
+<ul>
+<li>Rubin Ultra <strong>576GB</strong> vs MI450 <strong>432GB</strong>。</li>
+<li>144GB差距在大模型训练中可能<strong>决定性</strong>。</li>
+<li>更大的模型/更长的上下文需要更多HBM。</li>
+</ul>
+<h3 id="2-算力领先"><a class="header" href="#2-算力领先">2. 算力领先</a></h3>
+<ul>
+<li>FP4：50 vs 40 PFLOPS（+25%）。</li>
+<li>FP8：35 vs 20 PFLOPS（+75%）。</li>
+<li>对于训练工作负载，NVIDIA仍领先。</li>
+</ul>
+<h3 id="3-软件生态"><a class="header" href="#3-软件生态">3. 软件生态</a></h3>
+<ul>
+<li><strong>CUDA</strong>：20年积累，几乎所有AI框架优先优化CUDA。</li>
+<li><strong>ROCm</strong>：支持PyTorch/TensorFlow，但仍是"第二优先级"。</li>
+<li>大多数AI团队更熟悉NVIDIA工具链。</li>
+</ul>
+<h3 id="4-市场份额"><a class="header" href="#4-市场份额">4. 市场份额</a></h3>
+<ul>
+<li>NVIDIA仍占**~80%**数据中心GPU市场。</li>
+<li>但AMD正在快速蚕食（从&lt;5%到~15%）。</li>
+</ul>
+<hr />
+<h2 id="竞争动态"><a class="header" href="#竞争动态">竞争动态</a></h2>
+<h3 id="nvidia的防御策略"><a class="header" href="#nvidia的防御策略">NVIDIA的防御策略</a></h3>
+<ul>
+<li><strong>提升Rubin功耗</strong>：从1800W提升到2300W（Ultra版本），用功耗换性能来竞争MI455X。</li>
+<li><strong>锁定HBM供应</strong>：与三星/SK海力士签署独家供应协议，限制AMD的HBM获取。</li>
+<li><strong>机架级整合</strong>：NVL72/NVL8机架标准，提供完整解决方案而非单卡。</li>
+</ul>
+<h3 id="amd的进攻策略"><a class="header" href="#amd的进攻策略">AMD的进攻策略</a></h3>
+<ul>
+<li><strong>工艺领先</strong>：2nm工艺是长期技术优势。</li>
+<li><strong>开放生态</strong>：ROCm开源，支持开放标准（OCP、UCIe）。</li>
+<li><strong>价格竞争</strong>：MI450定价预计比Rubin低20-30%。</li>
+<li><strong>客户绑定</strong>：Meta $100B deal确保长期收入。</li>
+</ul>
+<hr />
+<h2 id="市场影响"><a class="header" href="#市场影响">市场影响</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>场景</th><th>赢家</th><th>原因</th></tr></thead><tbody>
+<tr><td>大模型训练</td><td>NVIDIA</td><td>576GB HBM + 更高FP8算力</td></tr>
+<tr><td>推理部署</td><td>AMD</td><td>更低功耗 + 2nm工艺效率</td></tr>
+<tr><td>开放生态</td><td>AMD</td><td>ROCm开源 + OCP标准</td></tr>
+<tr><td>软件成熟度</td><td>NVIDIA</td><td>CUDA 20年积累</td></tr>
+<tr><td>价格敏感客户</td><td>AMD</td><td>定价低20-30%</td></tr>
+<tr><td>超大规模云</td><td>两者共存</td><td>Meta用AMD，Google/Microsoft继续NVIDIA</td></tr>
 </tbody></table>
 </div>
 <hr />
-<h2 id="关键特性以pratiyushllm-wiki为例"><a class="header" href="#关键特性以pratiyushllm-wiki为例">关键特性（以Pratiyush/llm-wiki为例）</a></h2>
-<h3 id="质量治理"><a class="header" href="#质量治理">质量治理</a></h3>
+<h2 id="引用来源"><a class="header" href="#引用来源">引用来源</a></h2>
 <ul>
-<li><strong>4-factor confidence scoring</strong> — 来源数量、来源质量、时效性、交叉引用</li>
-<li><strong>5-state lifecycle</strong> — draft → reviewed → verified → stale → archived（90天自动stale）</li>
-<li><strong>16 lint rules</strong> — 8结构规则 + 3 LLM规则 + 5 freshness规则</li>
-</ul>
-<h3 id="ai消费接口"><a class="header" href="#ai消费接口">AI消费接口</a></h3>
-<ul>
-<li><code>llms.txt</code> / <code>llms-full.txt</code> — 标准AI可读格式</li>
-<li><code>graph.jsonld</code> — 知识图谱JSON-LD</li>
-<li>MCP server — 12个工具供任何MCP客户端查询</li>
-</ul>
-<h3 id="自动化"><a class="header" href="#自动化">自动化</a></h3>
-<ul>
-<li>SessionStart hook — 每次Claude Code启动自动同步</li>
-<li>Auto-build — 后台自动构建</li>
-<li>Auto Dream — 24h+5sessions后自动整理MEMORY.md</li>
-</ul>
-<hr />
-<h2 id="技术洞察"><a class="header" href="#技术洞察">技术洞察</a></h2>
-<h3 id="为什么这个模式重要"><a class="header" href="#为什么这个模式重要">为什么这个模式重要？</a></h3>
-<ol>
-<li>
-<p><strong>从"查询即计算"到"编译后查询"</strong></p>
-<ul>
-<li>RAG = JIT编译（每次查询现场编译）</li>
-<li>LLM Wiki = AOT编译（提前编译好，查询直接读取）</li>
-</ul>
-</li>
-<li>
-<p><strong>AI agent的"长期记忆"基础设施</strong></p>
-<ul>
-<li>Agent需要记住跨会话的知识</li>
-<li>LLM Wiki提供结构化的外部记忆</li>
-</ul>
-</li>
-<li>
-<p><strong>人机协作的新界面</strong></p>
-<ul>
-<li>人类提供源材料</li>
-<li>LLM整理成wiki</li>
-<li>人类审查、纠正、补充</li>
-<li>其他AI查询wiki完成新任务</li>
-</ul>
-</li>
-</ol>
-<h3 id="与当前知识库的对比"><a class="header" href="#与当前知识库的对比">与当前知识库的对比</a></h3>
-<div class="table-wrapper"><table><thead><tr><th>维度</th><th>Karpathy原始</th><th>Pratiyush实现</th><th>本知识库 (AI Tech Intel)</th></tr></thead><tbody>
-<tr><td>驱动方式</td><td>手动运行脚本</td><td>CLI工具</td><td>OpenClaw cron自动</td></tr>
-<tr><td>内容来源</td><td>个人笔记/对话</td><td>多Agent适配器</td><td>kimi_search + 网络</td></tr>
-<tr><td>更新频率</td><td>按需</td><td>手动/自动可选</td><td>每日自动</td></tr>
-<tr><td>推送渠道</td><td>本地浏览</td><td>静态网站/GitHub Pages</td><td>微信推送</td></tr>
-<tr><td>专注领域</td><td>通用个人知识</td><td>通用个人知识</td><td>AI行业技术情报</td></tr>
-</tbody></table>
-</div>
-<hr />
-<h2 id="相关页面"><a class="header" href="#相关页面">相关页面</a></h2>
-<ul>
-<li><a href="../entities/andrej-karpathy.html">entities/andrej-karpathy.md</a> — 模式提出者</li>
-<li><a href="../entities/pratiyush.html">entities/pratiyush.md</a> — 主要实现者</li>
-<li><a href="harness-methodology.html">concepts/harness-methodology.md</a> — 与Harness的关系（知识库是Harness的一部分）</li>
-<li><a href="../index.html">index.md</a> — 本知识库总览</li>
-</ul>
-<h2 id="外部链接"><a class="header" href="#外部链接">外部链接</a></h2>
-<ul>
-<li>Karpathy原始gist: https://gist.github.com/karpathy/llm-wiki.md</li>
-<li>Pratiyush实现: https://github.com/Pratiyush/llm-wiki</li>
-<li>nashsu桌面应用: https://github.com/nashsu/llm_wiki</li>
-<li>domleca Obsidian插件: https://github.com/domleca/llm-wiki</li>
+<li>Tom's Hardware：tomshardware.com（2026-05，AMD MI450规格分析）</li>
+<li>Wccftech：wccftech.com（2026-05，MI450 vs Rubin对比）</li>
+<li>HotHardware：hothardware.com（2026-05，AMD GPU路线图）</li>
+<li>AMD Financial Analyst Day：amd.com（2025，CDNA 5架构预告）</li>
+<li>供应链消息：Digitimes（2026-01，MI400系列时间线）</li>
 </ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../concepts/ds4.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../sources/rlhf-online-dpo-ipo-kto.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../sources/12-factor-agents-humanlayer.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../sources/applied-materials-nexx-acquisition-2026-05-03.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -296,11 +286,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../concepts/ds4.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../sources/rlhf-online-dpo-ipo-kto.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../sources/12-factor-agents-humanlayer.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../sources/applied-materials-nexx-acquisition-2026-05-03.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

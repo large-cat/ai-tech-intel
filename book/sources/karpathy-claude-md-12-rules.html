@@ -1,0 +1,339 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Karpathy CLAUDE.md 12条规则 - AI Tech Intel 知识手册</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="每日AI前沿技术情报知识库 — 人类易读的翻阅版">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">AI Tech Intel 知识手册</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/large-cat/ai-tech-intel" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/large-cat/ai-tech-intel/edit/master/src/sources/karpathy-claude-md-12-rules.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="karpathy-claudemd-12条规则升级版"><a class="header" href="#karpathy-claudemd-12条规则升级版">Karpathy CLAUDE.md 12条规则升级版</a></h1>
+<blockquote>
+<p>来源：Antigravity.codes 深度拆解，基于 @mnilax (Mnimiy) 2026-05-09 的 X 长文（270万浏览，18,800 bookmark）<br />
+原始4条规则由 Forrest Chang 在 2026-01 基于 Karpathy 的吐槽线程封装，GitHub 首日 5,828 stars，两周 60,000 bookmarks，年中突破 120,000 stars，成为 2026 年增长最快的单文件仓库。</p>
+</blockquote>
+<hr />
+<h2 id="1-原始4条规则karpathy-via-forrest-chang"><a class="header" href="#1-原始4条规则karpathy-via-forrest-chang">1. 原始4条规则（Karpathy via Forrest Chang）</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>#</th><th>规则</th><th>核心意图</th></tr></thead><tbody>
+<tr><td>1</td><td><strong>Think Before Coding</strong></td><td>禁止静默假设；显式陈述假设、权衡；简单方案存在时 push back</td></tr>
+<tr><td>2</td><td><strong>Simplicity First</strong></td><td>最小代码解决问题；禁止 speculative features；单用途代码不抽象</td></tr>
+<tr><td>3</td><td><strong>Surgical Changes</strong></td><td>只碰被要求的部分；不改相邻代码、注释、格式；匹配现有风格</td></tr>
+<tr><td>4</td><td><strong>Goal-Driven Execution</strong></td><td>定义成功标准并循环验证；不给步骤指令，给成功画像</td></tr>
+</tbody></table>
+</div>
+<p><strong>效果基线</strong>（Mnimiy 30 codebases × 50 tasks × 6 weeks）：</p>
+<ul>
+<li>无 CLAUDE.md：<strong>错误率 ~41%</strong></li>
+<li>4条规则：<strong>错误率 ~11%，合规率 78%</strong></li>
+</ul>
+<hr />
+<h2 id="2-新增8条规则mnimiy2026-05"><a class="header" href="#2-新增8条规则mnimiy2026-05">2. 新增8条规则（Mnimiy，2026-05）</a></h2>
+<p>每条规则都来自具体的事故：</p>
+<div class="table-wrapper"><table><thead><tr><th>#</th><th>规则</th><th>防止的失败模式</th><th>典型事故</th></tr></thead><tbody>
+<tr><td>5</td><td><strong>不让模型做非语言工作</strong></td><td>确定性决策（重试策略、路由、阈值）交给确定性代码</td><td>"决定是否对 503 重试" 的 LLM 调用两周后因模型读取请求体作为上下文而开始随机化</td></tr>
+<tr><td>6</td><td><strong>硬 token 预算，无例外</strong></td><td>循环 spiraling 成 50k token dump</td><td>90 分钟 debug 迭代同一段 8KB 错误信息，最终建议用户 40 条消息前已拒绝的修复</td></tr>
+<tr><td>7</td><td><strong>暴露冲突，不要平均化</strong></td><td>代码库两处模式矛盾时，Claude 试图同时取悦双方</td><td>async/await + global error boundary 并用，错误被吞两次</td></tr>
+<tr><td>8</td><td><strong>写前先读</strong></td><td>不了解相邻代码就新增，导致冲突</td><td>Claude 在已有函数旁新增同名函数，新函数因 import 顺序胜出，原函数是 6 个月的 source of truth</td></tr>
+<tr><td>9</td><td><strong>测试不是可选的，但也不是目标</strong></td><td>测试通过但测试本身无用</td><td>12 个 auth 测试全过，生产环境 auth 挂了——测试只检查 "返回了 something"</td></tr>
+<tr><td>10</td><td><strong>长操作需要 checkpoint</strong></td><td>多步工作流在第 4 步出错后继续 5、6 步</td><td>6 步重构第 4 步出错，后续在 broken state 上继续，回滚比重做更耗时</td></tr>
+<tr><td>11</td><td><strong>约定胜于新奇</strong></td><td>在已有模式的代码库引入自己的 "更好" 方案</td><td>React hooks 引入 class component 代码库，hooks 能用但测试假设 <code>componentDidMount</code> 全部失效</td></tr>
+<tr><td>12</td><td><strong>失败要可见，不要静默</strong></td><td>看起来成功但实际上跳过/错误</td><td>DB migration "成功完成"，静默跳过 14% 约束冲突记录，11 天后报表异常才发现</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="3-关键数字12条-vs-4条"><a class="header" href="#3-关键数字12条-vs-4条">3. 关键数字：12条 vs 4条</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>配置</th><th>错误率</th><th>合规率</th></tr></thead><tbody>
+<tr><td>无规则</td><td>~41%</td><td>—</td></tr>
+<tr><td>4条</td><td>~11%</td><td>78%</td></tr>
+<tr><td><strong>12条</strong></td><td><strong>~3%</strong></td><td><strong>76%</strong></td></tr>
+</tbody></table>
+</div>
+<p><strong>核心洞察</strong>：从 4 条到 12 条，合规率几乎不变（78% → 76%），但错误率再降 8 个百分点。说明新增规则覆盖的是原 4 条<strong>根本没碰到的</strong>失败模式，而非争夺同一注意力预算。</p>
+<hr />
+<h2 id="4-完整12条模板可直接复制"><a class="header" href="#4-完整12条模板可直接复制">4. 完整12条模板（可直接复制）</a></h2>
+<pre><code class="language-markdown"># Coding Behavior Contract (12 Rules)
+
+## Core (Karpathy via Forrest Chang)
+1. Think before coding. State your assumptions. Surface tradeoffs.
+   Ask before guessing. Push back when a simpler approach exists.
+2. Simplicity first. Minimum code that solves the problem. No
+   speculative features. No abstractions for single-use code.
+3. Surgical changes. Touch only what is asked. Do not "improve"
+   adjacent code, comments, or formatting. Match existing style.
+4. Goal-driven execution. Define success criteria. Loop until
+   verified. Do not narrate steps; tell me what success looks like.
+
+## Extended (Mnimiy, May 2026)
+5. Do not make the model do non-language work. Retry policies,
+   routing, escalation thresholds belong in deterministic code.
+6. Hard token budgets, no exceptions. Stop and ask if a task is
+   trending past its budget.
+7. Surface conflicts, do not average them. If two parts of the
+   codebase disagree, flag the disagreement and ask which to follow.
+8. Read before you write. Understand adjacent code (the file and
+   nearby siblings) before adding new code.
+9. Tests are required but are not the goal. A passing test that
+   tests nothing useful is a failure. Tests must check behavior.
+10. Long-running operations require checkpoints. After every
+    significant step, summarize what was done and confirm before
+    proceeding.
+11. Convention beats novelty. In an established codebase, match
+    the existing pattern even if a "better" one exists.
+12. Fail visibly, not silently. Surface every skipped record,
+    every rolled-back transaction, every constraint violation.
+    Never report success when something was bypassed.
+
+## Project-specific rules below this line
+# (Add stack, test commands, error patterns specific to this repo.)
+# Total file should stay under 200 lines.
+</code></pre>
+<hr />
+<h2 id="5-原始4条在哪些场景会静默失效"><a class="header" href="#5-原始4条在哪些场景会静默失效">5. 原始4条在哪些场景会静默失效</a></h2>
+<ol>
+<li><strong>长运行 agent 任务</strong>：无预算、无 checkpoint、无 fail-loud 规则 → pipeline drift</li>
+<li><strong>多代码库一致性</strong>："match existing style" 假设只有一种风格，monorepo 12 个服务时随机选或平均化</li>
+<li><strong>测试质量</strong>："tests pass" 作为唯一目标 → Claude 写测试了但测试的是 nothing useful</li>
+<li><strong>生产 vs 原型</strong>："Simplicity First" 在需要 100 行 speculative scaffolding 的早期代码上 overfire</li>
+</ol>
+<hr />
+<h2 id="6-被明确排除的失败实验"><a class="header" href="#6-被明确排除的失败实验">6. 被明确排除的失败实验</a></h2>
+<ul>
+<li><strong>&gt;14 条规则</strong>：测试到 18 条时合规率从 76% 暴跌到 52%，Anthropic 200 行天花板真实存在</li>
+<li><strong>社交媒体的规则收集</strong>：多为 Karpathy 4 条同义反复或领域特定规则（"always use Tailwind"），不通用</li>
+<li><strong>工具依赖型规则</strong>："always use eslint" 在 eslint 未安装时静默失效 → 改为 "match the codebase's enforced style"</li>
+<li><strong>用例子代替规则</strong>：3 个例子消耗 ≈10 条规则的上下文，且 Claude 会 over-fit</li>
+<li><strong>模糊强化词</strong>："be careful", "think hard", "really focus" — 合规率 ~30%，不可测试</li>
+<li><strong>身份提示</strong>："act like a senior engineer" 无效，Claude 已自认为 senior；差距在 think vs do，指令式规则才有效</li>
+</ul>
+<hr />
+<h2 id="7-心智模型"><a class="header" href="#7-心智模型">7. 心智模型</a></h2>
+<blockquote>
+<p><strong>CLAUDE.md 不是愿望清单。它是关闭你已观察到的具体失败模式的行为契约。</strong></p>
+</blockquote>
+<p>每条规则都应回答：<strong>这条规则防止什么错误？</strong></p>
+<p>推荐策略：</p>
+<ul>
+<li>诚实读完 12 条，保留你<strong>这个月确实犯过</strong>的映射规则</li>
+<li>丢弃其余。6 条针对你真实失败模式的规则，胜过 12 条里 6 条你永远不触发的规则。</li>
+<li>项目特定规则追加在底部，总长度保持 &lt;200 行。</li>
+</ul>
+<hr />
+<h2 id="8-迁移到-openclaw--agentsmd"><a class="header" href="#8-迁移到-openclaw--agentsmd">8. 迁移到 OpenClaw / AGENTS.md</a></h2>
+<p>Antigravity/OpenClaw 使用 <code>GEMINI.md</code> / <code>AGENTS.md</code>，形状相同：repo 根目录 Markdown，建议性而非强制，~200 行天花板。12 条几乎可逐字迁移。</p>
+<p>OpenClaw 特别需注意：</p>
+<ul>
+<li><strong>Rule 6 (token budgets)</strong>：OpenClaw quota 消耗比 Claude Code 更快，需配对 token 优化策略</li>
+<li><strong>Rule 10 (checkpoints)</strong>：多 agent 运行第 4 步出错时，应从之前 artifact 恢复而非从头来</li>
+<li><strong>Rule 7 (surface conflicts)</strong>：Claude ↔ Gemini 模型切换 mid-session 时，新模型常继承旧模型不兼容的上下文并试图调和</li>
+<li><strong>Rule 12 (fail visibly)</strong>：auto-accept 模式下静默失败会在多个 Cmd-Enter 周期中累积，强制 agent 暴露每个跳过步骤</li>
+</ul>
+<hr />
+<h2 id="参考链接"><a class="header" href="#参考链接">参考链接</a></h2>
+<ul>
+<li>原始4条仓库：forrestchang/andrej-karpathy-skills（125k+ stars）</li>
+<li>Mnimiy 长文（X，2026-05-09）：@mnilax — 2.7M views，18.8K bookmarks</li>
+<li>本文拆解来源：https://antigravity.codes/blog/karpathy-claude-md-rules-extended</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../sources/karpathy-agentic-engineering-2026.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../sources/moonshot-kimi-k25.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../sources/karpathy-agentic-engineering-2026.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../sources/moonshot-kimi-k25.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

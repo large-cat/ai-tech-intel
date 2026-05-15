@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>LLM Wiki模式 - AI Tech Intel 知识手册</title>
+        <title>LangChain Terminal Bench 2.0 - AI Tech Intel 知识手册</title>
 
 
         <!-- Custom HTML head -->
@@ -129,7 +129,7 @@
                         <a href="https://github.com/large-cat/ai-tech-intel" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/large-cat/ai-tech-intel/edit/master/src/concepts/llm-wiki-pattern.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/large-cat/ai-tech-intel/edit/master/src/sources/langchain-terminal-bench-20.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -158,135 +158,124 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="llm-wiki-karpathy-pattern"><a class="header" href="#llm-wiki-karpathy-pattern">LLM Wiki (Karpathy Pattern)</a></h1>
-<ul>
-<li><strong>类型</strong>: 概念 / 知识管理方法论</li>
-<li><strong>提出者</strong>: Andrej Karpathy (OpenAI联合创始人, ex-Tesla AI总监)</li>
-<li><strong>发布时间</strong>: 2026-04-04</li>
-<li><strong>最后更新</strong>: 2026-05-09</li>
-</ul>
-<h2 id="一句话定义"><a class="header" href="#一句话定义">一句话定义</a></h2>
-<p><strong>LLM Wiki</strong> 是Andrej Karpathy提出的使用LLM增量构建和维护个人知识库的模式——不是每次查询重新检索（RAG），而是让LLM持续编译、结构化、更新知识，实现"知识随时间增长而非每次归零"。</p>
+                        <h1 id="langchain-terminal-bench-20-harness优化详解"><a class="header" href="#langchain-terminal-bench-20-harness优化详解">LangChain Terminal Bench 2.0 Harness优化详解</a></h1>
+<blockquote>
+<p>来源：LangChain工程博客，LangChain官方文档，Hugging Face Philipp Schmid评论<br />
+日期：2026-02<br />
+关联：<a href="../../concepts/harness-methodology.html">concepts/harness-methodology.md</a> | <a href="../../entities/langchain.html">entities/langchain.md</a></p>
+</blockquote>
 <hr />
-<h2 id="核心思想"><a class="header" href="#核心思想">核心思想</a></h2>
-<h3 id="传统rag的问题"><a class="header" href="#传统rag的问题">传统RAG的问题</a></h3>
-<pre><code>RAG流程：
-用户提问 → 检索文档片段 → LLM基于片段回答 → 回答完即丢弃
-
-问题：
-- 每次回答都从零开始推导
-- 没有跨会话积累
-- 相同知识点反复检索
+<h2 id="实验背景"><a class="header" href="#实验背景">实验背景</a></h2>
+<p>LangChain为验证"Harness &gt; 模型"所做的对照实验。固定模型（Claude 3.5 Sonnet），仅优化Harness，在SWE-Bench Terminal 2.0上测试。</p>
+<p><strong>结果</strong>：</p>
+<ul>
+<li>基线：52.8% → 优化后：66.5%</li>
+<li>排名：#30 → #5</li>
+<li>模型不变，Harness变，结果剧变</li>
+</ul>
+<p>Hugging Face Philipp Schmid称此实验为"<strong>2026年最重要的验证</strong>"。</p>
+<hr />
+<h2 id="优化维度"><a class="header" href="#优化维度">优化维度</a></h2>
+<h3 id="1-system-prompts-层"><a class="header" href="#1-system-prompts-层">1. System Prompts 层</a></h3>
+<p><strong>Reasoning Sandwich（推理三明治）</strong>：</p>
+<pre><code>xhigh reasoning  ← 规划阶段：最高推理深度，拆解任务
+    ↓
+  high reasoning  ← 实现阶段：中等深度，专注执行
+    ↓
+xhigh reasoning  ← 验证阶段：最高深度，检查输出
 </code></pre>
-<h3 id="llm-wiki的模式"><a class="header" href="#llm-wiki的模式">LLM Wiki的模式</a></h3>
-<pre><code>LLM Wiki流程：
-读取源材料 → LLM分析 → 生成结构化wiki页面 → 持续更新维护 → 查询时直接读取wiki
-
-优势：
-- 知识编译一次，持续复用
-- 增量更新，跨会话积累
-- LLM消费自己的产出（AI-consumable exports）
-</code></pre>
-<hr />
-<h2 id="架构分层"><a class="header" href="#架构分层">架构分层</a></h2>
-<p>Karpathy原始设计（llm-wiki.md gist）:</p>
-<div class="table-wrapper"><table><thead><tr><th>层级</th><th>内容</th><th>作用</th></tr></thead><tbody>
-<tr><td><strong>Layer 1: raw/</strong></td><td>原始材料（文章、对话、论文摘要）</td><td>不可变的输入层</td></tr>
-<tr><td><strong>Layer 2: wiki/</strong></td><td>LLM生成的结构化页面（实体、概念、合成）</td><td>可更新的知识层</td></tr>
-<tr><td><strong>Layer 3: site/</strong></td><td>导出的静态HTML/JSON-LD</td><td>可消费的输出层</td></tr>
-</tbody></table>
-</div>
-<hr />
-<h2 id="开源实现生态"><a class="header" href="#开源实现生态">开源实现生态</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>项目</th><th>作者</th><th>特点</th><th>Stars</th></tr></thead><tbody>
-<tr><td><strong>Pratiyush/llm-wiki</strong></td><td>Pratiyush</td><td>最完整实现，MCP server, Obsidian集成, 16 lint规则, confidence scoring</td><td>快速增长中</td></tr>
-<tr><td><strong>nashsu/llm_wiki</strong></td><td>nashsu</td><td>跨平台桌面应用，2-step ingest, 4-signal知识图谱, Louvain社区检测</td><td>新兴</td></tr>
-<tr><td><strong>domleca/llm-wiki</strong></td><td>domleca</td><td>Obsidian插件，Ollama本地运行，隐私优先</td><td>Obsidian社区热门</td></tr>
-<tr><td><strong>本知识库</strong></td><td>ClawTest</td><td>OpenClaw cron驱动，AI Tech Intel专用，微信推送</td><td>定制版</td></tr>
-</tbody></table>
-</div>
-<hr />
-<h2 id="关键特性以pratiyushllm-wiki为例"><a class="header" href="#关键特性以pratiyushllm-wiki为例">关键特性（以Pratiyush/llm-wiki为例）</a></h2>
-<h3 id="质量治理"><a class="header" href="#质量治理">质量治理</a></h3>
+<p><strong>原理</strong>：</p>
 <ul>
-<li><strong>4-factor confidence scoring</strong> — 来源数量、来源质量、时效性、交叉引用</li>
-<li><strong>5-state lifecycle</strong> — draft → reviewed → verified → stale → archived（90天自动stale）</li>
-<li><strong>16 lint rules</strong> — 8结构规则 + 3 LLM规则 + 5 freshness规则</li>
+<li>规划时"想太多"：防止方向错误</li>
+<li>实现时"做实事"：避免过度分析导致行动 paralysis</li>
+<li>验证时"再想想"：确保质量</li>
 </ul>
-<h3 id="ai消费接口"><a class="header" href="#ai消费接口">AI消费接口</a></h3>
-<ul>
-<li><code>llms.txt</code> / <code>llms-full.txt</code> — 标准AI可读格式</li>
-<li><code>graph.jsonld</code> — 知识图谱JSON-LD</li>
-<li>MCP server — 12个工具供任何MCP客户端查询</li>
-</ul>
-<h3 id="自动化"><a class="header" href="#自动化">自动化</a></h3>
-<ul>
-<li>SessionStart hook — 每次Claude Code启动自动同步</li>
-<li>Auto-build — 后台自动构建</li>
-<li>Auto Dream — 24h+5sessions后自动整理MEMORY.md</li>
-</ul>
+<p><strong>效果</strong>：减少"分析瘫痪"和"行动草率"两类失败。</p>
 <hr />
-<h2 id="技术洞察"><a class="header" href="#技术洞察">技术洞察</a></h2>
-<h3 id="为什么这个模式重要"><a class="header" href="#为什么这个模式重要">为什么这个模式重要？</a></h3>
+<h3 id="2-工具设计层"><a class="header" href="#2-工具设计层">2. 工具设计层</a></h3>
+<h4 id="localcontextmiddleware"><a class="header" href="#localcontextmiddleware">LocalContextMiddleware</a></h4>
+<p><strong>功能</strong>：Agent启动时自动映射当前工作目录和工具位置。</p>
+<p><strong>问题</strong>：传统方式Agent每次调用工具都要推断"我在哪"、"工具在哪"，浪费Token且易错。</p>
+<p><strong>解决</strong>：Middleware在Agent启动时注入当前目录结构、可用工具列表、文件路径映射。</p>
+<h4 id="loopdetectionmiddleware"><a class="header" href="#loopdetectionmiddleware">LoopDetectionMiddleware</a></h4>
+<p><strong>功能</strong>：追踪每个文件的编辑次数。</p>
+<p><strong>问题</strong>：Agent容易陷入"反复修改同一文件"的死循环。</p>
+<p><strong>解决</strong>：</p>
+<ul>
+<li>当某文件被编辑N次（阈值可配置，通常3-5次），自动注入系统消息：
+<blockquote>
+<p>"你已对此文件编辑多次仍未成功。请重新考虑你的方法，尝试不同的策略。"</p>
+</blockquote>
+</li>
+<li>如果继续循环，升级到更高级别的干预（如切换到另一个Agent或请求人类介入）。</li>
+</ul>
+<p><strong>效果</strong>：显著减少死循环导致的超时和失败。</p>
+<hr />
+<h3 id="3-middleware层"><a class="header" href="#3-middleware层">3. Middleware层</a></h3>
+<h4 id="trace-analyzer-skill"><a class="header" href="#trace-analyzer-skill">Trace Analyzer Skill</a></h4>
+<p><strong>功能</strong>：自动从LangSmith traces分析错误模式。</p>
+<p><strong>原理</strong>：</p>
 <ol>
-<li>
-<p><strong>从"查询即计算"到"编译后查询"</strong></p>
-<ul>
-<li>RAG = JIT编译（每次查询现场编译）</li>
-<li>LLM Wiki = AOT编译（提前编译好，查询直接读取）</li>
-</ul>
-</li>
-<li>
-<p><strong>AI agent的"长期记忆"基础设施</strong></p>
-<ul>
-<li>Agent需要记住跨会话的知识</li>
-<li>LLM Wiki提供结构化的外部记忆</li>
-</ul>
-</li>
-<li>
-<p><strong>人机协作的新界面</strong></p>
-<ul>
-<li>人类提供源材料</li>
-<li>LLM整理成wiki</li>
-<li>人类审查、纠正、补充</li>
-<li>其他AI查询wiki完成新任务</li>
-</ul>
-</li>
+<li>收集所有失败的traces</li>
+<li>自动分类失败模式（如"文件未找到"、"测试未通过"、"权限错误"）</li>
+<li>生成Harness优化建议（如"在步骤X前添加目录检查"、"为工具Y添加重试逻辑"）</li>
+<li>类似<strong>boosting</strong>：每轮分析后Harness自动增强</li>
 </ol>
-<h3 id="与当前知识库的对比"><a class="header" href="#与当前知识库的对比">与当前知识库的对比</a></h3>
-<div class="table-wrapper"><table><thead><tr><th>维度</th><th>Karpathy原始</th><th>Pratiyush实现</th><th>本知识库 (AI Tech Intel)</th></tr></thead><tbody>
-<tr><td>驱动方式</td><td>手动运行脚本</td><td>CLI工具</td><td>OpenClaw cron自动</td></tr>
-<tr><td>内容来源</td><td>个人笔记/对话</td><td>多Agent适配器</td><td>kimi_search + 网络</td></tr>
-<tr><td>更新频率</td><td>按需</td><td>手动/自动可选</td><td>每日自动</td></tr>
-<tr><td>推送渠道</td><td>本地浏览</td><td>静态网站/GitHub Pages</td><td>微信推送</td></tr>
-<tr><td>专注领域</td><td>通用个人知识</td><td>通用个人知识</td><td>AI行业技术情报</td></tr>
+<p><strong>效果</strong>：形成"失败→分析→优化→再测试"的自提升循环。</p>
+<hr />
+<h3 id="4-自验证循环"><a class="header" href="#4-自验证循环">4. 自验证循环</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>验证机制</th><th>触发条件</th><th>作用</th></tr></thead><tbody>
+<tr><td><strong>时间预算警告</strong></td><td>任务耗时超过预算的50%</td><td>提醒Agent加快或调整策略</td></tr>
+<tr><td><strong>测试要求提示</strong></td><td>Agent声称"完成"时</td><td>强制要求运行测试验证</td></tr>
+<tr><td><strong>输出验证</strong></td><td>生成代码后</td><td>自动lint、类型检查、格式检查</td></tr>
+<tr><td><strong>中间检查点</strong></td><td>每完成一个子任务</td><td>验证中间产物是否符合预期</td></tr>
 </tbody></table>
 </div>
 <hr />
-<h2 id="相关页面"><a class="header" href="#相关页面">相关页面</a></h2>
+<h2 id="关键发现"><a class="header" href="#关键发现">关键发现</a></h2>
+<h3 id="发现1模型-specific-harness-tuning"><a class="header" href="#发现1模型-specific-harness-tuning">发现1：模型-specific Harness tuning</a></h3>
+<p><strong>Claude的Harness不能直接套到GPT上</strong>。</p>
+<div class="table-wrapper"><table><thead><tr><th>模型</th><th>最优Harness差异</th></tr></thead><tbody>
+<tr><td>Claude 3.5 Sonnet</td><td>需要更多结构化指令，Reasoning Sandwich效果好</td></tr>
+<tr><td>GPT-4o</td><td>对工具描述更敏感，需要更详细的tool schema</td></tr>
+<tr><td>Gemini 1.5 Pro</td><td>长上下文能力强，可以加载更多文件到context</td></tr>
+</tbody></table>
+</div>
+<p><strong>结论</strong>：Harness必须针对具体模型定制，不存在"万能Harness"。</p>
+<h3 id="发现2开源承诺"><a class="header" href="#发现2开源承诺">发现2：开源承诺</a></h3>
+<p>LangChain公开了：</p>
 <ul>
-<li><a href="../entities/andrej-karpathy.html">entities/andrej-karpathy.md</a> — 模式提出者</li>
-<li><a href="../entities/pratiyush.html">entities/pratiyush.md</a> — 主要实现者</li>
-<li><a href="harness-methodology.html">concepts/harness-methodology.md</a> — 与Harness的关系（知识库是Harness的一部分）</li>
-<li><a href="../index.html">index.md</a> — 本知识库总览</li>
+<li><strong>Traces数据集</strong>：失败的traces（脱敏后）供社区分析</li>
+<li><strong>Deep Agents代码</strong>：Harness框架开源</li>
+<li><strong>评估方法</strong>：如何复现52.8%→66.5%的完整步骤</li>
 </ul>
-<h2 id="外部链接"><a class="header" href="#外部链接">外部链接</a></h2>
+<hr />
+<h2 id="基础设施"><a class="header" href="#基础设施">基础设施</a></h2>
 <ul>
-<li>Karpathy原始gist: https://gist.github.com/karpathy/llm-wiki.md</li>
-<li>Pratiyush实现: https://github.com/Pratiyush/llm-wiki</li>
-<li>nashsu桌面应用: https://github.com/nashsu/llm_wiki</li>
-<li>domleca Obsidian插件: https://github.com/domleca/llm-wiki</li>
+<li><strong>Harbor</strong>：任务编排器，管理Agent生命周期</li>
+<li><strong>Daytona</strong>：Sandbox运行环境，隔离Agent执行</li>
+<li><strong>LangSmith</strong>： observability平台，收集traces和metrics</li>
+<li><strong>评估规模</strong>：数百个SWE-Bench任务，并行运行</li>
+</ul>
+<hr />
+<h2 id="引用来源"><a class="header" href="#引用来源">引用来源</a></h2>
+<ul>
+<li>LangChain工程博客：blog.langchain.dev（2026-02，Harness优化系列文章）</li>
+<li>LangChain官方文档：python.langchain.com/docs（Terminal Bench 2.0指南）</li>
+<li>Hugging Face Philipp Schmid：huggingface.co/blog（2026-03，"2026年最重要的学科"评论）</li>
+<li>行业报道：gonetech.net（2026-04-21，Harness Engineering vs SDD对比）</li>
+<li>CSDN报道：2026-04-17（LangChain 4.0 Harness Edition）</li>
 </ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../concepts/ds4.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../sources/harness-engineering-huxiu-2026-03-13.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../sources/12-factor-agents-humanlayer.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../sources/mcp-sampling-loop-deep-dive.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -296,11 +285,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../concepts/ds4.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../sources/harness-engineering-huxiu-2026-03-13.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../sources/12-factor-agents-humanlayer.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../sources/mcp-sampling-loop-deep-dive.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

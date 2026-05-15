@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>LLM Wiki模式 - AI Tech Intel 知识手册</title>
+        <title>Karpathy Agentic Engineering演讲 - AI Tech Intel 知识手册</title>
 
 
         <!-- Custom HTML head -->
@@ -129,7 +129,7 @@
                         <a href="https://github.com/large-cat/ai-tech-intel" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/large-cat/ai-tech-intel/edit/master/src/concepts/llm-wiki-pattern.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/large-cat/ai-tech-intel/edit/master/src/sources/karpathy-agentic-engineering-2026.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -158,135 +158,104 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="llm-wiki-karpathy-pattern"><a class="header" href="#llm-wiki-karpathy-pattern">LLM Wiki (Karpathy Pattern)</a></h1>
-<ul>
-<li><strong>类型</strong>: 概念 / 知识管理方法论</li>
-<li><strong>提出者</strong>: Andrej Karpathy (OpenAI联合创始人, ex-Tesla AI总监)</li>
-<li><strong>发布时间</strong>: 2026-04-04</li>
-<li><strong>最后更新</strong>: 2026-05-09</li>
-</ul>
-<h2 id="一句话定义"><a class="header" href="#一句话定义">一句话定义</a></h2>
-<p><strong>LLM Wiki</strong> 是Andrej Karpathy提出的使用LLM增量构建和维护个人知识库的模式——不是每次查询重新检索（RAG），而是让LLM持续编译、结构化、更新知识，实现"知识随时间增长而非每次归零"。</p>
+                        <h1 id="karpathy-agentic-engineering-深度分析"><a class="header" href="#karpathy-agentic-engineering-深度分析">Karpathy Agentic Engineering 深度分析</a></h1>
+<blockquote>
+<p>来源：<a href="https://analyticsdrift.com/andrej-karpathy-agentic-engineering-software-3/">analyticsdrift.com</a> | <a href="https://buttondown.com/verified/archive/the-end-of-vibe-coding-andrej-karpathys-shift-to/">buttondown.com</a><br />
+关联实体：[[Andrej Karpathy]], [[Sequoia Capital]], [[vibe coding]], [[Software 3.0]]<br />
+日期：2026-05-01 (Sequoia AI Ascent 2026)</p>
+</blockquote>
 <hr />
-<h2 id="核心思想"><a class="header" href="#核心思想">核心思想</a></h2>
-<h3 id="传统rag的问题"><a class="header" href="#传统rag的问题">传统RAG的问题</a></h3>
-<pre><code>RAG流程：
-用户提问 → 检索文档片段 → LLM基于片段回答 → 回答完即丢弃
-
-问题：
-- 每次回答都从零开始推导
-- 没有跨会话积累
-- 相同知识点反复检索
-</code></pre>
-<h3 id="llm-wiki的模式"><a class="header" href="#llm-wiki的模式">LLM Wiki的模式</a></h3>
-<pre><code>LLM Wiki流程：
-读取源材料 → LLM分析 → 生成结构化wiki页面 → 持续更新维护 → 查询时直接读取wiki
-
-优势：
-- 知识编译一次，持续复用
-- 增量更新，跨会话积累
-- LLM消费自己的产出（AI-consumable exports）
-</code></pre>
-<hr />
-<h2 id="架构分层"><a class="header" href="#架构分层">架构分层</a></h2>
-<p>Karpathy原始设计（llm-wiki.md gist）:</p>
-<div class="table-wrapper"><table><thead><tr><th>层级</th><th>内容</th><th>作用</th></tr></thead><tbody>
-<tr><td><strong>Layer 1: raw/</strong></td><td>原始材料（文章、对话、论文摘要）</td><td>不可变的输入层</td></tr>
-<tr><td><strong>Layer 2: wiki/</strong></td><td>LLM生成的结构化页面（实体、概念、合成）</td><td>可更新的知识层</td></tr>
-<tr><td><strong>Layer 3: site/</strong></td><td>导出的静态HTML/JSON-LD</td><td>可消费的输出层</td></tr>
+<h2 id="核心范式切换vibe-coding--agentic-engineering"><a class="header" href="#核心范式切换vibe-coding--agentic-engineering">核心范式切换：Vibe Coding → Agentic Engineering</a></h2>
+<h3 id="历史时间线"><a class="header" href="#历史时间线">历史时间线</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>时间</th><th>事件</th><th>意义</th></tr></thead><tbody>
+<tr><td>2025年2月</td><td>Karpathy 创造"vibe coding"一词</td><td>定义了"描述需求、接受产出"的AI辅助编程模式</td></tr>
+<tr><td>2025年11月</td><td>Karpathy 手动编码80%，AI辅助20%</td><td>传统工程师比例</td></tr>
+<tr><td><strong>2025年12月</strong></td><td><strong>比例完全翻转</strong></td><td>AI Agent编码80%，人工仅20% —— <strong>拐点时刻</strong></td></tr>
+<tr><td>2026年1月</td><td>"我记不得上次修正它是什么时候"</td><td>信任阈值突破</td></tr>
+<tr><td>2026年5月1日</td><td>Sequoia AI Ascent 正式宣告</td><td>vibe coding 过时，Agentic Engineering 成新范式</td></tr>
 </tbody></table>
 </div>
+<h3 id="关键数据验证"><a class="header" href="#关键数据验证">关键数据验证</a></h3>
+<ul>
+<li><strong>错误率</strong>：从41%降至3%（CLAUDE.md规则升级成果，从4条到12条规则）</li>
+<li><strong>编码比例翻转</strong>：不是渐进改善，而是<strong>阈值跨越</strong>（threshold crossed）</li>
+<li><strong>Side projects 爆炸</strong>：Agent产出大块正确代码无需修正，项目产出速度数量级提升</li>
+</ul>
 <hr />
-<h2 id="开源实现生态"><a class="header" href="#开源实现生态">开源实现生态</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>项目</th><th>作者</th><th>特点</th><th>Stars</th></tr></thead><tbody>
-<tr><td><strong>Pratiyush/llm-wiki</strong></td><td>Pratiyush</td><td>最完整实现，MCP server, Obsidian集成, 16 lint规则, confidence scoring</td><td>快速增长中</td></tr>
-<tr><td><strong>nashsu/llm_wiki</strong></td><td>nashsu</td><td>跨平台桌面应用，2-step ingest, 4-signal知识图谱, Louvain社区检测</td><td>新兴</td></tr>
-<tr><td><strong>domleca/llm-wiki</strong></td><td>domleca</td><td>Obsidian插件，Ollama本地运行，隐私优先</td><td>Obsidian社区热门</td></tr>
-<tr><td><strong>本知识库</strong></td><td>ClawTest</td><td>OpenClaw cron驱动，AI Tech Intel专用，微信推送</td><td>定制版</td></tr>
+<h2 id="software-30上下文窗口是新代码"><a class="header" href="#software-30上下文窗口是新代码">Software 3.0：上下文窗口是新代码</a></h2>
+<p>Karpathy 扩展了其经典的 Software 1.0 / 2.0 框架：</p>
+<pre><code>Software 1.0 → 人写显式代码（Python, C++）
+Software 2.0 → 神经网络训练（数据即代码）
+Software 3.0 → 提示即编程，上下文窗口是杠杆，LLM是解释器
+</code></pre>
+<p><strong>核心论断</strong>："Your programming now turns to prompting, and what's in the context window is your lever over the interpreter that is the LLM."</p>
+<h3 id="案例menugen-的不存在"><a class="header" href="#案例menugen-的不存在">案例：MenuGen 的"不存在"</a></h3>
+<p>Karpathy 的个人项目 MenuGen（OCR餐厅菜单 + 生成食物图片）被 Gemini 的原生多模态能力直接替代——用户只需把菜单照片给 Gemini，它就在像素上直接叠加图片，根本不需要任何 App。</p>
+<blockquote>
+<p>"This blew my mind. That app shouldn't exist."</p>
+</blockquote>
+<p><strong>启示</strong>：Software 3.0 时代，为人类点击而设计的界面层变得 irrelevant。模型可以直接在原始数据上操作。</p>
+<hr />
+<h2 id="vibe-coding-vs-agentic-engineering精准区分"><a class="header" href="#vibe-coding-vs-agentic-engineering精准区分">Vibe Coding vs Agentic Engineering：精准区分</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>维度</th><th>Vibe Coding</th><th>Agentic Engineering</th></tr></thead><tbody>
+<tr><td><strong>定位</strong></td><td>抬高地板（democratization）</td><td>维持天花板（professional quality）</td></tr>
+<tr><td><strong>适用场景</strong></td><td>原型、个人项目、快速验证</td><td>生产代码、团队协作、长期维护</td></tr>
+<tr><td><strong>失败模式</strong></td><td>无 oversight、技术债累积、安全漏洞静默引入</td><td>需要 human-in-the-loop 审查、架构判断</td></tr>
+<tr><td><strong>工程师角色</strong></td><td>描述需求，接受产出</td><td>指导 Agent、审查输出、捕获失败模式、维护架构判断</td></tr>
+<tr><td><strong>责任归属</strong></td><td>模糊（"AI写的"）</td><td>明确（"你仍然对你的软件负责"）</td></tr>
 </tbody></table>
 </div>
+<p>Karpathy 的原话："Agentic engineering is about preserving the quality bar of what existed before in professional software. You are still responsible for your software just as before."</p>
 <hr />
-<h2 id="关键特性以pratiyushllm-wiki为例"><a class="header" href="#关键特性以pratiyushllm-wiki为例">关键特性（以Pratiyush/llm-wiki为例）</a></h2>
-<h3 id="质量治理"><a class="header" href="#质量治理">质量治理</a></h3>
+<h2 id="jagged-intelligence-问题"><a class="header" href="#jagged-intelligence-问题">Jagged Intelligence 问题</a></h2>
+<p>Karpathy 对前沿模型能力的尖锐观察：它们是**"jagged entities"**（锯齿状实体）——</p>
 <ul>
-<li><strong>4-factor confidence scoring</strong> — 来源数量、来源质量、时效性、交叉引用</li>
-<li><strong>5-state lifecycle</strong> — draft → reviewed → verified → stale → archived（90天自动stale）</li>
-<li><strong>16 lint rules</strong> — 8结构规则 + 3 LLM规则 + 5 freshness规则</li>
+<li>✅ 能重构 10 万行代码库</li>
+<li>✅ 能找到零日漏洞</li>
+<li>❌ 无法推理"走50米去洗车"</li>
 </ul>
-<h3 id="ai消费接口"><a class="header" href="#ai消费接口">AI消费接口</a></h3>
-<ul>
-<li><code>llms.txt</code> / <code>llms-full.txt</code> — 标准AI可读格式</li>
-<li><code>graph.jsonld</code> — 知识图谱JSON-LD</li>
-<li>MCP server — 12个工具供任何MCP客户端查询</li>
-</ul>
-<h3 id="自动化"><a class="header" href="#自动化">自动化</a></h3>
-<ul>
-<li>SessionStart hook — 每次Claude Code启动自动同步</li>
-<li>Auto-build — 后台自动构建</li>
-<li>Auto Dream — 24h+5sessions后自动整理MEMORY.md</li>
-</ul>
+<p><strong>锯齿来源</strong>：RL 奖励信号集中在可验证输出的领域（数学、代码）。模型在 RL 训练分布内飞起，分布外挣扎。</p>
+<p><strong>对 builder 的启示</strong>：理解你的用例落在 RL 训练分布的哪个位置，现在是核心工程技能。</p>
 <hr />
-<h2 id="技术洞察"><a class="header" href="#技术洞察">技术洞察</a></h2>
-<h3 id="为什么这个模式重要"><a class="header" href="#为什么这个模式重要">为什么这个模式重要？</a></h3>
+<h2 id="不可替代的人"><a class="header" href="#不可替代的人">不可替代的人</a></h2>
+<p>Karpathy 的 closing line：</p>
+<blockquote>
+<p>"You can outsource your thinking, but you can't outsource your understanding."</p>
+</blockquote>
+<p>当 Agent 处理更多执行时，人类瓶颈集中在：</p>
+<ul>
+<li><strong>品味</strong>（taste）</li>
+<li><strong>判断力</strong>（judgment）</li>
+<li><strong>定义什么值得做</strong>的能力</li>
+</ul>
+<p>** survived 的工程师不是写最少代码的人，而是理解软件为何重要的人。**</p>
+<hr />
+<h2 id="从实践到理论"><a class="header" href="#从实践到理论">从实践到理论</a></h2>
+<p>Karpathy 的日常工作流已完全 Agentic：</p>
 <ol>
-<li>
-<p><strong>从"查询即计算"到"编译后查询"</strong></p>
-<ul>
-<li>RAG = JIT编译（每次查询现场编译）</li>
-<li>LLM Wiki = AOT编译（提前编译好，查询直接读取）</li>
-</ul>
-</li>
-<li>
-<p><strong>AI agent的"长期记忆"基础设施</strong></p>
-<ul>
-<li>Agent需要记住跨会话的知识</li>
-<li>LLM Wiki提供结构化的外部记忆</li>
-</ul>
-</li>
-<li>
-<p><strong>人机协作的新界面</strong></p>
-<ul>
-<li>人类提供源材料</li>
-<li>LLM整理成wiki</li>
-<li>人类审查、纠正、补充</li>
-<li>其他AI查询wiki完成新任务</li>
-</ul>
-</li>
+<li>用自然语言描述需求/意图</li>
+<li>Agent 生成完整代码块</li>
+<li>人审查架构、捕获边界 case、维护 taste</li>
+<li>循环迭代</li>
 </ol>
-<h3 id="与当前知识库的对比"><a class="header" href="#与当前知识库的对比">与当前知识库的对比</a></h3>
-<div class="table-wrapper"><table><thead><tr><th>维度</th><th>Karpathy原始</th><th>Pratiyush实现</th><th>本知识库 (AI Tech Intel)</th></tr></thead><tbody>
-<tr><td>驱动方式</td><td>手动运行脚本</td><td>CLI工具</td><td>OpenClaw cron自动</td></tr>
-<tr><td>内容来源</td><td>个人笔记/对话</td><td>多Agent适配器</td><td>kimi_search + 网络</td></tr>
-<tr><td>更新频率</td><td>按需</td><td>手动/自动可选</td><td>每日自动</td></tr>
-<tr><td>推送渠道</td><td>本地浏览</td><td>静态网站/GitHub Pages</td><td>微信推送</td></tr>
-<tr><td>专注领域</td><td>通用个人知识</td><td>通用个人知识</td><td>AI行业技术情报</td></tr>
-</tbody></table>
-</div>
+<p>这与 Stripe Minions Blueprint（400+ MCP，200+ 服务并行）和 LangChain Terminal Bench 2.0（Reasoning Sandwich, LoopDetectionMiddleware）形成理论-实践的完整映射。</p>
 <hr />
-<h2 id="相关页面"><a class="header" href="#相关页面">相关页面</a></h2>
+<h2 id="引用"><a class="header" href="#引用">引用</a></h2>
 <ul>
-<li><a href="../entities/andrej-karpathy.html">entities/andrej-karpathy.md</a> — 模式提出者</li>
-<li><a href="../entities/pratiyush.html">entities/pratiyush.md</a> — 主要实现者</li>
-<li><a href="harness-methodology.html">concepts/harness-methodology.md</a> — 与Harness的关系（知识库是Harness的一部分）</li>
-<li><a href="../index.html">index.md</a> — 本知识库总览</li>
-</ul>
-<h2 id="外部链接"><a class="header" href="#外部链接">外部链接</a></h2>
-<ul>
-<li>Karpathy原始gist: https://gist.github.com/karpathy/llm-wiki.md</li>
-<li>Pratiyush实现: https://github.com/Pratiyush/llm-wiki</li>
-<li>nashsu桌面应用: https://github.com/nashsu/llm_wiki</li>
-<li>domleca Obsidian插件: https://github.com/domleca/llm-wiki</li>
+<li><a href="https://analyticsdrift.com/andrej-karpathy-agentic-engineering-software-3/">analyticsdrift.com</a> — "The End of Vibe Coding: Andrej Karpathy's Shift to Agentic Engineering &amp; Software 3.0"</li>
+<li><a href="https://buttondown.com/verified/archive/the-end-of-vibe-coding-andrej-karpathys-shift-to/">buttondown.com</a> — Sequoia AI Ascent 2026 演讲逐字记录</li>
+<li><a href="https://www.sequoiacap.com/ai-ascent/">Sequoia Capital AI Ascent 2026</a> — 年度AI峰会</li>
 </ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../concepts/ds4.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../sources/stripe-minions-blueprint.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../sources/12-factor-agents-humanlayer.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../sources/karpathy-claude-md-12-rules.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -296,11 +265,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../concepts/ds4.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../sources/stripe-minions-blueprint.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../sources/12-factor-agents-humanlayer.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../sources/karpathy-claude-md-12-rules.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

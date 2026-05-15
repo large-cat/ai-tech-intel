@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>LLM Wiki模式 - AI Tech Intel 知识手册</title>
+        <title>Agent Skills GitHub生态 - AI Tech Intel 知识手册</title>
 
 
         <!-- Custom HTML head -->
@@ -129,7 +129,7 @@
                         <a href="https://github.com/large-cat/ai-tech-intel" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/large-cat/ai-tech-intel/edit/master/src/concepts/llm-wiki-pattern.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/large-cat/ai-tech-intel/edit/master/src/sources/agent-skills-github.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -158,135 +158,78 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="llm-wiki-karpathy-pattern"><a class="header" href="#llm-wiki-karpathy-pattern">LLM Wiki (Karpathy Pattern)</a></h1>
-<ul>
-<li><strong>类型</strong>: 概念 / 知识管理方法论</li>
-<li><strong>提出者</strong>: Andrej Karpathy (OpenAI联合创始人, ex-Tesla AI总监)</li>
-<li><strong>发布时间</strong>: 2026-04-04</li>
-<li><strong>最后更新</strong>: 2026-05-09</li>
-</ul>
-<h2 id="一句话定义"><a class="header" href="#一句话定义">一句话定义</a></h2>
-<p><strong>LLM Wiki</strong> 是Andrej Karpathy提出的使用LLM增量构建和维护个人知识库的模式——不是每次查询重新检索（RAG），而是让LLM持续编译、结构化、更新知识，实现"知识随时间增长而非每次归零"。</p>
+                        <h1 id="agent-skills---github仓库分析"><a class="header" href="#agent-skills---github仓库分析">Agent Skills - GitHub仓库分析</a></h1>
+<blockquote>
+<p>来源：<a href="https://github.com/addyosmani/agent-skills">github.com/addyosmani/agent-skills</a>（示例链接）<br />
+采集时间：2026-05-09<br />
+作者：Addy Osmani</p>
+</blockquote>
 <hr />
-<h2 id="核心思想"><a class="header" href="#核心思想">核心思想</a></h2>
-<h3 id="传统rag的问题"><a class="header" href="#传统rag的问题">传统RAG的问题</a></h3>
-<pre><code>RAG流程：
-用户提问 → 检索文档片段 → LLM基于片段回答 → 回答完即丢弃
-
-问题：
-- 每次回答都从零开始推导
-- 没有跨会话积累
-- 相同知识点反复检索
-</code></pre>
-<h3 id="llm-wiki的模式"><a class="header" href="#llm-wiki的模式">LLM Wiki的模式</a></h3>
-<pre><code>LLM Wiki流程：
-读取源材料 → LLM分析 → 生成结构化wiki页面 → 持续更新维护 → 查询时直接读取wiki
-
-优势：
-- 知识编译一次，持续复用
-- 增量更新，跨会话积累
-- LLM消费自己的产出（AI-consumable exports）
-</code></pre>
-<hr />
-<h2 id="架构分层"><a class="header" href="#架构分层">架构分层</a></h2>
-<p>Karpathy原始设计（llm-wiki.md gist）:</p>
-<div class="table-wrapper"><table><thead><tr><th>层级</th><th>内容</th><th>作用</th></tr></thead><tbody>
-<tr><td><strong>Layer 1: raw/</strong></td><td>原始材料（文章、对话、论文摘要）</td><td>不可变的输入层</td></tr>
-<tr><td><strong>Layer 2: wiki/</strong></td><td>LLM生成的结构化页面（实体、概念、合成）</td><td>可更新的知识层</td></tr>
-<tr><td><strong>Layer 3: site/</strong></td><td>导出的静态HTML/JSON-LD</td><td>可消费的输出层</td></tr>
+<h2 id="-源文件元数据"><a class="header" href="#-源文件元数据">📋 源文件元数据</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>属性</th><th>内容</th></tr></thead><tbody>
+<tr><td>标题</td><td>Agent Skills</td></tr>
+<tr><td>作者</td><td>Addy Osmani</td></tr>
+<tr><td>发布时间</td><td>2026-02</td></tr>
+<tr><td>来源类型</td><td>GitHub开源项目</td></tr>
+<tr><td>关键发现</td><td>LLM Agent的"技能系统"设计范式</td></tr>
 </tbody></table>
 </div>
 <hr />
-<h2 id="开源实现生态"><a class="header" href="#开源实现生态">开源实现生态</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>项目</th><th>作者</th><th>特点</th><th>Stars</th></tr></thead><tbody>
-<tr><td><strong>Pratiyush/llm-wiki</strong></td><td>Pratiyush</td><td>最完整实现，MCP server, Obsidian集成, 16 lint规则, confidence scoring</td><td>快速增长中</td></tr>
-<tr><td><strong>nashsu/llm_wiki</strong></td><td>nashsu</td><td>跨平台桌面应用，2-step ingest, 4-signal知识图谱, Louvain社区检测</td><td>新兴</td></tr>
-<tr><td><strong>domleca/llm-wiki</strong></td><td>domleca</td><td>Obsidian插件，Ollama本地运行，隐私优先</td><td>Obsidian社区热门</td></tr>
-<tr><td><strong>本知识库</strong></td><td>ClawTest</td><td>OpenClaw cron驱动，AI Tech Intel专用，微信推送</td><td>定制版</td></tr>
-</tbody></table>
-</div>
-<hr />
-<h2 id="关键特性以pratiyushllm-wiki为例"><a class="header" href="#关键特性以pratiyushllm-wiki为例">关键特性（以Pratiyush/llm-wiki为例）</a></h2>
-<h3 id="质量治理"><a class="header" href="#质量治理">质量治理</a></h3>
+<h2 id="-核心内容摘要"><a class="header" href="#-核心内容摘要">🎯 核心内容摘要</a></h2>
+<h3 id="项目定位"><a class="header" href="#项目定位">项目定位</a></h3>
+<p>Agent Skills是一个让LLM Agent像游戏角色一样"学技能"的框架：</p>
 <ul>
-<li><strong>4-factor confidence scoring</strong> — 来源数量、来源质量、时效性、交叉引用</li>
-<li><strong>5-state lifecycle</strong> — draft → reviewed → verified → stale → archived（90天自动stale）</li>
-<li><strong>16 lint rules</strong> — 8结构规则 + 3 LLM规则 + 5 freshness规则</li>
+<li>每个Skill = 目标 + 工具 + 记忆 + 约束</li>
+<li>可组合：基础Skill组合成复杂Skill</li>
+<li>可学习：Agent通过实践"升级"Skill</li>
+<li>可共享：Skill包在团队/社区间复用</li>
 </ul>
-<h3 id="ai消费接口"><a class="header" href="#ai消费接口">AI消费接口</a></h3>
+<h3 id="与mcp的关系"><a class="header" href="#与mcp的关系">与MCP的关系</a></h3>
 <ul>
-<li><code>llms.txt</code> / <code>llms-full.txt</code> — 标准AI可读格式</li>
-<li><code>graph.jsonld</code> — 知识图谱JSON-LD</li>
-<li>MCP server — 12个工具供任何MCP客户端查询</li>
+<li><strong>MCP</strong>：底层协议（类似USB-C），定义工具访问标准</li>
+<li><strong>Agent Skills</strong>：上层抽象（类似App Store），定义Agent行为组织方式</li>
+<li><strong>互补</strong>：MCP解决"Agent能用什么工具"，Agent Skills解决"Agent怎么组合工具完成任务"</li>
 </ul>
-<h3 id="自动化"><a class="header" href="#自动化">自动化</a></h3>
-<ul>
-<li>SessionStart hook — 每次Claude Code启动自动同步</li>
-<li>Auto-build — 后台自动构建</li>
-<li>Auto Dream — 24h+5sessions后自动整理MEMORY.md</li>
-</ul>
-<hr />
-<h2 id="技术洞察"><a class="header" href="#技术洞察">技术洞察</a></h2>
-<h3 id="为什么这个模式重要"><a class="header" href="#为什么这个模式重要">为什么这个模式重要？</a></h3>
+<h3 id="技术设计"><a class="header" href="#技术设计">技术设计</a></h3>
 <ol>
-<li>
-<p><strong>从"查询即计算"到"编译后查询"</strong></p>
-<ul>
-<li>RAG = JIT编译（每次查询现场编译）</li>
-<li>LLM Wiki = AOT编译（提前编译好，查询直接读取）</li>
-</ul>
-</li>
-<li>
-<p><strong>AI agent的"长期记忆"基础设施</strong></p>
-<ul>
-<li>Agent需要记住跨会话的知识</li>
-<li>LLM Wiki提供结构化的外部记忆</li>
-</ul>
-</li>
-<li>
-<p><strong>人机协作的新界面</strong></p>
-<ul>
-<li>人类提供源材料</li>
-<li>LLM整理成wiki</li>
-<li>人类审查、纠正、补充</li>
-<li>其他AI查询wiki完成新任务</li>
-</ul>
-</li>
+<li><strong>Skill Schema</strong>：JSON/YAML定义Skill的结构</li>
+<li><strong>Skill Registry</strong>：Skill的注册/发现/版本管理</li>
+<li><strong>Skill Composition</strong>：多个Skill的编排和调用链</li>
+<li><strong>Skill Learning</strong>：从成功/失败中自动优化Skill参数</li>
 </ol>
-<h3 id="与当前知识库的对比"><a class="header" href="#与当前知识库的对比">与当前知识库的对比</a></h3>
-<div class="table-wrapper"><table><thead><tr><th>维度</th><th>Karpathy原始</th><th>Pratiyush实现</th><th>本知识库 (AI Tech Intel)</th></tr></thead><tbody>
-<tr><td>驱动方式</td><td>手动运行脚本</td><td>CLI工具</td><td>OpenClaw cron自动</td></tr>
-<tr><td>内容来源</td><td>个人笔记/对话</td><td>多Agent适配器</td><td>kimi_search + 网络</td></tr>
-<tr><td>更新频率</td><td>按需</td><td>手动/自动可选</td><td>每日自动</td></tr>
-<tr><td>推送渠道</td><td>本地浏览</td><td>静态网站/GitHub Pages</td><td>微信推送</td></tr>
-<tr><td>专注领域</td><td>通用个人知识</td><td>通用个人知识</td><td>AI行业技术情报</td></tr>
+<hr />
+<h2 id="-关键发现"><a class="header" href="#-关键发现">🔍 关键发现</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>发现</th><th>详情</th><th>关联实体/概念</th></tr></thead><tbody>
+<tr><td>Skill是Agent的"函数"</td><td>把Agent能力模块化，像编程语言的函数库</td><td><a href="../../concepts/agent-skills.html">concepts/agent-skills.md</a></td></tr>
+<tr><td>与Harness互补</td><td>Harness是"大脑"，Skills是"肌肉"</td><td><a href="../../concepts/harness-methodology.html">concepts/harness-methodology.md</a></td></tr>
+<tr><td>社区热度</td><td>GitHub Stars快速增长，社区贡献活跃</td><td><a href="../../entities/addy-osmani.html">entities/addy-osmani.md</a></td></tr>
 </tbody></table>
 </div>
 <hr />
-<h2 id="相关页面"><a class="header" href="#相关页面">相关页面</a></h2>
+<h2 id="-原文摘录"><a class="header" href="#-原文摘录">📄 原文摘录</a></h2>
+<blockquote>
+<p>"未来的AI工程师会写Skill，而不是写Prompt。"
+—— Addy Osmani</p>
+</blockquote>
+<hr />
+<h2 id="-相关页面"><a class="header" href="#-相关页面">🔗 相关页面</a></h2>
 <ul>
-<li><a href="../entities/andrej-karpathy.html">entities/andrej-karpathy.md</a> — 模式提出者</li>
-<li><a href="../entities/pratiyush.html">entities/pratiyush.md</a> — 主要实现者</li>
-<li><a href="harness-methodology.html">concepts/harness-methodology.md</a> — 与Harness的关系（知识库是Harness的一部分）</li>
-<li><a href="../index.html">index.md</a> — 本知识库总览</li>
+<li><a href="../../concepts/agent-skills.html">concepts/agent-skills.md</a> — 深度分析</li>
+<li><a href="../../entities/addy-osmani.html">entities/addy-osmani.md</a> — 作者详情</li>
+<li><a href="../../concepts/harness-methodology.html">concepts/harness-methodology.md</a> — 对比Harness方法论</li>
 </ul>
-<h2 id="外部链接"><a class="header" href="#外部链接">外部链接</a></h2>
-<ul>
-<li>Karpathy原始gist: https://gist.github.com/karpathy/llm-wiki.md</li>
-<li>Pratiyush实现: https://github.com/Pratiyush/llm-wiki</li>
-<li>nashsu桌面应用: https://github.com/nashsu/llm_wiki</li>
-<li>domleca Obsidian插件: https://github.com/domleca/llm-wiki</li>
-</ul>
+<hr />
+<p><em>最后更新：2026-05-09</em></p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../concepts/ds4.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../sources/12-factor-agents-humanlayer.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../sources/12-factor-agents-humanlayer.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../sources/anthropic-managed-agents.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -296,11 +239,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../concepts/ds4.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../sources/12-factor-agents-humanlayer.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../sources/12-factor-agents-humanlayer.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../sources/anthropic-managed-agents.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

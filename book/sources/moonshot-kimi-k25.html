@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>LLM Wiki模式 - AI Tech Intel 知识手册</title>
+        <title>月之暗面 Kimi K2.5 - AI Tech Intel 知识手册</title>
 
 
         <!-- Custom HTML head -->
@@ -129,7 +129,7 @@
                         <a href="https://github.com/large-cat/ai-tech-intel" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/large-cat/ai-tech-intel/edit/master/src/concepts/llm-wiki-pattern.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/large-cat/ai-tech-intel/edit/master/src/sources/moonshot-kimi-k25.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -158,135 +158,139 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="llm-wiki-karpathy-pattern"><a class="header" href="#llm-wiki-karpathy-pattern">LLM Wiki (Karpathy Pattern)</a></h1>
-<ul>
-<li><strong>类型</strong>: 概念 / 知识管理方法论</li>
-<li><strong>提出者</strong>: Andrej Karpathy (OpenAI联合创始人, ex-Tesla AI总监)</li>
-<li><strong>发布时间</strong>: 2026-04-04</li>
-<li><strong>最后更新</strong>: 2026-05-09</li>
-</ul>
-<h2 id="一句话定义"><a class="header" href="#一句话定义">一句话定义</a></h2>
-<p><strong>LLM Wiki</strong> 是Andrej Karpathy提出的使用LLM增量构建和维护个人知识库的模式——不是每次查询重新检索（RAG），而是让LLM持续编译、结构化、更新知识，实现"知识随时间增长而非每次归零"。</p>
+                        <h1 id="月之暗面-kimi-k25-深度分析"><a class="header" href="#月之暗面-kimi-k25-深度分析">月之暗面 Kimi K2.5 深度分析</a></h1>
+<blockquote>
+<p>来源：月之暗面官方博客，开源中国，行业分析报告<br />
+日期：2026-04<br />
+关联：<a href="../../entities/moonshot.html">entities/moonshot.md</a> | <a href="../../concepts/harness-methodology.html">concepts/harness-methodology.md</a></p>
+</blockquote>
 <hr />
-<h2 id="核心思想"><a class="header" href="#核心思想">核心思想</a></h2>
-<h3 id="传统rag的问题"><a class="header" href="#传统rag的问题">传统RAG的问题</a></h3>
-<pre><code>RAG流程：
-用户提问 → 检索文档片段 → LLM基于片段回答 → 回答完即丢弃
+<h2 id="发布背景"><a class="header" href="#发布背景">发布背景</a></h2>
+<p>2026年4月，月之暗面发布Kimi K2.5，定位为中国版"开源+Agent原生"的旗舰模型。核心差异化：</p>
+<ul>
+<li><strong>原生多模态</strong>：1.5T混合token预训练（视觉+文本）</li>
+<li><strong>Agent Swarm</strong>：模型本身为Agent编排优化</li>
+<li><strong>激进定价</strong>：API价格比OpenAI/Anthropic低一个数量级</li>
+</ul>
+<hr />
+<h2 id="技术架构"><a class="header" href="#技术架构">技术架构</a></h2>
+<h3 id="1-15t混合token预训练"><a class="header" href="#1-15t混合token预训练">1. 1.5T混合Token预训练</a></h3>
+<ul>
+<li><strong>视觉token + 文本token联合预训练</strong>：不是先训练文本模型再对齐视觉，而是一起训练。</li>
+<li><strong>效果</strong>：视觉理解能力更原生，不是"后天生硬的嫁接"。</li>
+</ul>
+<h3 id="2-零视觉监督微调zero-shot-vision-sft"><a class="header" href="#2-零视觉监督微调zero-shot-vision-sft">2. 零视觉监督微调（Zero-shot Vision SFT）</a></h3>
+<p><strong>核心发现</strong>：仅用<strong>文本数据</strong>微调模型，就能激活其视觉推理能力。</p>
+<ul>
+<li>不需要成对的图像-文本标注数据。</li>
+<li>大幅降低多模态模型的微调成本。</li>
+<li><strong>意义</strong>：可能改变多模态模型的训练范式。</li>
+</ul>
+<h3 id="3-agent-swarm智能体集群"><a class="header" href="#3-agent-swarm智能体集群">3. Agent Swarm（智能体集群）</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>特性</th><th>数据</th></tr></thead><tbody>
+<tr><td>最大子Agent数</td><td>100个并行</td></tr>
+<tr><td>并行工具调用</td><td>1500次/任务</td></tr>
+<tr><td>协调方式</td><td>中央编排器 + 共享状态</td></tr>
+<tr><td>应用场景</td><td>复杂任务分解、多步骤工作流</td></tr>
+</tbody></table>
+</div>
+<p><strong>对比</strong>：</p>
+<ul>
+<li>OpenAI：单Agent + 工具调用</li>
+<li>Anthropic：三Agent分离</li>
+<li>月之暗面：Swarm并行（更像"蜂群思维"）</li>
+</ul>
+<h3 id="4-parl训练parallel-agent-reinforcement-learning"><a class="header" href="#4-parl训练parallel-agent-reinforcement-learning">4. PARL训练（Parallel-Agent Reinforcement Learning）</a></h3>
+<ul>
+<li><strong>并行Agent强化学习</strong>：多个Agent同时训练，互相提供反馈。</li>
+<li><strong>效果</strong>：端到端时间减少80%，效率提升4.5倍。</li>
+<li><strong>原理</strong>：传统RL是串行试错，PARL是并行探索+共享经验。</li>
+</ul>
+<h3 id="5-kimi-code"><a class="header" href="#5-kimi-code">5. Kimi Code</a></h3>
+<ul>
+<li><strong>终端运行</strong>：命令行直接调用。</li>
+<li><strong>IDE集成</strong>：VSCode、Cursor、Zed插件。</li>
+<li><strong>SWE-Bench Verified</strong>：76.8%（接近Claude 3.7 Sonnet的80%+）。</li>
+</ul>
+<hr />
+<h2 id="关键数据"><a class="header" href="#关键数据">关键数据</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>对比</th></tr></thead><tbody>
+<tr><td>总参数量</td><td>1T（激活32B，MoE）</td><td>DeepSeek V3: 671B/37B</td></tr>
+<tr><td>上下文长度</td><td>32K</td><td>GPT-4o: 128K</td></tr>
+<tr><td>SWE-Bench Verified</td><td>76.8%</td><td>Claude 3.7: 80%+</td></tr>
+<tr><td>Agent Swarm并行</td><td>100子Agent</td><td>Anthropic: 3 Agent</td></tr>
+<tr><td>并行工具调用</td><td>1500次/任务</td><td>OpenAI: 数百次</td></tr>
+<tr><td>API输入价格</td><td>$0.6/M tokens</td><td>GPT-4o: $2.5/M</td></tr>
+<tr><td>API输出价格</td><td>$3/M tokens</td><td>GPT-4o: $10/M</td></tr>
+<tr><td>降价幅度</td><td>输入-48%，输出-60%+</td><td>—</td></tr>
+<tr><td>License</td><td>Modified MIT</td><td>Apache 2.0 / 闭源</td></tr>
+<tr><td>公司估值</td><td>$50亿</td><td>2026年报道</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="license策略分析"><a class="header" href="#license策略分析">License策略分析</a></h2>
+<p><strong>Modified MIT License</strong>（非标准MIT）：</p>
+<pre><code>允许：
+✓ 自托管
+✓ 修改
+✓ 商业使用（小型/中型企业）
 
-问题：
-- 每次回答都从零开始推导
-- 没有跨会话积累
-- 相同知识点反复检索
+限制：
+✗ AWS/Azure/GCP等大型云平台直接转售
+✗ 月活&gt;1亿的产品直接集成
+✗ 用于训练竞争模型
 </code></pre>
-<h3 id="llm-wiki的模式"><a class="header" href="#llm-wiki的模式">LLM Wiki的模式</a></h3>
-<pre><code>LLM Wiki流程：
-读取源材料 → LLM分析 → 生成结构化wiki页面 → 持续更新维护 → 查询时直接读取wiki
-
-优势：
-- 知识编译一次，持续复用
-- 增量更新，跨会话积累
-- LLM消费自己的产出（AI-consumable exports）
-</code></pre>
-<hr />
-<h2 id="架构分层"><a class="header" href="#架构分层">架构分层</a></h2>
-<p>Karpathy原始设计（llm-wiki.md gist）:</p>
-<div class="table-wrapper"><table><thead><tr><th>层级</th><th>内容</th><th>作用</th></tr></thead><tbody>
-<tr><td><strong>Layer 1: raw/</strong></td><td>原始材料（文章、对话、论文摘要）</td><td>不可变的输入层</td></tr>
-<tr><td><strong>Layer 2: wiki/</strong></td><td>LLM生成的结构化页面（实体、概念、合成）</td><td>可更新的知识层</td></tr>
-<tr><td><strong>Layer 3: site/</strong></td><td>导出的静态HTML/JSON-LD</td><td>可消费的输出层</td></tr>
-</tbody></table>
-</div>
-<hr />
-<h2 id="开源实现生态"><a class="header" href="#开源实现生态">开源实现生态</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>项目</th><th>作者</th><th>特点</th><th>Stars</th></tr></thead><tbody>
-<tr><td><strong>Pratiyush/llm-wiki</strong></td><td>Pratiyush</td><td>最完整实现，MCP server, Obsidian集成, 16 lint规则, confidence scoring</td><td>快速增长中</td></tr>
-<tr><td><strong>nashsu/llm_wiki</strong></td><td>nashsu</td><td>跨平台桌面应用，2-step ingest, 4-signal知识图谱, Louvain社区检测</td><td>新兴</td></tr>
-<tr><td><strong>domleca/llm-wiki</strong></td><td>domleca</td><td>Obsidian插件，Ollama本地运行，隐私优先</td><td>Obsidian社区热门</td></tr>
-<tr><td><strong>本知识库</strong></td><td>ClawTest</td><td>OpenClaw cron驱动，AI Tech Intel专用，微信推送</td><td>定制版</td></tr>
-</tbody></table>
-</div>
-<hr />
-<h2 id="关键特性以pratiyushllm-wiki为例"><a class="header" href="#关键特性以pratiyushllm-wiki为例">关键特性（以Pratiyush/llm-wiki为例）</a></h2>
-<h3 id="质量治理"><a class="header" href="#质量治理">质量治理</a></h3>
+<p><strong>策略意图</strong>：</p>
 <ul>
-<li><strong>4-factor confidence scoring</strong> — 来源数量、来源质量、时效性、交叉引用</li>
-<li><strong>5-state lifecycle</strong> — draft → reviewed → verified → stale → archived（90天自动stale）</li>
-<li><strong>16 lint rules</strong> — 8结构规则 + 3 LLM规则 + 5 freshness规则</li>
+<li>吸引开发者和小型创业公司（免费/低价使用）。</li>
+<li>防止大型云平台"白嫖"（直接包装成API服务与月之暗面竞争）。</li>
+<li>保护模型不被用于训练竞争对手。</li>
 </ul>
-<h3 id="ai消费接口"><a class="header" href="#ai消费接口">AI消费接口</a></h3>
+<p><strong>对比</strong>：</p>
 <ul>
-<li><code>llms.txt</code> / <code>llms-full.txt</code> — 标准AI可读格式</li>
-<li><code>graph.jsonld</code> — 知识图谱JSON-LD</li>
-<li>MCP server — 12个工具供任何MCP客户端查询</li>
-</ul>
-<h3 id="自动化"><a class="header" href="#自动化">自动化</a></h3>
-<ul>
-<li>SessionStart hook — 每次Claude Code启动自动同步</li>
-<li>Auto-build — 后台自动构建</li>
-<li>Auto Dream — 24h+5sessions后自动整理MEMORY.md</li>
+<li>Meta Llama：也有限制性license（不适用于大型云）。</li>
+<li>OpenAI GPT-OSS：Apache 2.0（完全开放）。</li>
+<li>DeepSeek：MIT（完全开放）。</li>
 </ul>
 <hr />
-<h2 id="技术洞察"><a class="header" href="#技术洞察">技术洞察</a></h2>
-<h3 id="为什么这个模式重要"><a class="header" href="#为什么这个模式重要">为什么这个模式重要？</a></h3>
-<ol>
-<li>
-<p><strong>从"查询即计算"到"编译后查询"</strong></p>
+<h2 id="战略意义"><a class="header" href="#战略意义">战略意义</a></h2>
+<h3 id="1-价格屠夫"><a class="header" href="#1-价格屠夫">1. 价格屠夫</a></h3>
 <ul>
-<li>RAG = JIT编译（每次查询现场编译）</li>
-<li>LLM Wiki = AOT编译（提前编译好，查询直接读取）</li>
+<li>API定价比OpenAI/Anthropic低<strong>一个数量级</strong>。</li>
+<li>直接冲击"按token收费"的商业模式。</li>
+<li>可能迫使OpenAI/Anthropic进一步降价。</li>
 </ul>
-</li>
-<li>
-<p><strong>AI agent的"长期记忆"基础设施</strong></p>
+<h3 id="2-agent原生设计"><a class="header" href="#2-agent原生设计">2. Agent原生设计</a></h3>
 <ul>
-<li>Agent需要记住跨会话的知识</li>
-<li>LLM Wiki提供结构化的外部记忆</li>
+<li>不是"模型 + Agent wrapper"，而是模型本身为Agent Swarm优化。</li>
+<li>PARL训练让模型天生擅长多Agent协调。</li>
+<li>挑战：OpenAI的single-Agent策略、Anthropic的三Agent策略。</li>
 </ul>
-</li>
-<li>
-<p><strong>人机协作的新界面</strong></p>
+<h3 id="3-中国市场优势"><a class="header" href="#3-中国市场优势">3. 中国市场优势</a></h3>
 <ul>
-<li>人类提供源材料</li>
-<li>LLM整理成wiki</li>
-<li>人类审查、纠正、补充</li>
-<li>其他AI查询wiki完成新任务</li>
+<li>国内合规：数据不出境，符合中国法规。</li>
+<li>中文优化：训练语料中文占比高，中文任务表现更优。</li>
+<li>本土支持：团队在北京，响应速度快。</li>
 </ul>
-</li>
-</ol>
-<h3 id="与当前知识库的对比"><a class="header" href="#与当前知识库的对比">与当前知识库的对比</a></h3>
-<div class="table-wrapper"><table><thead><tr><th>维度</th><th>Karpathy原始</th><th>Pratiyush实现</th><th>本知识库 (AI Tech Intel)</th></tr></thead><tbody>
-<tr><td>驱动方式</td><td>手动运行脚本</td><td>CLI工具</td><td>OpenClaw cron自动</td></tr>
-<tr><td>内容来源</td><td>个人笔记/对话</td><td>多Agent适配器</td><td>kimi_search + 网络</td></tr>
-<tr><td>更新频率</td><td>按需</td><td>手动/自动可选</td><td>每日自动</td></tr>
-<tr><td>推送渠道</td><td>本地浏览</td><td>静态网站/GitHub Pages</td><td>微信推送</td></tr>
-<tr><td>专注领域</td><td>通用个人知识</td><td>通用个人知识</td><td>AI行业技术情报</td></tr>
-</tbody></table>
-</div>
 <hr />
-<h2 id="相关页面"><a class="header" href="#相关页面">相关页面</a></h2>
+<h2 id="引用来源"><a class="header" href="#引用来源">引用来源</a></h2>
 <ul>
-<li><a href="../entities/andrej-karpathy.html">entities/andrej-karpathy.md</a> — 模式提出者</li>
-<li><a href="../entities/pratiyush.html">entities/pratiyush.md</a> — 主要实现者</li>
-<li><a href="harness-methodology.html">concepts/harness-methodology.md</a> — 与Harness的关系（知识库是Harness的一部分）</li>
-<li><a href="../index.html">index.md</a> — 本知识库总览</li>
-</ul>
-<h2 id="外部链接"><a class="header" href="#外部链接">外部链接</a></h2>
-<ul>
-<li>Karpathy原始gist: https://gist.github.com/karpathy/llm-wiki.md</li>
-<li>Pratiyush实现: https://github.com/Pratiyush/llm-wiki</li>
-<li>nashsu桌面应用: https://github.com/nashsu/llm_wiki</li>
-<li>domleca Obsidian插件: https://github.com/domleca/llm-wiki</li>
+<li>月之暗面官方博客：moonshot.cn/blog（2026-04，Kimi K2.5发布）</li>
+<li>开源中国：oschina.net（2026-04，Kimi K2.5技术解析）</li>
+<li>行业分析：公开报道（2026-04，月之暗面估值$50亿）</li>
+<li>API定价：platform.moonshot.cn/pricing（2026-04）</li>
+<li>License文件：github.com/moonshot-ai/Kimi-K2.5（LICENSE文件）</li>
 </ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../concepts/ds4.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../sources/karpathy-claude-md-12-rules.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../sources/12-factor-agents-humanlayer.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../sources/rlhf-online-dpo-ipo-kto.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -296,11 +300,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../concepts/ds4.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../sources/karpathy-claude-md-12-rules.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../sources/12-factor-agents-humanlayer.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../sources/rlhf-online-dpo-ipo-kto.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

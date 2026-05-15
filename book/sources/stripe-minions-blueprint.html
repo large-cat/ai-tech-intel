@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>LLM Wiki模式 - AI Tech Intel 知识手册</title>
+        <title>Stripe Minions Blueprint - AI Tech Intel 知识手册</title>
 
 
         <!-- Custom HTML head -->
@@ -129,7 +129,7 @@
                         <a href="https://github.com/large-cat/ai-tech-intel" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/large-cat/ai-tech-intel/edit/master/src/concepts/llm-wiki-pattern.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/large-cat/ai-tech-intel/edit/master/src/sources/stripe-minions-blueprint.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -158,135 +158,119 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="llm-wiki-karpathy-pattern"><a class="header" href="#llm-wiki-karpathy-pattern">LLM Wiki (Karpathy Pattern)</a></h1>
-<ul>
-<li><strong>类型</strong>: 概念 / 知识管理方法论</li>
-<li><strong>提出者</strong>: Andrej Karpathy (OpenAI联合创始人, ex-Tesla AI总监)</li>
-<li><strong>发布时间</strong>: 2026-04-04</li>
-<li><strong>最后更新</strong>: 2026-05-09</li>
-</ul>
-<h2 id="一句话定义"><a class="header" href="#一句话定义">一句话定义</a></h2>
-<p><strong>LLM Wiki</strong> 是Andrej Karpathy提出的使用LLM增量构建和维护个人知识库的模式——不是每次查询重新检索（RAG），而是让LLM持续编译、结构化、更新知识，实现"知识随时间增长而非每次归零"。</p>
+                        <h1 id="stripe-minions-blueprint-架构详解"><a class="header" href="#stripe-minions-blueprint-架构详解">Stripe Minions Blueprint 架构详解</a></h1>
+<blockquote>
+<p>来源：Mitchell Hashimoto博客（Stripe工程师，HashiCorp创始人），Stripe工程博客<br />
+日期：2025-2026<br />
+关联：<a href="../../concepts/harness-methodology.html">concepts/harness-methodology.md</a> | <a href="../../entities/stripe.html">entities/stripe.md</a></p>
+</blockquote>
 <hr />
-<h2 id="核心思想"><a class="header" href="#核心思想">核心思想</a></h2>
-<h3 id="传统rag的问题"><a class="header" href="#传统rag的问题">传统RAG的问题</a></h3>
-<pre><code>RAG流程：
-用户提问 → 检索文档片段 → LLM基于片段回答 → 回答完即丢弃
-
-问题：
-- 每次回答都从零开始推导
-- 没有跨会话积累
-- 相同知识点反复检索
+<h2 id="背景"><a class="header" href="#背景">背景</a></h2>
+<p>Stripe内部自研的AI Agent编排框架，源于对<strong>Goose</strong>（Block/Square开源coding agent）的深度fork。核心目标是解决"AI写代码不稳定"的问题——让Agent既能自主发挥创造力，又在关键步骤上完全可控。</p>
+<p>Stripe称这套系统为<strong>Minions</strong>，核心编排单元叫<strong>Blueprint</strong>。</p>
+<hr />
+<h2 id="核心创新blueprints--确定性节点--智能体节点"><a class="header" href="#核心创新blueprints--确定性节点--智能体节点">核心创新：Blueprints = 确定性节点 + 智能体节点</a></h2>
+<p>Stripe的关键洞察：不是所有步骤都需要AI的不确定性。有些步骤应该100%可预测。</p>
+<div class="table-wrapper"><table><thead><tr><th>节点类型</th><th>示例</th><th>执行方式</th><th>占比</th></tr></thead><tbody>
+<tr><td><strong>确定性节点（Deterministic）</strong></td><td>git commit、lint、测试、创建分支、推送PR、代码格式化</td><td>硬编码步骤，100%可预测</td><td>~70%</td></tr>
+<tr><td><strong>智能体节点（Agentic）</strong></td><td>"实现任务描述"、"修复CI失败"、"重构模块"</td><td>AI自主决策，输出不确定</td><td>~30%</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="状态机设计"><a class="header" href="#状态机设计">状态机设计</a></h2>
+<p>Blueprints的运行方式是<strong>交替执行</strong>：</p>
+<pre><code>创建分支（确定）→ 写代码（Agent）→ 运行测试（确定）→ 修复失败（Agent）→ 代码格式化（确定）→ 推送PR（确定）→ 请求审查（确定）
 </code></pre>
-<h3 id="llm-wiki的模式"><a class="header" href="#llm-wiki的模式">LLM Wiki的模式</a></h3>
-<pre><code>LLM Wiki流程：
-读取源材料 → LLM分析 → 生成结构化wiki页面 → 持续更新维护 → 查询时直接读取wiki
-
-优势：
-- 知识编译一次，持续复用
-- 增量更新，跨会话积累
-- LLM消费自己的产出（AI-consumable exports）
+<p><strong>关键规则</strong>：</p>
+<ul>
+<li>Agent节点之前/之后必须有确定性节点作为"锚点"</li>
+<li>如果Agent节点失败（测试未通过），自动重试或路由到修复分支</li>
+<li>确定性节点失败（如lint错误）直接终止，不浪费Agent调用</li>
+</ul>
+<hr />
+<h2 id="关键子系统"><a class="header" href="#关键子系统">关键子系统</a></h2>
+<h3 id="1-上下文工程context-engineering"><a class="header" href="#1-上下文工程context-engineering">1. 上下文工程（Context Engineering）</a></h3>
+<p><strong>不是全局System Prompt，而是条件化规则</strong>：</p>
+<pre><code class="language-yaml">rules:
+  - path: "infra/"
+    apply: [terraform-lint, aws-policy-check]
+  - path: "web/"
+    apply: [react-best-practices, accessibility-check]
+  - path: "api/"
+    apply: [openapi-validate, rate-limit-check]
 </code></pre>
+<p><strong>效果</strong>：</p>
+<ul>
+<li>每个文件只加载相关的规则，不加载全部规则</li>
+<li>节省Token（上下文窗口更高效利用）</li>
+<li>减少误判（不会因为全局规则而错误地约束局部代码）</li>
+</ul>
+<h3 id="2-devbox隔离开发环境"><a class="header" href="#2-devbox隔离开发环境">2. Devbox（隔离开发环境）</a></h3>
+<ul>
+<li><strong>10秒启动</strong>：预配置的Docker容器，包含所有依赖</li>
+<li><strong>与生产隔离</strong>：Agent在此沙箱中运行，无法触及生产环境</li>
+<li><strong>状态持久化</strong>：每个Blueprint实例有自己的文件系统状态</li>
+<li><strong>并行化基础</strong>：因为隔离，同一Blueprint可在200+服务上同时运行</li>
+</ul>
+<h3 id="3-mcp工具网络toolshed"><a class="header" href="#3-mcp工具网络toolshed">3. MCP工具网络（Toolshed）</a></h3>
+<ul>
+<li>内部"Toolshed"服务器连接<strong>400+ MCP工具</strong></li>
+<li>Agent按需调用，不是一次性加载全部工具</li>
+<li>工具分为：代码工具（lint、test、format）、基础设施工具（deploy、rollback）、通信工具（slack、email）</li>
+</ul>
+<h3 id="4-多agent协调"><a class="header" href="#4-多agent协调">4. 多Agent协调</a></h3>
+<ul>
+<li><strong>不同Agent专精不同领域</strong>：前端Agent、后端Agent、安全审计Agent、文档Agent</li>
+<li><strong>中央编排器</strong>：根据Blueprint步骤和当前上下文，分配给最适合的Agent</li>
+<li><strong>Agent间通信</strong>：通过共享状态（File-backed State）传递上下文</li>
+</ul>
+<h3 id="5-人类审查红线"><a class="header" href="#5-人类审查红线">5. 人类审查红线</a></h3>
+<p><strong>AI只有提交权，没有合并权</strong>：</p>
+<ul>
+<li>Agent可以创建PR、推送代码、请求审查</li>
+<li>但所有PR必须经过人类审查才能合并</li>
+<li>审查者可以看到Agent的完整思考过程（Trace）</li>
+<li>如果Agent频繁犯同类错误，审查者可以反馈到Blueprint规则中</li>
+</ul>
 <hr />
-<h2 id="架构分层"><a class="header" href="#架构分层">架构分层</a></h2>
-<p>Karpathy原始设计（llm-wiki.md gist）:</p>
-<div class="table-wrapper"><table><thead><tr><th>层级</th><th>内容</th><th>作用</th></tr></thead><tbody>
-<tr><td><strong>Layer 1: raw/</strong></td><td>原始材料（文章、对话、论文摘要）</td><td>不可变的输入层</td></tr>
-<tr><td><strong>Layer 2: wiki/</strong></td><td>LLM生成的结构化页面（实体、概念、合成）</td><td>可更新的知识层</td></tr>
-<tr><td><strong>Layer 3: site/</strong></td><td>导出的静态HTML/JSON-LD</td><td>可消费的输出层</td></tr>
+<h2 id="关键数据"><a class="header" href="#关键数据">关键数据</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数据</th><th>来源</th></tr></thead><tbody>
+<tr><td>每周合并PR数</td><td>1300+（AI编写）</td><td>Stripe内部统计</td></tr>
+<tr><td>Blueprint覆盖率</td><td>200+服务</td><td>Stripe内部</td></tr>
+<tr><td>MCP工具数</td><td>400+</td><td>Toolshed服务器</td></tr>
+<tr><td>确定性节点占比</td><td>~70%</td><td>架构设计</td></tr>
+<tr><td>平均PR审查时间</td><td>&lt;2小时</td><td>Stripe工程博客</td></tr>
 </tbody></table>
 </div>
 <hr />
-<h2 id="开源实现生态"><a class="header" href="#开源实现生态">开源实现生态</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>项目</th><th>作者</th><th>特点</th><th>Stars</th></tr></thead><tbody>
-<tr><td><strong>Pratiyush/llm-wiki</strong></td><td>Pratiyush</td><td>最完整实现，MCP server, Obsidian集成, 16 lint规则, confidence scoring</td><td>快速增长中</td></tr>
-<tr><td><strong>nashsu/llm_wiki</strong></td><td>nashsu</td><td>跨平台桌面应用，2-step ingest, 4-signal知识图谱, Louvain社区检测</td><td>新兴</td></tr>
-<tr><td><strong>domleca/llm-wiki</strong></td><td>domleca</td><td>Obsidian插件，Ollama本地运行，隐私优先</td><td>Obsidian社区热门</td></tr>
-<tr><td><strong>本知识库</strong></td><td>ClawTest</td><td>OpenClaw cron驱动，AI Tech Intel专用，微信推送</td><td>定制版</td></tr>
+<h2 id="与anthropicopenai-harness策略对比"><a class="header" href="#与anthropicopenai-harness策略对比">与Anthropic/OpenAI Harness策略对比</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>维度</th><th>Stripe</th><th>Anthropic</th><th>OpenAI</th></tr></thead><tbody>
+<tr><td>核心策略</td><td>确定性×智能体混合</td><td>三Agent分离</td><td>Raw Power</td></tr>
+<tr><td>Harness层级</td><td>Blueprint状态机</td><td>Planner-Generator-Evaluator</td><td>约束+反馈循环</td></tr>
+<tr><td>人类角色</td><td>审查者（合并前必审）</td><td>设计者（定期Lint）</td><td>架构师（设计约束）</td></tr>
+<tr><td>并行化</td><td>200+服务同时</td><td>Session级</td><td>项目级</td></tr>
+<tr><td>工具数量</td><td>400+ MCP</td><td>Playwright MCP等</td><td>内部工具</td></tr>
+<tr><td>关键洞察</td><td>"70%步骤不需要AI"</td><td>"Harness随模型进化"</td><td>"环境比模型重要"</td></tr>
 </tbody></table>
 </div>
 <hr />
-<h2 id="关键特性以pratiyushllm-wiki为例"><a class="header" href="#关键特性以pratiyushllm-wiki为例">关键特性（以Pratiyush/llm-wiki为例）</a></h2>
-<h3 id="质量治理"><a class="header" href="#质量治理">质量治理</a></h3>
+<h2 id="引用来源"><a class="header" href="#引用来源">引用来源</a></h2>
 <ul>
-<li><strong>4-factor confidence scoring</strong> — 来源数量、来源质量、时效性、交叉引用</li>
-<li><strong>5-state lifecycle</strong> — draft → reviewed → verified → stale → archived（90天自动stale）</li>
-<li><strong>16 lint rules</strong> — 8结构规则 + 3 LLM规则 + 5 freshness规则</li>
-</ul>
-<h3 id="ai消费接口"><a class="header" href="#ai消费接口">AI消费接口</a></h3>
-<ul>
-<li><code>llms.txt</code> / <code>llms-full.txt</code> — 标准AI可读格式</li>
-<li><code>graph.jsonld</code> — 知识图谱JSON-LD</li>
-<li>MCP server — 12个工具供任何MCP客户端查询</li>
-</ul>
-<h3 id="自动化"><a class="header" href="#自动化">自动化</a></h3>
-<ul>
-<li>SessionStart hook — 每次Claude Code启动自动同步</li>
-<li>Auto-build — 后台自动构建</li>
-<li>Auto Dream — 24h+5sessions后自动整理MEMORY.md</li>
-</ul>
-<hr />
-<h2 id="技术洞察"><a class="header" href="#技术洞察">技术洞察</a></h2>
-<h3 id="为什么这个模式重要"><a class="header" href="#为什么这个模式重要">为什么这个模式重要？</a></h3>
-<ol>
-<li>
-<p><strong>从"查询即计算"到"编译后查询"</strong></p>
-<ul>
-<li>RAG = JIT编译（每次查询现场编译）</li>
-<li>LLM Wiki = AOT编译（提前编译好，查询直接读取）</li>
-</ul>
-</li>
-<li>
-<p><strong>AI agent的"长期记忆"基础设施</strong></p>
-<ul>
-<li>Agent需要记住跨会话的知识</li>
-<li>LLM Wiki提供结构化的外部记忆</li>
-</ul>
-</li>
-<li>
-<p><strong>人机协作的新界面</strong></p>
-<ul>
-<li>人类提供源材料</li>
-<li>LLM整理成wiki</li>
-<li>人类审查、纠正、补充</li>
-<li>其他AI查询wiki完成新任务</li>
-</ul>
-</li>
-</ol>
-<h3 id="与当前知识库的对比"><a class="header" href="#与当前知识库的对比">与当前知识库的对比</a></h3>
-<div class="table-wrapper"><table><thead><tr><th>维度</th><th>Karpathy原始</th><th>Pratiyush实现</th><th>本知识库 (AI Tech Intel)</th></tr></thead><tbody>
-<tr><td>驱动方式</td><td>手动运行脚本</td><td>CLI工具</td><td>OpenClaw cron自动</td></tr>
-<tr><td>内容来源</td><td>个人笔记/对话</td><td>多Agent适配器</td><td>kimi_search + 网络</td></tr>
-<tr><td>更新频率</td><td>按需</td><td>手动/自动可选</td><td>每日自动</td></tr>
-<tr><td>推送渠道</td><td>本地浏览</td><td>静态网站/GitHub Pages</td><td>微信推送</td></tr>
-<tr><td>专注领域</td><td>通用个人知识</td><td>通用个人知识</td><td>AI行业技术情报</td></tr>
-</tbody></table>
-</div>
-<hr />
-<h2 id="相关页面"><a class="header" href="#相关页面">相关页面</a></h2>
-<ul>
-<li><a href="../entities/andrej-karpathy.html">entities/andrej-karpathy.md</a> — 模式提出者</li>
-<li><a href="../entities/pratiyush.html">entities/pratiyush.md</a> — 主要实现者</li>
-<li><a href="harness-methodology.html">concepts/harness-methodology.md</a> — 与Harness的关系（知识库是Harness的一部分）</li>
-<li><a href="../index.html">index.md</a> — 本知识库总览</li>
-</ul>
-<h2 id="外部链接"><a class="header" href="#外部链接">外部链接</a></h2>
-<ul>
-<li>Karpathy原始gist: https://gist.github.com/karpathy/llm-wiki.md</li>
-<li>Pratiyush实现: https://github.com/Pratiyush/llm-wiki</li>
-<li>nashsu桌面应用: https://github.com/nashsu/llm_wiki</li>
-<li>domleca Obsidian插件: https://github.com/domleca/llm-wiki</li>
+<li>Mitchell Hashimoto个人博客：mitchellh.com/writing（2026-02，关于AI采用历程）</li>
+<li>Stripe工程博客：stripe.com/blog（2025-2026，Minions系统介绍）</li>
+<li>Goose项目：block.github.io/goose（开源coding agent，Stripe fork的基础）</li>
+<li>行业报道：mindstudio.ai/blog/what-is-ai-agent-harness-stripe-minions/（2026-03，Stripe Minions概述）</li>
 </ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../concepts/ds4.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../sources/modern-harness-blueprint-2026.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../sources/12-factor-agents-humanlayer.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../sources/karpathy-agentic-engineering-2026.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -296,11 +280,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../concepts/ds4.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../sources/modern-harness-blueprint-2026.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../sources/12-factor-agents-humanlayer.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../sources/karpathy-agentic-engineering-2026.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

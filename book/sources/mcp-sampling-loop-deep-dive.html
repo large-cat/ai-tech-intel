@@ -1,0 +1,420 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>MCP Sampling Loop 深度解析 - AI Tech Intel 知识手册</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="每日AI前沿技术情报知识库 — 人类易读的翻阅版">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">AI Tech Intel 知识手册</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/large-cat/ai-tech-intel" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/large-cat/ai-tech-intel/edit/master/src/sources/mcp-sampling-loop-deep-dive.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="mcp-sampling-loop-技术深度解析"><a class="header" href="#mcp-sampling-loop-技术深度解析">MCP Sampling Loop 技术深度解析</a></h1>
+<blockquote>
+<p>来源：<a href="https://www.preprints.org/manuscript/202504.0245/download/final_file">MCP Survey Paper (preprints.org)</a> | <a href="https://time.geekbang.org/column/article/888095">极客时间 MCP &amp; A2A 前沿实战</a> | <a href="https://developer.aliyun.com/article/1659874">阿里云 MCP 详解</a> | <a href="https://javaguide.cn/ai/agent/mcp.html">JavaGuide MCP</a><br />
+关联概念：[[Model Context Protocol]], [[Agent Skills]], [[Human-in-the-loop]], [[12-Factor Agents]]<br />
+日期：2026-05-15（综合多源分析）</p>
+</blockquote>
+<hr />
+<h2 id="什么是-sampling-loop"><a class="header" href="#什么是-sampling-loop">什么是 Sampling Loop</a></h2>
+<p>MCP 的 <strong>Sampling（采样）</strong> 原语是 MCP 双向通信架构中最被低估、但最具 Agentic 潜力的机制。它允许 <strong>Server 主动向 Client 发起请求</strong>，要求 Client 端的 LLM 执行推理生成——本质上实现了"AI 调用 AI"的递归循环。</p>
+<blockquote>
+<p>类比：如果 Tools 是模型调用外部世界的"输出接口"，Sampling 就是外部世界调用模型的"输入接口"。</p>
+</blockquote>
+<hr />
+<h2 id="协议级工作流程"><a class="header" href="#协议级工作流程">协议级工作流程</a></h2>
+<h3 id="四阶段结构化流程"><a class="header" href="#四阶段结构化流程">四阶段结构化流程</a></h3>
+<pre><code>1. Server Initiates Request
+   └── 通过 sampling/createMessage 发送请求
+   └── 包含：message context、model preferences（cost/latency/capabilities）、
+       sampling parameters（temperature/token limits/stop sequences）
+
+2. Client Review and Approval（Human-in-the-loop）
+   └── 用户审核、调整或批准 proposed message
+   └── 维持人类监督和安全性
+
+3. Model Execution and Completion Generation
+   └── Client 调用选定的 LLM 生成 completion
+   └── 考虑 sampling parameters 控制响应变异性和特异性
+
+4. Return and Handling of Completions
+   └── 结构化响应返回 Server
+   └── 包含：使用的模型名称、终止原因、输出内容（text/multimodal）
+</code></pre>
+<h3 id="json-请求响应格式"><a class="header" href="#json-请求响应格式">JSON 请求/响应格式</a></h3>
+<p><strong>请求（Server → Client）</strong>：</p>
+<pre><code class="language-json">{
+  "method": "sampling/createMessage",
+  "params": {
+    "messages": [
+      {
+        "role": "user",
+        "content": {
+          "type": "text",
+          "text": "当前目录下有哪些文件？"
+        }
+      }
+    ],
+    "systemPrompt": "你是一名文件系统助手。",
+    "includeContext": "thisServer",
+    "maxTokens": 100,
+    "temperature": 0.7,
+    "stopSequences": ["\n\n"]
+  }
+}
+</code></pre>
+<p><strong>响应（Client → Server）</strong>：</p>
+<pre><code class="language-json">{
+  "model": "claude-3-sonnet-20240229",
+  "stopReason": "endTurn",
+  "role": "assistant",
+  "content": {
+    "type": "text",
+    "text": "当前目录包含以下文件：\n1. README.md\n2. src/main.py\n3. config.yaml"
+  }
+}
+</code></pre>
+<hr />
+<h2 id="为什么需要-sampling"><a class="header" href="#为什么需要-sampling">为什么需要 Sampling</a></h2>
+<h3 id="问题定义"><a class="header" href="#问题定义">问题定义</a></h3>
+<p>传统 MCP 架构中，所有推理由 Client（AI 应用）发起，Server 被动响应。但存在一类场景：<strong>Server 在执行任务过程中需要 LLM 的推理能力来完成子任务</strong>。</p>
+<p><strong>典型场景</strong>：</p>
+<ul>
+<li>代码分析 Server 需要 LLM 解释一段复杂代码的功能</li>
+<li>数据处理 Server 需要 LLM 生成自然语言摘要</li>
+<li>多 Agent 协作时，一个 Agent（作为 Server）需要另一个 Agent 的推理输出</li>
+<li>构建自循环 Agent：Server 发现需要进一步推理时，Sampling 请求模型产出结果，继续后续操作</li>
+</ul>
+<h3 id="双向性的核心体现"><a class="header" href="#双向性的核心体现">双向性的核心体现</a></h3>
+<p>MCP 协议 10 大功能场景中，<strong>由 Server 主动发起</strong>的请求只有三类：</p>
+<ol>
+<li><code>sampling/createMessage</code> — 请求 LLM 生成内容</li>
+<li><code>roots/list</code> — 请求工作根目录信息</li>
+<li><code>elicitation/create</code> — 请求用户输入或决策</li>
+</ol>
+<p>Sampling 是其中唯一能调用 LLM 推理能力的服务端发起请求。</p>
+<hr />
+<h2 id="human-in-the-loop-安全设计"><a class="header" href="#human-in-the-loop-安全设计">Human-in-the-Loop 安全设计</a></h2>
+<h3 id="为什么-anthropic-强调谨慎使用"><a class="header" href="#为什么-anthropic-强调谨慎使用">为什么 Anthropic 强调谨慎使用</a></h3>
+<blockquote>
+<p>"Anthropic 强调应谨慎使用这一机制，始终保持人类在环监督，以避免 AI 代理失控循环调用模型。"</p>
+</blockquote>
+<p><strong>风险</strong>：</p>
+<ul>
+<li><strong>递归失控</strong>：Agent A 调用 Server，Server 通过 Sampling 调用 Agent B，Agent B 又触发 Server... 形成无限循环</li>
+<li><strong>成本黑洞</strong>：每次 Sampling 都消耗 token，失控循环可能产生巨额费用</li>
+<li><strong>责任模糊</strong>：谁为 Agent 的 Agent 的决策负责？</li>
+</ul>
+<h3 id="安全机制"><a class="header" href="#安全机制">安全机制</a></h3>
+<ol>
+<li><strong>用户确认</strong>：Client 必须允许用户 review/adjust/approve proposed message</li>
+<li><strong>模型偏好协商</strong>：Server 可以表达偏好（更智能/更快/更便宜），但最终决定权在 Client 和用户手中</li>
+<li><strong>可选支持</strong>：Sampling 并非所有 MCP Server 均支持，需依赖客户端实现</li>
+<li><strong>上下文边界</strong>：通过 <code>includeContext</code> 字段控制上下文范围（<code>none</code> | <code>thisServer</code> | <code>allServers</code>）</li>
+</ol>
+<hr />
+<h2 id="与-12-factor-agents-的映射"><a class="header" href="#与-12-factor-agents-的映射">与 12-Factor Agents 的映射</a></h2>
+<p>MCP Sampling Loop 直接支撑 <strong>12-Factor Agents</strong> 的多个原则：</p>
+<div class="table-wrapper"><table><thead><tr><th>12-Factor 原则</th><th>Sampling Loop 的支撑</th></tr></thead><tbody>
+<tr><td><strong>#5 Own your context window</strong></td><td>Sampling 明确控制 <code>includeContext</code>，Server 只能获取授权的上下文</td></tr>
+<tr><td><strong>#6 Own the interaction model</strong></td><td>Human-in-the-loop 强制用户保持控制权</td></tr>
+<tr><td><strong>#7 Own the contact surface area</strong></td><td>Server 不能直接接触 LLM，必须通过 Client 代理</td></tr>
+<tr><td><strong>#10 Instrument everything</strong></td><td>Sampling 请求和响应都是结构化 JSON，可完整追踪</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="与-harness-方法论的关系"><a class="header" href="#与-harness-方法论的关系">与 Harness 方法论的关系</a></h2>
+<p>在 Harness（Agent 编排系统）框架中，Sampling Loop 对应以下组件：</p>
+<ul>
+<li><strong>Reasoning Sandwich</strong>：Sampling 请求就是"让模型做推理"的层</li>
+<li><strong>LoopDetectionMiddleware</strong>：必须检测 Sampling 触发的递归循环，防止失控</li>
+<li><strong>Trace Analyzer Skill</strong>：所有 Sampling 调用必须进入可观测链路</li>
+<li><strong>MCP Integration</strong>：Stripe Minions Blueprint 的 400+ MCP Server 中，Sampling 是高级 Server（如代码分析、数据处理）的标配能力</li>
+</ul>
+<hr />
+<h2 id="实际应用场景"><a class="header" href="#实际应用场景">实际应用场景</a></h2>
+<h3 id="场景1智能代码审查-agent"><a class="header" href="#场景1智能代码审查-agent">场景1：智能代码审查 Agent</a></h3>
+<pre><code>用户提交 PR → Agent 调用代码分析 MCP Server
+                     ↓
+              Server 发现复杂算法需要解释
+                     ↓
+              Server 发起 sampling/createMessage
+                     ↓
+              Client 展示请求给用户，用户批准
+                     ↓
+              LLM 生成算法解释
+                     ↓
+              Server 将解释整合进审查报告
+                     ↓
+              Agent 输出最终 PR 审查意见
+</code></pre>
+<h3 id="场景2多-agent-协作research-agent--writing-agent"><a class="header" href="#场景2多-agent-协作research-agent--writing-agent">场景2：多 Agent 协作（Research Agent + Writing Agent）</a></h3>
+<pre><code>Research Agent（作为 Server）收集资料后
+        ↓
+发现需要生成一段总结性文字
+        ↓
+通过 Sampling 请求 Writing Agent（Client 端 LLM）
+        ↓
+Writing Agent 生成内容，经用户确认后返回
+        ↓
+Research Agent 整合进最终报告
+</code></pre>
+<h3 id="场景3self-healing-系统"><a class="header" href="#场景3self-healing-系统">场景3：Self-Healing 系统</a></h3>
+<pre><code>监控 Server 检测到异常日志
+        ↓
+通过 Sampling 请求 LLM 诊断根因
+        ↓
+LLM 返回可能的根因分析
+        ↓
+Server 自动触发修复工具
+        ↓
+循环验证直到恢复正常
+</code></pre>
+<hr />
+<h2 id="技术实现要点"><a class="header" href="#技术实现要点">技术实现要点</a></h2>
+<h3 id="客户端支持状态"><a class="header" href="#客户端支持状态">客户端支持状态</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>客户端</th><th>Sampling 支持</th><th>备注</th></tr></thead><tbody>
+<tr><td>Claude Desktop</td><td>✅ 完整支持</td><td>Anthropic 原生实现</td></tr>
+<tr><td>Cursor</td><td>⚠️ 部分支持</td><td>通过插件扩展</td></tr>
+<tr><td>Continue.dev</td><td>✅ 支持</td><td>开源实现</td></tr>
+<tr><td>自建 Client</td><td>需自行实现</td><td>参考 MCP SDK</td></tr>
+</tbody></table>
+</div>
+<h3 id="模型偏好协商"><a class="header" href="#模型偏好协商">模型偏好协商</a></h3>
+<p>Server 可以在请求中表达偏好，但最终由 Client 决定：</p>
+<pre><code class="language-json">{
+  "modelPreferences": {
+    "hints": ["claude-3-opus", "gpt-4"],
+    "costPriority": 0.3,
+    "speedPriority": 0.7,
+    "intelligencePriority": 0.5
+  }
+}
+</code></pre>
+<p><strong>优先级说明</strong>：</p>
+<ul>
+<li><code>costPriority</code>：成本敏感（适合批量处理）</li>
+<li><code>speedPriority</code>：延迟敏感（适合实时交互）</li>
+<li><code>intelligencePriority</code>：质量敏感（适合复杂推理）</li>
+</ul>
+<hr />
+<h2 id="与-a2a-agent-to-agent-协议的对比"><a class="header" href="#与-a2a-agent-to-agent-协议的对比">与 A2A (Agent-to-Agent) 协议的对比</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>维度</th><th>MCP Sampling</th><th>Google A2A</th></tr></thead><tbody>
+<tr><td><strong>发起方</strong></td><td>Server → Client（单向）</td><td>Agent ↔ Agent（双向）</td></tr>
+<tr><td><strong>安全模型</strong></td><td>Client 控制，用户确认</td><td>任务委托 + 能力发现</td></tr>
+<tr><td><strong>适用场景</strong></td><td>工具级调用</td><td>服务级协作</td></tr>
+<tr><td><strong>生态成熟度</strong></td><td>1万+ MCP Server</td><td>早期，Google 主导</td></tr>
+<tr><td><strong>标准化程度</strong></td><td>JSON-RPC 2.0，严格 Schema</td><td>基于 HTTP/JSON，较灵活</td></tr>
+</tbody></table>
+</div>
+<p><strong>互补关系</strong>：MCP 解决"模型与工具的连接"，A2A 解决"Agent 与 Agent 的协作"。Sampling 是 MCP 向 Agent 级协作迈出的关键一步。</p>
+<hr />
+<h2 id="引用"><a class="header" href="#引用">引用</a></h2>
+<ul>
+<li><a href="https://www.preprints.org/manuscript/202504.0245/download/final_file">A Survey of the Model Context Protocol (MCP)</a> — 2025年4月预印本，含 Sampling 机制完整流程图</li>
+<li><a href="https://time.geekbang.org/column/article/888095">极客时间：人在环路——通过Sampling机制实现人机互动</a> — 中文深度讲解</li>
+<li><a href="https://developer.aliyun.com/article/1659874">阿里云 MCP 详解</a> — 含 Sampling 请求/响应 JSON 示例</li>
+<li><a href="https://javaguide.cn/ai/agent/mcp.html">JavaGuide MCP</a> — 2026年5月最新更新，含 Sampling 与其他原语的对比</li>
+<li><a href="https://modelcontextprotocol.io">MCP官方文档</a> — <code>sampling/createMessage</code> 规范</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../sources/langchain-terminal-bench-20.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../sources/modern-harness-blueprint-2026.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../sources/langchain-terminal-bench-20.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../sources/modern-harness-blueprint-2026.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>LLM Wiki模式 - AI Tech Intel 知识手册</title>
+        <title>Samsung/Micron HBM4量产 - AI Tech Intel 知识手册</title>
 
 
         <!-- Custom HTML head -->
@@ -129,7 +129,7 @@
                         <a href="https://github.com/large-cat/ai-tech-intel" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/large-cat/ai-tech-intel/edit/master/src/concepts/llm-wiki-pattern.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/large-cat/ai-tech-intel/edit/master/src/sources/samsung-micron-hbm4-shipping-2026.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -158,135 +158,81 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="llm-wiki-karpathy-pattern"><a class="header" href="#llm-wiki-karpathy-pattern">LLM Wiki (Karpathy Pattern)</a></h1>
-<ul>
-<li><strong>类型</strong>: 概念 / 知识管理方法论</li>
-<li><strong>提出者</strong>: Andrej Karpathy (OpenAI联合创始人, ex-Tesla AI总监)</li>
-<li><strong>发布时间</strong>: 2026-04-04</li>
-<li><strong>最后更新</strong>: 2026-05-09</li>
-</ul>
-<h2 id="一句话定义"><a class="header" href="#一句话定义">一句话定义</a></h2>
-<p><strong>LLM Wiki</strong> 是Andrej Karpathy提出的使用LLM增量构建和维护个人知识库的模式——不是每次查询重新检索（RAG），而是让LLM持续编译、结构化、更新知识，实现"知识随时间增长而非每次归零"。</p>
+                        <h1 id="samsung-and-micron-start-shipping-hbm4--the-register"><a class="header" href="#samsung-and-micron-start-shipping-hbm4--the-register">Samsung and Micron Start Shipping HBM4 — The Register</a></h1>
+<p><strong>来源</strong>：The Register<br />
+<strong>URL</strong>：https://www.theregister.com/on-prem/2026/02/13/samsung-and-micron-start-shipping-hbm4/4129669<br />
+<strong>日期</strong>：2026-02-13<br />
+<strong>采集时间</strong>：2026-05-10</p>
 <hr />
-<h2 id="核心思想"><a class="header" href="#核心思想">核心思想</a></h2>
-<h3 id="传统rag的问题"><a class="header" href="#传统rag的问题">传统RAG的问题</a></h3>
-<pre><code>RAG流程：
-用户提问 → 检索文档片段 → LLM基于片段回答 → 回答完即丢弃
-
-问题：
-- 每次回答都从零开始推导
-- 没有跨会话积累
-- 相同知识点反复检索
-</code></pre>
-<h3 id="llm-wiki的模式"><a class="header" href="#llm-wiki的模式">LLM Wiki的模式</a></h3>
-<pre><code>LLM Wiki流程：
-读取源材料 → LLM分析 → 生成结构化wiki页面 → 持续更新维护 → 查询时直接读取wiki
-
-优势：
-- 知识编译一次，持续复用
-- 增量更新，跨会话积累
-- LLM消费自己的产出（AI-consumable exports）
-</code></pre>
+<h2 id="执行摘要"><a class="header" href="#执行摘要">执行摘要</a></h2>
+<p><strong>Samsung和Micron同时宣布开始出货HBM4</strong>（相差仅一天），SK海力士是三大厂中唯一尚未宣布HBM4量产的。这对NVIDIA Vera Rubin按计划于2026Q2发布是重大利好。</p>
 <hr />
-<h2 id="架构分层"><a class="header" href="#架构分层">架构分层</a></h2>
-<p>Karpathy原始设计（llm-wiki.md gist）:</p>
-<div class="table-wrapper"><table><thead><tr><th>层级</th><th>内容</th><th>作用</th></tr></thead><tbody>
-<tr><td><strong>Layer 1: raw/</strong></td><td>原始材料（文章、对话、论文摘要）</td><td>不可变的输入层</td></tr>
-<tr><td><strong>Layer 2: wiki/</strong></td><td>LLM生成的结构化页面（实体、概念、合成）</td><td>可更新的知识层</td></tr>
-<tr><td><strong>Layer 3: site/</strong></td><td>导出的静态HTML/JSON-LD</td><td>可消费的输出层</td></tr>
+<h2 id="samsung-hbm4规格"><a class="header" href="#samsung-hbm4规格">Samsung HBM4规格</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数值</th></tr></thead><tbody>
+<tr><td>处理速度</td><td><strong>11.7 Gbps</strong>（可超频至13 Gbps）</td></tr>
+<tr><td>单堆叠带宽</td><td>最高<strong>3.3 TB/s</strong></td></tr>
+<tr><td>容量选项</td><td>24-36 GB（计划扩展至48 GB）</td></tr>
+<tr><td>热阻改善</td><td><strong>+10%</strong></td></tr>
+<tr><td>散热改善</td><td><strong>+30%</strong>（对比HBM3E）</td></tr>
+<tr><td>能效提升</td><td><strong>+40%</strong></td></tr>
+<tr><td>HBM4E样品</td><td>2026H2</td></tr>
 </tbody></table>
 </div>
+<p><strong>销售预测</strong>：2026年HBM销售额较2025年增长<strong>3倍以上</strong></p>
 <hr />
-<h2 id="开源实现生态"><a class="header" href="#开源实现生态">开源实现生态</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>项目</th><th>作者</th><th>特点</th><th>Stars</th></tr></thead><tbody>
-<tr><td><strong>Pratiyush/llm-wiki</strong></td><td>Pratiyush</td><td>最完整实现，MCP server, Obsidian集成, 16 lint规则, confidence scoring</td><td>快速增长中</td></tr>
-<tr><td><strong>nashsu/llm_wiki</strong></td><td>nashsu</td><td>跨平台桌面应用，2-step ingest, 4-signal知识图谱, Louvain社区检测</td><td>新兴</td></tr>
-<tr><td><strong>domleca/llm-wiki</strong></td><td>domleca</td><td>Obsidian插件，Ollama本地运行，隐私优先</td><td>Obsidian社区热门</td></tr>
-<tr><td><strong>本知识库</strong></td><td>ClawTest</td><td>OpenClaw cron驱动，AI Tech Intel专用，微信推送</td><td>定制版</td></tr>
+<h2 id="micron-hbm4规格"><a class="header" href="#micron-hbm4规格">Micron HBM4规格</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>指标</th><th>数值</th></tr></thead><tbody>
+<tr><td>速度</td><td><strong>&gt;11 Gbps</strong></td></tr>
+<tr><td>产量状态</td><td>提前一个季度交付</td></tr>
+<tr><td>产能</td><td><strong>2026年全年产能已预售完毕</strong></td></tr>
+<tr><td>HBM良率</td><td>"on track"</td></tr>
 </tbody></table>
 </div>
+<p><strong>市场反应</strong>：Micron股价在HBM4量产消息发布后上涨近<strong>10%</strong></p>
 <hr />
-<h2 id="关键特性以pratiyushllm-wiki为例"><a class="header" href="#关键特性以pratiyushllm-wiki为例">关键特性（以Pratiyush/llm-wiki为例）</a></h2>
-<h3 id="质量治理"><a class="header" href="#质量治理">质量治理</a></h3>
-<ul>
-<li><strong>4-factor confidence scoring</strong> — 来源数量、来源质量、时效性、交叉引用</li>
-<li><strong>5-state lifecycle</strong> — draft → reviewed → verified → stale → archived（90天自动stale）</li>
-<li><strong>16 lint rules</strong> — 8结构规则 + 3 LLM规则 + 5 freshness规则</li>
-</ul>
-<h3 id="ai消费接口"><a class="header" href="#ai消费接口">AI消费接口</a></h3>
-<ul>
-<li><code>llms.txt</code> / <code>llms-full.txt</code> — 标准AI可读格式</li>
-<li><code>graph.jsonld</code> — 知识图谱JSON-LD</li>
-<li>MCP server — 12个工具供任何MCP客户端查询</li>
-</ul>
-<h3 id="自动化"><a class="header" href="#自动化">自动化</a></h3>
-<ul>
-<li>SessionStart hook — 每次Claude Code启动自动同步</li>
-<li>Auto-build — 后台自动构建</li>
-<li>Auto Dream — 24h+5sessions后自动整理MEMORY.md</li>
-</ul>
-<hr />
-<h2 id="技术洞察"><a class="header" href="#技术洞察">技术洞察</a></h2>
-<h3 id="为什么这个模式重要"><a class="header" href="#为什么这个模式重要">为什么这个模式重要？</a></h3>
-<ol>
-<li>
-<p><strong>从"查询即计算"到"编译后查询"</strong></p>
-<ul>
-<li>RAG = JIT编译（每次查询现场编译）</li>
-<li>LLM Wiki = AOT编译（提前编译好，查询直接读取）</li>
-</ul>
-</li>
-<li>
-<p><strong>AI agent的"长期记忆"基础设施</strong></p>
-<ul>
-<li>Agent需要记住跨会话的知识</li>
-<li>LLM Wiki提供结构化的外部记忆</li>
-</ul>
-</li>
-<li>
-<p><strong>人机协作的新界面</strong></p>
-<ul>
-<li>人类提供源材料</li>
-<li>LLM整理成wiki</li>
-<li>人类审查、纠正、补充</li>
-<li>其他AI查询wiki完成新任务</li>
-</ul>
-</li>
-</ol>
-<h3 id="与当前知识库的对比"><a class="header" href="#与当前知识库的对比">与当前知识库的对比</a></h3>
-<div class="table-wrapper"><table><thead><tr><th>维度</th><th>Karpathy原始</th><th>Pratiyush实现</th><th>本知识库 (AI Tech Intel)</th></tr></thead><tbody>
-<tr><td>驱动方式</td><td>手动运行脚本</td><td>CLI工具</td><td>OpenClaw cron自动</td></tr>
-<tr><td>内容来源</td><td>个人笔记/对话</td><td>多Agent适配器</td><td>kimi_search + 网络</td></tr>
-<tr><td>更新频率</td><td>按需</td><td>手动/自动可选</td><td>每日自动</td></tr>
-<tr><td>推送渠道</td><td>本地浏览</td><td>静态网站/GitHub Pages</td><td>微信推送</td></tr>
-<tr><td>专注领域</td><td>通用个人知识</td><td>通用个人知识</td><td>AI行业技术情报</td></tr>
+<h2 id="竞争格局变化"><a class="header" href="#竞争格局变化">竞争格局变化</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>厂商</th><th>HBM4状态</th><th>关键信号</th></tr></thead><tbody>
+<tr><td><strong>Samsung</strong></td><td>✅ 已量产出货</td><td>首批发货，速度11.7 Gbps</td></tr>
+<tr><td><strong>Micron</strong></td><td>✅ 已量产出货</td><td>提前一季度，全年预售完毕</td></tr>
+<tr><td><strong>SK海力士</strong></td><td>⏳ 尚未宣布</td><td>2025年HBM份额62%，2026全年产能H1即售罄</td></tr>
 </tbody></table>
 </div>
+<blockquote>
+<p>SK海力士虽为HBM市场绝对领导者（62%份额），但在HBM4量产 announcements 上落后于Samsung和Micron。</p>
+</blockquote>
 <hr />
-<h2 id="相关页面"><a class="header" href="#相关页面">相关页面</a></h2>
+<h2 id="nvidia-vera-rubin影响"><a class="header" href="#nvidia-vera-rubin影响">NVIDIA Vera Rubin影响</a></h2>
 <ul>
-<li><a href="../entities/andrej-karpathy.html">entities/andrej-karpathy.md</a> — 模式提出者</li>
-<li><a href="../entities/pratiyush.html">entities/pratiyush.md</a> — 主要实现者</li>
-<li><a href="harness-methodology.html">concepts/harness-methodology.md</a> — 与Harness的关系（知识库是Harness的一部分）</li>
-<li><a href="../index.html">index.md</a> — 本知识库总览</li>
+<li>NVIDIA计划2026Q2发布Vera Rubin加速器</li>
+<li>Vera Rubin使用Samsung和SK海力士HBM4</li>
+<li>Samsung的量产announcement直接利好NVIDIA按时交付</li>
 </ul>
-<h2 id="外部链接"><a class="header" href="#外部链接">外部链接</a></h2>
+<hr />
+<h2 id="副作用普通内存涨价"><a class="header" href="#副作用普通内存涨价">副作用：普通内存涨价</a></h2>
+<p>Samsung等厂商将产能转向高利润AI HBM产品，导致其他DRAM产品价格飙升。</p>
+<hr />
+<h2 id="新需求方tesla-dojo"><a class="header" href="#新需求方tesla-dojo">新需求方：Tesla Dojo</a></h2>
 <ul>
-<li>Karpathy原始gist: https://gist.github.com/karpathy/llm-wiki.md</li>
-<li>Pratiyush实现: https://github.com/Pratiyush/llm-wiki</li>
-<li>nashsu桌面应用: https://github.com/nashsu/llm_wiki</li>
-<li>domleca Obsidian插件: https://github.com/domleca/llm-wiki</li>
+<li>Tesla成为HBM4新客户</li>
+<li>同时向SK海力士和Samsung索取样品</li>
+<li>用于Dojo超级计算机</li>
+<li>需求基础从传统NVIDIA/AMD轴心扩大</li>
+</ul>
+<hr />
+<h2 id="原文链接"><a class="header" href="#原文链接">原文链接</a></h2>
+<ul>
+<li>https://www.theregister.com/on-prem/2026/02/13/samsung-and-micron-start-shipping-hbm4/4129669</li>
 </ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../concepts/ds4.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../sources/patsnap-chiplet-ecosystem-2026.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../sources/12-factor-agents-humanlayer.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../sources/sk-hynix-ces2026.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -296,11 +242,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../concepts/ds4.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../sources/patsnap-chiplet-ecosystem-2026.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../sources/12-factor-agents-humanlayer.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../sources/sk-hynix-ces2026.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
