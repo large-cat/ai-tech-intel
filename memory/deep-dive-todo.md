@@ -65,7 +65,7 @@
 - [x] **Harness**：Verifier Model训练方法（如何训练一个"严格"的LLM）、多Agent协作的分布式Harness架构、失败模式分类与自动恢复策略 ✅ 2026-05-16 完成（来源：arXiv 2603.18886 Principia / 2511.07833 MURPHY / 2601.17223 VPRM / 2605.05737 ReFlect / 2503.13657 MAST / 2601.05755 VIGIL）
 - [x] **Test-Time Compute**：PRM训练数据构建（如何标注步骤级标签）、PRM+RLHF联合训练、测试时计算的自适应预算分配（Adaptive Compute Budgeting） ✅ 2026-05-16 完成（来源：arXiv 2506.00027 PRM Generalization / 2505.15960 FoVer / 2602.01070 Adaptive TTC / 2604.14853 Solve-then-Learn / 2601.07182 PRPO / OpenReview Discriminative PRM）
 - [x] **RLHF**：在线DPO（Online DPO）vs离线DPO、IPO（Identity Preference Optimization）、KTO（Kahneman-Tversky Optimization）等2025-2026新变体 ✅ 2026-05-15 完成（来源：鹤啸九天 / arxiv:2509.11298 / OpenReview / 港中文EEPO）
-- [ ] **Processing-in-Memory**：存内计算的商业化障碍（良率、可靠性、编程模型）、工业界路线图（Samsung PIM-DRAM、SK hynix AiM、UPMEM量产进展）
+- [x] **Processing-in-Memory**：存内计算的商业化障碍（良率、可靠性、编程模型）、工业界路线图（Samsung PIM-DRAM、SK hynix AiM、UPMEM量产进展） ✅ 2026-05-17 完成（来源：Semiconductor Insight / SemiWiki / SK hynix MICRO 2025 / arXiv 2401.14428 / IIT Bombay）
 - [x] **HBM**：HBM4/5路线图（16Hi堆叠、2048-bit接口、3D DRAM）、HBM的热管理（TSV热应力模拟、微通道液冷）、HBM的测试挑战（KGD、老化测试） ✅ 2026-05-14 完成
 - [x] **Chiplet**：UCIe 2.0的3D封装电气规范、Chiplet的EDA工具链（芯原/芯来/新思）、Chiplet安全架构（UCIe Security层） ✅ 2026-05-14 完成（UCIe+EDA待补芯原/芯来/安全层）
 - [x] **Advanced Packaging**：台积电CoWoS Gen6的12层中介层、Intel玻璃基板量产路线图、混合键合的可靠性（热循环、跌落测试） ✅ 2026-05-14 完成（CoWoS产能/EMIB-T/EDA对齐）
