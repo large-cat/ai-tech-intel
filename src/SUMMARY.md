@@ -217,3 +217,29 @@
 ### 产业与商业
 - [AI封装市场$50B](sources/ai-packaging-50b-market-2026.md)
 - [小红书AI战略](sources/xiaohongshu-ai-strategy-2026.md)
+
+---
+
+# 卷六：综合、对比与问答
+
+## 综合综述
+
+- [2026年AI行业趋势](syntheses/2026-ai-industry-trends.md)
+- [Agent工程全景](syntheses/agent-engineering-overview.md)
+- [半导体与AI硬件趋势](syntheses/semiconductor-hardware-trends.md)
+
+## 对比分析
+
+- [闭源 vs 开源/中国模型厂商](comparisons/closed-vs-open-models.md)
+- [NVIDIA vs AMD 硬件平台](comparisons/nvidia-vs-amd.md)
+
+## 知识问答（中文Q&A）
+
+- [什么是 Harness 方法论？](questions/qa-harness-methodology.md)
+- [HBM4 相比 HBM3E 有什么升级？](questions/qa-hbm4-upgrade.md)
+- [2026年AI行业的核心范式转移是什么？](questions/qa-2026-paradigm.md)
+- [月之暗面 Kimi K2.5 的 Agent Swarm 有什么特别？](questions/qa-kimi-k25.md)
+
+## 知识编译索引
+
+- [知识编译索引（目录→内容映射）](knowledge-compiler/index.md)

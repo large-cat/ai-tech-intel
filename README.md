@@ -44,11 +44,23 @@
 ### 🏢 厂商档案（19个）
 Anthropic · OpenAI · Google DeepMind · 月之暗面 · DeepSeek · Meta · NVIDIA · AMD · 三星 · SK海力士 · Intel · Andrej Karpathy · Addy Osmani · antirez · Pratiyush · … → [全部](HANDBOOK.md#厂商档案)
 
-### 🔬 技术概念（10个）
+### 🔬 技术概念（11个）
 Harness方法论 · 存算一体 · 近存运算 · HBM · Chiplet · Agent Skills · RLHF · 测试时计算 · DS4 · LLM Wiki模式 → [全部](HANDBOOK.md#技术概念)
 
-### 📄 源文件摘要（10篇）
+### 📄 源文件摘要（36篇）
 Stripe Minions Blueprint · LangChain Terminal Bench 2.0 · AMD MI450对比 · Kimi K2.5 · NVIDIA Feynman · … → [全部](HANDBOOK.md#源文件摘要)
+
+### 🧩 综合综述（3篇）
+2026 AI行业趋势 · Agent工程全景 · 半导体硬件趋势 → [全部](syntheses/)
+
+### ⚖️ 对比分析（2篇）
+闭源vs开源厂商 · NVIDIA vs AMD → [全部](comparisons/)
+
+### ❓ 知识问答（中文Q&A）
+Harness方法论 · HBM4升级 · 2026范式转移 · Kimi K2.5 · … → [全部](questions/)
+
+### 🔗 知识编译索引
+交叉引用映射 · 机器可读图谱 → [knowledge-compiler/index.md](knowledge-compiler/index.md)
 
 ---
 

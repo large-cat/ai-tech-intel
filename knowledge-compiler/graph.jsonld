@@ -1,0 +1,1420 @@
+{
+  "@context": {
+    "schema": "https://schema.org",
+    "aiti": "https://large-cat.github.io/ai-tech-intel/"
+  },
+  "@graph": {
+    "project": "ai-tech-intel",
+    "version": "2.0.0",
+    "generated": "2026-05-21T10:28:37.953068",
+    "nodes": [
+      {
+        "@id": "entity:nvidia",
+        "@type": "Organization",
+        "name": "NVIDIA",
+        "path": "entities/nvidia.md",
+        "source_count": 11
+      },
+      {
+        "@id": "entity:pratiyush",
+        "@type": "Person",
+        "name": "Pratiyush",
+        "path": "entities/pratiyush.md",
+        "source_count": 1
+      },
+      {
+        "@id": "entity:langchain",
+        "@type": "Organization",
+        "name": "LangChain",
+        "path": "entities/langchain.md",
+        "source_count": 5
+      },
+      {
+        "@id": "entity:intel",
+        "@type": "Organization",
+        "name": "Intel",
+        "path": "entities/intel.md",
+        "source_count": 9
+      },
+      {
+        "@id": "entity:deepseek",
+        "@type": "Organization",
+        "name": "DeepSeek",
+        "path": "entities/deepseek.md",
+        "source_count": 5
+      },
+      {
+        "@id": "entity:addy-osmani",
+        "@type": "Person",
+        "name": "Addy Osmani",
+        "path": "entities/addy-osmani.md",
+        "source_count": 1
+      },
+      {
+        "@id": "entity:anthropic",
+        "@type": "Organization",
+        "name": "Anthropic",
+        "path": "entities/anthropic.md",
+        "source_count": 12
+      },
+      {
+        "@id": "entity:moonshot",
+        "@type": "Organization",
+        "name": "月之暗面 (Moonshot AI)",
+        "path": "entities/moonshot.md",
+        "source_count": 2
+      },
+      {
+        "@id": "entity:amd",
+        "@type": "Organization",
+        "name": "AMD",
+        "path": "entities/amd.md",
+        "source_count": 6
+      },
+      {
+        "@id": "entity:samsung",
+        "@type": "Organization",
+        "name": "三星 (Samsung Electronics)",
+        "path": "entities/samsung.md",
+        "source_count": 8
+      },
+      {
+        "@id": "entity:tsmc",
+        "@type": "Organization",
+        "name": "TSMC",
+        "path": "entities/tsmc.md",
+        "source_count": 9
+      },
+      {
+        "@id": "entity:sk-hynix",
+        "@type": "Organization",
+        "name": "SK海力士 (SK hynix)",
+        "path": "entities/sk-hynix.md",
+        "source_count": 8
+      },
+      {
+        "@id": "entity:meta",
+        "@type": "Organization",
+        "name": "Meta AI",
+        "path": "entities/meta.md",
+        "source_count": 5
+      },
+      {
+        "@id": "entity:micron",
+        "@type": "Organization",
+        "name": "Micron",
+        "path": "entities/micron.md",
+        "source_count": 4
+      },
+      {
+        "@id": "entity:antirez",
+        "@type": "Person",
+        "name": "antirez (Salvatore Sanfilippo)",
+        "path": "entities/antirez.md",
+        "source_count": 2
+      },
+      {
+        "@id": "entity:stripe",
+        "@type": "Organization",
+        "name": "Stripe",
+        "path": "entities/stripe.md",
+        "source_count": 4
+      },
+      {
+        "@id": "entity:openai",
+        "@type": "Organization",
+        "name": "OpenAI",
+        "path": "entities/openai.md",
+        "source_count": 14
+      },
+      {
+        "@id": "entity:andrej-karpathy",
+        "@type": "Person",
+        "name": "Andrej Karpathy",
+        "path": "entities/andrej-karpathy.md",
+        "source_count": 4
+      },
+      {
+        "@id": "entity:google-deepmind",
+        "@type": "Organization",
+        "name": "Google DeepMind",
+        "path": "entities/google-deepmind.md",
+        "source_count": 14
+      },
+      {
+        "@id": "concept:processing-in-memory",
+        "@type": "TechConcept",
+        "name": "存算一体 / Processing-in-Memory (PIM)",
+        "path": "concepts/processing-in-memory.md",
+        "source_count": 3
+      },
+      {
+        "@id": "concept:ds4",
+        "@type": "TechConcept",
+        "name": "DS4 - DeepSeek V4 Flash专用推理引擎",
+        "path": "concepts/ds4.md",
+        "source_count": 1
+      },
+      {
+        "@id": "concept:advanced-packaging",
+        "@type": "TechConcept",
+        "name": "先进封装（Advanced Packaging）",
+        "path": "concepts/advanced-packaging.md",
+        "source_count": 9
+      },
+      {
+        "@id": "concept:test-time-compute",
+        "@type": "TechConcept",
+        "name": "Test-Time Compute（测试时计算扩展）",
+        "path": "concepts/test-time-compute.md",
+        "source_count": 3
+      },
+      {
+        "@id": "concept:chiplet",
+        "@type": "TechConcept",
+        "name": "Chiplet（芯粒）",
+        "path": "concepts/chiplet.md",
+        "source_count": 6
+      },
+      {
+        "@id": "concept:hbm",
+        "@type": "TechConcept",
+        "name": "HBM（高带宽内存）",
+        "path": "concepts/hbm.md",
+        "source_count": 13
+      },
+      {
+        "@id": "concept:near-memory-computing",
+        "@type": "TechConcept",
+        "name": "Near-Memory Computing（近存计算）",
+        "path": "concepts/near-memory-computing.md",
+        "source_count": 4
+      },
+      {
+        "@id": "concept:llm-wiki-pattern",
+        "@type": "TechConcept",
+        "name": "LLM Wiki (Karpathy Pattern)",
+        "path": "concepts/llm-wiki-pattern.md",
+        "source_count": 0
+      },
+      {
+        "@id": "concept:agent-skills",
+        "@type": "TechConcept",
+        "name": "Agent Skills",
+        "path": "concepts/agent-skills.md",
+        "source_count": 8
+      },
+      {
+        "@id": "concept:rlhf",
+        "@type": "TechConcept",
+        "name": "RLHF（人类反馈强化学习）",
+        "path": "concepts/rlhf.md",
+        "source_count": 3
+      },
+      {
+        "@id": "concept:harness-methodology",
+        "@type": "TechConcept",
+        "name": "Harness Engineering / Harness方法论",
+        "path": "concepts/harness-methodology.md",
+        "source_count": 16
+      },
+      {
+        "@id": "source:mcp-sampling-loop-deep-dive",
+        "@type": "TechArticle",
+        "name": "MCP Sampling Loop 技术深度解析",
+        "path": "sources/mcp-sampling-loop-deep-dive.md",
+        "summary": "> 来源：[MCP Survey Paper (preprints.org)](https://www.preprints.org/manuscript/202504.0245/download/final_file) | [极客时间 MCP & A2A 前沿实战](https://time.geekbang.org/column/article/888095) | [阿里云 MCP 详解](ht..."
+      },
+      {
+        "@id": "source:github-trending-2026-03-25",
+        "@type": "TechArticle",
+        "name": "GitHub Trending Weekly 2026-03-25 — Agent Skills Ecosystem Explosion",
+        "path": "sources/github-trending-2026-03-25.md",
+        "summary": "> **来源**: [ShareUHack Weekly Report](https://www.shareuhack.com/en/posts/github-trending-weekly-2026-03-25)\n> **数据周期**: 2026-03-17 ~ 2026-03-25（滚动7天）\n> **收集时间**: 2026-05-12"
+      },
+      {
+        "@id": "source:12-factor-agents-humanlayer",
+        "@type": "TechArticle",
+        "name": "12-Factor Agents 工程原则深度解析",
+        "path": "sources/12-factor-agents-humanlayer.md",
+        "summary": "> 来源：HumanLayer / paddo.dev（2026-04）  \n> 核心洞察：最成功的 AI 产品不是纯 agentic 循环，而是确定性代码 + 策略性放置的 LLM 决策点"
+      },
+      {
+        "@id": "source:hbm4-5-roadmap-2026",
+        "@type": "TechArticle",
+        "name": "HBM4/5 路线图与产业格局重构（2026-2027）",
+        "path": "sources/hbm4-5-roadmap-2026.md",
+        "summary": "> 来源：微信公众号「梓豪谈芯」2026年Q3存储市场深度复盘  \n> 作者年初预测（2025-01）与Q3实际数据对比，命中度极高"
+      },
+      {
+        "@id": "source:samsung-micron-hbm4-shipping-2026",
+        "@type": "TechArticle",
+        "name": "Samsung and Micron Start Shipping HBM4 — The Register",
+        "path": "sources/samsung-micron-hbm4-shipping-2026.md",
+        "summary": "**来源**：The Register  \n**URL**：https://www.theregister.com/on-prem/2026/02/13/samsung-and-micron-start-shipping-hbm4/4129669  \n**日期**：2026-02-13  \n**采集时间**：2026-05-10"
+      },
+      {
+        "@id": "source:tsmc-cowos-capacity-2026-2027",
+        "@type": "TechArticle",
+        "name": "台积电 CoWoS 产能目标上调（2026-2027）",
+        "path": "sources/tsmc-cowos-capacity-2026-2027.md",
+        "summary": "> 来源：Taiwan Electronic Times / TMT Post（2026-01-28）  \n> Nvidia 已成为台积电 CoWoS 最大客户，Google 等 ASIC 客户紧急下单抢产能"
+      },
+      {
+        "@id": "source:nvidia-rubin-platform",
+        "@type": "TechArticle",
+        "name": "Untitled",
+        "path": "sources/nvidia-rubin-platform.md",
+        "summary": "---\ntitle: \"NVIDIA Rubin Platform: HBM4 Vera CPU Details\"\nsource: \"hyperpc.ae\"\nurl: \"https://hyperpc.ae/nvidia-rubin-platform-hbm4-vera-cpu\"\ndate: \"2026-01\"\nentities: [NVIDIA]\nconcepts: [HBM]\n---"
+      },
+      {
+        "@id": "source:anthropic-three-agent-harness",
+        "@type": "TechArticle",
+        "name": "Untitled",
+        "path": "sources/anthropic-three-agent-harness.md",
+        "summary": "---\ntitle: \"Harness Engineering vs SDD for AI Agents\"\nsource: \"gonetech.net\"\nurl: \"https://gonetech.net/harness-engineering-vs-sdd-for-ai-agents\"\ndate: \"2026-04-21\"\nentities: [Anthropic, OpenAI]\nconce..."
+      },
+      {
+        "@id": "source:modern-harness-blueprint-2026",
+        "@type": "TechArticle",
+        "name": "Blueprint for a Modern Agentic Harness in 2026 (Gist Summary)",
+        "path": "sources/modern-harness-blueprint-2026.md",
+        "summary": "> **来源**: [GitHub Gist - amazingvince](https://gist.github.com/amazingvince/52158d00fb8b3ba1b8476bc62bb562e3)\n> **收集时间**: 2026-05-12\n> **类型**: 架构蓝图 / 开源方案设计"
+      },
+      {
+        "@id": "source:chiplet-interconnect-2026",
+        "@type": "TechArticle",
+        "name": "Chiplet 互连技术 2026：UCIe、HBM4 与封装拐点",
+        "path": "sources/chiplet-interconnect-2026.md",
+        "summary": "> 来源：PatSnap（2026-04-02）  \n> 专利趋势、供应链风险、竞争动态综合分析"
+      },
+      {
+        "@id": "source:eda-vendors-tsmc-2026",
+        "@type": "TechArticle",
+        "name": "EDA 厂商竞逐台积电埃米时代路线图（2026 TSMC Symposium）",
+        "path": "sources/eda-vendors-tsmc-2026.md",
+        "summary": "> 来源：Futurum Group（2026-04-24）  \n> 新思（Synopsys）、楷登（Cadence）、西门子 EDA 在台积电北美技术论坛的对齐动作"
+      },
+      {
+        "@id": "source:applied-materials-nexx-acquisition-2026-05-03",
+        "@type": "TechArticle",
+        "name": "Applied Materials 收购 ASMPT NEXX（面板级先进封装沉积设备）",
+        "path": "sources/applied-materials-nexx-acquisition-2026-05-03.md",
+        "summary": "> **来源**: [Applied Materials 官方新闻稿](https://ir.appliedmaterials.com/news-releases/news-release-details/applied-materials-broadens-advanced-packaging-portfolio)\n> **日期**: 2026-05-03\n> **收集时间**: 2026-05..."
+      },
+      {
+        "@id": "source:sk-hynix-ces2026",
+        "@type": "TechArticle",
+        "name": "Untitled",
+        "path": "sources/sk-hynix-ces2026.md",
+        "summary": "---\ntitle: \"SK hynix AI Memory Solutions at CES 2026\"\nsource: \"getflashmemory.info\"\nurl: \"https://getflashmemory.info/sk-hynix-ai-memory-ces-2026\"\ndate: \"2026-01-06\"\nentities: [SK海力士]\nconcepts: [存算一体,..."
+      },
+      {
+        "@id": "source:ai-packaging-50b-market-2026",
+        "@type": "TechArticle",
+        "name": "AI Chip Packaging Constraints Create $50B Market — AOL Finance",
+        "path": "sources/ai-packaging-50b-market-2026.md",
+        "summary": "**来源**：AOL Finance / Yahoo Finance  \n**URL**：https://www.aol.com/articles/ai-chip-packaging-constraints-create-150931753.html  \n**日期**：2026-03  \n**采集时间**：2026-05-10"
+      },
+      {
+        "@id": "source:stripe-minions-blueprint",
+        "@type": "TechArticle",
+        "name": "Stripe Minions Blueprint 架构详解",
+        "path": "sources/stripe-minions-blueprint.md",
+        "summary": "> 来源：Mitchell Hashimoto博客（Stripe工程师，HashiCorp创始人），Stripe工程博客  \n> 日期：2025-2026  \n> 关联：[concepts/harness-methodology.md](../../concepts/harness-methodology.md) | [entities/stripe.md](../../entities/stri..."
+      },
+      {
+        "@id": "source:anthropic-managed-agents",
+        "@type": "TechArticle",
+        "name": "Untitled",
+        "path": "sources/anthropic-managed-agents.md",
+        "summary": "---\ntitle: \"Anthropic Engineering: Managed Agents\"\nsource: \"anthropic.com/engineering/managed-agents\"\nurl: \"https://www.anthropic.com/engineering/managed-agents\"\ndate: \"2026-04\"\nentities: [Anthropic]\n..."
+      },
+      {
+        "@id": "source:near-memory-computing-commercialization",
+        "@type": "TechArticle",
+        "name": "近存计算（Near-Memory Computing）商业化全景 2026",
+        "path": "sources/near-memory-computing-commercialization.md",
+        "summary": "> 来源：PatSnap Eureka 研究报告（2026-04-24）+ 产业专利/产品动态  \n> 覆盖：技术架构、商业化产品、关键玩家、能耗量化、编程模型障碍"
+      },
+      {
+        "@id": "source:agent-skills-github",
+        "@type": "TechArticle",
+        "name": "Agent Skills - GitHub仓库分析",
+        "path": "sources/agent-skills-github.md",
+        "summary": "> 来源：[github.com/addyosmani/agent-skills](https://github.com/addyosmani/agent-skills)（示例链接）  \n> 采集时间：2026-05-09  \n> 作者：Addy Osmani"
+      },
+      {
+        "@id": "source:rlhf-online-dpo-ipo-kto",
+        "@type": "TechArticle",
+        "name": "RLHF 新变体深度解析：Online DPO / IPO / KTO",
+        "path": "sources/rlhf-online-dpo-ipo-kto.md",
+        "summary": "> 来源：[鹤啸九天 RLHF原理及进化](https://wqw547243068.github.io/rlhf) | [arxiv:2509.11298](https://arxiv.org/pdf/2509.11298) — 对齐方法统一框架 | [OpenReview: Online IPO](https://openreview.net/pdf?id=G1R8Ns8n38) | [港中文..."
+      },
+      {
+        "@id": "source:nvidia-feynman-gtc2026",
+        "@type": "TechArticle",
+        "name": "Untitled",
+        "path": "sources/nvidia-feynman-gtc2026.md",
+        "summary": "---\ntitle: \"NVIDIA GTC 2026: Feynman Architecture Reveal\"\nsource: \"technetbooks.com\"\nurl: \"https://technetbooks.com/nvidia-gtc-2026-feynman-architecture-reveal\"\ndate: \"2026-02\"\nentities: [NVIDIA]\nconc..."
+      },
+      {
+        "@id": "source:langchain-terminal-bench-20",
+        "@type": "TechArticle",
+        "name": "LangChain Terminal Bench 2.0 Harness优化详解",
+        "path": "sources/langchain-terminal-bench-20.md",
+        "summary": "> 来源：LangChain工程博客，LangChain官方文档，Hugging Face Philipp Schmid评论  \n> 日期：2026-02  \n> 关联：[concepts/harness-methodology.md](../../concepts/harness-methodology.md) | [entities/langchain.md](../../entities/l..."
+      },
+      {
+        "@id": "source:harness-verifier-training-2026",
+        "@type": "TechArticle",
+        "name": "Harness Verifier Model 训练方法与多 Agent 容错架构深度调研",
+        "path": "sources/harness-verifier-training-2026.md",
+        "summary": "> 来源汇总：arXiv 2603.18886 (Principia/J1), arXiv 2511.07833 (MURPHY), arXiv 2601.17223 (VPRM), arXiv 2605.05737 (ReFlect), arXiv 2503.13657 (MAST), arXiv 2601.05755 (VIGIL), arXiv 2604.13630 (SafeHarness..."
+      },
+      {
+        "@id": "source:moonshot-kimi-k25",
+        "@type": "TechArticle",
+        "name": "月之暗面 Kimi K2.5 深度分析",
+        "path": "sources/moonshot-kimi-k25.md",
+        "summary": "> 来源：月之暗面官方博客，开源中国，行业分析报告  \n> 日期：2026-04  \n> 关联：[entities/moonshot.md](../../entities/moonshot.md) | [concepts/harness-methodology.md](../../concepts/harness-methodology.md)"
+      },
+      {
+        "@id": "source:intel-emib-t-production-2026",
+        "@type": "TechArticle",
+        "name": "Intel EMIB-T Enters Production Fab Rollout in 2026 — Tom's Hardware",
+        "path": "sources/intel-emib-t-production-2026.md",
+        "summary": "**来源**：Tom's Hardware  \n**URL**：https://www.tomshardware.com/tech-industry/semiconductors/intels-emib-t-heads-for-fab-rollout-this-year  \n**日期**：2026-02  \n**采集时间**：2026-05-10"
+      },
+      {
+        "@id": "source:amd-mi450-vs-rubin",
+        "@type": "TechArticle",
+        "name": "AMD MI450 vs NVIDIA Rubin 竞争分析",
+        "path": "sources/amd-mi450-vs-rubin.md",
+        "summary": "> 来源：Tom's Hardware, Wccftech, HotHardware, AMD Financial Analyst Day  \n> 日期：2026-05  \n> 关联：[entities/amd.md](../../entities/amd.md) | [entities/nvidia.md](../../entities/nvidia.md) | [concepts/hbm.md..."
+      },
+      {
+        "@id": "source:ds4-github",
+        "@type": "TechArticle",
+        "name": "ds4 - GitHub仓库分析",
+        "path": "sources/ds4-github.md",
+        "summary": "> 来源：[github.com/antirez/ds4](https://github.com/antirez/ds4)  \n> 采集时间：2026-05-09  \n> 作者：antirez (Salvatore Sanfilippo, Redis创始人)"
+      },
+      {
+        "@id": "source:prm-adaptive-test-time-compute-2026",
+        "@type": "TechArticle",
+        "name": "PRM 训练数据构建与 Test-Time Compute 自适应预算分配深度调研",
+        "path": "sources/prm-adaptive-test-time-compute-2026.md",
+        "summary": "> 来源汇总：arXiv 2506.00027 (PRM Generalization), arXiv 2505.15960 (FoVer), arXiv 2602.01070 (Adaptive TTC), arXiv 2604.14853 (Solve-then-Learn), arXiv 2601.04700 (PRISM), arXiv 2601.07182 (PRPO), OpenRev..."
+      },
+      {
+        "@id": "source:harness-engineering-huxiu-2026-03-13",
+        "@type": "TechArticle",
+        "name": "Harness Engineering: 从 Prompt → Context → Harness 的认知升级",
+        "path": "sources/harness-engineering-huxiu-2026-03-13.md",
+        "summary": "> **来源**: [虎嗅](https://www.huxiu.com/article/4841931.html)\n> **日期**: 2026-03-13\n> **收集时间**: 2026-05-12"
+      },
+      {
+        "@id": "source:karpathy-agentic-engineering-2026",
+        "@type": "TechArticle",
+        "name": "Karpathy Agentic Engineering 深度分析",
+        "path": "sources/karpathy-agentic-engineering-2026.md",
+        "summary": "> 来源：[analyticsdrift.com](https://analyticsdrift.com/andrej-karpathy-agentic-engineering-software-3/) | [buttondown.com](https://buttondown.com/verified/archive/the-end-of-vibe-coding-andrej-karpathys..."
+      },
+      {
+        "@id": "source:xiaohongshu-ai-strategy-2026",
+        "@type": "TechArticle",
+        "name": "小红书 AI 战略深度追踪",
+        "path": "sources/xiaohongshu-ai-strategy-2026.md",
+        "summary": "> 来源：[36氪深度报道](https://juejin.cn/post/7637353693052289070) | [小红书 Dots 部门招聘](https://www.jazzyear.com/article_info.html?id=1691) | [品玩：小红书AI战略](https://www.pingwest.com/s?wd=小红书AI)  \n> 关联实体：小红书, Dots,..."
+      },
+      {
+        "@id": "source:intel-emib-t-advanced-packaging",
+        "@type": "TechArticle",
+        "name": "Intel EMIB-T 与先进封装代工战略",
+        "path": "sources/intel-emib-t-advanced-packaging.md",
+        "summary": "> 来源：虎嗅网（2025-04-30）  \n> Intel 代工业务大考：4 年投入 900 亿美元后的系统级集成服务"
+      },
+      {
+        "@id": "source:patsnap-chiplet-ecosystem-2026",
+        "@type": "TechArticle",
+        "name": "Chiplet Interconnect Ecosystem 2026 Inflection Point — PatSnap Eureka Analysis",
+        "path": "sources/patsnap-chiplet-ecosystem-2026.md",
+        "summary": "**来源**：PatSnap Eureka (R&D Intelligence Platform)  \n**URL**：https://www.patsnap.com/resources/blog/articles/chiplet-interconnect-tech-2026-ucie-hbm4-packaging/  \n**日期**：2026-04-23  \n**采集时间**：2026-05-1..."
+      },
+      {
+        "@id": "source:pim-commercialization-industrial-roadmap-2026",
+        "@type": "TechArticle",
+        "name": "存内计算（PIM）商业化障碍与工业界路线图深度调研",
+        "path": "sources/pim-commercialization-industrial-roadmap-2026.md",
+        "summary": "> 来源：arXiv 2401.14428 / arXiv 2310.09385 / Semiconductor Insight / SemiWiki / SK hynix MICRO 2025 Tutorial / Futurum Group / IIT Bombay MT Thesis / 芯智讯 / 极客时间\n> 调研时间：2026-05-17"
+      },
+      {
+        "@id": "source:github-ai-ranking-2026-05",
+        "@type": "TechArticle",
+        "name": "GitHub AI 仓库排名追踪（2026-05-12 快照）",
+        "path": "sources/github-ai-ranking-2026-05.md",
+        "summary": "> 来源：yuxiaopeng/Github-Ranking-AI（每日自动更新）  \n> 统计时间：2026-05-12T06:21:43Z"
+      },
+      {
+        "@id": "source:karpathy-claude-md-12-rules",
+        "@type": "TechArticle",
+        "name": "Karpathy CLAUDE.md 12条规则升级版",
+        "path": "sources/karpathy-claude-md-12-rules.md",
+        "summary": "> 来源：Antigravity.codes 深度拆解，基于 @mnilax (Mnimiy) 2026-05-09 的 X 长文（270万浏览，18,800 bookmark）  \n> 原始4条规则由 Forrest Chang 在 2026-01 基于 Karpathy 的吐槽线程封装，GitHub 首日 5,828 stars，两周 60,000 bookmarks，年中突破 120,000..."
+      }
+    ],
+    "edges": [
+      {
+        "from": "sources:mcp-sampling-loop-deep-dive",
+        "to": "entities:openai",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:mcp-sampling-loop-deep-dive",
+        "to": "entities:anthropic",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:mcp-sampling-loop-deep-dive",
+        "to": "entities:google-deepmind",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:mcp-sampling-loop-deep-dive",
+        "to": "entities:stripe",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:mcp-sampling-loop-deep-dive",
+        "to": "concepts:harness-methodology",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:mcp-sampling-loop-deep-dive",
+        "to": "concepts:agent-skills",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:github-trending-2026-03-25",
+        "to": "entities:anthropic",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:github-trending-2026-03-25",
+        "to": "concepts:harness-methodology",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:github-trending-2026-03-25",
+        "to": "concepts:agent-skills",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:12-factor-agents-humanlayer",
+        "to": "entities:anthropic",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:12-factor-agents-humanlayer",
+        "to": "entities:andrej-karpathy",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:12-factor-agents-humanlayer",
+        "to": "concepts:harness-methodology",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:12-factor-agents-humanlayer",
+        "to": "concepts:agent-skills",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:hbm4-5-roadmap-2026",
+        "to": "entities:nvidia",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:hbm4-5-roadmap-2026",
+        "to": "entities:tsmc",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:hbm4-5-roadmap-2026",
+        "to": "entities:intel",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:hbm4-5-roadmap-2026",
+        "to": "entities:sk-hynix",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:hbm4-5-roadmap-2026",
+        "to": "entities:samsung",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:hbm4-5-roadmap-2026",
+        "to": "entities:micron",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:hbm4-5-roadmap-2026",
+        "to": "concepts:advanced-packaging",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:hbm4-5-roadmap-2026",
+        "to": "concepts:hbm",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:samsung-micron-hbm4-shipping-2026",
+        "to": "entities:nvidia",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:samsung-micron-hbm4-shipping-2026",
+        "to": "entities:sk-hynix",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:samsung-micron-hbm4-shipping-2026",
+        "to": "entities:samsung",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:samsung-micron-hbm4-shipping-2026",
+        "to": "entities:micron",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:tsmc-cowos-capacity-2026-2027",
+        "to": "entities:nvidia",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:tsmc-cowos-capacity-2026-2027",
+        "to": "entities:tsmc",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:tsmc-cowos-capacity-2026-2027",
+        "to": "entities:meta",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:tsmc-cowos-capacity-2026-2027",
+        "to": "entities:google-deepmind",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:tsmc-cowos-capacity-2026-2027",
+        "to": "concepts:advanced-packaging",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:tsmc-cowos-capacity-2026-2027",
+        "to": "concepts:hbm",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:nvidia-rubin-platform",
+        "to": "entities:openai",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:nvidia-rubin-platform",
+        "to": "entities:amd",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:nvidia-rubin-platform",
+        "to": "entities:nvidia",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:nvidia-rubin-platform",
+        "to": "entities:sk-hynix",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:nvidia-rubin-platform",
+        "to": "entities:samsung",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:nvidia-rubin-platform",
+        "to": "concepts:hbm",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:anthropic-three-agent-harness",
+        "to": "entities:openai",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:anthropic-three-agent-harness",
+        "to": "entities:anthropic",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:anthropic-three-agent-harness",
+        "to": "concepts:harness-methodology",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:modern-harness-blueprint-2026",
+        "to": "entities:langchain",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:modern-harness-blueprint-2026",
+        "to": "concepts:harness-methodology",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:modern-harness-blueprint-2026",
+        "to": "concepts:agent-skills",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:chiplet-interconnect-2026",
+        "to": "entities:amd",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:chiplet-interconnect-2026",
+        "to": "entities:nvidia",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:chiplet-interconnect-2026",
+        "to": "entities:tsmc",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:chiplet-interconnect-2026",
+        "to": "entities:intel",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:chiplet-interconnect-2026",
+        "to": "entities:samsung",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:chiplet-interconnect-2026",
+        "to": "entities:google-deepmind",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:chiplet-interconnect-2026",
+        "to": "concepts:advanced-packaging",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:chiplet-interconnect-2026",
+        "to": "concepts:chiplet",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:chiplet-interconnect-2026",
+        "to": "concepts:hbm",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:eda-vendors-tsmc-2026",
+        "to": "entities:nvidia",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:eda-vendors-tsmc-2026",
+        "to": "entities:amd",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:eda-vendors-tsmc-2026",
+        "to": "entities:tsmc",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:eda-vendors-tsmc-2026",
+        "to": "entities:google-deepmind",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:eda-vendors-tsmc-2026",
+        "to": "concepts:advanced-packaging",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:eda-vendors-tsmc-2026",
+        "to": "concepts:chiplet",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:applied-materials-nexx-acquisition-2026-05-03",
+        "to": "entities:micron",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:applied-materials-nexx-acquisition-2026-05-03",
+        "to": "entities:sk-hynix",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:applied-materials-nexx-acquisition-2026-05-03",
+        "to": "entities:intel",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:applied-materials-nexx-acquisition-2026-05-03",
+        "to": "entities:samsung",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:applied-materials-nexx-acquisition-2026-05-03",
+        "to": "concepts:advanced-packaging",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:applied-materials-nexx-acquisition-2026-05-03",
+        "to": "concepts:chiplet",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:applied-materials-nexx-acquisition-2026-05-03",
+        "to": "concepts:hbm",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:sk-hynix-ces2026",
+        "to": "entities:sk-hynix",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:sk-hynix-ces2026",
+        "to": "concepts:near-memory-computing",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:sk-hynix-ces2026",
+        "to": "concepts:processing-in-memory",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:sk-hynix-ces2026",
+        "to": "concepts:hbm",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:ai-packaging-50b-market-2026",
+        "to": "entities:tsmc",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:ai-packaging-50b-market-2026",
+        "to": "concepts:advanced-packaging",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:ai-packaging-50b-market-2026",
+        "to": "concepts:hbm",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:stripe-minions-blueprint",
+        "to": "entities:openai",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:stripe-minions-blueprint",
+        "to": "entities:anthropic",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:stripe-minions-blueprint",
+        "to": "entities:stripe",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:stripe-minions-blueprint",
+        "to": "concepts:harness-methodology",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:anthropic-managed-agents",
+        "to": "entities:anthropic",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:anthropic-managed-agents",
+        "to": "concepts:harness-methodology",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:near-memory-computing-commercialization",
+        "to": "entities:nvidia",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:near-memory-computing-commercialization",
+        "to": "entities:intel",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:near-memory-computing-commercialization",
+        "to": "entities:sk-hynix",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:near-memory-computing-commercialization",
+        "to": "entities:samsung",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:near-memory-computing-commercialization",
+        "to": "entities:google-deepmind",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:near-memory-computing-commercialization",
+        "to": "concepts:near-memory-computing",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:near-memory-computing-commercialization",
+        "to": "concepts:processing-in-memory",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:near-memory-computing-commercialization",
+        "to": "concepts:hbm",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:agent-skills-github",
+        "to": "entities:addy-osmani",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:agent-skills-github",
+        "to": "concepts:harness-methodology",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:agent-skills-github",
+        "to": "concepts:agent-skills",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:rlhf-online-dpo-ipo-kto",
+        "to": "concepts:harness-methodology",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:rlhf-online-dpo-ipo-kto",
+        "to": "concepts:test-time-compute",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:rlhf-online-dpo-ipo-kto",
+        "to": "concepts:rlhf",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:nvidia-feynman-gtc2026",
+        "to": "entities:openai",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:nvidia-feynman-gtc2026",
+        "to": "entities:nvidia",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:nvidia-feynman-gtc2026",
+        "to": "concepts:chiplet",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:nvidia-feynman-gtc2026",
+        "to": "concepts:hbm",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:langchain-terminal-bench-20",
+        "to": "entities:openai",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:langchain-terminal-bench-20",
+        "to": "entities:langchain",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:langchain-terminal-bench-20",
+        "to": "entities:anthropic",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:langchain-terminal-bench-20",
+        "to": "entities:google-deepmind",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:langchain-terminal-bench-20",
+        "to": "concepts:harness-methodology",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:harness-verifier-training-2026",
+        "to": "entities:openai",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:harness-verifier-training-2026",
+        "to": "entities:antirez",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:harness-verifier-training-2026",
+        "to": "entities:meta",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:harness-verifier-training-2026",
+        "to": "concepts:harness-methodology",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:harness-verifier-training-2026",
+        "to": "concepts:test-time-compute",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:harness-verifier-training-2026",
+        "to": "concepts:rlhf",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:moonshot-kimi-k25",
+        "to": "entities:openai",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:moonshot-kimi-k25",
+        "to": "entities:meta",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:moonshot-kimi-k25",
+        "to": "entities:deepseek",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:moonshot-kimi-k25",
+        "to": "entities:moonshot",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:moonshot-kimi-k25",
+        "to": "entities:anthropic",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:moonshot-kimi-k25",
+        "to": "concepts:harness-methodology",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:intel-emib-t-production-2026",
+        "to": "entities:tsmc",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:intel-emib-t-production-2026",
+        "to": "entities:intel",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:intel-emib-t-production-2026",
+        "to": "concepts:advanced-packaging",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:amd-mi450-vs-rubin",
+        "to": "entities:openai",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:amd-mi450-vs-rubin",
+        "to": "entities:amd",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:amd-mi450-vs-rubin",
+        "to": "entities:nvidia",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:amd-mi450-vs-rubin",
+        "to": "entities:tsmc",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:amd-mi450-vs-rubin",
+        "to": "entities:meta",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:amd-mi450-vs-rubin",
+        "to": "entities:google-deepmind",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:amd-mi450-vs-rubin",
+        "to": "entities:anthropic",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:amd-mi450-vs-rubin",
+        "to": "concepts:hbm",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:ds4-github",
+        "to": "entities:antirez",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:ds4-github",
+        "to": "entities:deepseek",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:ds4-github",
+        "to": "entities:pratiyush",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:ds4-github",
+        "to": "concepts:ds4",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:ds4-github",
+        "to": "concepts:hbm",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:prm-adaptive-test-time-compute-2026",
+        "to": "entities:openai",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:prm-adaptive-test-time-compute-2026",
+        "to": "entities:deepseek",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:prm-adaptive-test-time-compute-2026",
+        "to": "concepts:test-time-compute",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:prm-adaptive-test-time-compute-2026",
+        "to": "concepts:rlhf",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:harness-engineering-huxiu-2026-03-13",
+        "to": "entities:openai",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:harness-engineering-huxiu-2026-03-13",
+        "to": "entities:langchain",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:harness-engineering-huxiu-2026-03-13",
+        "to": "entities:google-deepmind",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:harness-engineering-huxiu-2026-03-13",
+        "to": "entities:stripe",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:harness-engineering-huxiu-2026-03-13",
+        "to": "concepts:harness-methodology",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:karpathy-agentic-engineering-2026",
+        "to": "entities:stripe",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:karpathy-agentic-engineering-2026",
+        "to": "entities:langchain",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:karpathy-agentic-engineering-2026",
+        "to": "entities:google-deepmind",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:karpathy-agentic-engineering-2026",
+        "to": "entities:andrej-karpathy",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:karpathy-agentic-engineering-2026",
+        "to": "entities:anthropic",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:karpathy-agentic-engineering-2026",
+        "to": "concepts:harness-methodology",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:xiaohongshu-ai-strategy-2026",
+        "to": "entities:openai",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:xiaohongshu-ai-strategy-2026",
+        "to": "entities:deepseek",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:xiaohongshu-ai-strategy-2026",
+        "to": "entities:intel",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:xiaohongshu-ai-strategy-2026",
+        "to": "entities:google-deepmind",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:xiaohongshu-ai-strategy-2026",
+        "to": "concepts:harness-methodology",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:xiaohongshu-ai-strategy-2026",
+        "to": "concepts:agent-skills",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:intel-emib-t-advanced-packaging",
+        "to": "entities:amd",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:intel-emib-t-advanced-packaging",
+        "to": "entities:tsmc",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:intel-emib-t-advanced-packaging",
+        "to": "entities:intel",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:intel-emib-t-advanced-packaging",
+        "to": "entities:sk-hynix",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:intel-emib-t-advanced-packaging",
+        "to": "entities:google-deepmind",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:intel-emib-t-advanced-packaging",
+        "to": "concepts:advanced-packaging",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:intel-emib-t-advanced-packaging",
+        "to": "concepts:hbm",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:patsnap-chiplet-ecosystem-2026",
+        "to": "entities:amd",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:patsnap-chiplet-ecosystem-2026",
+        "to": "entities:nvidia",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:patsnap-chiplet-ecosystem-2026",
+        "to": "entities:tsmc",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:patsnap-chiplet-ecosystem-2026",
+        "to": "entities:intel",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:patsnap-chiplet-ecosystem-2026",
+        "to": "entities:meta",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:patsnap-chiplet-ecosystem-2026",
+        "to": "entities:samsung",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:patsnap-chiplet-ecosystem-2026",
+        "to": "entities:google-deepmind",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:patsnap-chiplet-ecosystem-2026",
+        "to": "concepts:chiplet",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:patsnap-chiplet-ecosystem-2026",
+        "to": "concepts:advanced-packaging",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:patsnap-chiplet-ecosystem-2026",
+        "to": "concepts:near-memory-computing",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:pim-commercialization-industrial-roadmap-2026",
+        "to": "entities:openai",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:pim-commercialization-industrial-roadmap-2026",
+        "to": "entities:nvidia",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:pim-commercialization-industrial-roadmap-2026",
+        "to": "entities:intel",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:pim-commercialization-industrial-roadmap-2026",
+        "to": "entities:sk-hynix",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:pim-commercialization-industrial-roadmap-2026",
+        "to": "entities:samsung",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:pim-commercialization-industrial-roadmap-2026",
+        "to": "entities:micron",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:pim-commercialization-industrial-roadmap-2026",
+        "to": "concepts:chiplet",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:pim-commercialization-industrial-roadmap-2026",
+        "to": "concepts:near-memory-computing",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:pim-commercialization-industrial-roadmap-2026",
+        "to": "concepts:processing-in-memory",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:pim-commercialization-industrial-roadmap-2026",
+        "to": "concepts:hbm",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:github-ai-ranking-2026-05",
+        "to": "entities:openai",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:github-ai-ranking-2026-05",
+        "to": "entities:langchain",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:github-ai-ranking-2026-05",
+        "to": "entities:deepseek",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:github-ai-ranking-2026-05",
+        "to": "entities:google-deepmind",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:github-ai-ranking-2026-05",
+        "to": "entities:andrej-karpathy",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:github-ai-ranking-2026-05",
+        "to": "entities:moonshot",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:github-ai-ranking-2026-05",
+        "to": "entities:anthropic",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:github-ai-ranking-2026-05",
+        "to": "concepts:harness-methodology",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:github-ai-ranking-2026-05",
+        "to": "concepts:agent-skills",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:karpathy-claude-md-12-rules",
+        "to": "entities:anthropic",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:karpathy-claude-md-12-rules",
+        "to": "entities:google-deepmind",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:karpathy-claude-md-12-rules",
+        "to": "entities:andrej-karpathy",
+        "type": "mentions"
+      },
+      {
+        "from": "sources:karpathy-claude-md-12-rules",
+        "to": "concepts:agent-skills",
+        "type": "mentions"
+      }
+    ]
+  }
+}
