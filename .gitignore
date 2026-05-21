@@ -1,6 +1,4 @@
-# AI Tech Intel — Git Ignore
-
-# mdBook 构建产物（CI自动构建）
+# mdBook 构建产物（CI 自动生成）
 site/
 
 # 旧构建产物

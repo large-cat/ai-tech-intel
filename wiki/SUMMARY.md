@@ -240,6 +240,3 @@
 - [2026年AI行业的核心范式转移是什么？](questions/qa-2026-paradigm.md)
 - [月之暗面 Kimi K2.5 的 Agent Swarm 有什么特别？](questions/qa-kimi-k25.md)
 
-## 知识编译索引
-
-- [知识编译索引（目录→内容映射）](knowledge-compiler/index.md)
