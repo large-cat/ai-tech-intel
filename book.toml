@@ -2,16 +2,16 @@
 title = "AI Tech Intel 知识手册"
 authors = ["AI Tech Intel Team"]
 description = "每日AI前沿技术情报知识库 — 人类易读的翻阅版"
-src = "src"
+src = "wiki"
 language = "zh"
 
 [build]
-build-dir = "book"
+build-dir = "site"
 
 [output.html]
 google-analytics = ""
 git-repository-url = "https://github.com/large-cat/ai-tech-intel"
-edit-url-template = "https://github.com/large-cat/ai-tech-intel/edit/master/{path}"
+edit-url-template = "https://github.com/large-cat/ai-tech-intel/edit/main/{path}"
 site-url = "/ai-tech-intel/"
 
 [output.html.fold]

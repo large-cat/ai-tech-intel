@@ -1,0 +1,28 @@
+# AI Tech Intel — Git Ignore
+
+# mdBook 构建产物（CI自动构建）
+site/
+
+# 旧构建产物
+book/
+
+# 本地环境
+.env
+*.swp
+*.swo
+*~
+.DS_Store
+
+# 编辑器
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# 临时文件
+*.tmp
+*.log
